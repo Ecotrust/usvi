@@ -237,6 +237,15 @@ angular.module('askApp').directive('gridquestion', function() {
                 }
             }, true);
 
+
+            // remove focus from grid on enter
+            element.on('keyup keypress', 'input', function (e) {
+                if (e.which == 13) {
+                    $(this).blur();
+                    $('body').removeClass("grid-keyboard-open");
+                }
+            });
+
             // $(element.find('.ngCellText')).attr('tabindex', -1);
 
             // element.on('focus', '.ngCellText', function (e) {

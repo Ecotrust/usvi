@@ -44,6 +44,7 @@ a {
         position: absolute;
         top: 25px;
         right: 10px;
+        color: rgb(200,200,200);
     }
     .splash .btn {
         position: absolute;
