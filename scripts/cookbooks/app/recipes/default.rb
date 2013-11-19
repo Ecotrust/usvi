@@ -206,16 +206,16 @@ execute "restart postgres" do
     command "sudo /etc/init.d/postgresql restart"
 end
 
+if node[:user] == "www-data"
+    execute "restart nginx" do
+        command "sudo /etc/init.d/nginx restart"
+    end
 
-execute "restart nginx" do
-    command "sudo /etc/init.d/nginx restart"
+
+    execute "restart supervisor" do
+        command "sudo /etc/init.d/supervisor start"
+    end
 end
-
-
-execute "restart supervisor" do
-    command "sudo /etc/init.d/supervisor start"
-end
-
 
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
