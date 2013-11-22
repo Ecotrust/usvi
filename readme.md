@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/Ecotrust/geosurvey.png?branch=master)](https://travis-ci.org/Ecotrust/geosurvey)
+##travis-ci status
+[![Build Status](https://travis-ci.org/Ecotrust/usvi.png?branch=master)](https://travis-ci.org/Ecotrust/usvi)
 
 # Server
 ```bash
