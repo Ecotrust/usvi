@@ -1,3 +1,6 @@
+##travis-ci status
+[![Build Status](https://travis-ci.org/Ecotrust/usvi.png?branch=master)](https://travis-ci.org/Ecotrust/usvi)
+
 # Server
 ```bash
 vagrant up
