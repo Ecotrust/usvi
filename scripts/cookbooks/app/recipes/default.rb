@@ -189,7 +189,7 @@ template "/etc/init/app.conf" do
     source "app.conf.erb"
 end
 
-cookbook_file "/etc/postgresql/#{node[:postgresql][:version]}/main/pg_hba.conf" do
+cookbook_file "/etc/postgresql/9.1/main/pg_hba.conf" do
     source "pg_hba.conf"
     owner "postgres"
 end
