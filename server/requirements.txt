@@ -1,5 +1,5 @@
 path.py
-Django
+Django==1.5.4
 south
 fabric
 django-grappelli
