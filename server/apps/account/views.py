@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from account.models import UserProfile, Feedback
 from django.db import IntegrityError
-
+from django.conf import settings
 from django.core.validators import email_re
 from django.core.exceptions import MultipleObjectsReturned
 
@@ -98,7 +98,7 @@ def forgotPassword(request):
         print email
         form = PasswordResetForm({'email': email})
         setattr(form, 'users_cache', [user])
-        form.save(from_email='eknuth@gmail.com',
+        form.save(from_email=settings.SERVER_ADMIN
             email_template_name='registration/password_reset_email.html')
         print "sending email!"
         return HttpResponse(simplejson.dumps({'success': True}))
