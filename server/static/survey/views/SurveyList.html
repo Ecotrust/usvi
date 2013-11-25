@@ -13,7 +13,7 @@
         
         <ul class="list-unstyled" ng-hide="hideSurveys">
             <li ng-repeat="survey in surveys">
-                <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/survey/{{survey.slug}}/1/offline">
+                <a type="button" class="btn btn-main btn-default btn-lg btn-block {{ survey.slug }}" href="#/survey/{{survey.slug}}/1/offline">
                     {{ survey.name }}
                 </a>
             </li>
