@@ -98,9 +98,8 @@ def forgotPassword(request):
         print email
         form = PasswordResetForm({'email': email})
         setattr(form, 'users_cache', [user])
-        form.save(from_email=settings.SERVER_ADMIN
+        form.save(from_email=settings.SERVER_ADMIN,
             email_template_name='registration/password_reset_email.html')
-        print "sending email!"
         return HttpResponse(simplejson.dumps({'success': True}))
     else:
         return HttpResponse("error", status=500)

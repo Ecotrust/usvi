@@ -105,6 +105,7 @@ directory "/usr/local/venv" do
     mode 0770
 end
 
+
 # ssh  ------------------------------------------------------------------------
 
 cookbook_file "/etc/ssh/sshd_config" do
@@ -163,17 +164,6 @@ cookbook_file "/usr/share/proj/epsg" do
     mode 0755
 end
 
-# if node[:user] == "vagrant"
-#     template "/vagrant/mp/settings_local.py" do
-#         source "settings_local.erb"
-#         owner "vagrant"
-#     end
-# else
-#     template "/usr/local/apps/marine-planner/mp/settings_local.py" do
-#         source "settings_deploy.erb"
-#         owner "www-data"
-#     end
-# end
 
 template "/etc/supervisor/conf.d/app.conf" do
     source "app.conf.erb"
