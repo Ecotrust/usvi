@@ -107,7 +107,7 @@ def bootstrap(username=None):
     #run('test -e %s || ln -s /vagrant/marco %s' % (env.code_dir, env.code_dir))
     with cd(env.code_dir):
         with _virtualenv():
-            run('pip install -r server/requirements.txt')
+            run('pip install -r requirements.txt')
             _manage_py('syncdb --noinput')
             # _manage_py('add_srid 99996')
             _manage_py('migrate')
@@ -338,7 +338,7 @@ def emulate_ios_vagrant():
 
 @task
 def emulate_ios_dev():
-    run("cd %s && %s/bin/python manage.py package http://usvi-dev.pointnineseven.com '../mobile/www' --stage=dev --test-run" % (env.app_dir, env.venv))
+    run("cd %s && %s/bin/python manage.py package http://survey-ost-dev.pointnineseven.com '../mobile/www' --stage=dev --test-run" % (env.app_dir, env.venv))
     local("cd mobile && /usr/local/share/npm/bin/phonegap run -V ios")
 
 
@@ -348,12 +348,12 @@ def package_vagrant():
     local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
 @task
 def package_ios_test():
-        run("cd %s && %s/bin/python manage.py package http://usvi-test.pointnineseven.com '../mobile/www' --stage=test" % (env.app_dir, env.venv))
+        run("cd %s && %s/bin/python manage.py package http://survey-ost-test.pointnineseven.com '../mobile/www' --stage=test" % (env.app_dir, env.venv))
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
 
 @task
 def package_ios_dev():
-        run("cd %s && %s/bin/python manage.py package http://usvi-dev.pointnineseven.com '../mobile/www' --stage=dev --id='com.pointnineseven.digitaldeck-dev'" % (env.app_dir, env.venv))
+        run("cd %s && %s/bin/python manage.py package http://survey-ost-dev.pointnineseven.com '../mobile/www' --stage=dev --id='com.pointnineseven.digitaldeck-dev'" % (env.app_dir, env.venv))
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
 
 
@@ -366,16 +366,16 @@ def package_ios_dev():
 
 @task
 def package_android_dev():
-        run("cd %s && %s/bin/python manage.py package http://usvi-dev.pointnineseven.com '../mobile/www'" % (env.app_dir, env.venv))
+        run("cd %s && %s/bin/python manage.py package http://survey-ost-dev.pointnineseven.com '../mobile/www'" % (env.app_dir, env.venv))
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V android")
-        local("scp ./mobile/platforms/android/bin/DigitalDeck-debug.apk usvi-dev.pointnineseven.com:/srv/downloads")
+        local("scp ./mobile/platforms/android/bin/DigitalDeck-debug.apk survey-ost-dev.pointnineseven.com:/srv/downloads")
 
 
 @task
 def package_android_test():
-        run("cd %s && %s/bin/python manage.py package http://usvi-test.pointnineseven.com '../mobile/www'" % (env.app_dir, env.venv))
+        run("cd %s && %s/bin/python manage.py package http://survey-ost-test.pointnineseven.com '../mobile/www'" % (env.app_dir, env.venv))
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V android")
-        local("scp ./mobile/platforms/android/bin/DigitalDeck-debug.apk ninkasi:/var/www/usvi/usvi.apk")
+        local("scp ./mobile/platforms/android/bin/DigitalDeck-debug.apk ninkasi:/var/www/survey-ost/survey-ost.apk")
 
 @task
 def migrate_db():
