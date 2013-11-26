@@ -61,8 +61,11 @@ angular.module('askApp')
                 var options = { position: 'bottomleft' };
                 L.control.layers(baseMaps, null, options).addTo(map);
 
+                var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
                 var layerClick = function(layer) {
-                    var id = layer.feature.properties.ID;
+                    var index = layer.feature.properties.ET_Index,
+                        id = alpha[index.split('--')[0]-2] + (Number(index.split('--')[1])+1);
                     if (layer.options.fillOpacity === 0) {                                  
                         layer.setStyle( {
                             fillOpacity: .6
@@ -75,6 +78,7 @@ angular.module('askApp')
                         scope.question.answer = _.without(scope.question.answer, id);
                     }
                     //console.log(scope.question.answer);
+                    //console.log(id);
                 }
                 
                 var labelLayer = L.tileLayer('http://tilestream.labs.ecotrust.org/1.0.0/USVI_Fishing_Grid_Labels_White/{z}/{x}/{y}.png', {
@@ -94,6 +98,7 @@ angular.module('askApp')
                     //console.debug("url = " + return_url + " & x, y, z = " + tilePoint.x+","+tilePoint.y+","+zoom)
                     return return_url;
                 };
+                labelLayer.setZIndex(300);
 
                 //Fishing Areas Grid
                 $http.get("/static/survey/data/StThomas_2_5_GCS_WGS_1984.json").success(function(data) {
