@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'gunicorn',
+    'discover_runner',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:
@@ -194,3 +195,5 @@ GRAPPELLI_ADMIN_TITLE = "Digital Deck"
 HEROKU = False
 
 ANALYTICS_ID = ""
+
+TEST_RUNNER = 'discover_runner.DiscoverRunner'
