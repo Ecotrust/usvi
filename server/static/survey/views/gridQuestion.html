@@ -1,6 +1,6 @@
 <!-- This question actually submits the entire question.options object since 
 	the grid binds to that object. -->
-<form id="gridQuestion" class="question" ng-submit="answerQuestion(question.options)">
+<form id="gridQuestion" class="question" ng-submit="$parent.submitPage(page)">
 	<div class="row-fluid">
 	    <div class="span12">
 			<div class="gridStyle" ng-grid="question.gridOptions"></div>
@@ -12,4 +12,5 @@
 			ng-class="{'btn-primary': isAnswerValid, disabled: !isAnswerValid }"
 	    	class="btn btn-block btn-large btn-primary">continue</button>
 	</div> -->
+	
 </form>

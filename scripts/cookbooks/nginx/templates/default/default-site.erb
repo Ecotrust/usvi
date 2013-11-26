@@ -7,10 +7,17 @@ upstream example-vagrant {
 server {
     listen 80;
     server_name <%= node[:servername] %>;
-
+    index index.html;
     access_log /var/log/nginx/<%= node[:project] %>-access.log;
     error_log /var/log/nginx/<%= node[:project] %>-error.log;
+
+
+    location /downloads {
+        alias /srv/downloads;
+    }
     
+    index index.html;
+
     location / {
         <% if node[:user] == "vagrant" %>
         proxy_pass http://example-vagrant;
@@ -26,9 +33,11 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    location /downloads/ {
-        alias /srv/downloads/;
-        index index.html;
+
+    location /munin {
+        alias /var/cache/munin/www;
+        auth_basic "Restricted";                                #For Basic Auth
+        auth_basic_user_file /var/cache/munin/www/.htpasswd;  #For Basic Auth
     }
 
     <% if node[:staticfiles] %>

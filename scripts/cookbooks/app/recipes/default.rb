@@ -58,6 +58,16 @@ else
             mode 0700
         end
 
+        package "munin"
+
+        cookbook_file "/var/cache/munin/www/.htpasswd" do
+            source "htpasswd"
+            owner "www-data"
+            group "www-data"
+            mode 0700
+        end
+
+
         execute "authorized keys" do
             command "echo #{u[:key]} > /home/#{u[:name]}/.ssh/authorized_keys"
         end
@@ -105,6 +115,7 @@ directory "/usr/local/venv" do
     mode 0770
 end
 
+
 # ssh  ------------------------------------------------------------------------
 
 cookbook_file "/etc/ssh/sshd_config" do
@@ -128,6 +139,8 @@ package "unzip"
 package "python-pip"
 package "python-dev"
 package "mailutils"
+
+
 
 include_recipe "openssl"
 include_recipe "build-essential"
@@ -163,29 +176,11 @@ cookbook_file "/usr/share/proj/epsg" do
     mode 0755
 end
 
-# if node[:user] == "vagrant"
-#     template "/vagrant/mp/settings_local.py" do
-#         source "settings_local.erb"
-#         owner "vagrant"
-#     end
-# else
-#     template "/usr/local/apps/marine-planner/mp/settings_local.py" do
-#         source "settings_deploy.erb"
-#         owner "www-data"
-#     end
-# end
 
-template "/etc/supervisor/conf.d/app.conf" do
+template "/etc/init/app.conf" do
     source "app.conf.erb"
 end
 
-service "supervisor" do
-    action :stop
-end
-
-service "supervisor" do
-    action :start
-end
 
 cookbook_file "/etc/postgresql/#{node[:postgresql][:version]}/main/pg_hba.conf" do
     source "pg_hba.conf"
@@ -195,6 +190,12 @@ end
 execute "restart postgres" do
     command "sudo /etc/init.d/postgresql restart"
 end
+
+
+execute "restart nginx" do
+    command "sudo /etc/init.d/nginx restart"
+end
+
 
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql

@@ -17,8 +17,10 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Edwin Knuth', 'edwin@pointnineseven.com'),
 )
+
+SERVER_ADMIN = 'edwin@pointnineseven.com'
 
 MANAGERS = ADMINS
 
@@ -125,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'gunicorn',
+    'discover_runner',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:
@@ -192,3 +195,5 @@ GRAPPELLI_ADMIN_TITLE = "Digital Deck"
 HEROKU = False
 
 ANALYTICS_ID = ""
+
+TEST_RUNNER = 'discover_runner.DiscoverRunner'

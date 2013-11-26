@@ -1,17 +1,14 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render_to_response
-from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User, check_password
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from account.models import UserProfile, Feedback
 from django.db import IntegrityError
-
+from django.conf import settings
 from django.core.validators import email_re
-from django.core.exceptions import ValidationError, MultipleObjectsReturned
+from django.core.exceptions import MultipleObjectsReturned
 
 import simplejson
 import datetime
@@ -98,9 +95,11 @@ def forgotPassword(request):
             return HttpResponse("user-not-found", status=401)  
         except MultipleObjectsReturned:
             return HttpResponse("multiple-users-found", status=500)  
+        print email
         form = PasswordResetForm({'email': email})
-        setattr(form, 'users_cache', [])
-        form.save(from_email='edwin@pointnineseven.com', email_template_name='registration/password_reset_email.html')
+        setattr(form, 'users_cache', [user])
+        form.save(from_email=settings.SERVER_ADMIN,
+            email_template_name='registration/password_reset_email.html')
         return HttpResponse(simplejson.dumps({'success': True}))
     else:
         return HttpResponse("error", status=500)
