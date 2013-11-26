@@ -10,6 +10,8 @@ from apps.survey.models import Survey, Question, Response, Respondant, Location,
 from apps.reports.models import QuestionReport
 
 def get_respondants_summary(request):
+    #import pdb
+    #pdb.set_trace()
     start_time = Respondant.objects.filter(user=request.user).aggregate(lowest=Min('ts'))['lowest']
     return HttpResponse(simplejson.dumps( { 'start_time': start_time.strftime('%Y-%m-%d') } ) )
 

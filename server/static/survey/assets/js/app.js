@@ -4,6 +4,7 @@ var app = {};
 angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid'])
     .config(function($routeProvider, $httpProvider) {
 
+    var offlinePath;
     // var initialHeight = $(window).height();
     // $('html').css({ 'min-height': initialHeight});
     // $('body').css({ 'min-height': initialHeight});
@@ -30,9 +31,11 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid'])
 
     if (window.location.pathname === '/respond') {
         app.viewPath = app.server + '/static/survey/';
+        offlinePath = 'views/online/'
         app.offline = false;
     } else {
         app.viewPath = '';
+        offlinePath = 'views/'
         app.offline = true;
     }
 
@@ -66,13 +69,12 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid'])
         templateUrl: app.viewPath + 'views/SurveyList.html',
         controller: 'SurveyListCtrl'
     })
-
         .when('/survey/:surveySlug/complete/:uuidSlug', {
-        templateUrl: app.viewPath + 'views/complete.html',
+        templateUrl: app.viewPath + offlinePath + 'complete.html',
         controller: 'CompleteCtrl'
     })
         .when('/survey/:surveySlug/complete/:uuidSlug/:action/:questionSlug', {
-        templateUrl: app.viewPath + 'views/complete.html',
+        templateUrl: app.viewPath + offlinePath + 'complete.html',
         controller: 'CompleteCtrl'
     })
         .when('/survey/:surveySlug/:pageID/:uuidSlug/landing', {

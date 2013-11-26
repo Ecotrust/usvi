@@ -30,16 +30,15 @@ angular.module('askApp')
         delete app.user.resumePath;
         app.message = "You have completed a catch report.";
 
-        storage.saveState(app);       
+        storage.saveState(app);  
+
+        $scope.respondent = app.respondents[$routeParams.uuidSlug];
     } else {
         $http.post(url).success(function (data) {
             app.data.state = $routeParams.action;
         });    
     }
 
-    $scope.respondent = app.respondents[$routeParams.uuidSlug];
-    
-    
     if (app.data) {
         $scope.responses =app.data.responses;    
         app.data.responses = [];
