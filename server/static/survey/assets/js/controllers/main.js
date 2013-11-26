@@ -167,6 +167,20 @@ angular.module('askApp')
             });
     };
 
+    $scope.newReportOnline = function (surveySlug) {
+        var url = app.server + "/respond/" + surveySlug + "?get-uid=true";
+
+        $http.get(url)
+            .success(function (data) {
+                var surveyUrl = "/survey/" + surveySlug + "/1/" + data.uuid;
+                $location.path(surveyUrl);
+
+            })
+            .error(function (err, status) {
+                $scope.showError = err;
+            });
+    };
+
     $scope.resizeMap = function () {
         // if ($scope.message) {
         //     $('#map').height($(window).height() - $('#map').offset().top - $('.alert-notice:visible').height() - 10);    
