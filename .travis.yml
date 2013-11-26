@@ -13,3 +13,4 @@ before_script:
 script:
  - "grunt karma:unit"
  - "python server/manage.py test --settings=config.environments.staging"
+
