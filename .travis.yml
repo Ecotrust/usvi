@@ -11,4 +11,4 @@ before_script:
   - npm install -g grunt-cli
 script:
  - "grunt karma:unit"
- - "python server/manage.py test"
+ - "python server/manage.py test --settings=config.environments.staging"
