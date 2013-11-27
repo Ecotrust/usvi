@@ -64,8 +64,9 @@ angular.module('askApp')
                 var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
                 var layerClick = function(layer) {
-                    var index = layer.feature.properties.ET_Index,
-                        id = alpha[index.split('--')[0]-2] + (Number(index.split('--')[1])+1);
+                    // var index = layer.feature.properties.ET_Index,
+                    //     id = alpha[index.split('--')[0]-2] + (Number(index.split('--')[1])+1);
+                    var id = layer.feature.properties.ID;
                     if (layer.options.fillOpacity === 0) {                                  
                         layer.setStyle( {
                             fillOpacity: .6
@@ -77,7 +78,7 @@ angular.module('askApp')
                         });
                         scope.question.answer = _.without(scope.question.answer, id);
                     }
-                    //console.log(scope.question.answer);
+                    console.log(scope.question.answer);
                     //console.log(id);
                 }
                 
@@ -101,7 +102,8 @@ angular.module('askApp')
                 labelLayer.setZIndex(300);
 
                 //Fishing Areas Grid
-                $http.get("/static/survey/data/StThomas_2_5_GCS_WGS_1984.json").success(function(data) {
+                //$http.get("/static/survey/data/StThomas_2_5_GCS_WGS_1984.json").success(function(data) {
+                $http.get("/static/survey/data/StThomas.json").success(function(data) {
                     var geojsonLayer = L.geoJson(data, { 
                         style: function(feature) {
                             return {
