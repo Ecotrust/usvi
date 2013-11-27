@@ -64,9 +64,9 @@ pg_restore --verbose --clean --no-acl --no-owner -U vagrant -d geosurvey geosurv
 ```
 
 ```bash
-fab staging:eknuth@usvi-test.pointnineseven.com backup_db
-fab staging:eknuth@usvi-dev.pointnineseven.com restore_db:backups/2013-11-111755-geosurvey.dump
-fab staging:eknuth@usvi-dev.pointnineseven.com migrate_db
+fab staging:username@162.243.146.75 backup_db
+fab staging:username@162.243.146.75 restore_db:backups/2013-11-111755-geosurvey.dump
+fab staging:username@162.243.146.75 migrate_db
 ```
 
 # Launching Server
