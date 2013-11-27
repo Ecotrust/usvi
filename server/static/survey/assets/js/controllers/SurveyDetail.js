@@ -189,7 +189,7 @@ angular.module('askApp')
 
                     // update user profile
                     if (question.attach_to_profile || question.persistent) {
-                        app.user.registration[answer.question.slug] = answer.answer;
+                        app.user.registration[answer.slug] = answer.answer;
                     }
                     if (!app.data.responses) {
                         app.data.responses = [];

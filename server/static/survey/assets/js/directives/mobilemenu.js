@@ -3,7 +3,7 @@ angular.module('askApp')
     .directive('mobilemenu', function() {
 
     return {
-        templateUrl: 'views/mobileMenu.html',
+        templateUrl: app.viewPath + 'views/mobileMenu.html',
         restrict: 'EA',
         replace: true,
         transclude: true,

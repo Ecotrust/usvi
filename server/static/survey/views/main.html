@@ -7,7 +7,7 @@
 
     <div class="container">
         <div class="page-header">
-            <img src="assets/img/deck-logo.svg" class="center logo" />
+            <img src="static/survey/assets/img/deck-logo.svg" class="center logo" />
         </div>
         <div class="loading-indicator" ng-show="working">
             <div class="bar">
@@ -18,7 +18,7 @@
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" ng-show="user.resumePath" href="{{user.resumePath}}">Resume Report</a>
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/signup" ng-show="user.status == 'signup'">Finish Signing Up</a>
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/signin" ng-show="user.status == 'signin'">Finish Signing In</a>
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/surveys">New Report</a>
+            <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="newReportOnline('ost-1')">New Report</button>
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/history">Dashboard</a>
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/profile">Profile</a>
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/settings">Settings</a>
