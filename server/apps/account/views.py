@@ -137,7 +137,8 @@ def updateUser(request):
                 'username': user.username,
                 'name': ' '.join([user.first_name, user.last_name]),
                 'is_staff': user.is_staff,
-                'registration': user.profile.registration
+                'registration': user.profile.registration,
+                'email': user.email
             }
             return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
     else:
