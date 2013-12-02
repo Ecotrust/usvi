@@ -78,8 +78,11 @@
   </head>
   <body xmlns:ng="http://angularjs.org" id="ng-app" ng-app="askApp" ng-view ng-animate="'animate'">
 
-    <!--[if lt IE 7]>
+    <!--[if lt IE 8]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+      <script>
+        window.browserNotSupported = true;
+      </script>      
     <![endif]-->
 
     <!--[if lt IE 9]>
@@ -87,8 +90,6 @@
       <script src="{{ STATIC_URL }}survey/components/json3/lib/json3.min.js"></script>
       <script src="{{ STATIC_URL }}survey/lib/js/respond.min.js"></script>
     <![endif]-->
-
-    <!-- <div class="container-fluid" ></div> -->
 
     {% compress js %}
     <script src="{{ STATIC_URL }}survey/assets/lib/js/date.min.js"></script>

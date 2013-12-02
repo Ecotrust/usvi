@@ -722,7 +722,6 @@ input.multi-select-other:-ms-input-placeholder {
   .info h3 {
     color: rgb(244,244,244);
   }
-/*.leaflet-control-zoom, */
 .leaflet-control-attribution {
   display: none;
 }

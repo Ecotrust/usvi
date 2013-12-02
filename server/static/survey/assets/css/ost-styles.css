@@ -1,0 +1,15 @@
+.chromeframe {
+	position: absolute;
+	top: 100px;
+	left: 50%;
+	z-index: 1000;
+	width: 400px;
+	margin-left: -200px;
+
+	background-color: white;
+	padding: 20px;
+	font-size: 16px;
+}
+.chromeframe a {
+	color: blue;
+}
