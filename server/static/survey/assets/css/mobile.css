@@ -720,9 +720,14 @@ input.multi-select-other:-ms-input-placeholder {
 .info {
   padding-top: 20px;
 }
-  .info h3 {
-    color: rgb(244,244,244);
-  }
+.info h3 {
+  color: rgb(244,244,244);
+}
+
+.leaflet-label:before {
+  display: none;
+}
+
 .leaflet-control-attribution,
 .leaflet-control-zoom {
   display: none;
