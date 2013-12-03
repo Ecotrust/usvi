@@ -35,4 +35,21 @@ angular.module('askApp')
     $scope.getQuestionBySlug = function (slug) {
 		return _.findWhere($scope.survey.questions, {'slug': slug});
     };
+
+    $scope.showNext20 = function(surveyFilter) {
+        $scope.gettingNext20 = true;
+        $http.get($scope.meta.next)
+            .success(function (data, callback) {
+                _.each(data.objects, function(respondent, index) {
+                    $scope.respondents.push(respondent);
+                });
+                $scope.gettingNext20 = false;
+                $scope.meta = data.meta;
+                // console.log($scope.respondentList);
+            }).error(function (data) {
+                console.log(data);
+            }); 
+    };
+
+
 });

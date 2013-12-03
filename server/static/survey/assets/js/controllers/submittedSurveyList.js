@@ -168,7 +168,7 @@ angular.module('askApp')
                             debugger;
                         }
                     });
-                    $scope.gettingNext20 = true;
+                    $scope.gettingNext20 = false;
                     // console.log($scope.respondentList);
                 }).error(function (data) {
                     debugger;
