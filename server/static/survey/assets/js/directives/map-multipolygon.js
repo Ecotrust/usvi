@@ -129,7 +129,14 @@ angular.module('askApp')
                 };
                 
                 //Fishing Areas Grid for St. Thomas
-                $http.get("/static/survey/data/StThomas.json").success(function(data) {
+                if (scope.question.slug.indexOf('st-thomas') !== -1) {
+                    jsonPath = "/static/survey/data/StThomas.json";
+                } else if (scope.question.slug.indexOf('st-croix') !== -1) {
+                    jsonPath = "/static/survey/data/StCroix.json";
+                } else {
+                    jsonPath = "/static/survey/data/StThomas.json";
+                }
+                $http.get(jsonPath).success(function(data) {
                     var geojsonLayer = L.geoJson(data, { 
                         style: function(feature) {
                             return {
