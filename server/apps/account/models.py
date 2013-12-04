@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
 
 
 class UserProfile(models.Model):
@@ -17,7 +16,7 @@ class Feedback(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     message = models.TextField(null=True, blank=True, default=None)
     data = models.TextField(null=True, blank=True, default=None)
-    ts = models.DateTimeField(default=datetime.datetime.now())
+    ts = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         if self.user is not None:
