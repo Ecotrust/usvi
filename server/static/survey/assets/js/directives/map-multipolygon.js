@@ -77,26 +77,26 @@ angular.module('askApp')
                     //console.log(scope.question.answer);
                 }
                 
-                var labelLayer = L.tileLayer('http://tilestream.labs.ecotrust.org/1.0.0/USVI_Fishing_Grid_Labels_White/{z}/{x}/{y}.png', {
-                    minZoom: 11,
-                    maxZoom: 12
-                });
-                labelLayer.getTileUrl = function(tilePoint){
-                    var subdomains = this.options.subdomains,
-                        s = this.options.subdomains[(tilePoint.x + tilePoint.y) % subdomains.length],
-                        zoom = this._getZoomForUrl();
+                // var labelLayer = L.tileLayer('http://tilestream.labs.ecotrust.org/1.0.0/USVI_Fishing_Grid_Labels_White/{z}/{x}/{y}.png', {
+                //     minZoom: 11,
+                //     maxZoom: 12
+                // });
+                // labelLayer.getTileUrl = function(tilePoint){
+                //     var subdomains = this.options.subdomains,
+                //         s = this.options.subdomains[(tilePoint.x + tilePoint.y) % subdomains.length],
+                //         zoom = this._getZoomForUrl();
                     
-                    return_url = this._url
-                        .replace('{s}', s)
-                        .replace('{z}', zoom)
-                        .replace('{x}', tilePoint.x)
-                        .replace('{y}', Math.pow(2,zoom) - tilePoint.y -1);
-                    //console.debug("url = " + return_url + " & x, y, z = " + tilePoint.x+","+tilePoint.y+","+zoom)
-                    return return_url;
-                };
+                //     return_url = this._url
+                //         .replace('{s}', s)
+                //         .replace('{z}', zoom)
+                //         .replace('{x}', tilePoint.x)
+                //         .replace('{y}', Math.pow(2,zoom) - tilePoint.y -1);
+                //     //console.debug("url = " + return_url + " & x, y, z = " + tilePoint.x+","+tilePoint.y+","+zoom)
+                //     return return_url;
+                // };
 
                 //Fishing Areas Grid
-                $http.get("/static/survey/data/StThomas_2_5_GCS_WGS_1984.json").success(function(data) {
+                $http.get("/static/survey/data/CentralCalifornia_PlanningUnits.json").success(function(data) {
                     var geojsonLayer = L.geoJson(data, { 
                         style: function(feature) {
                             return {
@@ -135,7 +135,7 @@ angular.module('askApp')
                         }
                     });
                     geojsonLayer.addTo(map);
-                    labelLayer.addTo(map);
+                    //labelLayer.addTo(map);
                 });
                 
                 // var boundaryStyle = {

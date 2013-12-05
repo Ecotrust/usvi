@@ -49,10 +49,9 @@ After the prepare command runs you will no longer be able to login as root with 
 # Backing up and restoring databases
 
 ```bash
-fab staging:eknuth@usvi-test.pointnineseven.com backup_db
-fab staging:eknuth@usvi-dev.pointnineseven.com restore_db:backups/2013-11-111755-geosurvey.dump
-fab vagrant restore_db:backups/2013-11-111755-geosurvey.dump
-fab staging:eknuth@usvi-dev.pointnineseven.com migrate_db
+fab staging:username@162.243.146.75 backup_db
+fab staging:username@162.243.146.75 restore_db:backups/2013-11-111755-geosurvey.dump
+fab staging:username@162.243.146.75 migrate_db
 ```
 
 # Running Tests
