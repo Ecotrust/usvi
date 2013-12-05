@@ -17,7 +17,7 @@ These commands install all the prerequisites for running marine planner, includi
 
 ```bash
 fab staging:root@hostname prepare
-fab staging:username@hostname deploy
+fab staging:username@hostname deploy:branch
 ```
 
 ###Sample config file
