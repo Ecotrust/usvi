@@ -20,6 +20,8 @@ fab staging:root@hostname prepare
 fab staging:username@hostname deploy:branch
 ```
 
+Branch is master by default.
+
 ###Sample config file
 ```javascript
 {
