@@ -13,3 +13,19 @@
 .chromeframe a {
 	color: blue;
 }
+
+/* override bootstrap's responsive styling 
+   in the navbar */
+@media (min-width: 768px) {
+	.navbar-header {
+		float: none;
+	}
+}
+
+/* Override bootstrap's responsive styling 
+   for the container width. Max 750px width. */
+@media (min-width: 768px) {
+	.container {
+		width: 750px;
+	}
+}

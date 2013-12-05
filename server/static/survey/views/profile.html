@@ -7,7 +7,12 @@
 
             <div class="forms">
                 <div class="new-user-form">
-                    <form ng-submit="updateProfile(profileQuestions)">
+                    
+                    <h1>Welcome!</h1>
+                    <h3>Take a moment to complete your profile.</h3> 
+                    <p>You will be able to edit this information at any time from the home screen.</p>
+
+                        <form ng-submit="updateProfile(profileQuestions)">
                         
                         <div class="question">
                             <h4 class="question-title">Email Address</h4>
@@ -32,8 +37,7 @@
 
                         <input class="form-control" type="email" placeholder="enter your email address..." data-ng-model="profileQuestions.emailaddress" required>
  -->
-                        <button class="btn btn-main btn-default btn-block" ng-click="updateProfile(profileQuestions)">submit</button>
-                        <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/main">cancel</a>
+                        <button class="btn btn-main btn-default btn-block" ng-click="updateProfile(profileQuestions)">Save Profile and Continue</button>
                                                 
                     </form>
                 </div>

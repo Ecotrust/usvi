@@ -236,7 +236,7 @@ img.center {
     height: 60px;
 }
 
-.navbar .navbar-toggle {
+.navbar .home-btn {
     position: absolute;
     padding: 10px;
     margin-top: -5px;
@@ -255,12 +255,12 @@ img.center {
     
 }
 
-.navbar .navbar-comment:hover, .navbar .navbar-toggle:hover {
+.navbar .navbar-comment:hover, .navbar .home-btn:hover {
     text-decoration: none;
     background-color: rgba(0,0,0,0);
     color: rgb(100,100,100);
 }
-.navbar .navbar-toggle .icon-bar {
+.navbar .home-btn .icon-bar {
     height: 3px;
     width: 25px;
 }

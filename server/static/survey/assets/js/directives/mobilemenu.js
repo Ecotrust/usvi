@@ -9,6 +9,7 @@ angular.module('askApp')
         transclude: true,
         scope: false,
         link: function (scope, element, attrs) {
+            scope.offline = app.offline;
         }
     }
 });
