@@ -80,6 +80,7 @@ angular.module('askApp')
         $http.post(url, {username: app.user.username, registration: registration, email: $scope.userEmail})
             .success(function (data) {
                 app.user.registration = registration;
+                app.user.email = data.user.email;
                 storage.saveState(app);
                 $location.path('/main');
             })

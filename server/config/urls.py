@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from django.conf.urls import patterns, include, url
+=======
+from django.conf.urls import *
+>>>>>>> origin/next-release
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static

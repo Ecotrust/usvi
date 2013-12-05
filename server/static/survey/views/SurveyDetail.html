@@ -5,7 +5,8 @@
     <!-- Begin page content -->
     <div class="container">
         <div class="feedback" ng-show="sendingFeedback" ng-cloak>
-            <form ng-submit="submitFeedback(feedback)">    
+            <form ng-submit="submitFeedback(feedback)">   
+                <div class="question-title"> Send us your Feedback </div> 
                 <textarea rows="5" placeholder="{{ question.label }}" ng-model="feedback"></textarea>
                 <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="submitFeedback(feedback)">Submit</button>
                 <a type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="sendingFeedback = false">Cancel</a>
