@@ -11,5 +11,5 @@ before_script:
   - npm install -g grunt-cli
   - psql -c 'create database geosurvey;' -U postgres
 script:
- # - "python server/manage.py test --settings=config.environments.staging"
- - "grunt karma:unit"
+ - "python server/manage.py test --settings=config.environments.staging"
+ #- "grunt karma:unit"
