@@ -12,4 +12,4 @@ before_script:
   - psql -c 'create database geosurvey;' -U postgres
 script:
  - "python server/manage.py test --settings=config.environments.staging"
- #- "grunt karma:unit"
+ - "grunt karma:unit"
