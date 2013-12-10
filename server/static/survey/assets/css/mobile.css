@@ -162,6 +162,8 @@ input.datepicker {
     cursor: pointer; 
     cursor: hand;
     text-transform: uppercase;
+    text-align: left;
+    font-weight: bold;
 }
 
 #history-wrap .panel-heading.darkSalmonBackground {
