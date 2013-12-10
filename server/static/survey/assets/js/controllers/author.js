@@ -35,11 +35,11 @@ angular.module('askApp')
    
 
             
-            // $scope.$watch('survey.pages', function (newValue) {
-            //     if (newValue){// && ! $scope.questionsToBeUpdated.length && ! $scope.updatedQuestionQueue.length) {
-            //        $scope.checkPageOrder(newValue);
-            //     }
-            // }, true);
+            $scope.$watch('survey.pages', function (newValue) {
+                if (newValue){// && ! $scope.questionsToBeUpdated.length && ! $scope.updatedQuestionQueue.length) {
+                   $scope.checkPageOrder(newValue);
+                }
+            }, true);
 
             
 
@@ -155,6 +155,18 @@ angular.module('askApp')
         }
 
 
+        $scope.deletePage = function (page) {
+            var pageToBeDeleted = page;
+            $http({
+                method: 'DELETE',
+                url: page.resource_uri,
+                data: page
+            }).success(function (data) {
+                debugger;
+            });
+        };
+
+
         $scope.delete = function (question, page) {
             var questionToBeDeleted = question;
             $http({
@@ -175,6 +187,7 @@ angular.module('askApp')
             if (page.questions.length) {
                 order = page.questions.length + 1;
             }
+            $scope.addingNewQuestion = true;
             $scope.startEditingQuestion({
                 label: null,
                 slug: null,
@@ -243,6 +256,7 @@ angular.module('askApp')
             $scope.confirmDelete = false;
             $scope.questionBeingEdited = question;
             $scope.activeQuestion = angular.copy(question);
+
             $location.search({question:question.slug});
         };
 
@@ -268,15 +282,15 @@ angular.module('askApp')
                 data = { 
                     order: page.order,
                     questions: _.map(page.questions, function (question) {
-                        return {pk: question.id}
+                        return question.resource_uri;
                     }),
                     blocks: _.map(page.blocks, function (block) {
-                        return {pk: block.id}
+                        return block.resource_uri;
                     })
                 };
             // page.updating = true;
             if (question) {
-                data.questions.push({ pk: question.id });
+                data.questions.push(question.resource_uri);
             }
             return $http({
                 method: method,
@@ -290,8 +304,8 @@ angular.module('askApp')
 
         $scope.saveQuestion = function (question, deferUpdatingList, patch) {
             var url = question.resource_uri,
-                method = patch ? 'PATH': 'PUT',
-                data = question;
+                method = patch ? 'PATCH': 'PUT',
+                data = angular.copy(question);
             if (! question.label) {
                 question.label = question.title;
             }
@@ -309,7 +323,7 @@ angular.module('askApp')
             });
 
             data.grid_cols = _.map(question.grid_cols, function (grid_col) {
-                return { pk: grid_col.id }
+                return grid_col.resource_uri;
             });
 
             return $http({

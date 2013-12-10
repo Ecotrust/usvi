@@ -39,6 +39,7 @@ def install_chef(latest=True):
     """
     sudo('curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 10.20.0 && rm install.sh')
 
+
 def parse_ssh_config(text):
     """
     Parse an ssh-config output into a Python dict.
@@ -207,7 +208,7 @@ def restart():
     Reload nginx/gunicorn
     """
     with settings(warn_only=True):
-        sudo('supervisorctl restart app')
+        sudo('initctl restart app')
         sudo('/etc/init.d/nginx reload')
 @task
 def restore(file=None):
