@@ -10,4 +10,5 @@ script
     export VENV="/usr/local/venv/geosurvey"
     cd $HOME
     exec sudo -u www-data $VENV/bin/gunicorn -w 3 -b 0.0.0.0:8888 wsgi
+
 end script

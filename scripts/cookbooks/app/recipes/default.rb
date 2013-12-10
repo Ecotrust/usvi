@@ -1,7 +1,3 @@
-# example recipe
-# ============
-
-
 
 execute "clean it" do
     command "apt-get clean -y"
@@ -16,7 +12,6 @@ group "deploy" do
 end
 
 if node[:user] == "vagrant"
-
     user "vagrant" do
         group "deploy"
     end
@@ -59,6 +54,7 @@ else
         end
 
         package "munin"
+
 
         cookbook_file "/var/cache/munin/www/.htpasswd" do
             source "htpasswd"
@@ -149,9 +145,6 @@ include_recipe "python"
 include_recipe "apt"
 include_recipe "nginx"
 include_recipe "postgresql::server"
-#include_recipe "supervisor"
-
-package "supervisor"
 
 # marine planner specific
 package "postgresql-#{node[:postgresql][:version]}-postgis"
@@ -183,6 +176,25 @@ end
 
 
 cookbook_file "/etc/postgresql/#{node[:postgresql][:version]}/main/pg_hba.conf" do
+
+# if node[:user] == "vagrant"
+#     template "/vagrant/mp/settings_local.py" do
+#         source "settings_local.erb"
+#         owner "vagrant"
+#     end
+# else
+#     template "/usr/local/apps/marine-planner/mp/settings_local.py" do
+#         source "settings_deploy.erb"
+#         owner "www-data"
+#     end
+# end
+
+template "/etc/init/app.conf" do
+    source "app.conf.erb"
+end
+
+cookbook_file "/etc/postgresql/9.1/main/pg_hba.conf" do
+>>>>>>> geosurvey
     source "pg_hba.conf"
     owner "postgres"
 end
@@ -192,8 +204,10 @@ execute "restart postgres" do
 end
 
 
-execute "restart nginx" do
-    command "sudo /etc/init.d/nginx restart"
+if node[:user] == "www-data"
+    execute "restart nginx" do
+        command "sudo /etc/init.d/nginx restart"
+    end
 end
 
 
