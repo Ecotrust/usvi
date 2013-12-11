@@ -90,6 +90,11 @@ angular.module('askApp').directive('multiquestion', function() {
                     }
                 }
 
+                if (question.type === 'map-multipoint') {
+                    if (! _.isArray(question.answer) || question.answer.length < 1) {
+                        return false;
+                    }
+                }
 
                 // default case
                 return true;

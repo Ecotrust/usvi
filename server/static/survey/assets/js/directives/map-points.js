@@ -38,7 +38,7 @@ angular.module('askApp')
 
             return map;
         }
-        
+
 
         return {
             templateUrl: app.viewPath + 'views/questionMapPoints.html',
@@ -54,17 +54,11 @@ angular.module('askApp')
 
                 scope.activeMarker = false;
 
-                // TODO: which of these two if statements handles prefill?
                 if (scope.question.answer) {
                     // Prefill UI with available answer.
-                    scope.markers = scope.question.answer;
+                    scope.answer = _.toArray(scope.question.answer);
                 } else {
-                    scope.markers = scope.question.answer = [];
-                }
-                if (!scope.answer) {
-                    scope.locations = [];
-                } else {
-                    scope.markers = JSON.parse(scope.answer);
+                    scope.answer = scope.question.answer = [];
                 }
                 
                 scope.onMapClick = function (e) {
@@ -73,16 +67,16 @@ angular.module('askApp')
                 map.on('click', scope.onMapClick);
                 
                 scope.addMarker = function (latlng /* L.latLng */) {
-                    alert('lat is ' + latlng.lat);
                     if (scope.activeMarker) {
                         scope.activeMarker.marker.closePopup();
                     }
                     scope.activeMarker = {
-                        lat: latlng.lat,
-                        lng: latlng.lng,
-                        color: scope.getNextColor()
+                        lat: latlng.lat.toString(),
+                        lng: latlng.lng.toString(),
+                        color: scope.getNextColor(),
+                        answers: [{text: "dummyanswer", label: "dummylabel"}]
                     };
-                    scope.markers.push(scope.activeMarker);
+                    scope.answer.push(scope.activeMarker);
                     location.color = scope.activeMarker.color;
                     scope.activeMarker = false;
                 };
@@ -92,8 +86,8 @@ angular.module('askApp')
                 };
 
                 scope.removeMarker = function(marker) {
-                    var markers = _.without(scope.markers, marker);
-                    scope.markers = markers;
+                    var markers = _.without(scope.answer, marker);
+                    scope.answer = markers;
                 };
                 
                 /**
