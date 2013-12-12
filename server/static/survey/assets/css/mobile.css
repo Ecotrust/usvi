@@ -589,11 +589,12 @@ img.center {
     margin-top: -20px;
 }
 .question .other-checkbox {
-    background-color: rgb(49, 49, 49);
+    /*background-color: rgb(49, 49, 49);*/
+    background-image: url(../img/checkbox.png);
     position: relative;
     width: 20px;
     height: 20px;
-    top: 30px;
+    top: 32px;
     float: right;
     right: 10px;
 }
