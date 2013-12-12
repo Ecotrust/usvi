@@ -33,6 +33,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     ts = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(max_length=254, null=True, blank=True, default=None)
+    ordering_date = models.DateTimeField(null=True, blank=True)
 
     user = models.ForeignKey(User, null=True, blank=True)
 
@@ -42,13 +43,19 @@ class Respondant(caching.base.CachingMixin, models.Model):
     def survey_title(self):
         try:
             if self.survey.slug == 'catch-report':
-                date = self.responses.filter(question__slug='landed-date')[0].answer
-                dateItems = date.split('-')
+                date = self.responses.get(question__slug='landed-date').answer
+                if date.find('-') != -1:
+                    dateItems = date.split('-')
+                elif date.find('/') != -1:
+                    dateItems = date.split('/')
                 date = '%s/%s/%s' %(dateItems[1], dateItems[2], dateItems[0])
             else:  
-                date = self.responses.filter(question__slug='did-not-fish-for-month-of')[0].answer 
-                # dateItems = date.split('/')
-                # date = '%s-%s' %(dateItems[0], dateItems[1])
+                date = self.responses.get(question__slug='did-not-fish-for-month-of').answer 
+                if date.find('-') != -1:
+                    dateItems = date.split('-')
+                elif date.find('/') != -1:
+                    dateItems = date.split('/')
+                date = '%s/%s' %(dateItems[0], dateItems[1])
         except:
             date = 'unknown'
 
@@ -57,7 +64,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
     @property
     def survey_slug(self):
         return self.survey.slug
-    
 
     def __unicode__(self):
         if self.email:
@@ -437,7 +443,39 @@ class Response(caching.base.CachingMixin, models.Model):
                     profile.registration = simplejson.dumps(profileAnswers)
                     profile.save()
 
+
             self.save()
+
+        if self.question.slug == 'landed-date':
+            if self.respondant is not None:
+                from datetime import datetime
+                #try:
+                if self.answer.find('-') != -1:
+                    dnf_date = datetime.strptime(self.answer, '%Y-%m-%d')
+                elif self.answer.find('/') != -1:
+                    dnf_date = datetime.strptime(self.answer, '%Y/%m/%d')
+                self.respondant.ordering_date = dnf_date
+                self.respondant.save()
+                # except:
+                #     import pdb
+                #     pdb.set_trace()
+                #     pass
+        
+        if self.question.slug == 'did-not-fish-for-month-of':
+            if self.respondant is not None:
+                from datetime import datetime
+                #try:
+                if self.answer.find('-') != -1:
+                    dnf_date = datetime.strptime(self.answer, '%m-%Y')
+                elif self.answer.find('/') != -1:
+                    dnf_date = datetime.strptime(self.answer, '%m/%Y')
+                self.respondant.ordering_date = dnf_date
+                self.respondant.save()
+                # except:
+                #     import pdb
+                #     pdb.set_trace()
+                #     pass
+
 
 
 
