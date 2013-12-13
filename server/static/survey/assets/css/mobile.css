@@ -857,6 +857,12 @@ input.multi-select-other:-ms-input-placeholder {
     height: 300px;
     padding: 0;
 }
+.map-question .question-title {
+    position: absolute;
+    margin-top: -20px;
+    z-index: 2;
+}
+
 .info {
   padding-top: 20px;
   color: rgb(244,244,244);
