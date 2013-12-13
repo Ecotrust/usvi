@@ -442,8 +442,6 @@ class Response(caching.base.CachingMixin, models.Model):
                     profile = get_object_or_404(UserProfile, user=self.respondant.user)
                     profile.registration = simplejson.dumps(profileAnswers)
                     profile.save()
-
-
             self.save()
 
         if self.question.slug == 'landed-date':

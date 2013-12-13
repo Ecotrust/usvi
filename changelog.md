@@ -1,3 +1,6 @@
+#1.2.89
+addressing the following issues: #162, #223, #262, #263, #272, #280, #286, #295, #296, #297, #299, #301 
+
 #1.2.82
 fixing a bunch of bugs
 

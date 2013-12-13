@@ -445,6 +445,10 @@ img.center {
     display: block;
 }
 
+.multi-select .select-name {
+    color: rgb(0,0,0);
+}
+
 /* nothing select, beige boxes */
 .select .option-unchecked .select-content {
   color: rgb(0,0,0);
@@ -453,10 +457,16 @@ img.center {
 
 
 /* option selected, selected is beige others are blue */
-.select .option-checked .select-checked .select-content {
-  color: rgb(0,0,0);
+.select .option-checked .select-checked .select-content .select-name {
+  color: rgb(0,0,0) !important;
   background-color: rgb(246, 236, 194) !important;
 }
+
+
+.grouped-options .panel-title,.select .option-unchecked .select-content .select-name {
+  color: rgb(0,0,0) !important;
+}
+
 
 .select .option-checked .select-unchecked .select-content {
   color: rgb(0,0,0);
@@ -465,10 +475,12 @@ img.center {
 
 
 .question .panel-body .select-unchecked .select-content .select-name {
+    color: rgb(244,244,244);
 
-    color: rgb(22, 59, 66);
 }
-
+.question .panel-body .select-checked .select-content .select-name {
+    color: rgb(24, 75, 83);
+}
 .question .single-select-other {
     /*background-color: rgb(24, 75, 83) !important;*/
     background-color: rgb(246, 235, 194);
@@ -483,6 +495,15 @@ img.center {
 .question .other-option.select-checked {
     margin-top: -20px;
 }
+
+.yes-no .select-checked .select-name {
+    color: rgb(0,0,0) !important;
+}
+
+.yes-no .option-unchecked .select-name {
+    color: rgb(0,0,0) !important;
+}
+
 
 .menu-page .progress {
     margin-bottom: 0;
@@ -685,6 +706,7 @@ input.multi-select-other:-ms-input-placeholder {
     padding-left: 0px;
 }
 .number-with-unit .form-control {
+    border-width: 0;
     /*width: 48%;
     display: inline-block;
     vertical-align: top;
@@ -699,13 +721,22 @@ input.multi-select-other:-ms-input-placeholder {
     position: relative;
     background-color: rgb(24, 75, 83);
     height: 40px;
+    
 
+}
+
+.select-wrapper.form-control .unit-select {
+    color: rgb(244,244,244);
 }
 .select-wrapper .down {
     position: absolute;
     top: 10px;
     right: 15px;
     font-size: 20px;
+    color: rgb(244,244,244);
+}
+.select-wrapper.unit-selected .down {
+    color: rgb(0,0,0);   
 }
 .unit-selected {
     background-color: rgb(246, 235, 194);
@@ -761,6 +792,14 @@ input.multi-select-other:-ms-input-placeholder {
 }
 .question .select .accordion-body .select-name {
     padding-left: 20px;
+}
+
+.multi-select .select .select-content .select-name {
+    color: rgb(0,0,0) !important;
+}
+
+.question .select .select-unchecked .select-content h4 {
+    color: rgb(244, 244, 244);   
 }
 
 .ngViewport {
@@ -823,14 +862,12 @@ input.multi-select-other:-ms-input-placeholder {
   color: rgb(244,244,244);
 }
 
-.info h3 {
-  color: rgb(244,244,244);
-}
-.info h4 {
+
+.info h3, .info h4 {
  color: rgb(244,244,244);   
 }
-.info .panel-heading h4 {
- color: rgb(0,0,0);   
+.info .panel-heading h4, .question .panel-title {
+    color: rgb(0,0,0);   
 }
 .info  .panel {
     color: rgb(0,0,0);
