@@ -267,6 +267,11 @@ angular.module('askApp')
             delete question.gridOptions; // was causing a circular reference in 
         }
 
+        if (question.type === 'map-multipoint') {
+            // All we want is the data property from each marker.
+            answer = _.pluck(question.markers, 'data');
+        }
+
         if (answer === 'other' && question.otherAnswers.length) {
             answer = question.otherAnswers[0];
         }

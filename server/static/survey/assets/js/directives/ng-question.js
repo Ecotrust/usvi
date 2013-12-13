@@ -91,7 +91,7 @@ angular.module('askApp').directive('multiquestion', function() {
                 }
 
                 if (question.type === 'map-multipoint') {
-                    if (! _.isArray(question.answer) || question.answer.length < 1) {
+                    if (! _.isArray(question.markers) || question.markers.length < 1) {
                         return false;
                     }
                 }
@@ -403,9 +403,14 @@ angular.module('askApp').directive('multiquestion', function() {
                 })), 'checked'));
             }
 
-            scope.$watch('question', function () {
+            scope.$watch(function () {
+                return scope.validateQuestion(scope.question);
+            }, function () {
                 scope.validity[scope.question.slug] = scope.validateQuestion(scope.question);
-            }, true);
+            });
+            // scope.$watch('question', function () {
+            //     scope.validity[scope.question.slug] = scope.validateQuestion(scope.question);
+            // }, true);
 
             scope.$watch('question.otherAnswers', function (newVal, oldVal) {
                 if (scope.question.type == 'single-select' && scope.question.allow_other && scope.question.otherAnswers.length && scope.question.otherAnswers[0] !== "") {

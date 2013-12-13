@@ -1,24 +1,24 @@
-<div class="map map-points">
-
-    <div leaflet 
-        center="map.center" 
-        zoom="map.zoom" 
-        marker="map.marker" 
-        multimarkers="locations" 
-        popupfield="'answers'" 
-        iscrosshairalerting="isCrosshairAlerting"
-        multimarkersedit="true"
-        editmarker="editMarker"
-        deletemarker="removeMarker"
-        click="addMarker"></div>
+<div class="map map-points" ng-class="{'adding-marker': isAddingMarker}">
+	
+	<div id="map-container" >
+		
+	</div>
 
     <div class="map-controls map-controls-top-right">
         <div class="btn-group">
             <a  class="btn btn-large btn-primary btn-add-marker"
-                ng-hide="isAddingMarker()"
-                ng-click="addMarker()"
+                ng-hide="isAddingMarker"
+                ng-click="isAddingMarker = true"
                 href="javascript:void(0)">
-                <i class="icon-map-marker icon-large"></i><span class="map-control-label"></span>&nbsp;Add
+                <i class="icon-map-marker icon-large"></i><span class="map-control-label"></span>&nbsp;Add Marker
+            </a>
+        </div>
+        <div class="btn-group">
+            <a  class="btn btn-large btn-danger btn-primary btn-cancel"
+                ng-show="isAddingMarker"
+                ng-click="isAddingMarker = false"
+                href="javascript:void(0)">
+                Cancel
             </a>
         </div>
     </div>

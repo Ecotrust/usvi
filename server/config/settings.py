@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'gunicorn',
-    'discover_runner',
+    #'discover_runner',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:
@@ -194,4 +194,4 @@ HEROKU = False
 
 ANALYTICS_ID = ""
 
-TEST_RUNNER = 'discover_runner.DiscoverRunner'
+#TEST_RUNNER = 'discover_runner.DiscoverRunner'
