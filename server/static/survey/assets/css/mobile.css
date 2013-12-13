@@ -794,8 +794,8 @@ input.multi-select-other:-ms-input-placeholder {
     padding-left: 20px;
 }
 
-.question .select .select-content h4 {
-    color: rgb(0,0,0);
+.multi-select .select .select-content .select-name {
+    color: rgb(0,0,0) !important;
 }
 
 .question .select .select-unchecked .select-content h4 {
