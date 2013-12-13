@@ -111,6 +111,36 @@ angular.module('askApp')
                 } else {
                     return  0;
                 }
+            } else if (questionSlug === 'area-fished-line-or-reel') {
+                var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
+                    areas = _.findWhere(respondent.responses, {question: 'area-fished-line-or-reel-'+island}).answer;
+                var answer = areas.toString();
+
+            // } else if (questionSlug === 'area-fished-lobster-traps') {
+            //     var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
+            //         areas = _.findWhere(respondent.responses, {question: 'area-fished-lobster-traps-'+island}).answer;
+            //     var answer = areas.toString();
+
+            // } else if (questionSlug === 'area-fished-fish-traps') {
+            //     var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
+            //         areas = _.findWhere(respondent.responses, {question: 'area-fished-fish-traps-'+island}).answer;
+            //     var answer = areas.toString();
+
+            } else if (questionSlug === 'area-fished-traps') {
+                var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
+                    areas = _.findWhere(respondent.responses, {question: 'area-fished-traps-'+island}).answer;
+                var answer = areas.toString();
+
+            } else if (questionSlug === 'area-fished-nets') {
+                var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
+                    areas = _.findWhere(respondent.responses, {question: 'area-fished-nets-'+island}).answer;
+                var answer = areas.toString();
+
+            } else if (questionSlug === 'area-fished-spear-or-by-hand') {
+                var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
+                    areas = _.findWhere(respondent.responses, {question: 'area-fished-spear-or-by-hand-'+island}).answer;
+                var answer = areas.toString();
+
             } else {
                 var answer = _.findWhere(respondent.responses, {question: questionSlug}).answer;
             }
