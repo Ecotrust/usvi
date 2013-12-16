@@ -44,7 +44,6 @@
                 <fieldset ng-disabled="working">
                     <input type="text" class="form-control username" placeholder="enter your username..." ng-model="authUser.username" autocapitalize="off" required>
                     <password password-text="authUser.password"></password>
-
                 </fieldset>
                 <button class="btn btn-main btn-block" ng-disabled="! (authUser.username &&  authUser.password)">login</button>
                 <a class="btn btn-main btn-default btn-block" ng-class="{'active': showForm == 'new-user'}" href="#/">cancel</a>
