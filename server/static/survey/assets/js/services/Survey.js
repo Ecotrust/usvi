@@ -188,26 +188,33 @@ angular.module('askApp')
         }
 
         _.each(blocks, function(block) {
-            //console.log(block);
-            var questionSlug = _.findWhere(survey.questions, {resource_uri: block.skip_question}).slug,
-                answer = getAnswer(questionSlug),
-                condition = block.skip_condition,
-                op = condition[0],
-                testCriteria = condition.slice(1);
-                
-            if (_.isObject(answer)) {
-                if (_.isNumber(answer.answer)) {
-                    answer = answer.answer;
-                } else if (_.isArray(answer)) {
-                    answer = _.pluck(answer, "text");
-                } else if (_.isArray(answer.answer)) {
-                    answer = _.pluck(answer.answer, "text");
-                } else {
-                    answer = [answer.answer ? answer.answer.text : answer.text];    
-                }
-            }
+            if (block.skip_question === null) {
+                // Block has no skip questions.
+                keep = true;
             
-            keep = keep && keepQuestion(op, answer, testCriteria);
+            } else {
+                // Block has a skip question. Find out if it calls for being skipped.
+                var questionSlug = _.findWhere(survey.questions, {resource_uri: block.skip_question}).slug,
+                    answer = getAnswer(questionSlug),
+                    condition = block.skip_condition,
+                    op = condition[0],
+                    testCriteria = condition.slice(1);
+                    
+                if (_.isObject(answer)) {
+                    if (_.isNumber(answer.answer)) {
+                        answer = answer.answer;
+                    } else if (_.isArray(answer)) {
+                        answer = _.pluck(answer, "text");
+                    } else if (_.isArray(answer.answer)) {
+                        answer = _.pluck(answer.answer, "text");
+                    } else {
+                        answer = [answer.answer ? answer.answer.text : answer.text];    
+                    }
+                }
+                
+                keep = keep && keepQuestion(op, answer, testCriteria);                
+            }
+
         });
         
         return !keep;
