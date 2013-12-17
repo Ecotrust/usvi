@@ -1,3 +1,23 @@
 .leaflet-control-zoom {
   display: none;
 }
+
+/* 
+ * Only show active question when mobile keyboard is displayed.
+ */
+.keyboard-open .question-wrapper {
+    opacity: 0;
+}
+.keyboard-open .question-wrapper.active {
+    position: absolute;
+    height: 100%;
+    z-index: 2000;
+    width: 95%;
+    background-color: rgb(77, 136, 153);
+    left: 10px;
+    top: 130px;
+    opacity: 1 !important;
+}
+.keyboard-open #footer, .grid-keyboard-open #footer {
+    display: none;
+}
