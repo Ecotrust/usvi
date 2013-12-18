@@ -95,9 +95,9 @@ a {
 }
 
 .btn-main:hover, .btn-main:active {
-background-color: rgba(250, 189, 18, .5) !important;
-border-color: rgb(250, 189, 18);
-    color: rgb(250, 189, 18);
+    background-color: rgba(250, 189, 18, .3) !important;
+    color: rgb(248, 203, 77);
+    border-color: rgb(250, 189, 18);
 }
 
 .splash {
