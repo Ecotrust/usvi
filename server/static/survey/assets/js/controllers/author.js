@@ -337,8 +337,8 @@ angular.module('askApp')
                         result.grid_cols.sort(function(a, b) {return a.order - b.order});
                         index = _.indexOf($scope.survey.questions, $scope.questionBeingEdited);
                         $scope.survey.questions[index] = result;
-                        $scope.questionBeingEdited = result;
-                        $scope.stopWatchingQuestions = false;    
+                        angular.copy(result, $scope.questionBeingEdited);
+                        $scope.stopWatchingQuestions = false;
                     }
                     
                 } else if (status === 201) {                
