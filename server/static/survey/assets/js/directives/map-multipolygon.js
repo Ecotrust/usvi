@@ -89,7 +89,10 @@ angular.module('askApp').directive('map', function($http) {
                     layer.setStyle( {
                         fillOpacity: .6
                     });
-                    scope.question.answer.push(id);
+                    scope.$apply(function (s) {
+                        s.question.answer.push(id);    
+                    });
+                    
 
                     if (! layer.feature.label) {
                         createAndAddLabel(layer);
@@ -103,12 +106,10 @@ angular.module('askApp').directive('map', function($http) {
                     });
 
                     layer.feature.label.setOpacity(0);
-
-                    scope.question.answer = _.without(scope.question.answer, id);
+                    scope.$apply(function (s) {
+                        scope.question.answer = _.without(scope.question.answer, id);
+                    });
                 }
-                //scope.$apply();
-                //console.log(scope.question.answer);
-                //console.log(id);
             }
 
             var createAndAddLabel = function(layer) {
@@ -166,17 +167,15 @@ angular.module('askApp').directive('map', function($http) {
             });
 
             scope.validateQuestion = function (question) {
-                var overallValidity = question.answer && question.answer.length > 0 ? true : false;
+                var overallValidity = question.answer && question.answer.length;
                 return overallValidity;
             };
 
             // the following only gets called when then map question loads and submits 
             // not sure why it doesn't fire when grid cells are clicked...
-            scope.$watch('question.answer', function (newAnswer) {
-                if (newAnswer) {
-                    // scope.validity[scope.question.slug] = scope.validateQuestion(scope.question);    
-                }
-            });
+            scope.$watch(function () { return scope.question.answer; }, function (newAnswer) {
+                scope.validity[scope.question.slug] = scope.validateQuestion(scope.question);    
+            }, true);
 
             
             // not sure if this has any relevant effect any more...
