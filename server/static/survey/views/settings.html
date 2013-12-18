@@ -3,7 +3,7 @@
     <div mobilemenu></div>
     <!-- Begin page content -->
     <div class="container">
-		<div ng-show="changesSaved" class="alert alert-success">Changes saved</div>
+		<div ng-show="message" class="alert alert-success">{{ message }}</div>
 
 		<!-- <div ng-hide="confirmClear || editProfile">
 		    <a class="btn btn-block btn-large" ng-click="editProfile = true; changesSaved = false;">Edit Profile</a>

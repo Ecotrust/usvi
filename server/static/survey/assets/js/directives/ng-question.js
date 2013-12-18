@@ -24,7 +24,7 @@ angular.module('askApp').directive('multiquestion', function() {
                     if (question.integer_max && question.integer_max < question.answer) {
                         return false;
                     }
-                    if (question.integer_min || question.integer_min > question.answer) {
+                    if (question.integer_min && question.integer_min > question.answer) {
                         return false;
                     }
                     if (question.type === 'integer' && _.string.include(question.answer, '.')) {
