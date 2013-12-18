@@ -41,6 +41,24 @@ a {
    font-weight: normal;
 }
 
+
+
+.select .option-checked .other-option ::-webkit-input-placeholder {
+   color: rgb(244,244,244) !important;
+}
+
+.select .option-checked .other-option :-moz-placeholder { /* Firefox 18- */
+ color: rgb(244,244,244) !important;
+}
+
+.select .option-checked .other-option ::-moz-placeholder {  /* Firefox 19+ */
+   color: rgb(244,244,244) !important;
+}
+
+.select .option-checked .other-option :-ms-input-placeholder {  
+   color: rgb(244,244,244) !important;
+}
+
 #wrap {
     min-height: 100%;
 }
