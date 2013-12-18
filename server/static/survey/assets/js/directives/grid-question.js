@@ -86,7 +86,7 @@ angular.module('askApp').directive('gridquestion', function() {
                 var groupName = "";
 
                 _.each(scope.question.rows.split('\n'), function (row, index) {
-                    var matches = _.filter(scope.question.answer, function (answer) {
+                    var matches = _.filter(scope.question.options, function (answer) {
                         return answer.text === row;
                     });
                     var isGroupName = _.string.startsWith(row, '*');

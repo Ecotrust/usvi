@@ -1,7 +1,7 @@
 //'use strict';
 
 angular.module('askApp')
-  .controller('SettingsCtrl', function ($scope, $location, $http, storage) {
+  .controller('SettingsCtrl', function ($scope, $location, $http, storage, $timeout) {
 
     if (app.user) {
         $scope.user = app.user;
@@ -9,7 +9,14 @@ angular.module('askApp')
         $location.path('/');
     }
     $scope.server = app.server;
-    
+
+    function flashMessage(message) {
+        $scope.message = message;
+        $timeout(function() {
+            $scope.message = null;
+        }, 3000)
+    }
+
     $scope.path = 'sett';
     $scope.clearCache = function () {
         storage.clearCache();
@@ -23,12 +30,13 @@ angular.module('askApp')
             .success(function (data) {
                 $scope.passwords = null;
                 $scope.changingPassword = false;
+                flashMessage("Your password has been changed")
             })
             .error(function (data) {
               $scope.showError = data;
             });
     }
-    
+
     $scope.updateUser = function (user) {
         var url = app.server + "/account/updateUser";
 
@@ -37,12 +45,11 @@ angular.module('askApp')
                 app.user = data.user;
                 storage.saveState();
                 $scope.editProfile = false;
-                $scope.changesSaved = true;
+                flashMessage("Changes saved")
             })
             .error(function (data) {
               $scope.showError = data;
             });
     };
-
 
   });
