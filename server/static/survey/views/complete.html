@@ -1,15 +1,14 @@
-<div id="wrap" class="menu-page">
+<div id="history-wrap" class="menu-page">
     <!-- Fixed navbar -->
     <div mobilemenu></div>
 	<div class="container">
-	    
         <div class="info respondant" ng-hide="working || user.offline" style="padding-top: 0px">
 	        <h4>You have completed the catch report.</h4>
 
             <div class="panel-body">
                 <div ng-include="'views/surveyAnswers.html'"></div>
             </div>
-            <div class="clearfix">
+            <div class="clearfix button-row">
                 <span class="col-xs-6"><a type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="submitReport()">Submit</a></span>
                 <span class="col-xs-6"><a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/main">Save</a></span>
             </div>

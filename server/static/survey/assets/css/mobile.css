@@ -240,6 +240,7 @@ input.datepicker {
     padding: 0;
 }
 
+#history-wrap > .container
 
 .report-list .button-row {
     padding: 10px;
@@ -279,7 +280,12 @@ input.datepicker {
     background-color: rgb(231, 232, 234, 0);
     color: rgb(244,244,244);
 }
-
+#history-wrap > .container .respondant > .panel-body {
+    padding: 0;
+}
+#history-wrap > .container .respondant > .panel-body .paper-report {
+    padding: 0 10px 10px;
+}
 /* Wrapper for page content to push down footer */
 #wrap {
     min-height: 100%;

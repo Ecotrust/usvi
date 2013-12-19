@@ -19,7 +19,7 @@
             </div>
             <div ng-show="showSubmitDone">
                 <p>All completed reports have been submitted.</p>
-                <a class="btn btn-main btn-default btn-block blue-btn" ng-click="showSubmitDone = false">return to dashboard</a>
+                <a class="btn btn-main btn-default btn-block" ng-click="showSubmitDone = false">return to dashboard</a>
             </div>
             <div ng-hide="confirmSubmit || showSubmitDone">
                 <div class="panel report-list panel-default" ng-repeat="respondent in respondents track by $index">  <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
