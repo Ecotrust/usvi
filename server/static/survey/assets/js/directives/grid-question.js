@@ -122,6 +122,14 @@ angular.module('askApp').directive('gridquestion', function() {
                 } else {
                     scope.question.answer = {};
                 }
+                _.each(_.difference(_.keys(scope.question.answer), _.pluck(scope.question.options, 'text')), function (optionText) {
+                    console.log('removing ', optionText);
+                    scope.answers[scope.question.slug] = _.without(scope.answers[scope.question.slug],
+                            _.findWhere(scope.answers[scope.question.slug], { text: optionText }));
+                });
+
+                
+                console.log(scope.answers[scope.question.slug]);
                 scope.question.selectedOptions = {};
                 _.each(scope.question.options, function(value, key, list) {
                     var groupString = "";
