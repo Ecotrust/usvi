@@ -144,16 +144,6 @@ angular.module('askApp')
         return title;
     };
     
-
-    $scope.validatePage = function (page) {
-        var result = _.chain(page.questions || [])
-            .map(function (question) {
-                return $scope.validateQuestion(question);    
-            })
-            .every().value();
-        $scope.pageIsValid = result;
-    };
-
     $scope.submitPage = function (page) {
         if (! $scope.pageIsValid) {
             return false;
@@ -260,11 +250,10 @@ angular.module('askApp')
             //var completed = ! _.some( _.map(question.options, function(option) { return _.contains(_.values(option), undefined); }));
             var completed = $scope.validateGridQuestion(question);
             if (completed || !question.required) {
-                answer = question.options;
+                answer = question.answer;
             } else {
                 return false;
             }
-            delete question.gridOptions; // was causing a circular reference in 
         }
 
         if (answer === 'other' && question.otherAnswers.length) {
@@ -285,6 +274,7 @@ angular.module('askApp')
 
     // might be better to use the validateQuestion in the Grid Question directive...but this will have to do for now...
     $scope.validateGridQuestion = function(question) {
+        return true;
         var overallValidity = true, currentRow;
         _.each(question.options, function (row) {
             currentRow = row;
