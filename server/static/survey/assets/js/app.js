@@ -135,12 +135,12 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid'])
 
 $(document).ready(function() {
     var flag = false;
-    $(document).on('focusin touchstart', '.question input, .question select', function(e) {
+    $(document).on('focusin touchend', '.question input, .question select', function(e) {
         if (!flag) {
             flag = true;
             setTimeout(function() {
                 flag = false;
-            }, 100);
+            }, 300);
             var $this = $(this),
                 $wrapper = $this.closest('.question-wrapper');
 

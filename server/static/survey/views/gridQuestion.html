@@ -1,16 +1,66 @@
-<!-- This question actually submits the entire question.options object since 
-	the grid binds to that object. -->
-<form id="gridQuestion" class="question" ng-submit="$parent.submitPage(page)">
-	<div class="row-fluid">
-	    <div class="span12">
-			<div class="gridStyle" ng-grid="question.gridOptions"></div>
-	    </div>
-	</div>
-	<!-- <div class="row-fluid user-controls">
-	    <button 
-	    	type="submit"
-			ng-class="{'btn-primary': isAnswerValid, disabled: !isAnswerValid }"
-	    	class="btn btn-block btn-large btn-primary">continue</button>
-	</div> -->
-	
+<form class="question" ng-submit="$parent.submitPage(page)">
+    <div class="grid">
+        <div class="row">
+            <div class="cell" style="height: 1px"></div>
+            <div class="cell head" ng-repeat="col in question.grid_cols">
+                {{ col.text }}
+            </div>
+        </div>
+        <div class="row" ng-repeat="(rowIndex, row) in grid.rows">
+            <div class="cell head">
+                {{ row.text }}
+            </div>
+            <div class="cell" ng-repeat="cell in row.cells">
+                <div ng-switch="cell.inputType">
+                    <div ng-switch-when="number">
+                        <input
+                                class="input-block-level form-control"
+                                type="number"
+                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-required="cell.required"
+                                max="{{ cell.max }}"
+                                min="{{ cell.min }}"
+                                step="{{ cell.type == 'integer' ? 1 : 'any' }}"
+                                ui-event="{ keypress : 'onlyDigits($event)' }"
+                                />
+                    </div>
+                    <div ng-switch-when="text">
+                        <input
+                                class="input-block-level form-control"
+                                type="text"
+                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-required="cell.required"
+                                />
+                    </div>
+                    <div ng-switch-when="checkbox">
+                        <input
+                                class="input-block-level form-control"
+                                type="checkbox"
+                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-required="cell.required"
+                                />
+                    </div>
+                    <div ng-switch-when="select">
+                        <select
+                                class="input-block-level form-control"
+                                ng-required="cell.required"
+                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-options="option for option in cell.options"
+                                >
+                        </select>
+                    </div>
+                    <div ng-switch-when="multi-select">
+                        <select
+                                class="input-block-level form-control"
+                                multiple
+                                ng-required="cell.required"
+                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-options="option for option in cell.options"
+                                >
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

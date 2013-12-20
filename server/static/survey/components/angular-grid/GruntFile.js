@@ -1,4 +1,4 @@
-﻿module.exports = function (grunt) {
+module.exports = function (grunt) {
     var stripBanner = function (src, options) {
 
         if (!options) { options = {}; }

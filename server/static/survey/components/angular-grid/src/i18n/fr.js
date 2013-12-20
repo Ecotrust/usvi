@@ -1,4 +1,4 @@
-﻿window.ngGrid.i18n['fr'] = {
+window.ngGrid.i18n['fr'] = {
     ngAggregateLabel: 'articles',
     ngGroupPanelDescription: 'Faites glisser un en-tête de colonne ici et déposez-le vers un groupe par cette colonne.',
     ngSearchPlaceHolder: 'Recherche...',

@@ -1,4 +1,4 @@
-﻿ngGridDirectives.directive('ngGridMenu', ['$compile', '$templateCache', function ($compile, $templateCache) {
+ngGridDirectives.directive('ngGridMenu', ['$compile', '$templateCache', function ($compile, $templateCache) {
     var ngGridMenu = {
         scope: false,
         compile: function () {

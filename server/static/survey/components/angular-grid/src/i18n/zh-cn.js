@@ -1,4 +1,4 @@
-﻿window.ngGrid.i18n['zh-cn'] = {
+window.ngGrid.i18n['zh-cn'] = {
     ngAggregateLabel: '条目',
     ngGroupPanelDescription: '拖曳表头到此处以进行分组',
     ngSearchPlaceHolder: '搜索...',

@@ -1,4 +1,4 @@
-﻿ngGridDirectives.directive('ngInput',['$parse', function($parse) {
+ngGridDirectives.directive('ngInput',['$parse', function($parse) {
     return function ($scope, elm, attrs) {
         var getter = $parse($scope.$eval(attrs.ngInput));
 		var setter = getter.assign;

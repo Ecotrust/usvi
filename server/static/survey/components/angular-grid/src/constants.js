@@ -1,4 +1,4 @@
-﻿// the # of rows we want to add to the top and bottom of the rendered grid rows 
+// the # of rows we want to add to the top and bottom of the rendered grid rows 
 var EXCESS_ROWS = 6;
 var SCROLL_THRESHOLD = 4;
 var ASC = "asc";

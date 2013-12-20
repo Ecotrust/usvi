@@ -1,4 +1,4 @@
-﻿ngGridDirectives.directive('ngCell', ['$compile', '$domUtilityService', function ($compile, domUtilityService) {
+ngGridDirectives.directive('ngCell', ['$compile', '$domUtilityService', function ($compile, domUtilityService) {
     var ngCell = {
         scope: false,
         compile: function() {

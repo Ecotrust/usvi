@@ -1,4 +1,4 @@
-﻿window.ngGrid.i18n['en'] = {
+window.ngGrid.i18n['en'] = {
     ngAggregateLabel: 'items',
     ngGroupPanelDescription: 'Drag a column header here and drop it to group by that column.',
     ngSearchPlaceHolder: 'Search...',

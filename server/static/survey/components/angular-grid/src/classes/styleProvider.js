@@ -1,4 +1,4 @@
-﻿var ngStyleProvider = function($scope, grid) {
+var ngStyleProvider = function($scope, grid) {
     $scope.headerCellStyle = function(col) {
         return { "height": col.headerRowHeight + "px" };
     };

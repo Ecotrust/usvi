@@ -1,4 +1,4 @@
-﻿ngGridServices.factory('$utilityService', ['$parse', function ($parse) {
+ngGridServices.factory('$utilityService', ['$parse', function ($parse) {
     var funcNameRegex = /function (.{1,})\(/;
     var utils = {
         visualLength: function(node) {

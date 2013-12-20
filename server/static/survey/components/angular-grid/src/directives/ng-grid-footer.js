@@ -1,4 +1,4 @@
-﻿ngGridDirectives.directive('ngGridFooter', ['$compile', '$templateCache', function ($compile, $templateCache) {
+ngGridDirectives.directive('ngGridFooter', ['$compile', '$templateCache', function ($compile, $templateCache) {
     var ngGridFooter = {
         scope: false,
         compile: function () {

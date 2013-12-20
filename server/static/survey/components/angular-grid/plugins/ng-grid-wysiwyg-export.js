@@ -1,4 +1,4 @@
-﻿ngGridWYSIWYGPlugin = function (filter) {
+ngGridWYSIWYGPlugin = function (filter) {
     var self = this;
     self.grid = null;
     self.scope = null;

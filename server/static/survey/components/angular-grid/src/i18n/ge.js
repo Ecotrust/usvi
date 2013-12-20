@@ -1,4 +1,4 @@
-﻿window.ngGrid.i18n['ge'] = {
+window.ngGrid.i18n['ge'] = {
     ngAggregateLabel: 'artikel',
     ngGroupPanelDescription: 'Ziehen Sie eine Spaltenüberschrift hier und legen Sie es der Gruppe nach dieser Spalte.',
     ngSearchPlaceHolder: 'Suche...',

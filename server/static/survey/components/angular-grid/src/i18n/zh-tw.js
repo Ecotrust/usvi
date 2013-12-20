@@ -1,4 +1,4 @@
-﻿window.ngGrid.i18n['zh-tw'] = {
+window.ngGrid.i18n['zh-tw'] = {
     ngAggregateLabel: '筆',
     ngGroupPanelDescription: '拖拉表頭到此處以進行分組',
     ngSearchPlaceHolder: '搜尋...',

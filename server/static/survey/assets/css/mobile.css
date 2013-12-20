@@ -359,7 +359,7 @@ img.center {
 }
 #wrap .page-header {
     border-bottom: 0;
-    padding-bottom: 0x;
+    padding-bottom: 0;
     margin-top: 0;
 }
 .status-bar {
@@ -541,6 +541,24 @@ img.center {
     color: rgb(0,0,0) !important;
 }
 
+.grid .row {
+    padding: 0.5em;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.grid .row .cell {
+    float: left;
+}
+
+.grid .row .cell.head {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.grid input, .grid select {
+    width: 75%;
+}
 
 .menu-page .progress {
     margin-bottom: 0;
