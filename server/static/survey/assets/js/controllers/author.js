@@ -322,9 +322,19 @@ angular.module('askApp')
                 }
             });
 
-            data.grid_cols = _.map(question.grid_cols, function (grid_col) {
-                return grid_col.resource_uri;
-            });
+            
+            // grab values from activeOption
+            if (question.activeOption && _.has(question.activeOption, "id")) {
+                _.each(question.grid_cols, function (item, index, list) {
+                    if (item.id === question.activeOption.id) {
+                        question.grid_cols[index] = question.activeOption;
+                    }
+                });
+            }
+
+            //data.grid_cols = _.map(question.grid_cols, function (grid_col) {
+            //    return grid_col.resource_uri;
+            //});
 
             return $http({
                 method: method,
