@@ -418,7 +418,7 @@ class Response(caching.base.CachingMixin, models.Model):
                                         row_label=answer['label'], row_text=answer['text'],
                                         col_label=grid_col.label, col_text=grid_col.text)
                                     grid_answer.save()
-                            except:
+                            except  Exception as e:
                                 print "problem with ", answer
                                 print e
                         else:
