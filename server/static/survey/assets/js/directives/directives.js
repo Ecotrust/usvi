@@ -43,3 +43,22 @@ angular.module('askApp')
         }
     }
 });
+
+/**
+ * This directive only applies to <select> elements. It applies the 
+ * select2 component.
+ */
+angular.module('askApp')
+    .directive('select2', ['$timeout', function($timeout) {
+
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            $timeout(function () {
+                // The placeholder text was not being displayed without doing 
+                // this in a a timeout().
+                element.select2();
+            });
+        }
+    }
+}]);
