@@ -54,7 +54,7 @@ angular.module('askApp')
     $scope.logout = function () {
         app.user = false;
         storage.saveState(app);
-        window.location.reload();
+        $location.path('/');
     }
 
     // $scope.saveState = function () {
@@ -201,7 +201,7 @@ angular.module('askApp')
 
     $scope.dismissMessage = function () {
         $scope.message = false;
-        $scope.resizeMap();
+        storage.saveState(app);
     }
 
     if (app.message) {

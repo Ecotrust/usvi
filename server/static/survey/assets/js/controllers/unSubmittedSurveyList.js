@@ -7,8 +7,42 @@ angular.module('askApp')
         $scope.respondents = _.toArray(app.respondents).sort( function(a,b) { return new Date(b.ts).getTime() - new Date(a.ts).getTime();});
         _.each($scope.respondents, function(respondent) {
             respondent.open = false;
-            respondent.survey_title = _.findWhere(app.surveys, {slug: respondent.survey}).name;
+
+            
+            if (respondent.survey) {
+                var surveyName = _.findWhere(app.surveys, {slug: respondent.survey}).name,
+                    date,
+                    dateItems; 
+
+                if (respondent.survey === 'catch-report') {
+                    try {
+                        date = _.findWhere(respondent.responses, {question: 'landed-date'}).answer;
+                        dateItems = date.split('-');
+                        date = dateItems[1] + '/' + dateItems[2] + '/' + dateItems[0];
+                        respondent.survey_title = surveyName + " -- " + date;
+                    } catch (e) {
+                        respondent.survey_title = surveyName;
+                    }
+                    
+                } else if (respondent.survey === 'did-not-fish') {
+                    try {
+                        date = _.findWhere(respondent.responses, {question: 'did-not-fish-for-month-of'}).answer;
+                        dateItems = date.split('-');
+                        date = dateItems[1] + '/' + dateItems[0];
+                        respondent.survey_title = surveyName + " -- " + date;
+                    } catch (e) {
+                        respondent.survey_title = surveyName;
+                    }
+                    
+                } else {
+                    respondent.survey_title = respondent.survey;
+                }
+                
+                  
+            }
+            
         });
+        $scope.hasReportsToSubmit = _.any(_.pluck($scope.respondents, 'complete'));
         $scope.respondentIndex = app.respondents;        
         if (app.user) {
             $scope.user = app.user;    
@@ -119,7 +153,6 @@ angular.module('askApp')
                 .success( function(data) {
                     //remove from app.respondents and save state
                     $scope.deleteRespondent(respondent);
-                    debugger
                     $scope.showSurveyList = true;
                 }).error( function(err) {
                     debugger;
@@ -143,8 +176,6 @@ angular.module('askApp')
             }
         };
 
-        $scope.$watch('respondents', function (newValue) {
-            $scope.hasReportsToSubmit = _.any(_.pluck(newValue, 'complete'));
-        }, true);
+        
 
 });

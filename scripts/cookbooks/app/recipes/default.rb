@@ -1,7 +1,3 @@
-# example recipe
-# ============
-
-
 
 execute "clean it" do
     command "apt-get clean -y"
@@ -16,7 +12,6 @@ group "deploy" do
 end
 
 if node[:user] == "vagrant"
-
     user "vagrant" do
         group "deploy"
     end
@@ -202,7 +197,7 @@ if node[:user] == "www-data"
     execute "restart nginx" do
         command "sudo /etc/init.d/nginx restart"
     end
-
+end
 
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
 # psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
