@@ -177,7 +177,18 @@ angular.module('askApp').directive('gridquestion', function() {
                 var monthPickerTemplate = '<input class="colt{{$index}} input-block-level" required="{{col.colDef.required}}" ng-model="row.entity[col.field]" style="height: 100%;" monthpicker placeholder="Choose a month" type="text" step="1" value="{{row.getProperty(col.field)}}" onFocus="this.select();" onClick="this.select();" />';
                 //var selectTemplate = '<select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]" style="height: 100%;" value="{{row.getProperty(col.field)}}"  }"><option ng-repeat="option in row.entity[\'rows\']">{{option}}</option></select>';
                 // var selectTemplate = '<div style="height:100%">{{col.field}}</div>'
-                var selectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text><select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}" ><option value="">Select {{col.displayName}}</option><option ng-repeat="option in col.colDef.options">{{option}}</option></select></span></div>';
+                
+                var selectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text>';
+                selectTemplate += '<select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}" >';
+                selectTemplate += '<option value="">Select {{col.displayName}}</option>';
+                
+                selectTemplate += '<optgroup ng-repeat="optionGroup in col.colDef.groupedOptions" label="{{ optionGroup.label }}">';
+                selectTemplate += '<option ng-repeat="option in optionGroup.options">{{option.text}}</option>';
+                selectTemplate += '</optgroup>';
+                
+                selectTemplate += '<select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}" ><option value="">Select {{col.displayName}}</option><option ng-repeat="option in col.colDef.options">{{option}}</option></select>';
+                selectTemplate += '</span></div>';
+
                 var multiSelectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text><select select2 multiple="true" data-placeholder="Select {{col.displayName}}" class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}"><option ng-repeat="option in col.colDef.options" ng-selected="question.selectedOptions[col.colDef.field][row.entity.activitySlug][option]" value="{{option}}">{{option}}</option></select></span></div>';
                 scope.question.gridOptions = {
                     data: 'question.options',
@@ -216,7 +227,27 @@ angular.module('askApp').directive('gridquestion', function() {
                         template = monthPickerTemplate;
                     } else if (gridCol.type === 'single-select') {
                         template = selectTemplate;
-                        col.options = gridCol.rows.split('\n');
+
+                        // Setup <select> option groups and options.
+                        col.groupedOptions = [];
+                        var groupName = "";
+                        _.each(gridCol.rows.split('\n'), function (row, index) {
+                            var matches = _.filter(scope.question.answer, function (answer) {
+                                return answer.text === row;
+                            });
+                            var isGroupName = _.string.startsWith(row, '*');
+                            if ( isGroupName ) {
+                                groupName = row.substr(1);
+                                col.groupedOptions.push( { label: groupName, options: [] } );
+                            } else if ( col.groupedOptions.length > 0 ) {
+                                _.findWhere( col.groupedOptions, { label: groupName } ).options.push({
+                                    text: row,
+                                    label: _.string.slugify(row),
+                                    checked: matches.length ? true : false
+                                })
+                            } 
+                        });
+
                     } else if (gridCol.type === 'multi-select') {
                         template = multiSelectTemplate;
                         col.options = gridCol.rows.split('\n');
