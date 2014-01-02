@@ -62,3 +62,35 @@ angular.module('askApp')
         }
     }
 }]);
+
+/**
+ * This directive applies the monthpicker component to <input> elements.
+ */
+angular.module('askApp')
+    .directive('monthpicker', ['$timeout', function($timeout) {
+
+    return {
+        restrict: 'A',
+        //restrict: 'EA',
+        // scope: {
+        //     valueasdf: "="
+        // },
+        link: function (scope, element, attrs) {
+            // var options = { 
+            //     ShowIcon: false,
+            //     OnAfterChooseMonth: function() {
+            //         scope.valueasdf = element.val();
+            //         //scope.$apply(function () {
+            //         //     console.log(element.val());
+            //         // });
+            //     }
+            // }; 
+            var options = { 
+                ShowIcon: false
+            }; 
+            $timeout(function () {
+                element.MonthPicker(options);
+            });
+        }
+    }
+}]);    

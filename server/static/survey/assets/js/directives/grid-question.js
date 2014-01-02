@@ -170,14 +170,15 @@ angular.module('askApp').directive('gridquestion', function() {
             
                 // Configure grid.
                 var gridCellTemplateDefault = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD CUSTOM_FILTERS}}</span></div>';
-                var costCellTemplate = '<input class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  max="{{col.colDef.max}}" min="{{col.colDef.min}}" required="{{col.colDef.required}}" style="height: 100%;" type="number" step="any" }" value="{{row.getProperty(col.field)}}" onFocus="this.select();" onClick="this.select();"/>';
-                var integerCellTemplate = '<input class="colt{{$index}} input-block-level" required="{{col.colDef.required}}" max="{{col.colDef.max}}" min="{{col.colDef.min}}" ng-model="row.entity[col.field]" style="height: 100%;" type="number" step="1" }" value="{{row.getProperty(col.field)}}" onFocus="this.select();" onClick="this.select();"/>';
-                var nameTemplate = '<input class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]" style="height: 100%;" type="text"   required="col.colDef.required" value="{{row.getProperty(col.field)}}"  }" />';
+                var costCellTemplate = '<input class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  max="{{col.colDef.max}}" min="{{col.colDef.min}}" required="{{col.colDef.required}}" style="height: 100%;" type="number" step="any" value="{{row.getProperty(col.field)}}" onFocus="this.select();" onClick="this.select();"/>';
+                var integerCellTemplate = '<input class="colt{{$index}} input-block-level" required="{{col.colDef.required}}" max="{{col.colDef.max}}" min="{{col.colDef.min}}" ng-model="row.entity[col.field]" style="height: 100%;" type="number" step="1" value="{{row.getProperty(col.field)}}" onFocus="this.select();" onClick="this.select();"/>';
+                var nameTemplate = '<input class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]" style="height: 100%;" type="text"   required="col.colDef.required" value="{{row.getProperty(col.field)}}" />';
                 var checkboxTemplate = '<input class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]" style="height: 100%;" type="checkbox"  required="col.colDef.required" value="{{row.getProperty(col.field)}}" />';
+                var monthPickerTemplate = '<input class="colt{{$index}} input-block-level" required="{{col.colDef.required}}" ng-model="row.entity[col.field]" style="height: 100%;" monthpicker placeholder="Choose a month" type="text" step="1" value="{{row.getProperty(col.field)}}" onFocus="this.select();" onClick="this.select();" />';
                 //var selectTemplate = '<select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]" style="height: 100%;" value="{{row.getProperty(col.field)}}"  }"><option ng-repeat="option in row.entity[\'rows\']">{{option}}</option></select>';
                 // var selectTemplate = '<div style="height:100%">{{col.field}}</div>'
-                var selectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text><select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}"  }"><option value="">Select {{col.displayName}}</option><option ng-repeat="option in col.colDef.options">{{option}}</option></select></span></div>';
-                var multiSelectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text><select select2 multiple="true" data-placeholder="Select {{col.displayName}}" class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}"  }"><option ng-repeat="option in col.colDef.options" ng-selected="question.selectedOptions[col.colDef.field][row.entity.activitySlug][option]" value="{{option}}">{{option}}</option></select></span></div>';
+                var selectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text><select class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}" ><option value="">Select {{col.displayName}}</option><option ng-repeat="option in col.colDef.options">{{option}}</option></select></span></div>';
+                var multiSelectTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text><select select2 multiple="true" data-placeholder="Select {{col.displayName}}" class="colt{{$index}} input-block-level" ng-model="row.entity[col.field]"  required="{{col.colDef.required}}" style="height: 100%;" value="{{row.getProperty(col.field)}}"><option ng-repeat="option in col.colDef.options" ng-selected="question.selectedOptions[col.colDef.field][row.entity.activitySlug][option]" value="{{option}}">{{option}}</option></select></span></div>';
                 scope.question.gridOptions = {
                     data: 'question.options',
                     enableSorting: false,
@@ -211,6 +212,8 @@ angular.module('askApp').directive('gridquestion', function() {
                         template = costCellTemplate;
                     } else if (gridCol.type === 'yes-no') {
                         template = checkboxTemplate;
+                    } else if (gridCol.type === 'monthpicker') {
+                        template = monthPickerTemplate;
                     } else if (gridCol.type === 'single-select') {
                         template = selectTemplate;
                         col.options = gridCol.rows.split('\n');
