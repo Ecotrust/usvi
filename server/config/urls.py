@@ -36,10 +36,12 @@ v1_api.register(SurveyReportResource())
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login',name="my_login"),
-    url(r'^logout/(?P<next_page>.*)/$', 'django.contrib.auth.views.logout', name='auth_logout_next'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
+  url(r'^admin/password_reset/$', 'django.contrib.auth.views.password_reset', name='admin_password_reset'),
+    (r'^admin/password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
+    (r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm'),
+    (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
     url(r'^admin/', include(admin.site.urls)),
+
     url(r'^grappelli/', include('grappelli.urls')),
     (r'^api/', include(v1_api.urls)),
 
