@@ -433,6 +433,9 @@ img.center {
     margin-bottom: 15px;
     border-radius: 0;
 }
+.question textarea.form-control:focus {
+    height: auto;
+}
 .question .panel-group {
     margin-top: 10px;
 }
