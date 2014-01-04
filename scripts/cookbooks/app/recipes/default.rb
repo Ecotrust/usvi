@@ -139,12 +139,6 @@ package "python-dev"
 package "mailutils"
 package "munin"
 
-execute "install ez_setup" do
-    command "wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python2.7"
-end
-execute "install pip" do
-    command "curl --silent --show-error --retry 5 https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python2.7"
-end
 
 
 include_recipe "openssl"

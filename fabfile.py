@@ -165,7 +165,7 @@ def push():
             with cd(env.root_dir):
                 run("git init")
                 run("git config --bool receive.denyCurrentBranch false")
-                local("git push %s -u %s" % (env.remote, env.branch))
+                local("git push %s -u %s" % (env.host, env.branch))
 
     with cd(env.root_dir):
         # Really, git?  Really?
