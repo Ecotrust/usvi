@@ -132,6 +132,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 
     # 3rd party apps
+    'social.apps.django_app.default',
+
     'south',
     'django_extensions',
     'compressor',
@@ -143,6 +145,17 @@ INSTALLED_APPS = (
     'apps.survey',
     'apps.reports'
 )
+
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.open_id.OpenIdAuth',
+    'social.backends.google.GoogleOpenId',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.google.GoogleOAuth',
+    'apps.account.auth.OSTOpenId',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -173,7 +186,10 @@ LOGGING = {
     }
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ()
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
 
 STATICFILES_FINDERS = global_settings.STATICFILES_FINDERS + (
     'compressor.finders.CompressorFinder',
