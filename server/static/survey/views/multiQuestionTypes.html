@@ -24,14 +24,14 @@
     </div>
     <div ng-switch-when="number">
         <div class="question">
-            <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="{{ question.label }}" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
+            <input name="integerAnswer" ng-model="question.answer" placeholder="{{ question.label }}" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
         </div>
     </div>
     <div ng-switch-when="auto-single-select">
         <div class="question">
-            <select ui-select2 ng-model="answer" class="form-control" placeholder="{{ question.label }}" required>
-                <option value="">{{ question.label }}</option>
-                <option ng-repeat="option in question.options" value="{{ $index }}">
+            <select ui-select2 ng-model="question.answer" placeholder="{{ question.label }}" required>
+                <option value=""></option>
+                <option ng-repeat="option in question.options" value="{{ option.text || option.name }}">
                     {{ option.text || option.name }}
                 </option>
                 <option selected value="other">Other</option>
