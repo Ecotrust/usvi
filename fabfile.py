@@ -119,6 +119,13 @@ def createsuperuser(username=None):
             _manage_py('createsuperuser')
 
 @task
+def changepassword(username=None):
+    set_env_for_user(username)
+    with cd(env.code_dir):
+        with _virtualenv():
+            _manage_py('changepassword tglaser')
+
+@task
 def runserver():
     set_env_for_user('vagrant')
     with cd(env.code_dir):
