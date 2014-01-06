@@ -333,114 +333,117 @@ class Response(caching.base.CachingMixin, models.Model):
     def save_related(self):
         if self.answer_raw:
             self.answer = simplejson.loads(self.answer_raw)
-            if self.question.type in ['single-select', 'yes-no']:
-                answer = simplejson.loads(self.answer_raw)
-                if answer.get('text'):
-                    self.answer = answer['text'].strip()
-                if answer.get('name'):
-                    self.answer = answer['name'].strip()
-            if self.question.type in ['monthpicker']:
-                try:
-                    date = dateutil.parser.parse(self.answer)
-                    self.answer= "%s/%s" % (date.month, date.year)
-                except Exception as e:
-                    self.answer = self.answer_raw
-            if self.question.type in ['number-with-unit']:
-                try: 
+            if self.question.type in ['auto-single-select']:
+                self.answer = simplejson.loads(self.answer_raw)
+            else:
+                if self.question.type in ['single-select', 'yes-no']:
                     answer = simplejson.loads(self.answer_raw)
-                    self.answer = answer.get('value', answer)
-                    self.unit = answer.get('unit', 'Unknown')
-                except Exception as e:
-                    self.answer = self.answer_raw
-            if self.question.type in ['auto-multi-select', 'multi-select']:
-                answers = []
-                self.multianswer_set.all().delete()
-                answer_list = simplejson.loads(self.answer_raw)
-                if type(answer_list) is dict:
-                    answer_list = [answer_list]
-                for answer in answer_list:
+                    if answer.get('text'):
+                        self.answer = answer['text'].strip()
+                    if answer.get('name'):
+                        self.answer = answer['name'].strip()
+                if self.question.type in ['monthpicker']:
                     try:
-                        if answer.get('text'):
-                            answer_text = answer['text'].strip()
-                        if answer.get('name'):
-                            answer_text = answer['name'].strip()
-                        answers.append(answer_text)
-                        answer_label = answer.get('label', None)
-                        multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label)
-                        multi_answer.save()
+                        date = dateutil.parser.parse(self.answer)
+                        self.answer= "%s/%s" % (date.month, date.year)
                     except Exception as e:
-                        pass
-                self.answer = ", ".join(answers)
-            if self.question.type in ['map-multipolygon']:
-                answers = []
-                self.multianswer_set.all().delete()
-                for answer in simplejson.loads(self.answer_raw):
-                    answers.append(answer)
-                    answer_label = None
-                    multi_answer = MultiAnswer(response=self, answer_text=answer, answer_label=answer_label)
-                    multi_answer.save()
-                self.answer = ", ".join(answers)
-            if self.question.type in ['map-multipoint'] and self.id:
-                answers = []
-                self.location_set.all().delete()
-                for point in simplejson.loads(self.answer_raw):
-                        answers.append("%s,%s: %s" % (point['lat'], point['lng'] , point['answers']))
-                        location = Location(lat=point['lat'], lng=point['lng'], response=self, respondant=self.respondant)
-                        location.save()
-                        for answer in point['answers']:
-                            answer = LocationAnswer(answer=answer['text'], label=answer['label'], location=location)
-                            answer.save()
-                        location.save()
-                self.answer = ", ".join(answers)
-            if self.question.type == 'grid':
-                self.gridanswer_set.all().delete()
-                for answer in self.answer:
-                    for grid_col in self.question.grid_cols.all():
-                        if grid_col.type in ['currency', 'integer', 'number', 'single-select', 'text', 'yes-no']:
-                            try:
-                                grid_answer = GridAnswer(response=self,
-                                    answer_text=answer[grid_col.label.replace('-', '')],
-                                    answer_number=answer[grid_col.label.replace('-', '')],
-                                    row_label=answer['label'].strip(), row_text=answer['text'].strip(),
-                                    col_label=grid_col.label, col_text=grid_col.text)
-                                grid_answer.save()
-                            except Exception as e:
-                                print "problem with ", grid_col.label
-                                print "not found in", self.answer_raw
-                                print e
-                            
-                        elif grid_col.type == 'multi-select':
-                            try:
-                                for this_answer in answer[grid_col.label.replace('-', '')]:
-                                    print this_answer
+                        self.answer = self.answer_raw
+                if self.question.type in ['number-with-unit']:
+                    try: 
+                        answer = simplejson.loads(self.answer_raw)
+                        self.answer = answer.get('value', answer)
+                        self.unit = answer.get('unit', 'Unknown')
+                    except Exception as e:
+                        self.answer = self.answer_raw
+                if self.question.type in ['auto-multi-select', 'multi-select']:
+                    answers = []
+                    self.multianswer_set.all().delete()
+                    answer_list = simplejson.loads(self.answer_raw)
+                    if type(answer_list) is dict:
+                        answer_list = [answer_list]
+                    for answer in answer_list:
+                        try:
+                            if answer.get('text'):
+                                answer_text = answer['text'].strip()
+                            if answer.get('name'):
+                                answer_text = answer['name'].strip()
+                            answers.append(answer_text)
+                            answer_label = answer.get('label', None)
+                            multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label)
+                            multi_answer.save()
+                        except Exception as e:
+                            pass
+                    self.answer = ", ".join(answers)
+                if self.question.type in ['map-multipolygon']:
+                    answers = []
+                    self.multianswer_set.all().delete()
+                    for answer in simplejson.loads(self.answer_raw):
+                        answers.append(answer)
+                        answer_label = None
+                        multi_answer = MultiAnswer(response=self, answer_text=answer, answer_label=answer_label)
+                        multi_answer.save()
+                    self.answer = ", ".join(answers)
+                if self.question.type in ['map-multipoint'] and self.id:
+                    answers = []
+                    self.location_set.all().delete()
+                    for point in simplejson.loads(self.answer_raw):
+                            answers.append("%s,%s: %s" % (point['lat'], point['lng'] , point['answers']))
+                            location = Location(lat=point['lat'], lng=point['lng'], response=self, respondant=self.respondant)
+                            location.save()
+                            for answer in point['answers']:
+                                answer = LocationAnswer(answer=answer['text'], label=answer['label'], location=location)
+                                answer.save()
+                            location.save()
+                    self.answer = ", ".join(answers)
+                if self.question.type == 'grid':
+                    self.gridanswer_set.all().delete()
+                    for answer in self.answer:
+                        for grid_col in self.question.grid_cols.all():
+                            if grid_col.type in ['currency', 'integer', 'number', 'single-select', 'text', 'yes-no']:
+                                try:
                                     grid_answer = GridAnswer(response=self,
-                                        answer_text=this_answer,
-                                        row_label=answer['label'], row_text=answer['text'],
+                                        answer_text=answer[grid_col.label.replace('-', '')],
+                                        answer_number=answer[grid_col.label.replace('-', '')],
+                                        row_label=answer['label'].strip(), row_text=answer['text'].strip(),
                                         col_label=grid_col.label, col_text=grid_col.text)
                                     grid_answer.save()
-                            except  Exception as e:
-                                print "problem with ", answer
-                                print e
-                        else:
-                            print grid_col.type
-                            print answer
-                    
-            if hasattr(self.respondant, self.question.slug):
-                setattr(self.respondant, self.question.slug, self.answer)
-                self.respondant.save()
+                                except Exception as e:
+                                    print "problem with ", grid_col.label
+                                    print "not found in", self.answer_raw
+                                    print e
+                                
+                            elif grid_col.type == 'multi-select':
+                                try:
+                                    for this_answer in answer[grid_col.label.replace('-', '')]:
+                                        print this_answer
+                                        grid_answer = GridAnswer(response=self,
+                                            answer_text=this_answer,
+                                            row_label=answer['label'], row_text=answer['text'],
+                                            col_label=grid_col.label, col_text=grid_col.text)
+                                        grid_answer.save()
+                                except  Exception as e:
+                                    print "problem with ", answer
+                                    print e
+                            else:
+                                print grid_col.type
+                                print answer
+                        
+                if hasattr(self.respondant, self.question.slug):
+                    setattr(self.respondant, self.question.slug, self.answer)
+                    self.respondant.save()
 
-            if self.respondant is not None and self.respondant.user is not None:
-                if self.question.attach_to_profile or self.question.persistent:
-                    # Get this user's set of profile fields. These can be shared cross-survey (...is this still the case?)
-                    if self.respondant.user.profile.registration and self.respondant.user.profile.registration != 'null':
-                        profileAnswers = simplejson.loads(self.respondant.user.profile.registration)
-                    else:
-                        profileAnswers = {}
-                    # Replace existing value with new value.
-                    profileAnswers[self.question.slug] = self.answer
-                    profile = get_object_or_404(UserProfile, user=self.respondant.user)
-                    profile.registration = simplejson.dumps(profileAnswers)
-                    profile.save()
+                if self.respondant is not None and self.respondant.user is not None:
+                    if self.question.attach_to_profile or self.question.persistent:
+                        # Get this user's set of profile fields. These can be shared cross-survey (...is this still the case?)
+                        if self.respondant.user.profile.registration and self.respondant.user.profile.registration != 'null':
+                            profileAnswers = simplejson.loads(self.respondant.user.profile.registration)
+                        else:
+                            profileAnswers = {}
+                        # Replace existing value with new value.
+                        profileAnswers[self.question.slug] = self.answer
+                        profile = get_object_or_404(UserProfile, user=self.respondant.user)
+                        profile.registration = simplejson.dumps(profileAnswers)
+                        profile.save()
             
             self.save()
 
