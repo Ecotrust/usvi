@@ -195,8 +195,7 @@ def deploy(branch="master"):
 
     with cd(env.code_dir):
         with _virtualenv():
-            print env.code_dir
-            run('pip install -r requirements.txt')
+            sudo('pip install -r requirements.txt')
             _manage_py('collectstatic --noinput --settings=config.environments.staging')
             _manage_py('syncdb --noinput --settings=config.environments.staging')
             # _manage_py('add_srid 99996')
