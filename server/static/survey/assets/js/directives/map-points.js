@@ -70,21 +70,12 @@ angular.module('askApp')
             },
             link: function(scope, element) {
 
-                var map = MapUtils.initMap(element[0].children[0], scope.question);
 
+                var map = MapUtils.initMap(element[0].children[0], scope.question);
                 scope.question.markers = [];
                 scope.activeMarker = false;
                 scope.isAddingMarker = false;
 
-                if (scope.question.answer) {
-                    // Prefill UI with available answer.
-                    _.each(scope.question.answer, function (data) {
-                        if (data.lat && data.lng) {
-                            scope.addMarker(L.latLng(data.lat, data.lng));
-                        }
-                    });
-                }
-                
 
                 scope.onMapClick = function (e) {
                     // assumption: this event is called outside of the angular framework
@@ -130,8 +121,6 @@ angular.module('askApp')
                     scope.activeMarker = false;
                 };
 
-                map.on('click', scope.onMapClick);
-
 
                 scope.addMarkerToMap = function (marker /* Leaflet Marker */) {
                     map.addLayer(marker);
@@ -150,6 +139,18 @@ angular.module('askApp')
                 scope.removeMarkerWrapper = function () {
                     scope.removeMarker(scope.activeMarker);
                 };
+
+
+                if (scope.question.answer) {
+                    // Prefill UI with available answer.
+                    _.each(scope.question.answer, function (data) {
+                        if (data.lat && data.lng) {
+                            scope.addMarker(L.latLng(data.lat, data.lng));
+                        }
+                    });
+                }
+
+                map.on('click', scope.onMapClick);
 
             } /* end link function */
         }
