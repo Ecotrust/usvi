@@ -499,9 +499,9 @@ $scope.loadSurvey = function(data) {
 
         _.each(data.responses, function(response) {
             try {
-                $scope.answers[response.question] = JSON.parse(response.answer_raw);
+                $scope.answers[response.question.slug] = JSON.parse(response.answer_raw);
             } catch (e) {
-                $scope.answers[response.question] = response.answer;
+                $scope.answers[response.question.slug] = response.answer;
             }
         });
 
