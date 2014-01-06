@@ -212,5 +212,7 @@ ANALYTICS_ID = ""
 
 #TEST_RUNNER = 'discover_runner.DiscoverRunner'
 
+LOGIN_URL = '/admin/login'
+
 # social auth
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
