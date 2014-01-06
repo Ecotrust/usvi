@@ -10,5 +10,5 @@ script
     export HOME="/usr/local/apps/geosurvey/server"
     export VENV="/usr/local/venv/geosurvey"
     cd $HOME
-    exec sudo -u nginx $VENV/bin/gunicorn -b 0.0.0.0:8888 wsgi
+    exec sudo -u www-data gunicorn -b 0.0.0.0:8888 wsgi
 end script
