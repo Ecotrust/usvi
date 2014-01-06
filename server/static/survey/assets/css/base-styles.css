@@ -595,6 +595,9 @@ img.center {
     margin-bottom: 15px;
     border-radius: 0;
 }
+.question textarea.form-control:focus {
+    height: auto;
+}
 .question .panel-group {
     margin-top: 10px;
 }
@@ -612,10 +615,14 @@ img.center {
     color: rgb(150,150,150);
    
 }
-
-.question .option {
-     margin-bottom: 10px !important;
+.question .select2-container {
+    width: 100%;
 }
+.question .option {
+    margin-bottom: 10px !important;
+    cursor: pointer;
+}
+
 .select-content, .btn-main:active, .accordion-heading {
     background-color: rgb(24, 75, 83);
     border-color: rgba(0, 0, 0, 0);

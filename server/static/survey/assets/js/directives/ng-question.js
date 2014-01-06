@@ -330,38 +330,24 @@ angular.module('askApp').directive('multiquestion', function() {
 
             // set up the options for a yes-no question
             if (scope.question.type === 'yes-no') {
-                if (scope.question.answer && _.isArray(scope.question.answer)) {
-                    scope.question.options = [{
-                        'text': 'Yes',
-                        'label': "Yes",
-                        checked: scope.question.answer[0].text === 'Yes'
-                    }, {
-                        'text': 'No',
-                        'label': "No",
-                        checked: scope.question.answer[0].text === 'No'
-                    }];
-                } else if (scope.question.answer && !_.isArray(scope.question.answer)) {
-                    scope.question.options = [{
-                        'text': 'Yes',
-                        'label': "Yes",
-                        checked: scope.question.answer.text === 'Yes'
-                    }, {
-                        'text': 'No',
-                        'label': "No",
-                        checked: scope.question.answer.text === 'No'
-                    }];
-                } else {
-                    scope.question.options = [{
-                        'text': 'Yes',
-                        'label': "Yes",
-                        checked: false
-                    }, {
-                        'text': 'No',
-                        'label': "No",
-                        checked: false
-                    }];
+                scope.question.options = [
+                    {'text': 'Yes', 'label': "Yes"}, 
+                    {'text': 'No',  'label': "No"}
+                ];
+                // set selected value (the answer is coming in with varying forms)
+                if (scope.question.answer) {
+                    var ans = scope.question.answer,
+                        distilled_answer = false;
+                    if (_.isArray(ans)) {
+                        distilled_answer = ans[0].text;
+                    } else if (_.isString(ans)) {
+                        distilled_answer = ans;
+                    } else if (!_.isArray(ans)) {
+                        distilled_answer = ans.text;
+                    }
+                    scope.question.options[0].checked = distilled_answer === 'Yes';
+                    scope.question.options[1].checked = distilled_answer === 'No';
                 }
-
             }
 
 
