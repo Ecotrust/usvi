@@ -16,7 +16,7 @@ angular.module('askApp').directive('multiquestion', function() {
                 if (! question.required) {
                     return true;
                 }
-                
+               
                 if (question.type === 'integer' || question.type === 'number') {
                     if (! _.isNumber(question.answer)) {
                         return false;
@@ -411,6 +411,11 @@ angular.module('askApp').directive('multiquestion', function() {
                 }
             }, true);
 
+            if (scope.question && scope.question.type && scope.question.type === 'info') {
+                scope.viewPath = app.viewPath;
+                scope.infoView = scope.question.info;
+                scope.question.answer = "INFO_ANSWER"; // Dummy answer that allows the page to be submitted.
+            }
         }
     };
 });
