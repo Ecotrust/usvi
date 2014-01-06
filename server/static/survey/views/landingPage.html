@@ -44,12 +44,12 @@
             </table>
         </div>
         <div class="col-md-2">
-            <a href="#/author"><button class="btn btn-success">New Survey</button></a>
+            <a href="#/author" class="btn btn-success" ng-show="user.is_staff">New Survey</a>
         </div>
         <div class="col-md-10">
             <div id="global-navbar" role="navigation" ng-controller="SurveyListMenuCtrl" ng-cloak>
-                <a href="{{user.logout_url}}"><button type="button" class="navbar-btn navbar-right btn btn-default">Sign Out</button></a>
-                <a ng-show="user.is_staff" href="{{user.admin_url}}"><button type="button" class="navbar-btn navbar-right btn btn-info">Admin</button></a>
+                <a href="/admin/logout" class="navbar-btn navbar-right btn btn-default">Sign Out</a>
+                <a ng-show="user.is_staff" href="/admin" class="navbar-btn navbar-right btn btn-info">Admin</a>
                 <p class="navbar-text navbar-right">Signed in as {{user.username}}</p>
             </div>
         </div>

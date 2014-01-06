@@ -8,10 +8,7 @@ class OSTOpenId(OpenIdAuth):
     URL = 'http://oceanspaces.org/user'
     def get_user_details(self, response):
         """Return user details from OST account"""
-        print response
-        email = response.get('email', '')
-        return {'username': email.split('@', 1)[0],
+        email = self.data.get('openid.sreg.email')
+        return {'username': email,
                 'email': email,
-                'fullname': response.get('name', ''),
-                'first_name': response.get('given_name', ''),
-                'last_name': response.get('family_name', '')}
+                'fullname': self.data.get('openid.sreg.nickname')}
