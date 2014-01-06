@@ -36,7 +36,8 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
     context = {'ANALYTICS_ID': settings.ANALYTICS_ID}
     return render_to_response(template, RequestContext(request, context))
 
-@staff_member_required
+#@staff_member_required
+@login_required
 def dash(request, template='survey/dash.html'):
     return render_to_response(template, RequestContext(request, {}))
 
