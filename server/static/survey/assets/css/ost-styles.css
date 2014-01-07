@@ -30,6 +30,11 @@
 	}
 }
 
+.required-indicator {
+    color: red;
+    font-size: 22px;
+}
+
 #map-container {
 	height: 100%;
 }
