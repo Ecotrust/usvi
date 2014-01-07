@@ -42,7 +42,9 @@
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
             <form ng-submit="authenticateUser(authUser)">
                 <fieldset ng-disabled="working">
-                    <input type="text" class="form-control username" placeholder="enter your username..." ng-model="authUser.username" autocapitalize="off" required>
+                    <h4 class="question-title">Username</h4>
+                    <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
+                    <h4 class="question-title">Password</h4>
                     <password password-text="authUser.password"></password>
 
                 </fieldset>

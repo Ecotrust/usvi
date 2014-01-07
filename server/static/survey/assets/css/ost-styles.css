@@ -31,13 +31,32 @@
 }
 
 #map-container {
-	height: 400px;
+	height: 100%;
 }
 
 .adding-marker .leaflet-container img {
 	cursor: crosshair !important;
 }
 
+
+.block-title {
+
+}
+.question-title {
+    text-transform: none;
+    /*font-size: 18px;
+    margin-bottom: 5px;*/
+    font-weight: normal;
+    text-align: left;
+    line-height: 22px;
+}
+.map-question-title {
+    text-align: center;
+    font-size: 20px;
+}
+.question-wrapper {
+    padding-top: 5px;
+}
 
 
 /*
@@ -68,6 +87,23 @@
     left: 13px;
 }
 
+.ost-map {
+    position: absolute;
+    top: 180px;
+    left: 20px;
+    right: 20px;
+    bottom: 90px;
+}
+
+@media (max-width: 500px) {
+    .ost-map {
+        position: absolute;
+        top: 200px;
+        left: 0px;
+        right: 0px;
+        bottom: 70px;
+    }
+}
 
 
 /* Enlarged Zoom In/Out Controls */

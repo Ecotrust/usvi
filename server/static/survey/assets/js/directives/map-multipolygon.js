@@ -1,7 +1,7 @@
 angular.module('askApp')
     .directive('map', function($http) {
         return {
-            template: '<div class="map" style="height: 400px"></div>',
+            template: '<div class="map ost-map"></div>',
             restrict: 'EA',
             replace: true,
             transclude: true,
@@ -16,6 +16,9 @@ angular.module('askApp')
                     scope.question.answer = [];
                 }
                 var $el = element[0];
+
+                $(".block-title").hide();
+                $(".question-title").addClass('map-question-title');
 
                 // Layer init
                 var nautical = L.tileLayer.wms("http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/ImageServer/WMSServer", {

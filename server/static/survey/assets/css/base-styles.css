@@ -395,6 +395,7 @@ img.center {
   margin-bottom: 20px;
 }
 
+.block-title,
 .question-title {
     color: rgb(244, 244, 244);
     text-transform: uppercase;

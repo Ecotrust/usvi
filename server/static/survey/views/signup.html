@@ -22,10 +22,13 @@
                 <div class="new-user-form" ng-hide="working || showTempUser">
                     <form ng-submit="createUser(newUser)">
                     <fieldset>
-                        <input class="form-control" type="text" placeholder="enter your username..." data-ng-model="newUser.username" autocapitalize="off" required>
-
-                        <input class="form-control" type="email" placeholder="enter your email address..." data-ng-model="newUser.emailaddress1" required>
-                        <input class="form-control" type="email" placeholder="confirm your email address..." data-ng-model="newUser.emailaddress2" required>
+                        <h4 class="question-title">Username</h4>
+                        <input class="form-control" type="text" data-ng-model="newUser.username" autocapitalize="off" required>
+                        <h4 class="question-title">Email Address</h4>
+                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress1" required>
+                        <h4 class="question-title">Confirm Email Address</h4>
+                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress2" required>
+                        <h4 class="question-title">Password</h4>
                         <password password-text="newUser.password"></password>
                     </fieldset>
                         <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">New User</button>

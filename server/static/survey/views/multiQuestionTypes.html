@@ -7,14 +7,14 @@
     </div>
     <div ng-switch-when="integer">
         <div class="question">
-            <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="{{ question.label }}" type="number" step="1" min="{{question.integer_min}}" max="{{question.integer_max}}" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
+            <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="" type="number" step="1" min="{{question.integer_min}}" max="{{question.integer_max}}" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
         </div>
     </div>
     <div ng-switch-when="number-with-unit">
         <div class="question number-with-unit">
-            <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="{{ question.label }}" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
+            <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
             <div class="select-wrapper form-control" ng-class="{ 'unit-selected': question.unit }">
-                <select ng-model="question.unit" class="unit-select" placeholder="{{ question.label }}">
+                <select ng-model="question.unit" class="unit-select" placeholder="">
                     <option value="">Select Units</option>
                     <option ng-repeat="option in question.options">{{ option.text }}</option>
                 </select>
@@ -24,24 +24,24 @@
     </div>
     <div ng-switch-when="number">
         <div class="question">
-            <input name="integerAnswer" ng-model="question.answer" placeholder="{{ question.label }}" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
+            <input name="integerAnswer" ng-model="question.answer" placeholder="" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
         </div>
     </div>
     <div ng-switch-when="auto-single-select">
         <div class="question">
-            <select ui-select2 ng-model="question.answer" placeholder="{{ question.label }}" required>
+            <select ui-select2 ng-model="question.answer" placeholder="" required>
                 <option value=""></option>
                 <option ng-repeat="option in question.options" value="{{ option.text || option.name }}">
                     {{ option.text || option.name }}
                 </option>
                 <option selected value="other">Other</option>
             </select>
-            <input class="form-control" type="text" placeholder="{{ question.label }}" ng-show="answer == 'other'" ng-model="otherAnswer" />
+            <input class="form-control" type="text" placeholder="" ng-show="answer == 'other'" ng-model="otherAnswer" />
         </div>
     </div>
     <div ng-switch-when="text">
         <div class="question">
-            <input class="form-control" type="text" placeholder="{{ question.label }}" ng-model="question.answer" />
+            <input class="form-control" type="text" placeholder="" ng-model="question.answer" />
         </div>
     </div>
     <div ng-switch-when="currency">
@@ -49,7 +49,7 @@
 
             <div class="input-prepend">
                 <span class="add-on">$</span>
-                <input class="form-control" type="number" step="any" placeholder="{{ question.label }}" ng-model="question.answer" />
+                <input class="form-control" type="number" step="any" placeholder="" ng-model="question.answer" />
             </div>
 
             <!-- <button type="submit" class="btn btn-primary btn-large btn-block button-block" ng-disabled="question.required && ! answer">continue</button> -->
@@ -57,25 +57,25 @@
     </div>
     <div ng-switch-when="monthpicker">
         <div class="question">
-            <input class="form-control datepicker" type="month" placeholder="{{ question.label }}" ng-model="question.answer" />
+            <input class="form-control datepicker" type="month" placeholder="" ng-model="question.answer" />
             <label class="control-label error" ng-hide="validity[question.slug] || ! question.answer">Date is not valid or in the future.</label>
         </div>
     </div>
     <div ng-switch-when="datepicker">
         <div class="question">
-                <input class="form-control datepicker" type="date" placeholder="{{ question.label }}" ng-model="question.answer"/> 
+                <input class="form-control datepicker" type="date" placeholder="" ng-model="question.answer"/> 
                 <label class="control-label" ng-hide="validity[question.slug] || ! question.answer">Date is not valid or in the future.</label>
         </div>
     </div>
     <div ng-switch-when="timepicker">
         <div class="question">
-            <input class="form-control datepicker" type="time" placeholder="{{ question.label }}" ng-model="question.answer" />
+            <input class="form-control datepicker" type="time" placeholder="" ng-model="question.answer" />
         </div>
     </div>
 
     <div ng-switch-when="textarea">
         <div class="question">
-            <textarea class="form-control" rows="5" placeholder="{{ question.label }}" ng-model="question.answer"></textarea>
+            <textarea class="form-control" rows="5" placeholder="" ng-model="question.answer"></textarea>
         </div>
     </div>
 

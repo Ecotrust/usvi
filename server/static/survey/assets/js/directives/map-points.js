@@ -76,6 +76,8 @@ angular.module('askApp')
                 scope.activeMarker = false;
                 scope.isAddingMarker = false;
 
+                $(".block-title").hide();
+                $(".question-title").addClass('map-question-title');
 
                 scope.onMapClick = function (e) {
                     // assumption: this event is called outside of the angular framework
