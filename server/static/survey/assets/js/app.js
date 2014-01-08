@@ -103,9 +103,18 @@ if (window.browserNotSupported) {
         //     controller: 'offlineRespondantListCtrl'
         // })
             .when('/history', {
-            templateUrl: app.viewPath + 'views/history.html',
+            templateUrl: app.viewPath + 'views/ost/ost-history.html',
             controller: 'HistoryCtrl'
         })
+            .when('/incompletes', {
+            templateUrl: app.viewPath + 'views/ost/ost-history-incompletes.html',
+            controller: 'incompletesSurveyListCtrl'
+        })
+            .when('/completes', {
+            templateUrl: app.viewPath + 'views/ost/ost-history-completes.html',
+            controller: 'completesSurveyListCtrl'
+        })
+
             .when('/fisher-summary', {
             templateUrl: app.viewPath + 'views/fisher-summary.html',
             controller: 'SummaryCtrl'

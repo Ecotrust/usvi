@@ -163,6 +163,7 @@ class ReportRespondantResource(SurveyModelResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=False, readonly=True)
     survey_title = fields.CharField(attribute='survey_title', readonly=True)
     survey_slug = fields.CharField(attribute='survey_slug', readonly=True)
+    has_responses = fields.CharField(attribute='has_responses', readonly=True)
 
     class Meta:
         queryset = Respondant.objects.all().order_by('-ts')
@@ -170,6 +171,8 @@ class ReportRespondantResource(SurveyModelResource):
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
+            'complete': ['exact'],
+            'has_responses': ['exact'],
             'ts': ['gte','lte']
         }
         ordering = ['-ts']
