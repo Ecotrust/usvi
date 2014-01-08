@@ -1,8 +1,9 @@
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="panel panel-default survey-answers">
+<!--     <div class="panel-heading">
         <div class="span12 text-center survey-title"><h3 style="margin-top: 10px">{{getTitle()}}</h3></div>
     </div>
+ -->    
     <div class="panel-body">
 
         <!-- REPORT OVERVIEW -->
@@ -10,10 +11,10 @@
         <div ng-show="respondent.survey == 'monitoring-project'">
             
             <!-- HEADER -->
-            <div ng-include="'views/ost/headerAnswers.html'"></div>
+            <div ng-include="viewPath + 'views/ost/organizationAnswers.html'"></div>
 
             <!-- HOOK & LINE -->
-            <div ng-show="gearTypeIncludes('hook')" ng-include="'views/hookAndLineAnswers.html'"></div>
+            <!-- <div ng-show="gearTypeIncludes('hook')" ng-include="viewPath + 'views/hookAndLineAnswers.html'"></div> -->
 
         </div>
     </div>
@@ -33,6 +34,10 @@
 }
 .margin-bottom-20 {
     margin-bottom: 20px;
+}
+.survey-answers .row h4 {
+    margin-left: 10px;
+    margin-top: 20px;
 }
 </style>
 
