@@ -1,16 +1,20 @@
 from django.db import models
-from django.db.models import Avg, Max, Min, Count
-from django.db.models import Avg, Max, Min, Count, Sum
+from django.db.models import Count, Sum
 from django.contrib.auth.models import User
 from django.db.models import signals
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
+from django.db.models import Q
+
 from account.models import UserProfile
 
+from collections import defaultdict
 import dateutil.parser
 import uuid
 import simplejson
 import caching.base
-import ast
+
+
 def make_uuid():
     return str(uuid.uuid4())
 
@@ -19,6 +23,8 @@ STATE_CHOICES = (
     ('terminate', 'Terminate'),
 
 )
+
+
 class Respondant(caching.base.CachingMixin, models.Model):
     uuid = models.CharField(max_length=36, primary_key=True, default=make_uuid, editable=False)
     survey = models.ForeignKey('Survey')
@@ -48,19 +54,19 @@ class Respondant(caching.base.CachingMixin, models.Model):
                     dateItems = date.split('-')
                 elif date.find('/') != -1:
                     dateItems = date.split('/')
-                date = '%s/%s/%s' %(dateItems[1], dateItems[2], dateItems[0])
-            else:  
-                date = self.responses.get(question__slug='did-not-fish-for-month-of').answer 
+                date = '%s/%s/%s' % (dateItems[1], dateItems[2], dateItems[0])
+            else:
+                date = self.responses.get(question__slug='did-not-fish-for-month-of').answer
                 if date.find('-') != -1:
                     dateItems = date.split('-')
                 elif date.find('/') != -1:
                     dateItems = date.split('/')
-                date = '%s/%s' %(dateItems[0], dateItems[1])
+                date = '%s/%s' % (dateItems[0], dateItems[1])
         except:
             date = 'unknown'
 
-        return '%s -- %s' %(self.survey.name, date)
-    
+        return '%s -- %s' % (self.survey.name, date)
+
     @property
     def survey_slug(self):
         return self.survey.slug
@@ -86,7 +92,6 @@ class Page(caching.base.CachingMixin, models.Model):
     order = models.IntegerField(default=1)
     objects = caching.base.CachingManager()
 
-
     @property
     def block_name(self):
         if self.blocks.all():
@@ -94,11 +99,6 @@ class Page(caching.base.CachingMixin, models.Model):
         else:
             return None
 
-    def __unicode__(self):
-        if self.survey is not None and self.question is not None:
-            return "%s (%s)" % (self.survey.name, ", ".join([question.slug for question in self.questions.all()]))
-        else:
-            return "NA"
     class Meta:
         ordering = ['order']
 
@@ -128,7 +128,6 @@ class Survey(caching.base.CachingMixin, models.Model):
     @property
     def activity_points(self):
         return Location.objects.filter(response__respondant__in=self.respondant_set.filter(complete=True)).count()
-        
 
     def __unicode__(self):
         return "%s" % self.name
@@ -156,19 +155,20 @@ QUESTION_TYPE_CHOICES = (
     ('number-with-unit', 'Number with Unit'),
 )
 
+
 class Option(caching.base.CachingMixin, models.Model):
     text = models.CharField(max_length=254)
     label = models.SlugField(max_length=64)
-    type = models.CharField(max_length=20,choices=QUESTION_TYPE_CHOICES,default='integer')
+    type = models.CharField(max_length=20,
+        choices=QUESTION_TYPE_CHOICES, default='integer')
     rows = models.TextField(null=True, blank=True)
     required = models.BooleanField(default=True)
     either_or = models.SlugField(max_length=64, null=True, blank=True)
     order = models.IntegerField(null=True, blank=True)
     min = models.IntegerField(default=None, null=True, blank=True)
-    max = models.IntegerField(default=None, null=True, blank=True)    
+    max = models.IntegerField(default=None, null=True, blank=True)
 
     objects = caching.base.CachingManager()
-
 
     def __unicode__(self):
         return "%s" % self.text
@@ -179,6 +179,7 @@ REPORT_TYPE_CHOICES = (
         ('heatmap-distribution', 'Heatmap & Distribution'),
     )
 
+
 class Block(caching.base.CachingMixin, models.Model):
     name = models.CharField(max_length=254, null=True, blank=True)
     skip_question = models.ForeignKey('Question', null=True, blank=True)
@@ -186,6 +187,7 @@ class Block(caching.base.CachingMixin, models.Model):
 
     def __unicode__(self):
         return "%s" % self.name
+
 
 class Question(caching.base.CachingMixin, models.Model):
     title = models.TextField()
@@ -226,6 +228,8 @@ class Question(caching.base.CachingMixin, models.Model):
     foreach_question = models.ForeignKey('self', null=True, blank=True, related_name="foreach")
     pre_calculated = models.TextField(null=True, blank=True)
 
+    # noaa mapping, question validates against species list
+    use_species_list = models.BooleanField(default=False)
 
     # backend stuff
     filterBy = models.BooleanField(default=False)
@@ -264,6 +268,7 @@ class Question(caching.base.CachingMixin, models.Model):
         else:
             return "NA"
 
+
     @property
     def question_types(self):
         return QUESTION_TYPE_CHOICES
@@ -274,13 +279,105 @@ class Question(caching.base.CachingMixin, models.Model):
 
     def __unicode__(self):
         return "%s/%s/%s" % (self.survey_slug, self.slug, self.type)
-    
-    #    #return "%s/%s" % (self.survey_set.all()[0].slug, self.label)
+
+    def clean(self, *args, **kwargs):
+        group = None
+        if self.use_species_list:
+            for row in self.rows.split('\n'):
+                row = row.strip()
+                if row.startswith("*"):
+                    group = row[1:]
+                    continue
+                row = row.strip()
+                query = Q(name__iexact=row)
+                if group is not None:
+                    family = ' '.join([row, group])
+                    query = query | Q(name__iexact=family) | Q(name__iexact=family[:-1])
+                matches = DialectSpecies.objects.filter(query)
+                if matches.count() == 0:
+                    if family:
+                        raise ValidationError("'%s' is not a valid species." % (family))
+                    else:
+                        raise ValidationError("'%s' is not a valid species." % (row))
+        super(Question, self).clean(*args, **kwargs)
+
+    def full_clean(self, *args, **kwargs):
+        return self.clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Question, self).save(*args, **kwargs)
+
+class Dialect(caching.base.CachingMixin, models.Model):
+    code = models.CharField(max_length=48, unique=True)
+    name = models.CharField(max_length=64)
+    description = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    objects = caching.base.CachingManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Dialects"
+
+
+class SpeciesFamily(caching.base.CachingMixin, models.Model):
+    code = models.CharField(max_length=48, unique=True)
+    name = models.CharField(max_length=144)
+    description = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    objects = caching.base.CachingManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Species Families"
+
+
+class Species(caching.base.CachingMixin, models.Model):
+    code = models.CharField(max_length=48, unique=True)
+    family = models.ForeignKey('SpeciesFamily')
+    erdmans_code = models.CharField(max_length=48)
+    name = models.CharField(max_length=144)
+    description = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    objects = caching.base.CachingManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Species"
+
+class DialectSpecies(caching.base.CachingMixin, models.Model):
+    dialect = models.ForeignKey('Dialect')
+    species = models.ForeignKey('Species')
+    name = models.CharField(max_length=144)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    objects = caching.base.CachingManager()
+
+    def __unicode__(self):
+        return "%s -> %s" % (self.name, self.species.name) 
+
+    @property
+    def dialect_name(self):
+        return self.dialect.name
+
+    @property
+    def species_name(self):
+        return "%s (%s)" % (self.species.name, self.species.code)
+
+    class Meta:
+        verbose_name_plural = "Dialect Species"
+
 
 class LocationAnswer(caching.base.CachingMixin, models.Model):
     answer = models.TextField(null=True, blank=True, default=None)
     label = models.TextField(null=True, blank=True, default=None)
     location = models.ForeignKey('Location')
+
     def __unicode__(self):
         return "%s/%s" % (self.location.response.respondant.uuid, self.answer)
 

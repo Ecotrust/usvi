@@ -228,12 +228,17 @@ label {
                         <label>Options</label>
                         <textarea class="input-block-level" rows="6" ng-model="activeQuestion.rows" style="width: 100%"></textarea>
                     </div>
-                    <div class="col-md-6" ng-show="activeQuestion.type == 'single-select' || activeQuestion.type == 'multi-select'">
+                    <div class="col-md-4" ng-show="activeQuestion.type == 'single-select' || activeQuestion.type == 'multi-select'">
                         <label>
                             <input type="checkbox" ng-model="activeQuestion.allow_other" />Allow Other
                         </label>
                         <label>Options from previous answer</label>
                         <input type="text" ng-model="activeQuestion.options_from_previous_answer">
+                    </div>
+                    <div class="col-md-4" ng-show="activeQuestion.type == 'single-select' || activeQuestion.type == 'multi-select'">
+                        <label>
+                            <input type="checkbox" ng-model="activeQuestion.use_species_list" />Use Species List
+                        </label>
                     </div>
                 </div>
                 <div class="row" ng-show="activeQuestion.type == 'grid'">

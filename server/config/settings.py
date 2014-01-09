@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'gunicorn',
     'discover_runner',
+    'csvimport',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:
@@ -170,10 +171,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+        # 'mail_admins': {
+        #     'level': 'ERROR',
+        #     'class': 'django.utils.log.AdminEmailHandler'
+        # }
     },
     'loggers': {
         'django': {
@@ -181,11 +182,16 @@ LOGGING = {
             'propagate': True,
             'level': 'INFO',
         },
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        }
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        # 'django.request': {
+        #     'handlers': ['mail_admins'],
+        #     'level': 'ERROR',
+        #     'propagate': False,
+        # }
     }
 }
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ()

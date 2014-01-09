@@ -17,6 +17,8 @@ from apps.account.api import *
 v1_api = Api(api_name='v1')
 
 v1_api.register(SurveyResource())
+v1_api.register(SurveyDashResource())
+v1_api.register(DialectResource())
 v1_api.register(RespondantResource())
 v1_api.register(ReportRespondantResource())
 v1_api.register(ReportRespondantDetailsResource())

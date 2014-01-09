@@ -19,7 +19,7 @@ angular.module('askApp')
       
 
         if ($routeParams.surveySlug) {    
-            $http.get('/api/v1/survey/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
+            $http.get('/api/v1/surveydash/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
                 _.extend($scope.survey, data);
                 if ($scope.survey.questions.length === 0) {
                     $scope.survey.questions = [];
@@ -348,6 +348,8 @@ angular.module('askApp')
                 }
                 $scope.startEditingQuestion($scope.questionBeingEdited);
                 $scope.activeQuestion.updated_at = new Date();
+            }).error(function (err) {
+                alert(err.error.join(','));
             });
         };
   });

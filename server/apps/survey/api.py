@@ -3,43 +3,12 @@ from tastypie import fields, utils
 
 from tastypie.authentication import SessionAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization, Authorization
+from tastypie.serializers import Serializer
+
 from django.conf.urls import url
 from django.db.models import Avg, Max, Min, Count
 
-from survey.models import Survey, Question, Option, Respondant, Response, Page, Block
-
-# def main_save_m2m(self, bundle):
-#     for field_name, field_object in self.fields.items():
-#         if not getattr(field_object, 'is_m2m', False):
-#             continue
-
-#         if not field_object.attribute:
-#             continue
-
-#         if field_object.readonly:
-#             continue
-
-#         # Get the manager.
-#         related_mngr = getattr(bundle.obj, field_object.attribute)
-#             # This is code commented out from the original function
-#             # that would clear out the existing related "Person" objects
-#         if hasattr(related_mngr, 'clear'):
-#             #Clear it out, just to be safe.
-#             related_mngr.clear()
-
-#         related_objs = []
-
-#         for related_bundle in bundle.data[field_name]:
-#             try:
-#                 obj = related_mngr.model.objects.get(id=related_bundle.obj.id)
-#             except related_mngr.model.DoesNotExist:
-#                 print "could not get object"
-#                 obj = related_bundle.obj
-#                 obj.save()
-
-#             related_objs.append(obj)
-
-#         related_mngr.add(*related_objs)
+from survey.models import Survey, Question, Option, Respondant, Response, Page, Block, Dialect, DialectSpecies
 
 
 class SurveyModelResource(ModelResource):
@@ -244,6 +213,11 @@ class BlockResource(SurveyModelResource):
         authentication = Authentication()
 
 
+class DialectSpeciesResource(SurveyModelResource):
+
+    class Meta:
+        queryset = DialectSpecies.objects.all()
+
 class QuestionResource(SurveyModelResource):
     options = fields.ToManyField(OptionResource, 'options', full=True, null=True, blank=True)
     grid_cols = fields.ToManyField(OptionResource, 'grid_cols', full=True, null=True, blank=True)
@@ -256,6 +230,7 @@ class QuestionResource(SurveyModelResource):
     filter_questions = fields.ToManyField('self', 'filter_questions', null=True, blank=True)
     skip_question = fields.ToOneField('self', 'skip_question', null=True, blank=True)
     blocks = fields.ToManyField('apps.survey.api.BlockResource', 'blocks', null=True, blank=True, full=True)
+
     # pages = fields.ToManyField('apps.survey.api.PageResource', 'page_set', null=True, blank=True)
 
 
@@ -269,7 +244,24 @@ class QuestionResource(SurveyModelResource):
             'surveys': ALL_WITH_RELATIONS
         }
 
-    # save_m2m = main_save_m2m
+    # def alter_detail_data_to_serialize(self, request, bundle):
+    #     if 'meta' not in bundle.data:
+    #         bundle.data['meta'] = {}
+    #     res = DialectSpeciesResource()
+    #     # request_bundle = res.build_bundle(request=request)
+        
+    #     queryset = queryset.filter(dialect)
+    #     species = []
+    #     for obj in queryset:
+    #         dialect_bundle = res.build_bundle(obj=obj, request=request)
+    #         species.append(res.full_dehydrate(dialect_bundle, for_list=True))
+
+    #     bundle.data['meta']['species'] = species
+    #     return bundle
+
+class DialectResource(SurveyModelResource):
+    class Meta:
+        queryset = Dialect.objects.all()
 
 class SurveyResource(SurveyModelResource):
     questions = fields.ToManyField(QuestionResource, 'questions', full=True, null=True, blank=True)
@@ -288,6 +280,24 @@ class SurveyResource(SurveyModelResource):
 
     # def save_m2m(self, bundle):
     #     pass
+
+class SurveyDashResource(SurveyResource):
+    dialect = fields.ToOneField('apps.survey.api.DialectResource', 'dialect', full=True, null=True, blank=True)
+    def alter_detail_data_to_serialize(self, request, bundle):
+        if 'meta' not in bundle.data:
+            bundle.data['meta'] = {}
+
+        res = DialectResource()
+        request_bundle = res.build_bundle(request=request)
+        queryset = res.obj_get_list(request_bundle)
+        dialects = []
+        for obj in queryset:
+            dialect_bundle = res.build_bundle(obj=obj, request=request)
+            dialects.append(res.full_dehydrate(dialect_bundle, for_list=True))
+
+        bundle.data['meta']['dialects'] = dialects
+
+        return bundle
 
 class SurveyReportResource(SurveyResource):
     questions = fields.ToManyField(QuestionResource, 'questions', null=True, blank=True)
