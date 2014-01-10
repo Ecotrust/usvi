@@ -1,9 +1,8 @@
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from tastypie import fields, utils
+from tastypie import fields
 
-from tastypie.authentication import SessionAuthentication, Authentication
-from tastypie.authorization import DjangoAuthorization, Authorization
-from tastypie.serializers import Serializer
+from tastypie.authentication import Authentication
+from tastypie.authorization import Authorization
 
 from django.conf.urls import url
 from django.db.models import Avg, Max, Min, Count
@@ -92,21 +91,26 @@ class ResponseResource(SurveyModelResource):
         }
         ordering = ['question__order']
 
+
 class OfflineResponseResource(SurveyModelResource):
     question = fields.ToOneField('apps.survey.api.QuestionResource', 'question', null=True, blank=True)
     respondant = fields.ToOneField('apps.survey.api.OfflineRespondantResource', 'respondant')
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True)
+    
     class Meta:
         queryset = Response.objects.all()
         authorization = UserObjectsOnlyAuthorization()
         authentication = Authentication()
+    
     def obj_create(self, bundle, **kwargs):
         return super(OfflineResponseResource, self).obj_create(bundle, user=bundle.request.user)
+
 
 class OfflineRespondantResource(SurveyModelResource):
     responses = fields.ToManyField('apps.survey.api.OfflineResponseResource', 'responses', null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True)
+
     class Meta:
         always_return_data = True
         queryset = Respondant.objects.all()
@@ -157,6 +161,7 @@ class ReportRespondantDetailsResource(ReportRespondantResource):
     responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
     
+
 class RespondantResource(SurveyModelResource):
     responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, full=True, readonly=True)
@@ -177,7 +182,7 @@ class RespondantResource(SurveyModelResource):
 class OptionResource(SurveyModelResource):
     class Meta:
         always_return_data = True
-        queryset = Option.objects.all().order_by('order');
+        queryset = Option.objects.all().order_by('order')
         authorization = StaffUserOnlyAuthorization()
         authentication = Authentication()
 
@@ -189,6 +194,7 @@ class PageResource(SurveyModelResource):
     questions = fields.ToManyField('apps.survey.api.QuestionResource', 'questions', full=True, null=True, blank=True)
     blocks = fields.ToManyField('apps.survey.api.BlockResource', 'blocks', full=True, null=True, blank=True)
     survey = fields.ForeignKey('apps.survey.api.SurveyResource', 'survey', related_name='survey', null=True, blank=True)
+
     class Meta:
         queryset = Page.objects.all().order_by('order')
         always_return_data = True
@@ -199,8 +205,6 @@ class PageResource(SurveyModelResource):
         }
 
     # save_m2m = main_save_m2m
-
-
 
 
 class BlockResource(SurveyModelResource):
@@ -218,6 +222,7 @@ class DialectSpeciesResource(SurveyModelResource):
     class Meta:
         queryset = DialectSpecies.objects.all()
 
+
 class QuestionResource(SurveyModelResource):
     options = fields.ToManyField(OptionResource, 'options', full=True, null=True, blank=True)
     grid_cols = fields.ToManyField(OptionResource, 'grid_cols', full=True, null=True, blank=True)
@@ -231,9 +236,6 @@ class QuestionResource(SurveyModelResource):
     skip_question = fields.ToOneField('self', 'skip_question', null=True, blank=True)
     blocks = fields.ToManyField('apps.survey.api.BlockResource', 'blocks', null=True, blank=True, full=True)
 
-    # pages = fields.ToManyField('apps.survey.api.PageResource', 'page_set', null=True, blank=True)
-
-
     class Meta:
         queryset = Question.objects.all()
         always_return_data = True
@@ -244,20 +246,6 @@ class QuestionResource(SurveyModelResource):
             'surveys': ALL_WITH_RELATIONS
         }
 
-    # def alter_detail_data_to_serialize(self, request, bundle):
-    #     if 'meta' not in bundle.data:
-    #         bundle.data['meta'] = {}
-    #     res = DialectSpeciesResource()
-    #     # request_bundle = res.build_bundle(request=request)
-        
-    #     queryset = queryset.filter(dialect)
-    #     species = []
-    #     for obj in queryset:
-    #         dialect_bundle = res.build_bundle(obj=obj, request=request)
-    #         species.append(res.full_dehydrate(dialect_bundle, for_list=True))
-
-    #     bundle.data['meta']['species'] = species
-    #     return bundle
 
 class DialectResource(SurveyModelResource):
     class Meta:
@@ -267,6 +255,7 @@ class SurveyResource(SurveyModelResource):
     questions = fields.ToManyField(QuestionResource, 'questions', full=True, null=True, blank=True)
     #question = fields.ToOneField(QuestionResource, 'question', full=True, null=True, blank=True)
     pages = fields.ToManyField(PageResource, 'page_set', full=True, null=True, blank=True)
+ 
     class Meta:
         detail_uri_name = 'slug'
         queryset = Survey.objects.all()
@@ -283,6 +272,7 @@ class SurveyResource(SurveyModelResource):
 
 class SurveyDashResource(SurveyResource):
     dialect = fields.ToOneField('apps.survey.api.DialectResource', 'dialect', full=True, null=True, blank=True)
+
     def alter_detail_data_to_serialize(self, request, bundle):
         if 'meta' not in bundle.data:
             bundle.data['meta'] = {}

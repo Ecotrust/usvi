@@ -8,11 +8,11 @@ from django.db.models import Q
 
 from account.models import UserProfile
 
-from collections import defaultdict
 import dateutil.parser
 import uuid
 import simplejson
 import caching.base
+import re
 
 
 def make_uuid():
@@ -251,9 +251,6 @@ class Question(caching.base.CachingMixin, models.Model):
 
     objects = caching.base.CachingManager()
 
-    def save(self, *args, **kwargs):
-        super(Question, self).save(*args, **kwargs)
-
     class Meta:
         ordering = ['order']
 
@@ -281,24 +278,65 @@ class Question(caching.base.CachingMixin, models.Model):
         return "%s/%s/%s" % (self.survey_slug, self.slug, self.type)
 
     def clean(self, *args, **kwargs):
-        group = None
         if self.use_species_list:
+            group = None
+            regex = re.compile('\((.*)\)')
+            updated_rows = []
             for row in self.rows.split('\n'):
                 row = row.strip()
                 if row.startswith("*"):
-                    group = row[1:]
+                    group = row[1:].strip()
+                    updated_rows.append(row)
                     continue
-                row = row.strip()
+                row = row.split('|')[0].strip()
+                #match exact matches
                 query = Q(name__iexact=row)
-                if group is not None:
-                    family = ' '.join([row, group])
-                    query = query | Q(name__iexact=family) | Q(name__iexact=family[:-1])
                 matches = DialectSpecies.objects.filter(query)
+                if len(matches.values('species__name', 'species__code').distinct()) == 1:
+                    pass
+                else:
+                    # match things like SHELLFISH (TRUNKFISH/COWFISH)
+                    # row_paren_name = regex.search(row)
+                    
+                    # if row_paren_name is not None:
+                    #     print row_paren_name.group(1)
+                    if group is not None:
+                        # match things like Vermillion in the Snapper group
+                        #print "%s %s" % (row, group)
+                        query = query | Q(name__iexact="%s %s" % (row, group))
+                        # match things like Jolthead in the Porgies group
+                        query = query | Q(name__iexact="%s %s" % (row, group.replace('ies', 'y')))
+                        # match things like Blackhead in the Snappers group
+                        query = query | Q(name__iexact="%s %s" % (row, group[:-1]))
+                        # match things like French in the Angelfieshes group
+                        query = query | Q(name__iexact="%s %s" % (row, group[:-2]))
+                        paren_name = regex.search(group)
+                        if paren_name is not None:
+                            # matches things like: Queen Silk (Queen)
+                            query = query | Q(name__iexact="%s %s" % (row, paren_name.group(1)))
+                            query = query | Q(name__iexact="%s %s" % (row, paren_name.group(1)[:-1]))
+                            query = query | Q(name__iexact="%s %s" % (row, paren_name.group(1)[:-2]))
+                            query = query | Q(name__iexact="%s %s)" % (row[:-1], paren_name.group(1)[:-2]))
+                        if group.endswith('es'):
+                            group = group[:-2]
+                        elif group.endswith('s'):
+                            group = group[:-1]
+                        if row.endswith(')'):
+                            query = query | Q(name__iexact="%s %s)" % (row[:-1], group))
+                            query = query | Q(name__iexact=row.split(' (')[0])
+                        if group.endswith(')'):
+                            query = query | Q(name__iexact="%s %s)" % (row[:-1], group))
+                    matches = DialectSpecies.objects.filter(query)
                 if matches.count() == 0:
-                    if family:
-                        raise ValidationError("'%s' is not a valid species." % (family))
+                    raise ValidationError("'%s' is not a valid species." % (row))
+                else:
+                    species = matches.values('species__name', 'species__code').distinct()
+                    if len(species) == 1:
+                        updated_rows.append("%s|%s (%s)" % (row, species[0]['species__name'], species[0]['species__code']))
                     else:
-                        raise ValidationError("'%s' is not a valid species." % (row))
+                        print species
+                        raise ValidationError("'%s' matched more than one species." % (row))
+            self.rows = ('\n').join(updated_rows)
         super(Question, self).clean(*args, **kwargs)
 
     def full_clean(self, *args, **kwargs):
@@ -307,6 +345,7 @@ class Question(caching.base.CachingMixin, models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super(Question, self).save(*args, **kwargs)
+
 
 class Dialect(caching.base.CachingMixin, models.Model):
     code = models.CharField(max_length=48, unique=True)
