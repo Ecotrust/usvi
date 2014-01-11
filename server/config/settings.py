@@ -142,7 +142,8 @@ INSTALLED_APPS = (
     'apps.mobile',
     'apps.places',
     'apps.survey',
-    'apps.reports'
+    'apps.reports',
+    'apps.acl'
 )
 
 # A sample logging configuration. The only tangible logging

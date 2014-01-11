@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 
 from account.models import UserProfile
+from acl.models import Dialect, DialectSpecies, Species, SpeciesFamily
 
 import dateutil.parser
 import uuid
@@ -347,70 +348,6 @@ class Question(caching.base.CachingMixin, models.Model):
         super(Question, self).save(*args, **kwargs)
 
 
-class Dialect(caching.base.CachingMixin, models.Model):
-    code = models.CharField(max_length=48, unique=True)
-    name = models.CharField(max_length=64)
-    description = models.TextField()
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-    objects = caching.base.CachingManager()
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Dialects"
-
-
-class SpeciesFamily(caching.base.CachingMixin, models.Model):
-    code = models.CharField(max_length=48, unique=True)
-    name = models.CharField(max_length=144)
-    description = models.TextField()
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-    objects = caching.base.CachingManager()
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Species Families"
-
-
-class Species(caching.base.CachingMixin, models.Model):
-    code = models.CharField(max_length=48, unique=True)
-    family = models.ForeignKey('SpeciesFamily')
-    erdmans_code = models.CharField(max_length=48)
-    name = models.CharField(max_length=144)
-    description = models.TextField()
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-    objects = caching.base.CachingManager()
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Species"
-
-
-class DialectSpecies(caching.base.CachingMixin, models.Model):
-    dialect = models.ForeignKey('Dialect')
-    species = models.ForeignKey('Species')
-    name = models.CharField(max_length=144)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-    objects = caching.base.CachingManager()
-
-    def __unicode__(self):
-        return "%s -> %s" % (self.name, self.species.name) 
-
-    @property
-    def dialect_name(self):
-        return self.dialect.name
-
-    @property
-    def species_name(self):
-        return "%s (%s)" % (self.species.name, self.species.code)
-
-    class Meta:
-        verbose_name_plural = "Dialect Species"
 
 
 class LocationAnswer(caching.base.CachingMixin, models.Model):
@@ -435,7 +372,7 @@ class MultiAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
     answer_text = models.TextField()
     answer_label = models.TextField(null=True, blank=True)
-    species = models.ForeignKey(Species, null=True, blank=True)
+    species = models.ForeignKey('acl.Species', null=True, blank=True)
 
 class GridAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
@@ -557,7 +494,6 @@ class Response(caching.base.CachingMixin, models.Model):
                                     answer_number=answer[grid_col.label.replace('-', '')],
                                     row_label=answer['label'].strip(), row_text=answer['text'].strip(),
                                     col_label=grid_col.label, col_text=grid_col.text, species=species)
-                                print grid_answer.species
                                 grid_answer.save()
                             except Exception as e:
                                 print "problem with ", grid_col.label

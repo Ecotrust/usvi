@@ -398,7 +398,7 @@ def restore_db(dump_name):
 def load_species():
     with cd(env.code_dir):
         with _virtualenv():
-            _manage_py("csvimport --mappings='column1=code,column2=name,column6=description' --model='survey.Dialect' apps/survey/data/dialect_list.csv")
-            _manage_py("csvimport --mappings='column1=code,column2=name,column3=description' --model='survey.SpeciesFamily' apps/survey/data/species_family_list.csv")
-            _manage_py("csvimport --mappings='column1=code,column2=family(speciesfamily|code),column3=erdmans_code,column4=name,column5=description' --model='survey.Species' apps/survey/data/species_list.csv")
-            _manage_py("csvimport --mappings='column1=dialect(dialect|code),column2=species(species|code)column3=name' --model='survey.DialectSpecies' apps/survey/data/dialect_species_list.csv")
+            _manage_py("csvimport --mappings='column1=code,column2=name,column6=description' --model='acl.Dialect' apps/survey/data/dialect_list.csv")
+            _manage_py("csvimport --mappings='column1=code,column2=name,column3=description' --model='acl.SpeciesFamily' apps/survey/data/species_family_list.csv")
+            _manage_py("csvimport --mappings='column1=code,column2=family(speciesfamily|code),column3=erdmans_code,column4=name,column5=description' --model='acl.Species' apps/survey/data/species_list.csv")
+            _manage_py("csvimport --mappings='column1=dialect(dialect|code),column2=species(species|code)column3=name' --model='acl.DialectSpecies' apps/survey/data/dialect_species_list.csv")
