@@ -37,16 +37,17 @@ angular.module('askApp').directive('gridquestion', function($timeout) {
                 return text.toLowerCase().replace('-', '');
             }
 
-            var rowTitles = $scope.question.rows.split('\n');
+            // var rowTitles = $scope.question.rows.split('\n');
             if ($scope.question.options_from_previous_answer) {
                 var answersFromPrevious = $scope.getAnswer($scope.question.options_from_previous_answer);
-                rowTitles = rowTitles.concat(_.pluck(answersFromPrevious, 'text'));
+                // rowTitles = rowTitles.concat(_.pluck(answersFromPrevious, 'text'));
             }
             $scope.grid = {
-                rows: _.map(rowTitles, function(row) {
+                rows: _.map(answersFromPrevious, function(row) {
                     return {
-                        text: row,
-                        label: makeLabel(row),
+                        text: row.text,
+                        label: makeLabel(row.text),
+                        code: row.code,
                         cells: _.map($scope.question.grid_cols, function(col) {
                             var cell = {
                                 type: col.type,
@@ -75,21 +76,41 @@ angular.module('askApp').directive('gridquestion', function($timeout) {
             };
 
             $scope.question.answer = $scope.getAnswer($scope.question.slug);
-            if (!$scope.question.answer) {
-                // Initialize the answer object
+            if (! $scope.question.answer) {
                 $scope.question.answer = [];
-                _.each($scope.grid.rows, function(row) {
-                    var answer = {
+            }
+            var answerLabels = _.map($scope.question.answer, function (answer, index) {
+                return {
+                    label: answer.label,
+                    index: index
+                }
+            });
+            _.each(answerLabels, function (answer) {
+                if (! _.findWhere($scope.grid.rows, {label : answer.label })) {
+                    $scope.question.answer.splice(answer.index, 1);
+                    console.log('removing '+ answer.label);
+                }
+            });
+            _.each($scope.grid.rows, function(row) {
+                var previousAnswer = _.findWhere($scope.question.answer, { label: row.label});
+                var newAnswer;
+
+                if (previousAnswer) {
+                    row.answer = previousAnswer;
+                } else {
+                    newAnswer = {
                         text: row.text,
                         label: row.label,
-                        checked: true
+                        checked: true,
+                        code: row.code
                     };
                     _.each($scope.question.grid_cols, function(col) {
-                        answer[makeLabel(col.label)] = null;
+                        newAnswer[makeLabel(col.label)] = null;
                     });
-                    $scope.question.answer.push(answer)
-                });
-            }
+                    row.answer = newAnswer;
+                    $scope.question.answer.push(newAnswer);
+                }
+            });
 
             $scope.$watch('question.answer', function watchGridQuestion(newAnswer) {
                 if (newAnswer) {

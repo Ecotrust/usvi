@@ -251,6 +251,7 @@ angular.module('askApp')
             var completed = $scope.validateGridQuestion(question);
             if (completed || !question.required) {
                 answer = question.answer;
+                debugger;
             } else {
                 return false;
             }
@@ -389,7 +390,6 @@ angular.module('askApp')
                 });
             }
         });
-        
         return answers;
     };
 
@@ -427,7 +427,8 @@ angular.module('askApp')
                 checked: true,
                 label: question.otherAnswers[0],
                 text: question.otherAnswers[0],
-                other: true
+                other: true,
+                code: question.code
             };
         } else if (!question.required && question.type !== 'yes-no') {
             // No answer given. Submit empty.

@@ -390,6 +390,7 @@ class Species(caching.base.CachingMixin, models.Model):
     class Meta:
         verbose_name_plural = "Species"
 
+
 class DialectSpecies(caching.base.CachingMixin, models.Model):
     dialect = models.ForeignKey('Dialect')
     species = models.ForeignKey('Species')
@@ -434,6 +435,7 @@ class MultiAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
     answer_text = models.TextField()
     answer_label = models.TextField(null=True, blank=True)
+    species = models.ForeignKey(Species, null=True, blank=True)
 
 class GridAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
@@ -443,6 +445,7 @@ class GridAnswer(caching.base.CachingMixin, models.Model):
     col_label = models.TextField(null=True, blank=True)
     answer_text = models.TextField(null=True, blank=True)
     answer_number = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    species = models.ForeignKey(Species, null=True, blank=True)
 
     def __unicode__(self):
         return "%s: %s" % (self.row_text, self.col_text)
@@ -456,6 +459,7 @@ class Response(caching.base.CachingMixin, models.Model):
     unit = models.TextField(null=True, blank=True)
     ts = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, null=True, blank=True)
+    species = models.ForeignKey(Species, null=True, blank=True)
     objects = caching.base.CachingManager()
 
     def __unicode__(self):
@@ -503,7 +507,14 @@ class Response(caching.base.CachingMixin, models.Model):
                             answer_text = answer['name'].strip()
                         answers.append(answer_text)
                         answer_label = answer.get('label', None)
-                        multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label)
+                        if self.question.use_species_list:
+                            code = answer.get('code', None)
+                            code_match = re.search(r'\((.*)\)', code)
+                            if code_match is not None:
+                                species = Species.objects.get(code=code_match.group(1))
+                            else:
+                                species = None
+                        multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label, species=species)
                         multi_answer.save()
                     except Exception as e:
                         pass
@@ -532,6 +543,12 @@ class Response(caching.base.CachingMixin, models.Model):
             if self.question.type == 'grid':
                 self.gridanswer_set.all().delete()
                 for answer in self.answer:
+                    code = answer.get('code', None)
+                    species = None
+                    if code is not None:
+                        code_match = re.search(r'\((.*)\)', code)
+                        if code_match is not None:
+                            species = Species.objects.get(code=code_match.group(1))
                     for grid_col in self.question.grid_cols.all():
                         if grid_col.type in ['currency', 'integer', 'number', 'single-select', 'text', 'yes-no']:
                             try:
@@ -539,7 +556,8 @@ class Response(caching.base.CachingMixin, models.Model):
                                     answer_text=answer[grid_col.label.replace('-', '')],
                                     answer_number=answer[grid_col.label.replace('-', '')],
                                     row_label=answer['label'].strip(), row_text=answer['text'].strip(),
-                                    col_label=grid_col.label, col_text=grid_col.text)
+                                    col_label=grid_col.label, col_text=grid_col.text, species=species)
+                                print grid_answer.species
                                 grid_answer.save()
                             except Exception as e:
                                 print "problem with ", grid_col.label

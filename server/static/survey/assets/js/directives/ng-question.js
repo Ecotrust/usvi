@@ -232,9 +232,12 @@ angular.module('askApp').directive('multiquestion', function() {
                 _.each(scope.question.rows.split('\n'), function(row, index) {
                     var matches = [],
                         option;
+                    var dialectSpecies, code;
+                    dialectSpecies = row.split('|')[0];
+                    code = row.split('|')[1];
                     if (_.isArray(scope.question.answer)) {
-                        matches = _.filter(scope.question.answer, function(answer) {
-                            return answer.text === row;
+                        matches = _.filter(scope.question.answer, function (answer) {
+                            return answer.text === dialectSpecies;
                         });
                     } else if (_.isObject(scope.question.answer) && row === scope.question.answer.text) {
                         matches = [true];
@@ -243,10 +246,11 @@ angular.module('askApp').directive('multiquestion', function() {
                         matches = [true];
                     }
                     option = {
-                        text: _.string.startsWith(row, '*') ? row.substr(1) : row,
-                        label: _.string.slugify(row),
+                        text: _.string.startsWith(row, '*') ? row.substr(1) : dialectSpecies,
+                        label: _.string.slugify(dialectSpecies),
                         checked: matches.length ? true : false,
-                        isGroupName: _.string.startsWith(row, '*')
+                        isGroupName: _.string.startsWith(row, '*'),
+                        code: code
                     };
                     if (option.checked) {
                         scope.question.answerSelected = true;
@@ -260,11 +264,14 @@ angular.module('askApp').directive('multiquestion', function() {
                 
                 _.each(scope.question.rows.split('\n'), function(row, index) {
                     var matches = [];
+                    var dialectSpecies, code;
+                    dialectSpecies = row.split('|')[0];
+                    code = row.split('|')[1];
                     if (scope.question.answer && scope.question.answer.length) {
                         matches = _.filter(scope.question.answer, function(answer) {
-                            return answer.text === row;
+                            return answer.text === dialectSpecies;
                         });                        
-                    } else if (scope.question.answer.text === row) {
+                    } else if (scope.question.answer.text === dialectSpecies) {
                         matches = [row];
                     }
 
@@ -283,10 +290,11 @@ angular.module('askApp').directive('multiquestion', function() {
                             optionLabel: groupName
                         });
                         group.options.push({
-                            text: row,
-                            label: _.string.slugify(row),
+                            text: dialectSpecies,
+                            label: _.string.slugify(dialectSpecies),
                             groupName: groupName,
-                            checked: matches.length ? true : false
+                            checked: matches.length ? true : false,
+                            code: code
                         });
                         if (matches.length) {
                             scope.question.answerSelected = true;

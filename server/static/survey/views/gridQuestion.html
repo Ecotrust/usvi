@@ -16,7 +16,7 @@
                         <input
                                 class="input-block-level form-control"
                                 type="number"
-                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-model="row.answer[cell.label]"
                                 ng-required="cell.required"
                                 max="{{ cell.max }}"
                                 min="{{ cell.min }}"
@@ -28,7 +28,7 @@
                         <input
                                 class="input-block-level form-control"
                                 type="text"
-                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-model="row.answer[cell.label]"
                                 ng-required="cell.required"
                                 />
                     </div>
@@ -36,7 +36,7 @@
                         <input
                                 class="input-block-level form-control"
                                 type="checkbox"
-                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-model="row.answer[cell.label]"
                                 ng-required="cell.required"
                                 />
                     </div>
@@ -44,7 +44,7 @@
                         <select
                                 class="input-block-level form-control"
                                 ng-required="cell.required"
-                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-model="row.answer[cell.label]"
                                 ng-options="option for option in cell.options"
                                 >
                         </select>
@@ -54,7 +54,7 @@
                                 class="input-block-level form-control"
                                 multiple
                                 ng-required="cell.required"
-                                ng-model="question.answer[rowIndex][cell.label]"
+                                ng-model="row.answer[cell.label]"
                                 ng-options="option for option in cell.options"
                                 >
                         </select>

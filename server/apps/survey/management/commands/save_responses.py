@@ -8,5 +8,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for response in Response.objects.all():
-        	print response.id
         	response.save_related()
