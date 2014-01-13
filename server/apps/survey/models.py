@@ -55,10 +55,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
     def survey_slug(self):
         return self.survey.slug
 
-    @property
-    def has_responses(self):
-        return 'true'
-
     def __unicode__(self):
         if self.email:
             return "%s" % self.email

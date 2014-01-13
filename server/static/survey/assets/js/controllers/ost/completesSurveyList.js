@@ -136,9 +136,8 @@ angular.module('askApp')
         $scope.getSubmittedSurveysListFromServer = function(surveyFilter) {
             var url = $scope.next20 ? $scope.next20 : 
                       app.server 
-                      + '/api/v1/reportrespondant/?user__username__exact=' 
+                      + '/api/v1/completerespondant/?user__username__exact=' 
                       + $scope.user.username 
-                      + '&complete__exact=true'
                       + '&format=json';
             
             if (surveyFilter.start) {
@@ -203,7 +202,7 @@ angular.module('askApp')
 
         $scope.getSubmittedSurveys = function () {
             var url = app.server 
-                      + '/api/v1/reportrespondant/?user__username__exact=' 
+                      + '/api/v1/completerespondant/?user__username__exact=' 
                       + $scope.user.username 
                       + '&format=json';
             

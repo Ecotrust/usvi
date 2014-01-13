@@ -258,17 +258,19 @@ angular.module('askApp')
 
 
     var resume = function(respondent) {
-        var url;
-        if (respondent.responses.length) {
-            url = respondent.resumePath.replace('#', '');
-        } else {
-            url = [
-                '/survey',
-                respondent.survey,
-                1,
-                respondent.uuid
-            ].join('/');
+        var url, 
+            page = {order: 1};
+        
+        if (respondent.responses.length && respondent.last_question) {
+            page = getPageFromQuestion(respondent.last_question);
         }
+
+        url = [
+            '/survey',
+            respondent.survey,
+            page.order,
+            respondent.uuid
+        ].join('/');
         
        $location.path(url);
     };

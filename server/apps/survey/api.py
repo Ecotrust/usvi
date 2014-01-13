@@ -163,7 +163,6 @@ class ReportRespondantResource(SurveyModelResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=False, readonly=True)
     survey_title = fields.CharField(attribute='survey_title', readonly=True)
     survey_slug = fields.CharField(attribute='survey_slug', readonly=True)
-    has_responses = fields.CharField(attribute='has_responses', readonly=True)
 
     class Meta:
         queryset = Respondant.objects.all().order_by('-ts')
@@ -172,12 +171,40 @@ class ReportRespondantResource(SurveyModelResource):
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
             'complete': ['exact'],
-            'has_responses': ['exact'],
             'ts': ['gte','lte']
         }
         ordering = ['-ts']
         authorization = StaffUserOnlyAuthorization()
         authentication = Authentication()
+
+class CompleteRespondantResource(ReportRespondantResource):
+    class Meta:
+        queryset = Respondant.objects.all().annotate(responses_count=Count("responses")).filter(responses_count__gte=1, complete__exact=True).order_by("-ts")
+        #queryset = Respondant.objects.filter(responses_count__gte=1).order_by('-ts')
+        filtering = {
+            'survey': ALL_WITH_RELATIONS,
+            'responses': ALL_WITH_RELATIONS,
+            'user': ALL_WITH_RELATIONS,
+            'ts': ['gte','lte']
+        }
+        ordering = ['-ts']
+        authorization = StaffUserOnlyAuthorization()
+        authentication = Authentication()
+
+class IncompleteRespondantResource(ReportRespondantResource):
+    class Meta:
+        queryset = Respondant.objects.all().annotate(responses_count=Count("responses")).filter(responses_count__gte=1, complete__exact=False).order_by("-ts")
+        #queryset = Respondant.objects.filter(responses_count__gte=1).order_by('-ts')
+        filtering = {
+            'survey': ALL_WITH_RELATIONS,
+            'responses': ALL_WITH_RELATIONS,
+            'user': ALL_WITH_RELATIONS,
+            'ts': ['gte','lte']
+        }
+        ordering = ['-ts']
+        authorization = StaffUserOnlyAuthorization()
+        authentication = Authentication()
+
 
 class DashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)

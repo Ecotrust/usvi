@@ -54,6 +54,13 @@ angular.module('askApp')
 
         $scope.showSurveyList = false;
 
+        $scope.resumeSurvey = function (respondent) {
+            $http.get(app.server + '/api/v1/respondant/' + respondent.uuid + '/?format=json').success(function(data) {
+                survey.initializeSurvey(data.survey, data.survey.pages);
+                survey.resume(respondent);
+            });
+        };
+
         $scope.updateSurveyList = function() {
             $scope.updateEnabled = false;
 
@@ -136,7 +143,7 @@ angular.module('askApp')
         $scope.getSubmittedSurveysListFromServer = function(surveyFilter) {
             var url = $scope.next20 ? $scope.next20 : 
                       app.server 
-                      + '/api/v1/reportrespondant/?user__username__exact=' 
+                      + '/api/v1/incompleterespondant/?user__username__exact=' 
                       + $scope.user.username 
                       + '&format=json';
             
@@ -202,7 +209,7 @@ angular.module('askApp')
 
         $scope.getSubmittedSurveys = function () {
             var url = app.server 
-                      + '/api/v1/reportrespondant/?user__username__exact=' 
+                      + '/api/v1/incompleterespondant/?user__username__exact=' 
                       + $scope.user.username 
                       + '&format=json';
             
