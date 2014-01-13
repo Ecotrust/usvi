@@ -48,10 +48,17 @@ angular.module('askApp', ['ui', 'ui.bootstrap'])
         templateUrl: '/static/survey/views/agency-dash.html',
         controller: 'AgencyDashCtrl'
     })
-
         .when('/RespondantDetail/:surveySlug/:uuidSlug', {
         templateUrl: '/static/survey/views/RespondantDetail.html',
         controller: 'RespondantDetailCtrl'
+    })
+        .when('/acl-list', {
+        templateUrl: '/static/survey/views/acl-list.html',
+        controller: 'AnnualCatchLimitListCtrl'
+    })
+        .when('/', {
+        templateUrl: '/static/survey/views/survey-list.html',
+        controller: 'SurveyListMenuCtrl'
     })
         .otherwise({
         redirectTo: '/'

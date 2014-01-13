@@ -207,6 +207,10 @@ class PageResource(SurveyModelResource):
     # save_m2m = main_save_m2m
 
 
+class PageDashResource(PageResource):
+    questions = fields.ToManyField('apps.survey.api.QuestionResource', 'questions', full=False, null=True, blank=True)
+
+
 class BlockResource(SurveyModelResource):
     skip_question = fields.ToOneField('apps.survey.api.QuestionResource', 'skip_question', null=True, blank=True)
 
@@ -289,8 +293,9 @@ class SurveyDashResource(SurveyResource):
 
         return bundle
 
+
 class SurveyReportResource(SurveyResource):
-    questions = fields.ToManyField(QuestionResource, 'questions', null=True, blank=True)
+    pages = fields.ToManyField(PageResource, 'pages', null=True, blank=True, full=False)
     completes = fields.IntegerField(attribute='completes', readonly=True)
     survey_responses = fields.IntegerField(attribute='survey_responses', readonly=True)
     activity_points = fields.IntegerField(attribute='activity_points', readonly=True)
