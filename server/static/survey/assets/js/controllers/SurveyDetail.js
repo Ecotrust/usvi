@@ -251,7 +251,7 @@ angular.module('askApp')
             var completed = $scope.validateGridQuestion(question);
             if (completed || !question.required) {
                 answer = question.answer;
-                debugger;
+                //debugger;
             } else {
                 return false;
             }
