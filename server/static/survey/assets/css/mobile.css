@@ -75,7 +75,8 @@ a {
     border-radius: 3px !important;
 }
 .col-xs-6 .btn-main {
-    font-size: 15px;
+    width: 100%;
+    font-size: 21px;
 }
 
 #map-question .button-row .col-xs-4 {
@@ -251,6 +252,7 @@ input.datepicker {
     }
     .report-list .button-row .btn {
         font-size: 13px;
+        padding: 7px;
         text-align: center;
         width: 100%;
         margin: 0 auto;
