@@ -234,7 +234,10 @@ input.datepicker {
 }
 #history-wrap .panel-heading.darkSalmonBackground {
     background-color: rgb(239, 94, 70);
-    border-radius: 0;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
 #history-wrap .report-list > .panel-collapse > .panel-body {
@@ -246,6 +249,8 @@ input.datepicker {
 .report-list .button-row {
     padding: 10px;
     background-color: rgb(75, 75, 75);
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
     .report-list .button-row span {
         
