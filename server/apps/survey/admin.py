@@ -63,9 +63,6 @@ class OptionAdmin(admin.ModelAdmin):
     prepopulated_fields = {'label':('text',),}
 
 
-class DialectSpeciesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'dialect_name', 'species_name',)
-
 
 
 admin.site.register(Respondant, RespondantAdmin)
@@ -79,7 +76,3 @@ admin.site.register(LocationAnswer)
 admin.site.register(MultiAnswer)
 admin.site.register(GridAnswer)
 admin.site.register(Block, BlockAdmin)
-admin.site.register(Dialect)
-admin.site.register(SpeciesFamily)
-admin.site.register(Species)
-admin.site.register(DialectSpecies, DialectSpeciesAdmin)
