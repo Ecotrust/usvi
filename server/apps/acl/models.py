@@ -1,5 +1,7 @@
 from django.db import models
 import caching.base
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 
 
 class Dialect(caching.base.CachingMixin, models.Model):
@@ -54,7 +56,7 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
     objects = caching.base.CachingManager()
 
     def __unicode__(self):
-        return "%s -> %s" % (self.name, self.species.name) 
+        return "%s -> %s" % (self.name, self.species.name)
 
     @property
     def dialect_name(self):
@@ -66,3 +68,27 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
 
     class Meta:
         verbose_name_plural = "Dialect Species"
+
+AREA_CHOICES = (
+    ('st-croix', 'St. Croix'),
+    ('st-thomas-st-john', 'St. Thomas/St. John'),
+    ('puerto-rico', 'Puerto Rico'),
+    ('us-carib-eez', 'U.S. Caribbean Exclusive Economic Zone'),
+)
+
+SECTOR_CHOICES = (
+    ('commercial', 'Commercial Sector'),
+    ('recreational', 'Recreational Sector'),
+)
+
+class AnnualCatchLimit(caching.base.CachingMixin, models.Model):
+    content_type = models.ForeignKey(ContentType, null=True)
+    object_id = models.PositiveIntegerField(null=True)
+    species = generic.GenericForeignKey('content_type', 'object_id')
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    sector = models.CharField(max_length=144, null=True, blank=True, choices=SECTOR_CHOICES)
+    area = models.CharField(max_length=144, choices=AREA_CHOICES)
+    pounds = models.IntegerField(null=True, blank=True)
+    number_of_fish = models.IntegerField(null=True, blank=True)
+
