@@ -498,10 +498,11 @@ $scope.loadSurvey = function(data) {
         }
 
         _.each(data.responses, function(response) {
+            var slug = response.question.slug ? response.question.slug : response.question;
             try {
-                $scope.answers[response.question] = JSON.parse(response.answer_raw);
+                $scope.answers[slug] = JSON.parse(response.answer_raw);
             } catch (e) {
-                $scope.answers[response.question] = response.answer;
+                $scope.answers[slug] = response.answer;
             }
         });
 
