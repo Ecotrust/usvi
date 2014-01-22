@@ -4,13 +4,13 @@
     <div class="container">
 
         <div>
-            <a class="btn btn-main btn-default btn-lg btn-block panel-heading" href="#/incompletes">
+            <a class="btn btn-main btn-default btn-lg btn-block" href="#/incompletes">
                 un-completed reports <span class="badge pull-right" style="top: 0px">{{incompletes.length}}</span>
             </a>
         </div>
         
         <div>
-            <a class="btn btn-main btn-default btn-lg btn-block panel-heading" href="#/completes" ng-class="{ 'disabled': !completes }">
+            <a class="btn btn-main btn-default btn-lg btn-block" href="#/completes" ng-class="{ 'disabled': !completes }">
                 completed reports <span class="badge pull-right" style="top: 0px">{{completes.length}}<i class="icon-spinner icon-spin" ng-hide="completes"></i></span>
             </a>
         </div>

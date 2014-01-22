@@ -11,25 +11,36 @@
         </div>
 
         <div ng-show="showSurveyList">
-            <h4>Completed Reports </h4>
-
-            <h4>From:</h4>
-            <div class="input-group">
-                <input class="form-control datepicker" type="date" ng-model="surveyFilter.start" />
-                <!-- <span class="input-group-btn btn-lg"><span class="glyphicon glyphicon-calendar"></span></span> -->
+            <div class="row">
+                <h3>Completed Reports</h3>
+            </div>
+                
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-1">
+                    <span class="label">From:</span>
+                </div>
+                <div class="col-md-4 input-group">
+                    <input class="form-control datepicker" type="date" ng-model="surveyFilter.start" />
+                </div>
+            </div>
+            <div class="row" style="margin-top: 3px">
+                <div class="col-md-1">
+                    <span class="label">To:</span>
+                </div>
+                <div class="col-md-4 input-group">
+                    <input class="form-control datepicker" type="date" ng-model="surveyFilter.end" />
+                </div>
+            </div>
+            <div class="row" style="margin-top: 6px">
+                <div class="col-md-4 col-md-offset-1 input-group" style="padding-right: 5px;">
+                    <a ng-disabled="!updateEnabled" class="btn btn-main pull-right btn-update" ng-click="updateSurveyList()">UPDATE</a>
+                </div>
             </div>
             
-            <h4>To:</h4>
-            <div class="input-group">
-                <input class="form-control datepicker" type="date" ng-model="surveyFilter.end" />
-                <!-- <span class="input-group-btn btn-lg"><span class="glyphicon glyphicon-calendar"></span></span> -->
-            </div>
-            <a ng-disabled="!updateEnabled" class="btn btn-default btn-lg panel-heading" ng-click="updateSurveyList()">UPDATE</a>
-            
-            <div style="margin-top: 20px">
+            <div class="row" style="margin-top: 20px">
 
                 <div class="panel panel-default" ng-repeat="respondent in respondentList | orderBy: 'ts':true">
-                    <div class="panel-heading" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
+                    <div class="panel-heading" ng-click="openRespondent(respondent)" ng-class="{ 'open': respondent.open }">
                         <h4 class="panel-title">
                             {{respondent.survey_title}}
                         </h4>

@@ -163,3 +163,42 @@
     font-size: 46px !important;
     line-height: 40px !important;
     }
+
+
+#history-wrap .panel-body, 
+#history-wrap .panel-body h1, 
+#history-wrap .panel-body h2, 
+#history-wrap .panel-body h3, 
+#history-wrap .panel-body h4, 
+#history-wrap .panel-body h5 {
+    color: black;
+}
+#history-wrap .panel-default {
+    padding-left: 0;
+    padding-right: 0;
+}
+#history-wrap .btn-resume,
+#history-wrap .btn-update {
+    padding: 2px 5px; 
+}
+#history-wrap .label {
+    font-size: 14px;
+    font-weight: normal;
+}
+#history-wrap .panel-title {
+    color: black;
+}
+#history-wrap .panel {
+    margin-bottom: 17px;
+}
+#history-wrap .panel-heading {
+    background-color: rgba(250, 189, 18, 0.65);
+    filter: alpha(opacity=65);
+    border: none;
+    padding: 9px 9px;
+}
+#history-wrap .panel-heading.open {
+    background-color: rgba(250, 189, 18, 1.0);
+    filter: alpha(opacity=100);
+}
+
