@@ -202,3 +202,7 @@
     filter: alpha(opacity=100);
 }
 
+
+.question .select .select-unchecked .select-content h4 {
+    color: #000;
+}

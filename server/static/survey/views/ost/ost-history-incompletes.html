@@ -3,9 +3,17 @@
     <!-- Begin page content -->
     <div class="container">
         
-        <div ng-show="showErrorMessage">
-            <div class="error">Problem</div>
-            <div>There was a problem loading your surveys.</div>
+        <div ng-show="showErrorMessage" class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="error">Problem</div>
+                <div>There was a problem loading your surveys.</div>
+                <div>Please sign in again.</div>
+                <a class="btn btn-default btn-lg btn-block panel-heading" href="#/signin">Sign In</a>
+            </div>
+        </div>
+        <div ng-show="showDeleteErrorMessage">
+            <div class="error">Delete Failed</div>
+            <div>There was a problem deleting the survey.</div>
             <div>Please sign in again.</div>
             <a class="btn btn-default btn-lg btn-block panel-heading" href="#/signin">Sign In</a>
         </div>
@@ -37,10 +45,10 @@
                 </div>
             </div>
 
-            <div class="row" style="margin-top: 20px">
+            <div style="margin-top: 20px">
 
-                <div ng-repeat="respondent in respondentList | orderBy: 'ts':true">
-                    <div class="col-xs-9 col-sm-9 panel panel-default">
+                <div class="row" ng-repeat="respondent in respondentList | orderBy: 'ts':true">
+                    <div class="col-xs-6 col-sm-6 col-md-6 panel panel-default">
                         <div class="panel-heading" ng-click="openRespondent(respondent)" ng-class="{ 'open': respondent.open }">
                             <h4 class="panel-title">
                                 {{respondent.survey_title}}
@@ -52,8 +60,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-3 col-sm-3">
+                    <div class="col-xs-2 col-sm-2 col-md-2">
                         <a href="javascript:void(0)" ng-click="resumeSurvey(respondent); $event.stopPropagation();" class="btn btn-primary btn-main btn-resume">Resume</a>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <a href="javascript:void(0)" ng-click="deleteRespondent(respondent); $event.stopPropagation();" class="btn btn-primary btn-main btn-resume">Delete</a>
                     </div>
                 </div>
 

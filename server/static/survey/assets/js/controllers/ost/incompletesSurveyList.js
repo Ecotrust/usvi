@@ -12,6 +12,7 @@ angular.module('askApp')
             $location.path('/');
         }
         $scope.showErrorMessage = false;
+        $scope.showDeleteErrorMessage = false;
 
         $scope.path = $location.path().slice(1,5);
         $scope.viewPath = app.viewPath;
@@ -86,9 +87,12 @@ angular.module('askApp')
 
 
         $scope.deleteRespondent = function (respondent) {
-            $scope.respondents = _.without($scope.respondents, respondent);
-            $scope.saveState();
-            $location.path('/respondents');
+            $http.get(app.server + '/respond/delete-incomplete/' + respondent.uuid).success(function(data) {
+                $scope.respondentList = _.without($scope.respondentList, respondent);
+                $scope.showDeleteErrorMessage = false;
+            }).error(function (data) {
+                $scope.showDeleteErrorMessage = true;
+            });
         };
 
 

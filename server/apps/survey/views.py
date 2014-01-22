@@ -8,6 +8,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
@@ -24,6 +25,19 @@ def delete_responses(request, uuid, template='survey/delete.html'):
     respondant.responses.clear()
     respondant.save()
     return render_to_response(template, RequestContext(request, {}))
+
+@login_required
+def delete_incomplete_respondent(request, uuid):
+    respondant = get_object_or_404(Respondant, uuid=uuid)
+    if respondant.user == request.user:
+        for response in respondant.responses.all():
+            response.delete()
+        respondant.responses.clear()
+        respondant.save()
+        respondant.delete()
+        return HttpResponse(simplejson.dumps({'success': True}))
+    return HttpResponse(simplejson.dumps({'success': False}))
+
 
 def survey(request, survey_slug=None, template='survey/survey.html'):
     if survey_slug is not None:
