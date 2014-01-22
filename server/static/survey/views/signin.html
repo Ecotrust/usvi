@@ -22,7 +22,8 @@
         <div class="new-user-form signin-form" ng-show="showForgotPassword">
             <form ng-submit="forgotPassword(forgotUser)">
                 <fieldset ng-disabled="working">
-                    <input type="email" class="form-control username" placeholder="enter your email..." ng-model="forgotUser.email" autocapitalize="off">
+                    <h4 class="question-title">Enter your email address</h4>
+                    <input type="email" class="form-control username" ng-model="forgotUser.email" autocapitalize="off">
                 </fieldset>
                 <button class="btn btn-main btn-default btn-block" ng-disable="forgotUser.email">forgot password</button>
                 <a class="btn btn-main btn-default btn-block" ng-click="showForgotPassword = false">cancel</a>
@@ -42,7 +43,9 @@
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
             <form ng-submit="authenticateUser(authUser)">
                 <fieldset ng-disabled="working">
-                    <input type="text" class="form-control username" placeholder="enter your username..." ng-model="authUser.username" autocapitalize="off" required>
+                    <h4 class="question-title">Username</h4>
+                    <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
+                    <h4 class="question-title">Password</h4>
                     <password password-text="authUser.password"></password>
 
                 </fieldset>
@@ -55,7 +58,7 @@
             </form>
             <div class="pull-right">
                 <a class="forgot-password pull-right" ng-click="showForgotPassword = true">Forgot Password</a>
-                <p style="text-align: right">{{stage}}/{{version}}</p>    
+                <!-- <p style="text-align: right">{{stage}}/{{version}}</p>     -->
 
             </div>
         </div>

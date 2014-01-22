@@ -6,7 +6,7 @@ I<div id="wrap" class="main">
 
         <div class="container">
             <div class="page-header">
-                <img src="assets/img/deck-logo.svg" class="center logo" />
+                <img src="static/survey/assets/img/deck-logo.svg" class="center logo" />
             </div>
             <div class="loading-indicator" ng-show="working">
                 <div class="bar">
@@ -22,10 +22,13 @@ I<div id="wrap" class="main">
                 <div class="new-user-form" ng-hide="working || showTempUser">
                     <form ng-submit="createUser(newUser)">
                     <fieldset>
-                        <input class="form-control" type="text" placeholder="enter your username..." data-ng-model="newUser.username" autocapitalize="off" required>
-
-                        <input class="form-control" type="email" placeholder="enter your email address..." data-ng-model="newUser.emailaddress1" required>
-                        <input class="form-control" type="email" placeholder="confirm your email address..." data-ng-model="newUser.emailaddress2" required>
+                        <h4 class="question-title">Username</h4>
+                        <input class="form-control" type="text" data-ng-model="newUser.username" autocapitalize="off" required>
+                        <h4 class="question-title">Email Address</h4>
+                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress1" required>
+                        <h4 class="question-title">Confirm Email Address</h4>
+                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress2" required>
+                        <h4 class="question-title">Password</h4>
                         <password password-text="newUser.password"></password>
                     </fieldset>
                         <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">New User</button>
@@ -43,7 +46,7 @@ I<div id="wrap" class="main">
                             Invalid email address. Please try again.
                         </div>
                     </form>
-                    <p class="pull-right">{{stage}}/{{version}}</p>
+                    <!-- <p class="pull-right">{{stage}}/{{version}}</p> -->
                 </div>
             </div>
         </div>

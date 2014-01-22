@@ -1,0 +1,101 @@
+
+<!-- HEADER -->
+
+<div class="row">
+    <h4>Organization</h4>
+    <div class="col-xs-12 col-sm-12 margin-top-10">
+        <div class="margin-top-10">
+            <strong>Name: </strong>
+            <span>{{ getAnswer('org-name') }}</span>
+        </div>
+        <div class="margin-top-10">
+            <strong>Type: </strong>
+            <span>{{ getAnswer('org-type') }}</span>
+        </div>
+        <div class="margin-top-10">
+            <strong>Funding sources: </strong>
+            <span>{{ getAnswer('org-funding') }}</span>
+        </div>
+        <div class="margin-top-10">
+            <strong>MPA baseline monitoring funding: </strong>
+            <span>{{ getAnswer('org-mpa-funded') }}</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <h4>Project</h4>
+    <div class="col-xs-12 col-sm-12">
+        <div class="margin-top-10">
+            <strong>Name: </strong>
+            <span>{{ getAnswer('proj-title') }}</span>
+        </div>
+        <div class="margin-top-10">
+            <strong>Has sufficient funds: </strong>
+            <span>{{ getAnswer('proj-has-sufficient-funds') }}</span>
+        </div>
+        <div class="margin-top-10">
+            <strong>Data availability:</strong>
+            <span>{{ getAnswer('proj-data-availability') }}</span>
+        </div>
+        <div class="margin-top-10">
+            <strong>Ecoystem features monitored:</strong>
+            <span>{{ getAnswer('ecosystem-features') }}</span>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="row">
+    <div class="col-xs-12">
+        <div class="margin-top-10">
+            <strong>Did Other Permit Holders Split Catch: </strong>
+            <span>{{ getAnswer('did-other-permit-holders-split-catch')['text'] }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-4">
+        <div class="margin-top-10">
+            <strong>Partner #1 License #: </strong>
+            <span>{{ getAnswer('license-number-partner-1') }}</span>
+        </div>
+        <div>
+            <strong>Partner #1 Name: </strong>
+            <span ng-show="getAnswer('last-name-partner-1') != ''">{{ getAnswer('last-name-partner-1') }}, </span>
+            <span>{{ getAnswer('first-name-partner-1') }}</span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="margin-top-10">
+            <strong>Partner #2 License #: </strong>
+            <span>{{ getAnswer('license-number-partner-2') }}</span>
+        </div>
+        <div>
+            <strong>Partner #2 Name: </strong>
+            <span ng-show="getAnswer('last-name-partner-2') != ''">{{ getAnswer('last-name-partner-2') }}, </span>
+            <span>{{ getAnswer('first-name-partner-2') }}</span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="margin-top-10">
+            <strong>Trip Port Sampled:</strong>
+            <span>{{ getAnswer('port-sampled-by-dfw')['text'] }}</span>
+        </div>
+        <div>
+            <strong>Fishing Mainly at Night:</strong>
+            <span>{{ getAnswer('fishing-mainly-at-night')['text']}}</span>
+        </div>
+        <div>
+            <strong>Paying Customers Aboard:</strong>
+            <span>{{ getAnswer('paying-customers-aboard')['text'] }}</span>
+        </div>
+        <div>
+            <strong>Fished 3 or more miles from Shore:</strong>
+            <span>{{ getAnswer('fished-3-or-miles-from-shore')['text'] }}</span>
+        </div>
+    </div>
+</div> -->
+<!-- end Header -->

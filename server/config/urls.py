@@ -30,6 +30,8 @@ v1_api.register(UserResource())
 v1_api.register(BlockResource())
 v1_api.register(DashRespondantResource())
 v1_api.register(DashRespondantDetailsResource())
+v1_api.register(CompleteRespondantResource())
+v1_api.register(IncompleteRespondantResource())
 
 v1_api.register(SurveyReportResource())
 

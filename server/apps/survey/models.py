@@ -42,24 +42,13 @@ class Respondant(caching.base.CachingMixin, models.Model):
     @property
     def survey_title(self):
         try:
-            if self.survey.slug == 'catch-report':
-                date = self.responses.get(question__slug='landed-date').answer
-                if date.find('-') != -1:
-                    dateItems = date.split('-')
-                elif date.find('/') != -1:
-                    dateItems = date.split('/')
-                date = '%s/%s/%s' %(dateItems[1], dateItems[2], dateItems[0])
-            else:  
-                date = self.responses.get(question__slug='did-not-fish-for-month-of').answer 
-                if date.find('-') != -1:
-                    dateItems = date.split('-')
-                elif date.find('/') != -1:
-                    dateItems = date.split('/')
-                date = '%s/%s' %(dateItems[0], dateItems[1])
+            if self.survey.slug == 'monitoring-project':
+                org_name = self.responses.filter(question__slug='org-name')[0].answer
+                project_title = self.responses.filter(question__slug='proj-title')[0].answer
         except:
-            date = 'unknown'
-
-        return '%s -- %s' %(self.survey.name, date)
+            org_name = 'Unknown'
+            project_title = 'Unknown'
+        return '%s -- %s' % (org_name, project_title)
     
     @property
     def survey_slug(self):

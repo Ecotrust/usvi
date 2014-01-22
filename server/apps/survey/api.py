@@ -170,11 +170,41 @@ class ReportRespondantResource(SurveyModelResource):
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
-            'ordering_date': ['gte','lte']
+            'complete': ['exact'],
+            'ts': ['gte','lte']
         }
         #ordering = ['-ordering_date']
         authorization = StaffUserOnlyAuthorization()
         authentication = Authentication()
+
+class CompleteRespondantResource(ReportRespondantResource):
+    class Meta:
+        queryset = Respondant.objects.all().annotate(responses_count=Count("responses")).filter(responses_count__gte=1, complete__exact=True).order_by("-ts")
+        #queryset = Respondant.objects.filter(responses_count__gte=1).order_by('-ts')
+        filtering = {
+            'survey': ALL_WITH_RELATIONS,
+            'responses': ALL_WITH_RELATIONS,
+            'user': ALL_WITH_RELATIONS,
+            'ts': ['gte','lte']
+        }
+        ordering = ['-ts']
+        authorization = StaffUserOnlyAuthorization()
+        authentication = Authentication()
+
+class IncompleteRespondantResource(ReportRespondantResource):
+    class Meta:
+        queryset = Respondant.objects.all().annotate(responses_count=Count("responses")).filter(responses_count__gte=1, complete__exact=False).order_by("-ts")
+        #queryset = Respondant.objects.filter(responses_count__gte=1).order_by('-ts')
+        filtering = {
+            'survey': ALL_WITH_RELATIONS,
+            'responses': ALL_WITH_RELATIONS,
+            'user': ALL_WITH_RELATIONS,
+            'ts': ['gte','lte']
+        }
+        ordering = ['-ts']
+        authorization = StaffUserOnlyAuthorization()
+        authentication = Authentication()
+
 
 class DashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
