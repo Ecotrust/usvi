@@ -281,40 +281,6 @@ input.datepicker {
     height: 80px;
     background-color: rgb(54, 85, 91);
 }
-<<<<<<< HEAD:server/static/survey/assets/css/base-styles.css
-=======
-.keyboard-open #footer, .keyboard-open .navbar {
-    /*display: none;*/
-}
-.keyboard-open .question-wrapper {
-    opacity: 0;
-
-}
-.keyboard-open .block-title {
-    display: none;
-}
-.keyboard-open .question-wrapper.active {
-    position: absolute;
-    /*height: 100%;*/
-    z-index: 2000;
-    width: 100%;
-    
-    /*left: 10px;
-    top: 130px;*/
-    top: 0;
-    left: 0;
-    margin-top: 90px;
-    padding: 20px 50px 0;
-    opacity: 1 !important;
-}
-
-
-.keyboard-open #footer, .grid-keyboard-open #footer {
-    /*top: 210px;
-    z-index: 2001;*/
-    display: none;
-}
->>>>>>> gs/master:server/static/survey/assets/css/mobile.css
 
 #wrap > .container {
     padding: 40px 40px 20px;
@@ -497,6 +463,7 @@ img.center {
 .question .panel-body .select-checked .select-content .select-name {
     color: rgb(24, 75, 83);
 }
+
 .question .single-select-other {
     /*background-color: rgb(24, 75, 83) !important;*/
     background-color: rgb(246, 235, 194);
@@ -885,13 +852,6 @@ input.multi-select-other:-ms-input-placeholder {
   padding-top: 20px;
   color: rgb(244,244,244);
 }
-<<<<<<< HEAD:server/static/survey/assets/css/base-styles.css
-  .info h3 {
-    color: rgb(244,244,244);
-  }
-.leaflet-control-attribution {
-=======
-<<<<<<< HEAD
 
 
 .info h3, .info h4 {
