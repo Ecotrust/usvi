@@ -2,15 +2,15 @@
     <div class="row" ng-cloak>
         <div class="col-md-12">
             <!-- <i ng-hide="loaded" class="icon-spinner icon-spin"></i> -->
-            <table id="survey-landing-table" class="table table-striped">
+            <table class="dash-table table table-striped">
                 <tbody>
                     <tr ng-repeat="survey in surveys">
                         <td>
                             <a href="#/RespondantList/{{survey.slug}}"><h4>{{survey.name}}</h4></a>
                         </td>
                         <td>
-                            <h2 class="survey-num">{{survey.survey_responses || 0}}</h2>
-                            <p>Total</p>
+                            <h2 class="kpi-num">{{survey.survey_responses || 0}}</h2>
+                            <p class="kpi-num">Total</p>
                         </td>
                         <!-- <td>
                             <h2 class="survey-num">{{survey.today || 0}}</h2>

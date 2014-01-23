@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3>Select Species or Species Family</h3>
+</div>
+<div class="modal-body">
+	<input type="search" placeholder="enter species..." class="form-control" autofocus ng-model="searchTerm" ng-keyup="search(searchTerm)"/>
+	<div class="search-results">
+		<div ng-hide="speciesResults">Enter a species to get results.</div>
+	    <table class="table">
+	    	<tr ng-class="{ 'active': result == $parent.selectedSpecies }" ng-repeat="result in speciesResults" ng-click="selectSpecies(result)">
+	    		<td><a>{{ result.name }}</a></td>
+	    		<td>{{ result.code }}</td>
+	    	</tr>
+	     </table>
+    </div>
+    <p class="pull-right" ng-show="speciesResults.length">{{ speciesResults.length }} results</p>
+</div>
+<div class="modal-footer">
+	<p class="pull-left">Selected: <b>{{ selectedSpecies.name }}</b></p>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

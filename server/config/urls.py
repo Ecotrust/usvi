@@ -14,6 +14,7 @@ from apps.reports import urls as report_urls
 from apps.survey.api import *
 from apps.places.api import *
 from apps.account.api import *
+from apps.acl.api import *
 
 v1_api = Api(api_name='v1')
 
@@ -34,7 +35,9 @@ v1_api.register(UserResource())
 v1_api.register(BlockResource())
 v1_api.register(DashRespondantResource())
 v1_api.register(DashRespondantDetailsResource())
-
+v1_api.register(AnnualCatchLimitResource())
+v1_api.register(SpeciesResource())
+v1_api.register(SpeciesFamilyResource())
 v1_api.register(SurveyReportResource())
 
 admin.autodiscover()

@@ -1,6 +1,14 @@
 /* Will be compiled down to a single stylesheet with your sass files */
 
+.search-results {
+  height: 200px; overflow-y: auto;
+  margin: 10px 0;
+}
 
+.acl-list {
+  height: 600px;
+  overflow-y: auto;
+}
 .myLabel {
   position: relative !important;
 
@@ -15,17 +23,21 @@
   margin-right: 30px;
 }
 
-#survey-landing-table td {
+.dash-table td {
     vertical-align: middle;
 }
-#survey-landing-table .survey-num, #survey-landing-table p {
-    text-align: center;
+.dash-table p {
+    text-align: left;
     margin: auto;
 }
-#survey-landing-table .icon-plus,
-#survey-landing-table .icon-mobile-phone,
-#survey-landing-table .icon-trash,
-#survey-landing-table .icon-edit {
+.dash-table .kpi-num {
+  text-align: center;
+  margin-top: 0;
+}
+.dash-table .icon-plus,
+.dash-table .icon-mobile-phone,
+.dash-table .icon-trash,
+.dash-table .icon-edit {
     font-size: 24px;
 }
 
@@ -153,10 +165,10 @@ padding: 7px 9px;
 .buttons .btn {
     margin-left: 5px;
 }
-button[type='submit'] {
+/*button[type='submit'] {
     margin-top: 15px;
     margin-bottom: 0px;
-}
+}*/
 form {
     margin-bottom: 10px;
 }
