@@ -41,14 +41,18 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     @property
     def survey_title(self):
-        try:
-            if self.survey.slug == 'monitoring-project':
+        if self.survey.slug == 'monitoring-project':
+            try:
                 org_name = self.responses.filter(question__slug='org-name')[0].answer
+            except:
+                org_name = 'Unknown'
+            try:
                 project_title = self.responses.filter(question__slug='proj-title')[0].answer
-        except:
-            org_name = 'Unknown'
-            project_title = 'Unknown'
-        return '%s -- %s' % (org_name, project_title)
+            except:
+                project_title = 'Unknown'
+            return '%s -- %s' % (org_name, project_title)
+        else:
+            return self.survey.name
     
     @property
     def survey_slug(self):
@@ -438,6 +442,8 @@ class Response(caching.base.CachingMixin, models.Model):
                         profile = get_object_or_404(UserProfile, user=self.respondant.user)
                         profile.registration = simplejson.dumps(profileAnswers)
                         profile.save()
+
+                self.save()
 
         if self.question.slug == 'landed-date':
             if self.respondant is not None:
