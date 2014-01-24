@@ -482,7 +482,12 @@ class Response(caching.base.CachingMixin, models.Model):
                 for answer in self.answer:
                     code = answer.get('code', None)
                     species = None
-                    if code is not None:
+                    if code is None:
+                        try:
+                            species = DialectSpecies.lookup(answer['text'].strip(), None)
+                        except ValidationError:
+                            species = None
+                    else:
                         code_match = re.search(r'\((.*)\)', code)
                         if code_match is not None:
                             species = Species.objects.get(code=code_match.group(1))
@@ -495,10 +500,12 @@ class Response(caching.base.CachingMixin, models.Model):
                                     row_label=answer['label'].strip(), row_text=answer['text'].strip(),
                                     col_label=grid_col.label, col_text=grid_col.text, species=species)
                                 grid_answer.save()
+                                print species
                             except Exception as e:
-                                print "problem with ", grid_col.label
-                                print "not found in", self.answer_raw
-                                print e
+                                pass
+                                #print "problem with ", grid_col.label
+                                #print "not found in", self.answer_raw
+                                #print e
                             
                         elif grid_col.type == 'multi-select':
                             try:
@@ -510,8 +517,9 @@ class Response(caching.base.CachingMixin, models.Model):
                                         col_label=grid_col.label, col_text=grid_col.text)
                                     grid_answer.save()
                             except:
-                                print "problem with ", answer
-                                print e
+                                pass
+                                #print "problem with ", answer
+                                #print e
                         else:
                             print grid_col.type
                             print answer

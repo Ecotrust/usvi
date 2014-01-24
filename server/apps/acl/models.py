@@ -1,7 +1,10 @@
+from django.db.models import Q
 from django.db import models
 import caching.base
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
+import re
 
 
 class Dialect(caching.base.CachingMixin, models.Model):
@@ -66,6 +69,52 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
     def species_name(self):
         return "%s (%s)" % (self.species.name, self.species.code)
 
+    @classmethod
+    def lookup(cls, name, group):
+        regex = re.compile('\((.*)\)')
+        query = Q(name__iexact=name)
+        matches = DialectSpecies.objects.filter(query)
+        if len(matches.values('species__name', 'species__code').distinct()) == 1:
+            pass
+        else:
+            if group is not None:
+                # match things like Vermillion in the Snapper group
+                #print "%s %s" % (name, group)
+                query = query | Q(name__iexact="%s %s" % (name, group))
+                # match things like Jolthead in the Porgies group
+                query = query | Q(name__iexact="%s %s" % (name, group.replace('ies', 'y')))
+                # match things like Blackhead in the Snappers group
+                query = query | Q(name__iexact="%s %s" % (name, group[:-1]))
+                # match things like French in the Angelfieshes group
+                query = query | Q(name__iexact="%s %s" % (name, group[:-2]))
+                paren_name = regex.search(group)
+                if paren_name is not None:
+                    # matches things like: Queen Silk (Queen)
+                    query = query | Q(name__iexact="%s %s" % (name, paren_name.group(1)))
+                    query = query | Q(name__iexact="%s %s" % (name, paren_name.group(1)[:-1]))
+                    query = query | Q(name__iexact="%s %s" % (name, paren_name.group(1)[:-2]))
+                    query = query | Q(name__iexact="%s %s)" % (name[:-1], paren_name.group(1)[:-2]))
+                if group.endswith('es'):
+                    group = group[:-2]
+                elif group.endswith('s'):
+                    group = group[:-1]
+                if name.endswith(')'):
+                    query = query | Q(name__iexact="%s %s)" % (name[:-1], group))
+                    query = query | Q(name__iexact=name.split(' (')[0])
+                if group.endswith(')'):
+                    query = query | Q(name__iexact="%s %s)" % (name[:-1], group))
+            matches = DialectSpecies.objects.filter(query)
+        if matches.count() == 0:
+            raise ValidationError("'%s' is not a valid species." % (name))
+        else:
+            species_matches = matches.values('species').distinct()
+            if len(species_matches) > 1:
+                raise ValidationError("'%s' matches more than one species." % (name))
+            else:
+                return Species.objects.get(id=species_matches[0]['species'])
+
+
+
     class Meta:
         verbose_name_plural = "Dialect Species"
 
@@ -80,6 +129,7 @@ SECTOR_CHOICES = (
     ('commercial', 'Commercial Sector'),
     ('recreational', 'Recreational Sector'),
 )
+
 
 class AnnualCatchLimit(caching.base.CachingMixin, models.Model):
     content_type = models.ForeignKey(ContentType, null=True)

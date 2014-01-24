@@ -64,8 +64,8 @@ def get_distribution(request, survey_slug, question_slug):
         questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''), survey=survey)
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
-
-    answers = answers.filter(user=request.user)
+    if request.user.is_staff is None:
+        answers = answers.filter(user=request.user)
     filter_question_slug = None
     filter_value = None
 
@@ -98,7 +98,8 @@ def get_distribution(request, survey_slug, question_slug):
             else:
                 answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
-        answer_domain =  GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text').annotate(total=Sum('answer_number')).order_by('row_text')
+        # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
+        answer_domain =  GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'species__name', 'species__family__name').annotate(total=Sum('answer_number')).order_by('row_text')
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
         answer_domain = locations.values('answer').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))
