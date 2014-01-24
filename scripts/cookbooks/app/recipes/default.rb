@@ -220,19 +220,25 @@ if node[:user] == "vagrant"
     end
 end
 
-execute "create database" do
-    command "createdb -U postgres -T template0 -O postgres #{node[:dbname]} -E UTF8 --locale=en_US.UTF-8"
-    not_if "psql -U postgres --list | grep #{node[:dbname]}", :user => 'postgres'
+execute "create template database" do
+    command "createdb -U postgres -T template0 -O postgres template_postgis -E UTF8 --locale=en_US.UTF-8"
+    not_if "psql -U postgres --list | template_postgis", :user => 'postgres'
 end
 
 execute "load postgis" do
-    command "psql  -U postgres -d #{node[:dbname]} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql"
-    not_if "psql -U postgres #{node[:dbname]} -P pager -t --command='SELECT tablename FROM pg_catalog.pg_tables'|grep spatial_ref_sys"
+    command "psql  -U postgres -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql"
+    not_if "psql -U postgres template_postgis -P pager -t --command='SELECT tablename FROM pg_catalog.pg_tables'|grep spatial_ref_sys"
 end
 execute "load spatial references" do
-    command "psql -U postgres  -d #{node[:dbname]} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql"
-    not_if "psql -U postgres #{node[:dbname]} -P pager -t --command='SELECT srid FROM  spatial_ref_sys' |grep 900913"
+    command "psql -U postgres  -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql"
+    not_if "psql -U postgres template_postgis -P pager -t --command='SELECT srid FROM  spatial_ref_sys' |grep 900913"
 end
+
+execute "create database" do
+    command "createdb -U postgres -T template_postgis -O postgres #{node[:dbname]}"
+    not_if "psql -U postgres --list | grep #{node[:dbname]}", :user => 'postgres'
+end
+
 
 python_virtualenv "/usr/local/venv/#{node[:project]}" do
     action :create

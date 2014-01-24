@@ -6,7 +6,9 @@ from django.db import models
 
 
 class Migration(SchemaMigration):
-
+    depends_on = (
+        ("acl", "0001_initial"),
+    )
     def forwards(self, orm):
         # Deleting model 'Dialect'
         db.delete_table(u'survey_dialect')
