@@ -60,6 +60,14 @@
             </div>
         </div>
     </div>    
+    <div ng-switch-when="url">
+        <div class="question" ng-class="{ 'error': validity[question.slug] === false }">
+            <input class="form-control" type="text" placeholder="" ng-model="question.answer" />
+            <div class="alert alert-danger" ng-hide="validity[question.slug]">
+                <i class="icon-exclamation-sign"></i> Must be a valid URL (e.g., http://www.example.com).
+            </div>
+        </div>
+    </div>    
     <div ng-switch-when="currency">
         <div class="question">
 

@@ -153,6 +153,7 @@ QUESTION_TYPE_CHOICES = (
     ('number-with-unit', 'Number with Unit'),
     ('zipcode', 'Zipcode (5 or 9 digit)'),
     ('phone', 'Phone (international)'),
+    ('url', 'URL'),
 )
 
 class Option(caching.base.CachingMixin, models.Model):

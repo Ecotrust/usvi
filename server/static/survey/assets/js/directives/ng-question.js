@@ -26,7 +26,13 @@ angular.module('askApp').directive('multiquestion', function() {
                     /* first strip all valid special characters, then counts if there are at least 10 digits */
                     return (/^\d{10,}$/).test(question.answer.replace(/[\s()+\-\.]|ext/gi, ''));
                 }
- 
+
+                if (question.type === 'url') {
+                    //var exp = /^(https?:\/\/)?([\da-zA-Z\.-]+)\.([\da-zA-Z]{2,6})(\:[\d]{1,5})?\/?([a-zA-Z0-9-\._~:\/?#\[\]@!$&%'\(\)\*\+\,\;=]*)*$/;
+                    var exp = /^(https?:\/\/)?([\da-zA-Z\.-]+)\.([\da-zA-Z]{2,6})(\:[\d]{1,5})?\/?.*$/;
+                    return exp.test(question.answer);
+                }
+
                 if (question.type === 'integer' || question.type === 'number') {
                     if (! _.isNumber(question.answer)) {
                         return false;
