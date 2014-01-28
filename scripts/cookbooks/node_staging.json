@@ -1,0 +1,32 @@
+{
+    "user": "www-data",
+    "servername": "staging.example.com",
+    "dbname": "geosurvey",
+    "project": "geosurvey",
+    "app": "server",
+    "socketurl": "",
+    "staticfiles": "/usr/local/apps/geosurvey/server/public/static/",
+    "users": [
+        {
+            "name": "sfletche",
+            "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIUXC4Q7lgSUqYS+o/GjxzgtpCKrCORpDWPpfX5l11l4tKN4FpsNeW2ogCUO46V9LsvZTjmwwq3vSvOCBxVUPtzv7URz8NJTZMPUAgpBmr0fVjiKgAPpVJfIUjcVoZvIlpTOjZwO041uapApY3iP9DcfbE1NtsLjyXvNDPiKdtfRQefkCQOdov4txtD8mc9FwN2XZ2P0kRxdWoKr0rIZE3UTsm4xOB8GbS9g7/uRK9AL6OTIlbSPVIifbNuEyXTde7zji3VSg4tb2MvCdro0wkDMaWRID9GV/H30tsxqRK9xlADikT2yRU3cwnvGGS6W1VktDhk0gk6u514QBxtndP sfletcher@silverside.ecotrust.org"
+        },
+        {
+            "name": "eknuth",
+            "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJ8COUCKiY2hCoP0rXG9XsgYMys27xtYEUnEwn1Ne2QetssLNv1IKAHqTVfQ2c2ZK5LH4B1rj84oj7gPPOnbVQBu0biNlJ+V4P+3dfndPrSqx7KmCmHBUJmVA1I+zjqZaE62lMjNdq1BwIJMNeVCOoP7iIFjLEDollPIZ21wwITHPtkVd9BbvdepIpHFo0JwrHRhend8gIDowb6bQWK8WsXZDQITcOzCIeIe41QCKRIpbKI97XKBxRkm7i/jaIAGFHBNCI3euVBur8Rw9DBM/bDgED7nFmM734qL0z9+BAwjv1ka0zE/q8kyngv+vb0/+GN3ooX0ygJE48zkbFuAOF eknuth@Discus-Ubuntu"
+        },
+        {
+            "name": "tglaser",
+            "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVxMSyOG+Apkg+6Jy1T3Bq99WgMhW4RLO9/b5WpvALm80DkVPI1KtQEbIPVntmGKr5CwXnGOz37e0ZjRwvvCLqNy8bEbsxQt4vj3Fud71Yi+PQj24k9N3sVlnYmpQJWl3zlJ9BJITjK9ytD64M5+xf1V9KCJQ7hUysalGWg0g6K9Hi6OPNiNJuloEUVnQVp4z4zPn2Mf0kGxz1t9m9A+y2u1dMpc6aOx6IYJ3zKw1LoRycU+uLLiBjzGHAJxnKFJtdUUmKzHR5MrZ7uKPKpX3LJAVeRd623VUZzdYMXAEQGDX2oC+mdGO/e7YY7VNbPwEhrzquNGS1Ux7erE1E69nj tglaser@porgy.ecotrust.org"
+        }
+
+    ],
+    "postgresql": {
+        "password": {
+            "postgres": "F66F6539A7B2491D1F91CEF98437D7C2C1F9FAEBE31E63BB2B9C4A9FE91BB014"
+        }
+    },
+    "run_list": [
+        "app::default"
+    ]
+}
