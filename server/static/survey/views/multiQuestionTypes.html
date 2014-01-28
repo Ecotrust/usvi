@@ -52,6 +52,14 @@
             </div>
         </div>
     </div>    
+    <div ng-switch-when="phone">
+        <div class="question" ng-class="{ 'error': validity[question.slug] === false }">
+            <input class="form-control" type="text" placeholder="" ng-model="question.answer" />
+            <div class="alert alert-danger" ng-hide="validity[question.slug]">
+                <i class="icon-exclamation-sign"></i> Must be a phone number with at least 10 digits (e.g., (555) 555-5555).
+            </div>
+        </div>
+    </div>    
     <div ng-switch-when="currency">
         <div class="question">
 

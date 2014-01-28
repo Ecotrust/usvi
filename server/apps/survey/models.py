@@ -152,6 +152,7 @@ QUESTION_TYPE_CHOICES = (
     ('yes-no', 'Yes/No'),
     ('number-with-unit', 'Number with Unit'),
     ('zipcode', 'Zipcode (5 or 9 digit)'),
+    ('phone', 'Phone (international)'),
 )
 
 class Option(caching.base.CachingMixin, models.Model):
