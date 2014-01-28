@@ -151,6 +151,7 @@ QUESTION_TYPE_CHOICES = (
     ('map-multipolygon', 'Map with Multiple Polygons'),
     ('yes-no', 'Yes/No'),
     ('number-with-unit', 'Number with Unit'),
+    ('zipcode', 'Zipcode (5 or 9 digit)'),
 )
 
 class Option(caching.base.CachingMixin, models.Model):

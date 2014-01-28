@@ -44,6 +44,14 @@
             <input class="form-control" type="text" placeholder="" ng-model="question.answer" />
         </div>
     </div>
+    <div ng-switch-when="zipcode">
+        <div class="question" ng-class="{ 'error': validity[question.slug] === false }">
+            <input class="form-control" type="text" placeholder="" ng-model="question.answer" />
+            <div class="alert alert-danger" ng-hide="validity[question.slug]">
+                <i class="icon-exclamation-sign"></i> Must be a 5 or 9 digit zipcode (e.g., 93927 or 93927-1234).
+            </div>
+        </div>
+    </div>    
     <div ng-switch-when="currency">
         <div class="question">
 

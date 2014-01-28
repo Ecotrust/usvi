@@ -12,11 +12,17 @@ angular.module('askApp').directive('multiquestion', function() {
         },
         link: function postLink(scope, element, attrs) {
             scope.validateQuestion = function (question) {
-                // if the question is not required it is good to go
-                if (! question.required) {
+
+                // if the question has no content and is not required, it is good to go
+                if (! question.required && !question.answer) {
                     return true;
                 }
-               
+
+                if (question.type === 'zipcode') {
+                    var postal_code = new RegExp("^\\d{5}(-\\d{4})?$");
+                    return postal_code.test(question.answer);
+                }
+
                 if (question.type === 'integer' || question.type === 'number') {
                     if (! _.isNumber(question.answer)) {
                         return false;

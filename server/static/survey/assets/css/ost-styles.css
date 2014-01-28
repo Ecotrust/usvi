@@ -206,3 +206,16 @@
 .question .select .select-unchecked .select-content h4 {
     color: #000;
 }
+
+.question.error input,
+.question.error input:focus {
+    color: #b94a48;
+    background-color: #f2dede !important;*/
+    border-color: #ebccd1 2px solid;
+    margin-bottom: 10px;
+}
+.question .alert {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
