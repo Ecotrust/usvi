@@ -282,7 +282,7 @@ angular.module('askApp')
         }
 
         if ( answer !== 0 && !answer) {
-            answer = "NA";
+            answer = "";
         }
 
         return { question: question, answer: answer };
