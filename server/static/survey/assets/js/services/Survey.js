@@ -15,6 +15,13 @@ angular.module('askApp')
         answers = thisAnswers;
     };
 
+    var isOnFirstPage = function() {
+        if (page) { 
+            return (page.order || 1) === 1;
+        }
+        return false;
+    };
+
     var getPageFromQuestion = function(questionSlug) {
         return _.find(survey.pages, function (page) {
             return _.findWhere(page.questions, {slug: questionSlug});
@@ -277,6 +284,7 @@ angular.module('askApp')
 
     // Public API here
     return {
+      'isOnFirstPage': isOnFirstPage,
       'getNextPage': getNextPage,
       'getLastPage': getLastPage,
       'initializeSurvey': initializeSurvey,

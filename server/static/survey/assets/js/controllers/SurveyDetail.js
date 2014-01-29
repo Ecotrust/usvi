@@ -476,6 +476,10 @@ angular.module('askApp')
         }
 
     };
+    
+    $scope.hasBack = function () {
+        return survey.isOnFirstPage() !== false;
+    };    
 
 
 

@@ -36,6 +36,6 @@
     </div>
 </div>
 <div id="footer" ng-hide="sendingFeedback">
-    <a class="btn pull-left" ng-click="skipBack()"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    <a class="btn pull-left" ng-click="skipBack()" ng-show="hasBack() == false"><span class="glyphicon glyphicon-arrow-left"></span></a>
     <a class="btn pull-right" ng-class="{ 'valid': pageIsValid }" ng-click="submitPage(page)"><span class="glyphicon glyphicon-arrow-right"></span></a>
 </div>
