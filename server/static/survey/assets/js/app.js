@@ -133,39 +133,39 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute'])
     });
 
 
-$(document).ready(function() {
-    var flag = false;
-    $(document).on('focusin touchend', '.question input, .question select', function(e) {
-        if (!flag) {
-            flag = true;
-            setTimeout(function() {
-                flag = false;
-            }, 300);
-            var $this = $(this),
-                $wrapper = $this.closest('.question-wrapper');
+// $(document).ready(function() {
+//     var flag = false;
+//     $(document).on('focusin touchend', '.question input, .question select', function(e) {
+//         if (!flag) {
+//             flag = true;
+//             setTimeout(function() {
+//                 flag = false;
+//             }, 300);
+//             var $this = $(this),
+//                 $wrapper = $this.closest('.question-wrapper');
 
-            if ($this.closest('.menu-page').hasClass('profile')) {
-                return true;
-            }
-            if ($wrapper.length) {
-                if (!$wrapper.hasClass('non-focus-question')) {
-                    $('body').addClass("keyboard-open");
-                    $wrapper.addClass('active');
-                    if (e.type === 'touchstart') {
-                        $this.focus();
-                    }
-                } else {
-                    $('body').addClass("grid-keyboard-open");
-                }
-            }
-        }
+//             if ($this.closest('.menu-page').hasClass('profile')) {
+//                 return true;
+//             }
+//             if ($wrapper.length) {
+//                 if (!$wrapper.hasClass('non-focus-question')) {
+//                     $('body').addClass("keyboard-open");
+//                     $wrapper.addClass('active');
+//                     if (e.type === 'touchstart') {
+//                         $this.focus();
+//                     }
+//                 } else {
+//                     $('body').addClass("grid-keyboard-open");
+//                 }
+//             }
+//         }
 
-    });
+//     });
 
-    $(document).on('blur', '.question input, .question select', function(e) {
-        var $this = $(this);
-        $('body').removeClass("keyboard-open");
-        $('body').removeClass("grid-keyboard-open");
-        $this.closest('.question-wrapper').removeClass('active');
-    });
-});
+//     $(document).on('blur', '.question input, .question select', function(e) {
+//         var $this = $(this);
+//         $('body').removeClass("keyboard-open");
+//         $('body').removeClass("grid-keyboard-open");
+//         $this.closest('.question-wrapper').removeClass('active');
+//     });
+// });

@@ -1,9 +1,13 @@
 <div id="wrap" class="menu-page">
     <!-- Fixed navbar -->
     <div mobilemenu></div>
-
     <!-- Begin page content -->
+    <div id="header-bar" ng-hide="sendingFeedback">
+            <a class="btn pull-left" ng-click="skipBack()"><span class="glyphicon glyphicon-arrow-left"></span></a>
+            <a class="btn pull-right" ng-class="{ 'valid': pageIsValid }" ng-click="submitPage(page)"><span class="glyphicon glyphicon-arrow-right advance"></span></a>
+        </div>
     <div class="container">
+
         <div class="feedback" ng-show="sendingFeedback" ng-cloak>
             <form ng-submit="submitFeedback(feedback)">   
                 <div class="question-title"> Send us your Feedback </div> 
@@ -35,8 +39,4 @@
             </div>
         </div>
     </div>
-</div>
-<div id="footer" ng-hide="sendingFeedback">
-    <a class="btn pull-left" ng-click="skipBack()"><span class="glyphicon glyphicon-arrow-left"></span></a>
-    <a class="btn pull-right" ng-class="{ 'valid': pageIsValid }" ng-click="submitPage(page)"><span class="glyphicon glyphicon-arrow-right advance"></span></a>
 </div>

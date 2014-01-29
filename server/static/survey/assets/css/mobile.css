@@ -305,13 +305,28 @@ input.datepicker {
     padding: 0 0 0;
 }
 /* Set the fixed height of the footer here */
-#footer {
+#header-bar {
     position: fixed;
     width: 100%;
-    margin: 0 auto -60px;
-    height: 80px;
+    margin: 70px auto -60px;
+    height: 45px;
     background-color: rgb(54, 85, 91);
 }
+#header-bar .btn {
+    color: rgb(22, 59, 66);
+    font-size: 35px;
+    padding: 0 30px;
+    background-color: rgb(24, 75, 83);
+    height: 100%;
+    border-radius: 0;
+}
+    #header-bar .valid {
+        background-color: rgb(250, 189, 18);
+    }
+    #header-bar .valid span {
+        color: rgb(0,0,0);
+    }
+
 .keyboard-open #footer, .keyboard-open .navbar {
     /*display: none;*/
 }
@@ -348,7 +363,7 @@ input.datepicker {
     padding: 40px 40px 20px;
 }
 #wrap.menu-page > .container {
-    padding: 110px 40px 100px;
+    padding: 120px 40px 100px;
 }
 .container .credit {
     margin: 20px 0;
@@ -378,7 +393,7 @@ img.center {
     border-bottom: 0;
 }
 .navbar .container {
-    height: 60px;
+    height: 50px;
 }
 
 .navbar .navbar-toggle {
@@ -387,14 +402,14 @@ img.center {
     margin-top: -5px;
     margin-left: 10px;
     border: 0;
-    font-size: 36px;
+    font-size: 30px;
 }
 .navbar .navbar-comment {
     position: absolute;
     padding: 0 5px;
     right: 10px;
     border: 0;
-    font-size: 36px;
+    font-size: 30px;
     background-color: inherit;
     color: white;
     
@@ -414,8 +429,8 @@ img.center {
     margin-top: 5px;
 }
 .navbar-brand img {
-    margin-top: -24px;
-    height: 65px;
+    margin-top: -20px;
+    height: 55px;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
@@ -572,7 +587,7 @@ img.center {
     
     border-radius: 0;
     background-color: rgb(50, 50, 50);
-    height: 10px;
+    height: 5px;
 }
 .menu-page .progress .progress-bar {
     height: 10px;
@@ -901,20 +916,7 @@ input.multi-select-other:-ms-input-placeholder {
 }
 
 
-#footer .btn {
-    color: rgb(22, 59, 66);
-    font-size: 50px;
-    padding: 0 30px;
-    background-color: rgb(24, 75, 83);
-    height: 100%;
-    border-radius: 0;
-}
-    #footer .valid {
-        background-color: rgb(250, 189, 18);
-    }
-    #footer .valid span {
-        color: rgb(0,0,0);
-    }
+
 #map {
     height: 300px;
     padding: 0;
