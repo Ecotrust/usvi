@@ -69,14 +69,14 @@
         </div>
     </div>    
     <div ng-switch-when="currency">
-        <div class="question">
-
+        <div class="question" ng-class="{ 'error': validity[question.slug] === false }">
             <div class="input-prepend">
-                <span class="add-on">$</span>
-                <input class="form-control" type="number" step="any" placeholder="" ng-model="question.answer" />
+                <div class="add-on">$</div>
+                <input class="form-control" type="text" placeholder="" ng-model="question.answer" />
             </div>
-
-            <!-- <button type="submit" class="btn btn-primary btn-large btn-block button-block" ng-disabled="question.required && ! answer">continue</button> -->
+            <div class="alert alert-danger" ng-hide="validity[question.slug]">
+                <i class="icon-exclamation-sign"></i> Must be a currency format (e.g., 110.50 or 5,000,000).
+            </div>
         </div>
     </div>
     <div ng-switch-when="monthpicker">

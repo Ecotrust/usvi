@@ -14,8 +14,12 @@ angular.module('askApp').directive('multiquestion', function() {
             scope.validateQuestion = function (question) {
 
                 // if the question has no content and is not required, it is good to go
-                if (! question.required && !question.answer) {
-                    return true;
+                if (! question.required) {
+                    if (_.isArray(question.answer) && question.answer.length === 0) {
+                        return true;
+                    } else if (!question.answer) {
+                        return true;
+                    } // else: validate the answer that is provided.
                 }
 
                 if (question.type === 'zipcode') {
@@ -28,19 +32,21 @@ angular.module('askApp').directive('multiquestion', function() {
                 }
 
                 if (question.type === 'url') {
-                    //var exp = /^(https?:\/\/)?([\da-zA-Z\.-]+)\.([\da-zA-Z]{2,6})(\:[\d]{1,5})?\/?([a-zA-Z0-9-\._~:\/?#\[\]@!$&%'\(\)\*\+\,\;=]*)*$/;
                     var exp = /^(https?:\/\/)?([\da-zA-Z\.-]+)\.([\da-zA-Z]{2,6})(\:[\d]{1,5})?\/?.*$/;
                     return exp.test(question.answer);
                 }
 
-                if (question.type === 'integer' || question.type === 'number') {
-                    if (! _.isNumber(question.answer)) {
+                if (question.type === 'integer' || question.type === 'number' || question.type === 'currency') {
+                    if (question.type === 'currency') {
+                        return /^\$?(([0-9]{1,3},([0-9]{3},)*)[0-9]{3}|[0-9]{1,3})(\.[0-9]{2})?$/.test(question.answer);
+                    }                    
+                    if (isNaN(question.answer)) {
                         return false;
                     }
                     if (question.integer_max && question.integer_max < question.answer) {
                         return false;
                     }
-                    if (question.integer_min || question.integer_min > question.answer) {
+                    if (question.integer_min && question.integer_min > question.answer) {
                         return false;
                     }
                     if (question.type === 'integer' && _.string.include(question.answer, '.')) {

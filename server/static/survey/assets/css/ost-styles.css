@@ -219,3 +219,20 @@
     padding-bottom: 10px;
     font-size: 14px;
 }
+
+.question .input-prepend {
+    position: relative;
+    z-index: 0;
+}
+.question .input-prepend input,
+.question .input-prepend input:focus {
+    padding-left: 20px;
+}
+.question .input-prepend .add-on {
+    position: absolute;
+    top: 8px;
+    left: 6px;
+    z-index: 100;
+    font-weight: bold;
+    font-size: 18px;
+}
