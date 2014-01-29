@@ -78,8 +78,6 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
             pass
         else:
             if group is not None:
-                # match things like Vermillion in the Snapper group
-                #print "%s %s" % (name, group)
                 query = query | Q(name__iexact="%s %s" % (name, group))
                 # match things like Jolthead in the Porgies group
                 query = query | Q(name__iexact="%s %s" % (name, group.replace('ies', 'y')))
@@ -96,8 +94,12 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
                     query = query | Q(name__iexact="%s %s)" % (name[:-1], paren_name.group(1)[:-2]))
                 if group.endswith('es'):
                     group = group[:-2]
+                    query = query | Q(name__iexact="%s %s" % (name, group))
                 elif group.endswith('s'):
                     group = group[:-1]
+                    print "%s %s?" % (name, group)
+                    query = query | Q(name__iexact="%s %s" % (name, group))
+                    print DialectSpecies.objects.filter(query)
                 if name.endswith(')'):
                     query = query | Q(name__iexact="%s %s)" % (name[:-1], group))
                     query = query | Q(name__iexact=name.split(' (')[0])

@@ -291,52 +291,10 @@ class Question(caching.base.CachingMixin, models.Model):
                     continue
                 row = row.split('|')[0].strip()
                 #match exact matches
-                query = Q(name__iexact=row)
-                matches = DialectSpecies.objects.filter(query)
-                if len(matches.values('species__name', 'species__code').distinct()) == 1:
-                    pass
-                else:
-                    # match things like SHELLFISH (TRUNKFISH/COWFISH)
-                    # row_paren_name = regex.search(row)
-                    
-                    # if row_paren_name is not None:
-                    #     print row_paren_name.group(1)
-                    if group is not None:
-                        # match things like Vermillion in the Snapper group
-                        #print "%s %s" % (row, group)
-                        query = query | Q(name__iexact="%s %s" % (row, group))
-                        # match things like Jolthead in the Porgies group
-                        query = query | Q(name__iexact="%s %s" % (row, group.replace('ies', 'y')))
-                        # match things like Blackhead in the Snappers group
-                        query = query | Q(name__iexact="%s %s" % (row, group[:-1]))
-                        # match things like French in the Angelfieshes group
-                        query = query | Q(name__iexact="%s %s" % (row, group[:-2]))
-                        paren_name = regex.search(group)
-                        if paren_name is not None:
-                            # matches things like: Queen Silk (Queen)
-                            query = query | Q(name__iexact="%s %s" % (row, paren_name.group(1)))
-                            query = query | Q(name__iexact="%s %s" % (row, paren_name.group(1)[:-1]))
-                            query = query | Q(name__iexact="%s %s" % (row, paren_name.group(1)[:-2]))
-                            query = query | Q(name__iexact="%s %s)" % (row[:-1], paren_name.group(1)[:-2]))
-                        if group.endswith('es'):
-                            group = group[:-2]
-                        elif group.endswith('s'):
-                            group = group[:-1]
-                        if row.endswith(')'):
-                            query = query | Q(name__iexact="%s %s)" % (row[:-1], group))
-                            query = query | Q(name__iexact=row.split(' (')[0])
-                        if group.endswith(')'):
-                            query = query | Q(name__iexact="%s %s)" % (row[:-1], group))
-                    matches = DialectSpecies.objects.filter(query)
-                if matches.count() == 0:
-                    raise ValidationError("'%s' is not a valid species." % (row))
-                else:
-                    species = matches.values('species__name', 'species__code').distinct()
-                    if len(species) == 1:
-                        updated_rows.append("%s|%s (%s)" % (row, species[0]['species__name'], species[0]['species__code']))
-                    else:
-                        print species
-                        raise ValidationError("'%s' matched more than one species." % (row))
+                print row, group
+                species = DialectSpecies.lookup(row, group)
+                updated_rows.append("%s|%s (%s)" % (row, species.name, species.code))
+
             self.rows = ('\n').join(updated_rows)
         super(Question, self).clean(*args, **kwargs)
 
