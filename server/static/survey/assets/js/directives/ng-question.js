@@ -271,7 +271,7 @@ angular.module('askApp').directive('multiquestion', function() {
                         matches = _.filter(scope.question.answer, function(answer) {
                             return answer.text === dialectSpecies;
                         });                        
-                    } else if (scope.question.answer.text === dialectSpecies) {
+                    } else if (scope.question.answer && scope.question.answer.text === dialectSpecies) {
                         matches = [row];
                     }
 
@@ -375,7 +375,7 @@ angular.module('askApp').directive('multiquestion', function() {
 
 
             // get answers
-            if (scope.question.type === 'number-with-unit') {
+            if (scope.question.type === 'number-with-unit' && scope.question.answer) {
                 scope.question.unit = scope.question.answer.unit;
                 scope.question.answer = scope.question.answer.value;
             } else if (scope.question.type === 'integer') {
