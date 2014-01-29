@@ -13,7 +13,7 @@ angular.module('askApp')
 
         $scope.path = $location.path().slice(1,5);
 
-
+        $scope.submittedSpinner = true;
         $scope.getSubmittedSurveysListFromServer = function() {
             var url = app.server 
                       + '/api/v1/reportrespondant/?user__username__exact=' 
@@ -23,7 +23,6 @@ angular.module('askApp')
             
             return $http.get(url).error(function (err) {
                 console.log(JSON.stringify(err));
-                debugger;
             });            
         };
 
@@ -35,6 +34,7 @@ angular.module('askApp')
                     _.each(data.objects, function(respondent, index) {
                         $scope.respondentList.push(respondent);
                     });
+                    $scope.submittedSpinner = false;
                     // console.log($scope.respondentList);
                 }).error(function (data) {
                     debugger;

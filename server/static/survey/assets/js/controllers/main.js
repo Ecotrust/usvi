@@ -85,6 +85,9 @@ angular.module('askApp')
             $scope.showError = false;
             $http.post(url, user)
                 .success(function (data) {
+                    if (app.respondents) {
+                        delete app.respondents;
+                    }
                     app.user = data.user;
                     app.user.registration = {};
                     storage.saveState(app);

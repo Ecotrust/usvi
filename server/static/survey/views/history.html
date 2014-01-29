@@ -18,7 +18,11 @@
         </div>
         <div>
             <a class="btn btn-default btn-main btn-lg btn-block" href="#/submittedSurveyList" ng-class="{ 'disabled': !respondentList }">
-                submitted <span class="badge pull-right" style="top: 0px">{{respondentList.length}}<i class="icon-spinner icon-spin" ng-hide="respondentList"></i></span>
+                submitted
+                <span class="badge pull-right" style="top: 0px">
+                    {{respondentList.length}}
+                    <i class="icon-spinner icon-spin" ng-show="submittedSpinner"></i>
+                </span>
             </a>
         </div>
 
