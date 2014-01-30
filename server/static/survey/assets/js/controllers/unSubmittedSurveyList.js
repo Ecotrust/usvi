@@ -149,11 +149,13 @@ angular.module('askApp')
 
         $scope.submitSurvey = function(respondent) {
             $scope.showSurveyList = false;
+            $scope.busy = true;
             survey.submitSurvey(respondent, _.findWhere(app.surveys, {slug: respondent.survey}))
                 .success( function(data) {
                     //remove from app.respondents and save state
                     $scope.deleteRespondent(respondent);
                     $scope.showSurveyList = true;
+                    $scope.busy = false;
                 }).error( function(err) {
                     debugger;
                 });

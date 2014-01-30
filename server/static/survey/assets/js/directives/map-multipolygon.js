@@ -1,6 +1,6 @@
 angular.module('askApp').directive('map', function($http) {
     return {
-        template: '<div class="map" style="height: 100%; width: 100%; position: fixed; margin-left: -50px; margin-top: -60px"></div>',
+        template: '<div class="map" style="height: 100%; width: 100%; position: fixed; margin-left: -50px; margin-top: -50px"></div>',
         restrict: 'EA',
         replace: true,
         transclude: true,
