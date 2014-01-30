@@ -8,14 +8,14 @@ h1, h2, h3, h4, h5 {
     color: rgb(244,244,244);
 }
 
-body {
-    /*background-color: rgb(77, 136, 153);*/
-    /*position:relative;*/
+html, body {
     width: 100%;
     overflow-x: hidden;
 }
+
 html, body, #app_shell, #app_shell > div, #wrap, .splash {
     height: 100%;
+
     /* The html and body elements cannot have any padding or margin. */
 }
 
@@ -25,10 +25,6 @@ html, body, #app_shell, #app_shell > div, #wrap, .splash {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-html { 
-  
 }
 
 a {
@@ -444,8 +440,6 @@ img.center {
 
 
 .main .navbar {
-    position: fixed;
-    top: 0;
     height: 20px;
     min-height: 20px;
     background-color: rgb(250, 189, 18);
