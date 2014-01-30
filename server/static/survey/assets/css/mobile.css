@@ -11,7 +11,8 @@ h1, h2, h3, h4, h5 {
 body {
     /*background-color: rgb(77, 136, 153);*/
     /*position:relative;*/
-
+    width: 100%;
+    overflow-x: hidden;
 }
 html, body, #app_shell, #app_shell > div, #wrap, .splash {
     height: 100%;
@@ -443,6 +444,8 @@ img.center {
 
 
 .main .navbar {
+    position: fixed;
+    top: 0;
     height: 20px;
     min-height: 20px;
     background-color: rgb(250, 189, 18);
