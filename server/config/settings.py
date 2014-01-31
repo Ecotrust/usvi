@@ -13,7 +13,7 @@ PROJECT_ROOT = path(__file__).abspath().dirname().dirname()
 sys.path.insert(0, PROJECT_ROOT / 'libs')
 sys.path.insert(0, PROJECT_ROOT / 'apps')
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
