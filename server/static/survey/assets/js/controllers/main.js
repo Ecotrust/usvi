@@ -4,9 +4,25 @@ angular.module('askApp')
     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
     $scope.path = 'home';
-    
+
+    $scope.getUserProfile = function (user) {
+        var url = app.server + "/account/getUserProfile";
+
+        $http.get(url)
+            .success(function (data) {
+                $scope.user = app.user = data.user;
+            })
+            .error(function (data) {
+              $scope.showError = data;
+            });
+    };
+
     if (app.user) {
         $scope.user = app.user;
+        if (! $scope.user.registration || _.isEmpty($scope.user.registration)) {
+            $scope.getUserProfile($scope.user);
+        }
+
     } else {
         $scope.user = false;
         if ($location.path() === '/signin' || $location.path() === '/signup') {
@@ -54,7 +70,15 @@ angular.module('askApp')
     $scope.logout = function () {
         app.user = false;
         storage.saveState(app);
-        $location.path('/');
+
+        var url = app.server + "/account/logoutUser";
+        $scope.working = true;
+        $scope.showError = false;
+        $http.post(url).success(function (data) {
+            $location.path('/');
+        }).error(function (data, status) {
+            console.log('Error logging out.');
+        });
     }
 
     // $scope.saveState = function () {
@@ -89,7 +113,7 @@ angular.module('askApp')
                     app.user.registration = {};
                     storage.saveState(app);
                     // $location.path('/surveys');
-                    $location.path('/profile');
+                    $location.path('/main');
                 })
             .error(function (data, status) {
                 $scope.working = false;

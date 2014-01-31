@@ -1,12 +1,29 @@
-<div id="wrap" class="main">
-    <!-- Fixed navbar -->
-    <!-- Begin page content -->
-    <div class="navbar navbar-default navbar-fixed-top"></div>
-    <div ng-hide="forms" class="splash">
-        <!-- <img class="p97" src="assets/img/point_97_logo.svg"/> -->
-        <a class="btn btn-main sign-up" href="#/signup">Sign up</a>
-        <a class="btn btn-main sign-in" href="#/signin">Sign in</a>
-        <!-- <div class="splash-version">{{stage}}/{{version}}</div> -->
-    </div>
+I<div id="wrap" class="main thin-page">
+    <div class="navbar navbar-default navbar-fixed-top"></div>        
 
+        <div class="container">
+            <div class="page-header">
+                <img src="static/survey/assets/img/deck-logo.svg" class="center logo" />
+            </div>
+            <div class="loading-indicator" ng-show="working">
+                <div class="bar">
+                    <i class="sphere"></i>
+                </div>
+            </div>
+                <div ng-show="showTempUser">
+                    <h2>No Connection</h2>
+                    <p>Can't reach the server.  Do you want to continue offline?</p>
+                    <button class="btn btn-main btn-default btn-block" ng-click="offline(newUser, 'signup')">Use Digital Deck Offline</button>
+                    <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
+                </div>
+                <div class="new-user-form" ng-hide="working || showTempUser">
+                    <a class="btn btn-main btn-default btn-block" href="/login/ost/?next=/respond">Login with OceanSpaces.org</a>
+                    <a class="btn btn-main btn-default btn-block" href="/login/google/?next=/respond">Login with Google</a>
+                    <a class="btn btn-main btn-default btn-block" href="/respond#/signin">Login with Digital Deck</a>
+                    <p style="text-align: center;">Or <a href="/respond#/signup">create a new account</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

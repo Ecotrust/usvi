@@ -4,7 +4,9 @@ from views import *
 
 urlpatterns = patterns('',
 	(r'^authenticateUser', authenticateUser),
+	(r'^logoutUser', logoutUser),
 	(r'^createUser', createUser),
+	(r'^getUserProfile', getUserProfile),
 	(r'^updateUser', updateUser),
 	(r'^updatePassword', updatePassword),
 	(r'^sendFeedback', sendFeedback),

@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, check_password
 from django.contrib.auth.forms import PasswordResetForm
 from account.models import UserProfile, Feedback
@@ -46,6 +46,10 @@ def authenticateUser(request):
     else:
         return HttpResponse("error", status=500)
 
+@csrf_exempt
+def logoutUser(request):
+    logout(request)
+    return redirect('/respond')
 
 @csrf_exempt
 def createUser(request):
@@ -144,6 +148,19 @@ def updateUser(request):
     else:
         return HttpResponse("error", status=500)
 
+@csrf_exempt
+@login_required
+def getUserProfile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    profile.save()
+    request.user.save()
+    user_dict = {
+        'username': request.user.username,
+        'name': ' '.join([request.user.first_name, request.user.last_name]),
+        'is_staff': request.user.is_staff,
+        'registration': request.user.profile.registration
+    }
+    return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
 
 @csrf_exempt
 def updatePassword(request):

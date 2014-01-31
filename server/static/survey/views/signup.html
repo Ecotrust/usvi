@@ -1,4 +1,4 @@
-I<div id="wrap" class="main">
+I<div id="wrap" class="main thin-page">
     <!-- Fixed navbar -->
     <!-- Begin page content -->
     <div class="navbar navbar-default navbar-fixed-top"></div>        
@@ -20,19 +20,20 @@ I<div id="wrap" class="main">
                     <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
                 </div>
                 <div class="new-user-form" ng-hide="working || showTempUser">
+                    <h3>Create New Account</h3>
                     <form ng-submit="createUser(newUser)">
-                    <fieldset>
-                        <h4 class="question-title">Username</h4>
-                        <input class="form-control" type="text" data-ng-model="newUser.username" autocapitalize="off" required>
-                        <h4 class="question-title">Email Address</h4>
-                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress1" required>
-                        <h4 class="question-title">Confirm Email Address</h4>
-                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress2" required>
-                        <h4 class="question-title">Password</h4>
-                        <password password-text="newUser.password"></password>
-                    </fieldset>
+                        <fieldset>
+                            <h4 class="question-title">Username</h4>
+                            <input class="form-control" type="text" data-ng-model="newUser.username" autocapitalize="off" required>
+                            <h4 class="question-title">Email Address</h4>
+                            <input class="form-control" type="email" data-ng-model="newUser.emailaddress1" required>
+                            <h4 class="question-title">Confirm Email Address</h4>
+                            <input class="form-control" type="email" data-ng-model="newUser.emailaddress2" required>
+                            <h4 class="question-title">Password</h4>
+                            <password password-text="newUser.password"></password>
+                        </fieldset>
                         <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">New User</button>
-                        <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
+                        <a class="btn btn-main btn-default btn-block" href="/respond">cancel</a>
                         <div class="error" ng-show="showError == 'duplicate-user'">
                             That username is already registered. Please try another.
                         </div>

@@ -162,6 +162,9 @@
     var static_url = "{{STATIC_URL}}";
     {% if user.is_authenticated %}
     var isAuthenticated = true;
+    app.user = {
+      username: "{{user.username}}"
+    }
     {% else %}
     var isAuthenticated = false;
     {% endif %}

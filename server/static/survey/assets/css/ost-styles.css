@@ -236,3 +236,7 @@
     font-weight: bold;
     font-size: 18px;
 }
+
+.thin-page .container {
+    width: 500px;
+}

@@ -496,6 +496,9 @@ $scope.loadSurvey = function(data) {
 
         // Get answers from user profile used to pre-populate profile questions.
         if (app.user && app.user.registration) {
+            if (_.isString(app.user.registration)) {
+                app.user.registration = JSON.parse(app.user.registration);
+            }
             _.each(app.user.registration, function(val, key) {
                 $scope.answers[key] = val;
             });
