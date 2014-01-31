@@ -237,3 +237,11 @@ LOGIN_URL = '/admin/login'
 
 # social auth
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL    = '/user/login-error/'
+SOCIAL_AUTH_BACKEND_ERROR_URL = LOGIN_ERROR_URL
+#SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+#SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+if DEBUG == False:
+    SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
