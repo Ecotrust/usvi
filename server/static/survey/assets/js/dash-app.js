@@ -3,7 +3,7 @@
 var app = {};
 
 app.server = window.location.protocol + '//' + window.location.host;
-angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip',]) //'ui', 'ui.bootstrap',
+angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip','mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal"]) //'ui', 'ui.bootstrap',
     .config(function($routeProvider, $httpProvider) {
 
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';

@@ -389,6 +389,10 @@ table {
   font-size: 48px;
   color: black;
 }
+.acl-progress .family-title {
+  text-align: center;
+  font-size: 18px;
+}
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
   right: 10px;
   top: 43%;
@@ -396,6 +400,9 @@ table {
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-left {
   left: 10px;
   top: 43%;
+}
+.carousel-indicators {
+  bottom: 5px;
 }
 .carousel-indicators li {
   background-color: rgb(64,63,65);

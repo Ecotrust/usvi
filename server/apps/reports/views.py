@@ -66,14 +66,10 @@ def get_distribution(request, survey_slug, question_slug):
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None:
         answers = answers.filter(user=request.user)
-    filter_question_slug = None
-    filter_value = None
 
     filter_list = []
 
     if request.method == 'GET':
-        filter_value = request.GET.get('filter_value')
-        filter_question_slug = request.GET.get('filter_question')
         filters = request.GET.get('filters', None)
 
     if filters is not None:
@@ -83,12 +79,11 @@ def get_distribution(request, survey_slug, question_slug):
 
     if question_type in ['map-multipoint']:
         locations = LocationAnswer.objects.filter(location__response__in=answers)
-    if filters is not None:    
-        for filter in filters:
-            slug = filter.keys()[0]
-            value = filter[slug]
-            filter_question = QuestionReport.objects.get(slug=slug, survey=survey)
-           
+
+    if filters is not None:
+        for filter_slug in filter_list.keys():
+            value = filter_list[filter_slug]
+            filter_question = QuestionReport.objects.get(slug=filter_slug, survey=survey)
             if question_type in ['map-multipoint']:
                 if filter_question == self:
                     locations = locations.filter(answer__in=value)
@@ -96,7 +91,9 @@ def get_distribution(request, survey_slug, question_slug):
                     answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
                     locations = locations.filter(location__response__in=answers)
             else:
+                print "before ", answers.count()
                 answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+                print "after ", answers.count()
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
         answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
