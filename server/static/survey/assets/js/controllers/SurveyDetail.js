@@ -502,6 +502,8 @@ $scope.loadSurvey = function(data) {
             _.each(app.user.registration, function(val, key) {
                 $scope.answers[key] = val;
             });
+        } else if (app.user) {
+            app.user.registration = {};
         }
 
         _.each(data.responses, function(response) {
