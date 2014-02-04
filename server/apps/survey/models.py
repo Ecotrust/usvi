@@ -458,7 +458,6 @@ class Response(caching.base.CachingMixin, models.Model):
                                     row_label=answer['label'].strip(), row_text=answer['text'].strip(),
                                     col_label=grid_col.label, col_text=grid_col.text, species=species)
                                 grid_answer.save()
-                                print species
                             except Exception as e:
                                 pass
                                 #print "problem with ", grid_col.label

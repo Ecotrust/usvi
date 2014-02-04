@@ -3,9 +3,8 @@
         <div ng-include="viewPath + 'views/pennies.html'"></div>
     </div>
     <div ng-switch-when="info">
-        
         <div class="info-content" ng-include="viewPath + infoView"></div>
-        <button class="btn btn-primary btn-block button-block btn-large" ng-tap="gotoNextQuestion()">continue</button>
+        <button class="btn btn-primary btn-block button-block btn-large" ng-click="gotoNextQuestion()">continue</button>
     </div>
     <div ng-switch-when="integer">
         <form class="question" ng-show="survey.questions.length" ng-submit="answerQuestion(answer)">
@@ -129,7 +128,7 @@
             <div class="todo mrm">
                 <ul>
                   <li 
-                    ng-tap="$parent.onSingleSelectClicked(option, $parent.question)"
+                    ng-click="$parent.onSingleSelectClicked(option, $parent.question)"
                     ng-repeat="option in question.options"
                     ng-class="{'todo-done': option.checked }">
                     <div class="todo-content">
@@ -141,7 +140,7 @@
                   </li>
                   <li 
                     ng-show="question.allow_other"
-                    ng-tap="$parent.onSingleSelectClicked($parent.question.otherOption, $parent.question)"
+                    ng-click="$parent.onSingleSelectClicked($parent.question.otherOption, $parent.question)"
                     ng-class="{'todo-done': $parent.question.otherOption.checked }">
                     <div class="todo-content">
                       <h4 class="todo-name">
@@ -160,7 +159,7 @@
             <div class="todo mrm">
                 <ul>
                   <li 
-                    ng-tap="$parent.onSingleSelectClicked(option, $parent.question)"
+                    ng-click="$parent.onSingleSelectClicked(option, $parent.question)"
                     ng-repeat="option in question.options"
                     ng-class="{'todo-done': option.checked }">
                     <div class="todo-content">
@@ -183,7 +182,7 @@
                     <h3>Activities You Selected</h3>
                     <ul class="hoisted">
                         <li 
-                          ng-tap="$parent.onMultiSelectClicked(option, $parent.question)"
+                          ng-click="$parent.onMultiSelectClicked(option, $parent.question)"
                           ng-repeat="option in question.hoisted_options"
                           ng-class="{'todo-done': option.checked }">
                           <div class="todo-content">
@@ -206,7 +205,7 @@
                     <accordion-group heading="{{groupOption.optionLabel}}">
                         <ul class="choices">
                           <li 
-                            ng-tap="$parent.onMultiSelectClicked(option, $parent.question)"
+                            ng-click="$parent.onMultiSelectClicked(option, $parent.question)"
                             ng-repeat="option in groupOption.options" 
                             ng-class="{'todo-done': option.checked, 'option-group-name': option.isGroupName }">
                             <div class="todo-content">
@@ -222,7 +221,7 @@
                     <accordion-group heading="Other">
                         <ul class="choices">
                           <li 
-                            ng-tap="onMultiSelectClicked(question.otherOption, question)"
+                            ng-click="onMultiSelectClicked(question.otherOption, question)"
                             ng-class="{'todo-done': question.otherOption.checked }"
                             ng-model="question.otherAnswer.text">
                             <div class="todo-content">
@@ -244,7 +243,7 @@
                     <h3>{{groupOption.optionLabel}}</h3>
                     <ul class="choices">
                       <li 
-                        ng-tap="$parent.onMultiSelectClicked(option, $parent.question)"
+                        ng-click="$parent.onMultiSelectClicked(option, $parent.question)"
                         ng-repeat="option in groupOption.options" 
                         ng-class="{'todo-done': option.checked, 'option-group-name': option.isGroupName }">
                         <div class="todo-content">
@@ -259,7 +258,7 @@
                     <h3>Other</h3>
                     <ul class="choices">
                       <li 
-                        ng-tap="onMultiSelectClicked(question.otherOption, question)"
+                        ng-click="onMultiSelectClicked(question.otherOption, question)"
                         ng-class="{'todo-done': question.otherOption.checked }"
                         ng-model="question.otherAnswer.text">
                         <div class="todo-content">
@@ -278,7 +277,7 @@
                 <h3 ng-show="question.hoisted_options.length > 0">Other Activities</h3>
                 <ul class="choices">
                   <li 
-                    ng-tap="$parent.onMultiSelectClicked(option, $parent.question)"
+                    ng-click="$parent.onMultiSelectClicked(option, $parent.question)"
                     ng-repeat="option in question.options" 
                     ng-class="{'todo-done': option.checked }">
                     <div class="todo-content">
@@ -290,7 +289,7 @@
                   </li>
                   <li 
                     ng-show="question.allow_other"
-                    ng-tap="onMultiSelectClicked(question.otherOption, question)"
+                    ng-click="onMultiSelectClicked(question.otherOption, question)"
                     ng-class="{'todo-done': question.otherOption.checked }"
                     ng-model="question.otherAnswer.text">
                     <div class="todo-content">

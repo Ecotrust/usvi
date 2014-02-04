@@ -3,7 +3,7 @@
 var app = {};
 
 app.server = window.location.protocol + '//' + window.location.host;
-angular.module('askApp', ['ngRoute', 'ui', 'ui.bootstrap', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip',])
+angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip',]) //'ui', 'ui.bootstrap',
     .config(function($routeProvider, $httpProvider) {
 
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
@@ -59,6 +59,10 @@ angular.module('askApp', ['ngRoute', 'ui', 'ui.bootstrap', 'mgcrea.ngStrap.datep
         .when('/acl/:id', {
         templateUrl: '/static/survey/views/acl-detail.html',
         controller: 'AnnualCatchLimitDetailCtrl'
+    })
+        .when('/acl-progress', {
+        templateUrl: '/static/survey/views/acl-progress.html',
+        controller: 'AnnualCatchLimitProgressCtrl'
     })
         .when('/', {
         templateUrl: '/static/survey/views/survey-list.html',

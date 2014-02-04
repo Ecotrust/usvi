@@ -50,6 +50,53 @@ class Species(caching.base.CachingMixin, models.Model):
     class Meta:
         verbose_name_plural = "Species"
 
+species_mapping = {
+    "barjack": "bar jack",
+    "blackfin": None,
+    "bluestriped": None,
+    "bunt tail (mutton)": "bunt tail (mutton snapper)",
+    "butterfish": "butterfish (coney)",
+    "caesar": "caesar grunt",
+    "ceasar": "caesar grunt",
+    "cardinal": "cardinal snapper",
+    "cooney": "butterfish (coney)",
+    "doctofish": "brown doctor (doctorfish)",
+    "file fish": "filefish",
+    "file fishp": "filefish",
+    "french": None,
+    "french angel": "french angelfish",
+    "grammanik (yellowfin)": "grammanik (yellowfin grouper)",
+    "green moray": "green moray eel",
+    "hog fish": "hogfish",
+    "hog. fish": "hogfish",
+    "horse eye": "horse eye jack",
+    "jolthead": "jolthead porgy",
+    "lane": "lane snapper",
+    "lemon": "lemon shark",
+    "longspine": "longspine squirrelfish",
+    "magate": "margate",
+    "mahogany": "mahogany snapper",
+    "mangrove (gray)": "mangrove (gray snapper)",
+    "misty": "misty grouper",
+    "ole wife": "ole wife (queen triggerfish)",
+    "ole wife (queen)": "ole wife (queen triggerfish)",
+    "ole wilfe (queen)": "ole wife (queen triggerfish)",
+    "princess": "princess parrotfish",
+    "redband": "redband parrotfish",
+    "red belly (stoplight)": "red belly (stoplight parrotfish)",
+    "redfin": "redfin parrotfish",
+    "redtail": "redtail parrotfish",
+    "silk": "silk snapper",
+    "tomate": "tomtate",
+    "vermillion": "vermilion snapper",
+    "virgin (mutton)": "virgin (mutton) snapper",
+    "yellowfin": "yellowfin tuna",
+    "yellowtail": "yellowtail snapper",
+    "yellow tail": "yellowtail snapper",
+    "yellow tal": "yellowtail snapper",
+    "yllow tail": "yellowtail snapper"
+}
+
 
 class DialectSpecies(caching.base.CachingMixin, models.Model):
     dialect = models.ForeignKey('Dialect')
@@ -73,6 +120,13 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
     def lookup(cls, name, group):
         regex = re.compile('\((.*)\)')
         query = Q(name__iexact=name)
+        print "trying ", name
+        if name.endswith('s'):
+            query = query | Q(name__iexact=name[:-1])
+        map_match = species_mapping.get(name.strip().lower(), None)
+        if map_match is not None:
+            print "matching ", map_match
+            query = query | Q(name__iexact=map_match)
         matches = DialectSpecies.objects.filter(query)
         if len(matches.values('species__name', 'species__code').distinct()) == 1:
             pass
@@ -115,8 +169,6 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
             else:
                 return Species.objects.get(id=species_matches[0]['species'])
 
-
-
     class Meta:
         verbose_name_plural = "Dialect Species"
 
@@ -143,4 +195,3 @@ class AnnualCatchLimit(caching.base.CachingMixin, models.Model):
     area = models.CharField(max_length=144, choices=AREA_CHOICES)
     pounds = models.IntegerField(null=True, blank=True)
     number_of_fish = models.IntegerField(null=True, blank=True)
-

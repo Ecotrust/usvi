@@ -1,0 +1,62 @@
+<div class="container acl-progress" ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default active">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Region
+                </button>
+                <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    St. Croix
+                </button>
+                <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    St. Thomas
+                </button>
+                <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Puerto Rico
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="carousel slide">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li ng-click="slideTo($index)" ng-repeat="slide in slides" ng-class="{ 'active': slideIndex == $index }"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item" ng-class="{ 'active': slideIndex == $index }" ng-repeat="slide in slides">
+                        <div class="row">
+                            <div class="col-md-4" ng-repeat="family in slide">
+                                <div acl-pie-chart inner-radius="100" bind="family.data" class="chart"></div>
+                            </div>
+                        </div>
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                    <script>
+                        // (function () {
+                        //     var $carousel = $('.carousel');
+                        //         $carousel.carousel({interval: false});
+                        //         $carousel.find('.item:first-child').addClass('active');
+                        // })();
+                        
+                    </script>
+                    <!-- Controls -->
+                    <a class="left carousel-control" ng-click="slidePrev()">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" ng-click="slideNext()">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
