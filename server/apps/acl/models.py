@@ -195,3 +195,8 @@ class AnnualCatchLimit(caching.base.CachingMixin, models.Model):
     area = models.CharField(max_length=144, choices=AREA_CHOICES)
     pounds = models.IntegerField(null=True, blank=True)
     number_of_fish = models.IntegerField(null=True, blank=True)
+    objects = caching.base.CachingManager()
+
+    class Meta:
+        unique_together = ("content_type", "object_id", "start_date", "end_date", "area", "sector", )
+        ordering = ['content_type', 'object_id', 'area', 'start_date', 'end_date']

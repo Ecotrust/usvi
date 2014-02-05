@@ -48,5 +48,5 @@ class AnnualCatchLimitResource(SurveyModelResource):
 
     class Meta:
         always_return_data = True
-        queryset = AnnualCatchLimit.objects.all().order_by('area')
+        queryset = AnnualCatchLimit.objects.all()
         authorization = StaffUserOnlyAuthorization()

@@ -2,16 +2,9 @@
 angular.module('askApp')
     .controller('AnnualCatchLimitListCtrl', function($scope, $http, $routeParams, $location) {
     	var url = '/api/v1/annualcatchlimit/';
-    	$http.get(url + '?format=json').success(function (data) {
+    	$http.get(url + '?limit=0&format=json').success(function (data) {
             var years = [];
-    		$scope.acls = data.objects.sort(function (a,b) {
-                if (a.species && b.species) {
-                    return a.species.name.localeCompare(b.species.name);    
-                } else {
-                    return -1;
-                }
-                
-            });
+    		$scope.acls = data.objects;
     		$scope.meta = {
     			areas: [],
     			sectors: [],

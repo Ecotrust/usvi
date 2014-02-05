@@ -30,12 +30,12 @@ angular.module('askApp')
                         $scope.byFamily = _.groupBy($scope.summary, 'species__family__name');    
                         $scope.bySpecies = _.groupBy($scope.summary, 'species__name');    
                         $scope.slides = [];
-                        $scope.families = _.keys($scope.byFamily).sort();
-
-                        var i=1, chunk=3, tmpFamilies, tmpArray;
+                        $scope.familyNames = _.keys($scope.byFamily).sort();
+                        $scope.totalIndex = {};
+                        var i=0, chunk=3, tmpFamilies, tmpArray;
 
                         while (i < _.size($scope.byFamily)) {
-                            tmpFamilies = $scope.families.slice(i,i+chunk);
+                            tmpFamilies = $scope.familyNames.slice(i,i+chunk);
                             tmpArray = [];
 
                             _.each(tmpFamilies, function (family) {
@@ -44,7 +44,7 @@ angular.module('askApp')
                                     function (memo, num) { return memo + num; }, 0);
                                 var extra = [];
                                 var terms = [];
-
+                                $scope.totalIndex[family] = total;
                                 _.each(groups, function (group) {
                                     terms.push({
                                         term: [group.species__name, group.col_text].join(' '),
@@ -53,7 +53,7 @@ angular.module('askApp')
                                 });
                                 tmpArray.push({
                                     name: family,
-                                    families: $scope.byFamily[family],
+                                    families: groups,
                                     data: {
                                         _type : "terms",
                                         missing : 0,
@@ -65,6 +65,14 @@ angular.module('askApp')
                             });
                             $scope.slides.push(tmpArray);
                             i = i + chunk;
+                            $scope.families = [];
+                            _.each($scope.familyNames, function (name) {
+                                $scope.families.push({
+                                    name: name,
+                                    families: $scope.byFamily[name],
+                                    total: $scope.totalIndex[name]
+                                });
+                            });
                         }
                     } else {
                         $scope.slides = [];
