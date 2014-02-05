@@ -9,8 +9,6 @@ class OSTOpenId(OpenIdAuth):
     def get_user_details(self, response):
         """Return user details from OST account"""
         email = self.data.get('openid.sreg.email')
-        
-        self.UserProfile.isOceanSpacesMember = True
 
         return {'username': email,
                 'email': email,
