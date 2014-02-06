@@ -58,18 +58,30 @@ angular.module('askApp')
                             
                             _.each(aclChunks, function (aclChunk) {
                                 var groups =  aclChunk.groups;
-                                var extra = [];
+                                var extra = {
+                                    term: "misc",
+                                    count: 0,
+                                    groups: []
+                                };
                                 var terms = [];
                     
                                 _.each(groups, function (group) {
-                                    if (group.total) {
+                                    console.log(group.total/aclChunk.acl.pounds);
+                                    if (group.total && group.total/aclChunk.acl.pounds > .05) {
                                         terms.push({
                                             term: [group.species__name, group.col_text].join(' '),
                                             count: group.total
                                         });    
+                                    } else {
+                                        extra.count = extra.count + group.total;
+                                        extra.groups.push(group.species__name);
                                     }
                                     
                                 });
+                                if (extra.count > 0) {
+                                        extra.term = extra.groups.join(', ');
+                                        terms.push(extra);
+                                    }
                                 if (aclChunk.total !== aclChunk.acl.pounds) {
                                     terms.push({
                                         term: 'Unfilled',
@@ -90,6 +102,7 @@ angular.module('askApp')
                                 });
                             });
                             $scope.slides.push(tmpArray);
+                            $scope.slideIndex = 0;
                             i = i + chunk;
                             $scope.families = [];
                             _.each($scope.familyNames, function (name) {
