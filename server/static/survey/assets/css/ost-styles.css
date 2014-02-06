@@ -14,6 +14,58 @@
 	color: blue;
 }
 
+/*
+.logo-blue: #005072
+.logo-green: #72AFB6
+.accent-blue: #9FD7E1
+.accent-gray: #AEB9BF
+ */
+
+body {
+    background-color: #72AFB6;
+}
+.navbar {
+    background-color: #005072;
+    margin-bottom: 0;
+}
+.main .navbar {
+    background-color: #72AFB6;
+}
+.status-bar {
+    display: none; /*: #005072;*/
+}
+.menu-page .progress {
+    background-color: #AEB9BF;
+}
+.menu-page .progress {
+    width: 200px;
+}
+.menu-page .progress,
+.menu-page .progress .progress-bar {
+    height: 16px;
+}
+
+#page-controls .btn {
+    margin-left: 10px;
+}
+
+#page-controls .valid {
+    background-color: rgb(250, 189, 18);
+    color: rgb(0,0,0);
+}
+#page-controls .btn:hover,
+#page-controls .btn:hover span {
+    color: rgb(250, 189, 18);
+}
+
+.small-label {
+    font-size: 14px;
+    font-weight: 200;
+    margin-bottom: 0;
+    color: white;
+    margin-right: 5px;
+}
+
 /* override bootstrap's responsive styling 
    in the navbar */
 @media (min-width: 768px) {

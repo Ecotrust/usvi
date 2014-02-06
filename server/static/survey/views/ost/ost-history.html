@@ -3,17 +3,17 @@
     <!-- Begin page content -->
     <div class="container">
 
-        <h3>Report History</h3>
+        <h3>Previous Surveys</h3>
 
         <div style="margin-top: 20px;">
             <a class="btn btn-main btn-default btn-lg btn-block" href="#/incompletes">
-                incomplete reports <span class="badge pull-right" style="top: 0px">{{incompletes.length}}</span>
+                incomplete <span class="badge pull-right" style="top: 0px">{{incompletes.length}}</span>
             </a>
         </div>
         
         <div>
             <a class="btn btn-main btn-default btn-lg btn-block" href="#/completes" ng-class="{ 'disabled': !completes }">
-                completed reports <span class="badge pull-right" style="top: 0px">{{completes.length}}<i class="icon-spinner icon-spin" ng-hide="completes"></i></span>
+                completed <span class="badge pull-right" style="top: 0px">{{completes.length}}<i class="icon-spinner icon-spin" ng-hide="completes"></i></span>
             </a>
         </div>
 
