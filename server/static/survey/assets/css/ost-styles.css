@@ -55,16 +55,17 @@ body {
     height: 16px;
 }
 
+
 #page-controls {
     padding-top: 20px;
 }
-
 #page-controls .btn-nav {
     margin-left: 10px;
     text-transform: none;
     color: #01415C;
-    background-color: #F6EBC2;
-    border-color: #F6EBC2;
+    background-color: #FFDC7B;
+    border-color: #FFDC7B;
+    border: none;
 }
 #page-controls .btn-nav.btn-primary.valid {
     background-color: #FABD12;
@@ -75,13 +76,21 @@ body {
     border-color: #FFDC7B;
 }
 
-.info-content p,
-.block-title, .question-title {
+
+.info-content p, .question-title {
     color: #002535;
 }
-.info-content h3 {
+.info-content p {
+    font-size: 16px;
+}
+.info-content h3,
+.block-title {
     font-weight: 200;
     letter-spacing: 1px;
+    text-transform: none;
+}
+.block-title {
+    font-size: 24px;
 }
 /*.select-content {
     background-color: #306F8A !important;
@@ -98,6 +107,11 @@ body {
 .question textarea.form-control:focus {
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+
+.page-content {
+    margin-top: 25px;
 }
 
 /* override bootstrap's responsive styling 
@@ -130,9 +144,6 @@ body {
 }
 
 
-.block-title {
-
-}
 .question-title {
     text-transform: none;
     /*font-size: 18px;
@@ -324,5 +335,5 @@ body {
 }
 
 .thin-page .container {
-    width: 500px;
+    max-width: 500px;
 }

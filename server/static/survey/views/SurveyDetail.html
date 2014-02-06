@@ -29,7 +29,7 @@
                 </div>
 
 
-                <div>
+                <div class="page-content">
                     <div class="block-title"> {{ getPageBlockTitle() }} </div>
                     <div class="question-wrapper" ng-class="{ 'grid-question': question.type == 'grid', 'non-focus-question': question.type == 'grid' || question.type=='number-with-unit' }" ng-repeat="question in page.questions">
                         <h4 class="question-title" ng-hide="{{question.type == 'info'}}">{{ question.title }} <span class="required-indicator" ng-show="{{question.required}}">*</span></h4>
