@@ -14,6 +14,92 @@
 	color: blue;
 }
 
+/*
+.logo-blue: #005072
+.logo-green: #72AFB6
+.accent-blue: #9FD7E1
+.accent-gray: #AEB9BF
+ */
+
+body {
+    background-color: #72AFB6;
+}
+.navbar {
+    background-color: #005072;
+    margin-bottom: 0;
+}
+.main .navbar {
+    background-color: #72AFB6;
+}
+.status-bar {
+    display: none; /*: #005072;*/
+}
+#wrap.menu-page > .container {
+    padding-top: 90px;
+}
+.small-label {
+    font-size: 14px;
+    font-weight: 200;
+    margin-bottom: 0;
+    color: white;
+    margin-right: 5px;
+}
+.menu-page .progress {
+    background-color: #AEB9BF;
+}
+.menu-page .progress {
+    width: 200px;
+}
+.menu-page .progress,
+.menu-page .progress .progress-bar {
+    height: 16px;
+}
+
+#page-controls {
+    padding-top: 20px;
+}
+
+#page-controls .btn-nav {
+    margin-left: 10px;
+    text-transform: none;
+    color: #01415C;
+    background-color: #F6EBC2;
+    border-color: #F6EBC2;
+}
+#page-controls .btn-nav.btn-primary.valid {
+    background-color: #FABD12;
+    border-color: #FABD12;
+}
+#page-controls .btn-nav.btn-primary.invalid {
+    background-color: #FFDC7B;
+    border-color: #FFDC7B;
+}
+
+.info-content p,
+.block-title, .question-title {
+    color: #002535;
+}
+.info-content h3 {
+    font-weight: 200;
+    letter-spacing: 1px;
+}
+/*.select-content {
+    background-color: #306F8A !important;
+}*/
+.select .option-checked .select-unchecked .select-content {
+    background-color: #306F8A !important;
+}
+
+.form-control, .question .form-control:focus, .unit-select {
+    background-color: white;
+}
+
+.question textarea.form-control,
+.question textarea.form-control:focus {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 /* override bootstrap's responsive styling 
    in the navbar */
 @media (min-width: 768px) {

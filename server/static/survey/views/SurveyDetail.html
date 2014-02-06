@@ -13,6 +13,22 @@
         </div>
         <div class="respondant" ng-hide="loading || sendingFeedback">
             <div ng-show="page">
+                <div class="clearfix">
+                    <div ng-show="surveyProgress > 0">
+                        <div class="progress pull-right">
+                            <div class=" progress-bar" style="width: {{ surveyProgress }}%;"></div>
+                        </div>
+                        <p class="small-label pull-right">Progress:</p>
+                    </div>
+
+                    <!-- <div id="page-controls">
+                        <a class="btn btn-main pull-right" ng-class="{ 'valid': pageIsValid, 'disabled': !pageIsValid }" ng-click="submitPage(page)">Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></a>&nbsp;&nbsp;
+                        <a class="btn btn-main pull-right" ng-click="skipBack()" ng-show="hasBack() == false"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Previous</a>
+                    </div> -->
+
+                </div>
+
+
                 <div>
                     <div class="block-title"> {{ getPageBlockTitle() }} </div>
                     <div class="question-wrapper" ng-class="{ 'grid-question': question.type == 'grid', 'non-focus-question': question.type == 'grid' || question.type=='number-with-unit' }" ng-repeat="question in page.questions">
@@ -31,11 +47,18 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="page-controls" class="clearfix">
+                    <a class="btn btn-main btn-nav btn-primary pull-right" ng-class="{ 'valid': pageIsValid, 'invalid': !pageIsValid }" ng-click="submitPage(page)">Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></a>&nbsp;&nbsp;
+                    <a class="btn btn-main btn-nav pull-right valid" ng-click="skipBack()" ng-show="hasBack() == false"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Previous</a>
+                </div>
+
+
             </div>
         </div>
     </div>
 </div>
-<div id="footer" ng-hide="sendingFeedback">
+<!-- <div id="footer" ng-hide="sendingFeedback">
     <a class="btn pull-left" ng-click="skipBack()" ng-show="hasBack() == false"><span class="glyphicon glyphicon-arrow-left"></span></a>
     <a class="btn pull-right" ng-class="{ 'valid': pageIsValid }" ng-click="submitPage(page)"><span class="glyphicon glyphicon-arrow-right"></span></a>
-</div>
+</div> -->
