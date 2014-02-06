@@ -15,10 +15,10 @@
             <div ng-show="page">
                 <div class="clearfix">
                     <div ng-show="surveyProgress > 0">
-                        <p class="small-label pull-left">Progress:</p>
-                        <div class="progress pull-left">
+                        <div class="progress pull-right">
                             <div class=" progress-bar" style="width: {{ surveyProgress }}%;"></div>
                         </div>
+                        <p class="small-label pull-right">Progress:</p>
                     </div>
 
                     <!-- <div id="page-controls">
@@ -29,7 +29,7 @@
                 </div>
 
 
-                <div>
+                <div class="page-content">
                     <div class="block-title"> {{ getPageBlockTitle() }} </div>
                     <div class="question-wrapper" ng-class="{ 'grid-question': question.type == 'grid', 'non-focus-question': question.type == 'grid' || question.type=='number-with-unit' }" ng-repeat="question in page.questions">
                         <h4 class="question-title" ng-hide="{{question.type == 'info'}}">{{ question.title }} <span class="required-indicator" ng-show="{{question.required}}">*</span></h4>
@@ -49,8 +49,8 @@
                 </div>
 
                 <div id="page-controls" class="clearfix">
-                    <a class="btn btn-main pull-right" ng-class="{ 'valid': pageIsValid, 'disabled': !pageIsValid }" ng-click="submitPage(page)">Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></a>&nbsp;&nbsp;
-                    <a class="btn btn-main pull-right" ng-click="skipBack()" ng-show="hasBack() == false"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Previous</a>
+                    <a class="btn btn-main btn-nav btn-primary pull-right" ng-class="{ 'valid': pageIsValid, 'invalid': !pageIsValid }" ng-click="submitPage(page)">Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></a>&nbsp;&nbsp;
+                    <a class="btn btn-main btn-nav pull-right valid" ng-click="skipBack()" ng-show="hasBack() == false"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Previous</a>
                 </div>
 
 

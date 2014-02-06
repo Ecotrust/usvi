@@ -34,6 +34,16 @@ body {
 .status-bar {
     display: none; /*: #005072;*/
 }
+#wrap.menu-page > .container {
+    padding-top: 90px;
+}
+.small-label {
+    font-size: 14px;
+    font-weight: 200;
+    margin-bottom: 0;
+    color: white;
+    margin-right: 5px;
+}
 .menu-page .progress {
     background-color: #AEB9BF;
 }
@@ -45,25 +55,62 @@ body {
     height: 16px;
 }
 
-#page-controls .btn {
+#page-controls {
+    padding-top: 20px;
+}
+#page-controls .btn-nav {
     margin-left: 10px;
+    text-transform: none;
+    color: #01415C;
+    background-color: #FFDC7B;
+    border-color: #FFDC7B;
+    border: none;
+}
+#page-controls .btn-nav.btn-primary.valid {
+    background-color: #FABD12;
+    border-color: #FABD12;
+}
+#page-controls .btn-nav.btn-primary.invalid {
+    background-color: #FFDC7B;
+    border-color: #FFDC7B;
 }
 
-#page-controls .valid {
-    background-color: rgb(250, 189, 18);
-    color: rgb(0,0,0);
-}
-#page-controls .btn:hover,
-#page-controls .btn:hover span {
-    color: rgb(250, 189, 18);
-}
 
-.small-label {
-    font-size: 14px;
+.info-content p, .question-title {
+    color: #002535;
+}
+.info-content p {
+    font-size: 16px;
+}
+.info-content h3,
+.block-title {
     font-weight: 200;
-    margin-bottom: 0;
-    color: white;
-    margin-right: 5px;
+    letter-spacing: 1px;
+    text-transform: none;
+}
+.block-title {
+    font-size: 24px;
+}
+/*.select-content {
+    background-color: #306F8A !important;
+}*/
+.select .option-checked .select-unchecked .select-content {
+    background-color: #306F8A !important;
+}
+
+.form-control, .question .form-control:focus, .unit-select {
+    background-color: white;
+}
+
+.question textarea.form-control,
+.question textarea.form-control:focus {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+.page-content {
+    margin-top: 25px;
 }
 
 /* override bootstrap's responsive styling 
@@ -96,9 +143,6 @@ body {
 }
 
 
-.block-title {
-
-}
 .question-title {
     text-transform: none;
     /*font-size: 18px;
@@ -290,5 +334,5 @@ body {
 }
 
 .thin-page .container {
-    width: 500px;
+    max-width: 500px;
 }
