@@ -1,25 +1,30 @@
 <div class="container acl-progress" ng-cloak>
     <div class="row">
         <div class="col-md-12">
-            <button type="button" class="btn btn-default" ng-model="filter.region" bs-checkbox>
-                <span class="glyphicon glyphicon-remove"></span>
-                Region
-            </button>
-            <button type="button" class="btn btn-default" ng-model="filter.area.stcroix" bs-checkbox>
-                <span class="glyphicon glyphicon-plus"></span>
-                St Croix
-            </button>
-            <button type="button" class="btn btn-default" ng-model="filter.area.stthomas" bs-checkbox>
-                <span class="glyphicon glyphicon-plus"></span>
-                St. Thomas
-            </button>
-            <button type="button" class="btn btn-default" ng-model="filter.area.puertorico" bs-checkbox>
-                <span class="glyphicon glyphicon-plus"></span>
-                Puerto Rico
-            </button>
+            <div class="btn-group" ng-model="filter.area" bs-radio-group>
+                <label class="btn btn-default">
+                    <input type="radio" class="btn btn-default" value="region">
+                    Region
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" class="btn btn-default" value="stcroix">
+                    St. Croix
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" class="btn btn-default" value="stthomas">
+                    St. Thomas/St.John
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" class="btn btn-default" value="puertorico">
+                    Puerto Rico
+                </label>
+            </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-hide="aclResults">
+        No data for {{ area }}.
+    </div>
+    <div class="row" ng-show="aclResults">
         <div class="col-md-12">
             <div class="carousel slide">
                 <!-- Indicators -->
@@ -49,14 +54,28 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="aclResults">
         <div class="col-md-12">
-            <table class="table">
-                <tr ng-repeat="family in families">
-                    <td>{{ family.name }}</td>
-                    <td>{{ family.total }}</td>
-                </tr>
+            <ol class="list-unstyled" class="acl-results">
+                <li ng-repeat="acl in aclResults" class="acl-result">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ acl.acl.species.name }}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="progress">
+                              <div class="progress-bar" role="progressbar" aria-valuenow="{{ acl.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ acl.percent }}%;">
+                                <span class="sr-only">{{ acl.percent }}% Complete</span>
+                              </div>
+                            </div>
+                            <i class="icon-info-sign info-sign" data-trigger="hover" bs-tooltip="test"></i>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="info-percent">{{ acl.percent|number:1 }}%</span>
+                        </div>
+                    </div>
+                </li>
             </table>
         </div>
     </div>
-</div>
+</div> 

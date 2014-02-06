@@ -17,7 +17,7 @@ angular.module('askApp')
     }
 
     if (app.user && app.user.resumePath) {
-        if ( ! _.has(app.respondents, _.last(app.user.resumePath.split('/'))) ) {
+        if ( ! _.has(app.respondents && _.last(app.user.resumePath.split('/'))) ) {
             delete $scope.user.resumePath;
         }
     }

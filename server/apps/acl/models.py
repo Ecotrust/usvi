@@ -173,10 +173,10 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
         verbose_name_plural = "Dialect Species"
 
 AREA_CHOICES = (
-    ('st-croix', 'St. Croix'),
-    ('st-thomas-st-john', 'St. Thomas/St. John'),
-    ('puerto-rico', 'Puerto Rico'),
-    ('us-carib-eez', 'U.S. Caribbean Exclusive Economic Zone'),
+    ('stcroix', 'St. Croix'),
+    ('stthomas', 'St. Thomas/St. John'),
+    ('puertorico', 'Puerto Rico'),
+    ('uscaribeez', 'U.S. Caribbean Exclusive Economic Zone'),
 )
 
 SECTOR_CHOICES = (
@@ -196,6 +196,10 @@ class AnnualCatchLimit(caching.base.CachingMixin, models.Model):
     pounds = models.IntegerField(null=True, blank=True)
     number_of_fish = models.IntegerField(null=True, blank=True)
     objects = caching.base.CachingManager()
+
+    @property
+    def by_species(self):
+        return self.species.__class__.__name__ == 'Species'
 
     class Meta:
         unique_together = ("content_type", "object_id", "start_date", "end_date", "area", "sector", )

@@ -1,4 +1,5 @@
 from tastypie.contrib.contenttypes.fields import GenericForeignKeyField
+from tastypie import fields
 from .models import AnnualCatchLimit, Species, SpeciesFamily, AREA_CHOICES, SECTOR_CHOICES
 from survey.api import SurveyModelResource, StaffUserOnlyAuthorization
 
@@ -23,7 +24,9 @@ class SpeciesFamilyResource(SurveyModelResource):
             'name': ['icontains'],
         }
 
+
 class AnnualCatchLimitResource(SurveyModelResource):
+    by_species = fields.BooleanField(readonly=True)
     species = GenericForeignKeyField({
         Species: SpeciesResource,
         SpeciesFamily: SpeciesFamilyResource
@@ -36,7 +39,6 @@ class AnnualCatchLimitResource(SurveyModelResource):
         bundle.data['meta']['area_choices'] = AREA_CHOICES
         bundle.data['meta']['sector_choices'] = SECTOR_CHOICES
         return bundle
-
 
     def alter_list_data_to_serialize(self, request, bundle):
         if 'meta' not in bundle:

@@ -88,15 +88,18 @@ def get_distribution(request, survey_slug, question_slug):
                 if filter_question == self:
                     locations = locations.filter(answer__in=value)
                 else:
+
                     answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
                     locations = locations.filter(location__response__in=answers)
             else:
                 print "before ", answers.count()
+                if not isinstance(value, (list, tuple)):
+                    value = [value]
                 answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
                 print "after ", answers.count()
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
-        answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
+        answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
         answer_domain = locations.values('answer').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))

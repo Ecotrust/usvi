@@ -393,6 +393,26 @@ table {
   text-align: center;
   font-size: 18px;
 }
+.acl-progress .acl-result {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.acl-progress .acl-result .info-sign {
+  position: absolute;
+  right: 0;
+  top: 9px;
+
+}
+.acl-progress .acl-result .info-percent{
+  position: absolute;
+  top: 5px;
+
+}
+.acl-progress .acl-results {
+  height: 400px;
+  overflow: auto;
+}
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
   right: 10px;
   top: 43%;
