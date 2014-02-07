@@ -131,7 +131,6 @@ angular.module('askApp')
                         return scope.colorMap[term];
                     }
                 }
-
                 // width/height (based on giveb radius)
                 var w = (outerRadius * 3) + 30;
                 var h = outerRadius * 3;
@@ -232,8 +231,18 @@ angular.module('askApp')
                                         scope.$apply(function() {
                                             (scope.onClick || angular.noop)(attrs.field, d.data.term);
                                         });
-                                    });
-
+                                    })
+                                    .on("mouseover", function(d) {
+                                            $(this).tooltip({ 
+                                                'container': 'body',
+                                                'placement': 'bottom',
+                                                title: d.data.term + " " + d.data.count + " lbs"
+                                            });
+                                            $(this).tooltip('show');
+                                        })
+                                    .on("mouseout", function(d) {       
+                                            $(this).tooltip('hide');
+                                        })
                             // run the transition
                             path.transition().duration(duration).attrTween('d', arcTween);
 
@@ -273,7 +282,7 @@ angular.module('askApp')
                                 .attr('text-anchor', findAnchor)
                                 .text(function(d) {
                                     var percentage = (d.value/sum)*100;
-                                    return percentage.toFixed(1) + "%";
+                                    return percentage.toFixed(1) + "% (" + d.value + " lbs)";
                                 });
 
                             percentLabels.enter().append("text")
@@ -295,7 +304,7 @@ angular.module('askApp')
                                 .attr('text-anchor', findAnchor)
                                 .text(function(d){
                                     var percentage = (d.value/sum)*100;
-                                    return percentage.toFixed(1) + "%";
+                                    return percentage.toFixed(1) + "% (" + d.value + " lbs)";
                                 })
                                 .each(function(d) {this._current = d;});
                            
