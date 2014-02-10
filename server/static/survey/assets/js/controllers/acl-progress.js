@@ -7,6 +7,7 @@ angular.module('askApp')
             puertorico: "Puerto Rico",
             region: "Region"
         }
+        $scope.activePage = 'overview';
         var getAclReport = function () {
             var url = app.server + '/reports/distribution/catch-report/weight-*';
             
@@ -144,13 +145,13 @@ angular.module('askApp')
             $scope.slideIndex = index;
         }
 
-        
-        if ($location.search()) {
-            $scope.filter = $location.search();
-        } else {
+                
+        if (_.isEmpty($location.search())) {
             $scope.filter = {
-                "area": "region"
+                "area": "stcroix"
             };
+        } else {
+            $scope.filter = $location.search();
         }   
 
         
@@ -161,32 +162,12 @@ angular.module('askApp')
             // getAclReport();
             $scope.acls = data.objects;
             getAclReport();
+
             $scope.$watch('filter', function (newFilter) {
+                console.log('watch');
                 $location.search($scope.filter);
                 $scope.area = areaMapping[$scope.filter.area];
                 getAclReport();
-            }, true)
-            // $scope.$watch('filter.area', function (newFilter) {
-
-            //     if (_.any(_.values(newFilter))) {
-            //         $scope.filter.region = false;
-            //         getAclReport(newFilter);
-            //     } else {
-            //         $scope.filter.region = true;
-            //     }
-                
-            // }, true);
-
-            // $scope.$watch('filter.region', function (newFilter) {
-            //     if (newFilter) {
-            //         _.each($scope.filter.area, function (v, k, list) {
-            //             list[k] = false;
-            //         });
-            //         getAclReport();
-            //     }
-
-            // });
-        })
-        
-
+            }, true);
+        });
     });

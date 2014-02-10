@@ -109,7 +109,7 @@ angular.module('askApp')
                 // Setup default parameters.
                 var outerRadius = scope.outerRadius || 200;
                 var innerRadius = scope.innerRadius || 0;
-                var fontSize = scope.fontSize || 14;
+                var fontSize = scope.fontSize || 24;
                 var fontColor = attrs.fontColor || "#fff";
                 var color = undefined;
 
@@ -287,7 +287,7 @@ angular.module('askApp')
 
                             percentLabels.enter().append("text")
                                 .attr("class", "value")
-                                .attr('font-size', 20)
+                                .attr('font-size', 24)
                                 .attr('font-weight', 'bold')
                                 .attr("transform", function(d) {
                                     return "translate(" + 
@@ -341,7 +341,7 @@ angular.module('askApp')
 
                             nameLabels.enter().append("text")
                                 .attr("class", "units")
-                                .attr('font-size', 16)
+                                .attr('font-size', 18)
                                 .attr('stroke', 'none')
                                 .attr('fill', '#000')
                                 .attr("transform", function(d) {
