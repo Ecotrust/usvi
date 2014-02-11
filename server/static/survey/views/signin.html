@@ -1,24 +1,25 @@
 <div id="wrap" class="main thin-page">
-    <!-- Fixed navbar -->
-    <!-- Begin page content -->
     <div class="navbar navbar-default navbar-fixed-top"></div>
-
 
     <div class="container">
         <div class="page-header">
-            <img src="static/survey/assets/img/deck-logo.svg" class="center logo" />
+            <img src="static/survey/assets/img/oceanspaces-logo-white.png" class="center oceanspaces-logo logo" />
+            <h1 class="ost-title">Ocean Monitoring Survey</h1>
         </div>
-        <div class="loading-indicator" ng-show="working">
-            <div class="bar">
-                <i class="sphere"></i>
+        <p class="intro">
+            Short blurb of survey mission and why someone might want to contribute.
+        </p>
+        <div class="btn-container">
+            <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Login with OceanSpaces.org Account</a>
+            <p class="btn-caption">Using an OceanSpaces.org account will give you the ability to compare your results with the agregate results of everyone else.</p>
+        </div>
+
+        <div class="auth-separator">
+            <div class="or-auth-separator">
+                OR
             </div>
         </div>
-        <div ng-show="showTempUser">
-            <h2>No Connection</h2>
-            <p>Can't reach the server. Do you want to continue offline?</p>
-            <button class="btn btn-main btn-default btn-block" ng-click="offline(authUser, 'signin')">Use Digital Deck Offline</button>
-            <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
-        </div>
+
         <div class="new-user-form signin-form" ng-show="showForgotPassword">
             <form ng-submit="forgotPassword(forgotUser)">
                 <fieldset ng-disabled="working">
@@ -40,6 +41,7 @@
             <p>Please check your email for a link to reset your password.</p>
             <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">ok</a>
         </div>
+
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
             <form ng-submit="authenticateUser(authUser)">
                 <fieldset ng-disabled="working">
@@ -47,21 +49,28 @@
                     <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
                     <h4 class="question-title">Password</h4>
                     <password password-text="authUser.password"></password>
-
                 </fieldset>
-                <button class="btn btn-main btn-block" ng-disabled="! (authUser.username &&  authUser.password)">login</button>
-                <a class="btn btn-main btn-default btn-block" ng-class="{'active': showForm == 'new-user'}" href="#/">cancel</a>
-                <div class="error" ng-show="showError == 'auth-error'">
-                    There was a problem authenticating. Please try again.
+                <button class="btn btn-main" ng-disabled="! (authUser.username &&  authUser.password)">Login</button>
+
+                <div class="alert alert-danger" ng-show="showError == 'auth-error'">
+                    <i class="icon-exclamation-sign"></i> There was a problem authenticating. Please try again.
                 </div>
 
+                <p class="sign-up">Don't have an account? <a href="/respond#/signup">Sign up</a></p>
+                <a class="forgot-password" ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
             </form>
-            <div class="pull-right">
-                <a class="forgot-password pull-right" ng-click="showForgotPassword = true">Forgot Password</a>
-                <!-- <p style="text-align: right">{{stage}}/{{version}}</p>     -->
+        </div>
 
+
+        <div class="loading-indicator" ng-show="working">
+            <div class="bar">
+                <i class="sphere"></i>
             </div>
         </div>
+
+        <div class="page-footer">
+            <img src="static/survey/assets/img/point_97_logo.svg" class="center logo point97" />
+        </div>
+
     </div>
-</div>
 </div>

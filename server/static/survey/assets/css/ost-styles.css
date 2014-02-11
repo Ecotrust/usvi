@@ -113,6 +113,12 @@ body {
     margin-top: 25px;
 }
 
+@media (max-width: 500px) {
+    .btn-main {
+        font-size: 16px;
+    }
+}
+
 /* override bootstrap's responsive styling 
    in the navbar */
 @media (min-width: 768px) {
@@ -190,7 +196,7 @@ body {
 
 .ost-map {
     position: absolute;
-    top: 180px;
+    top: 220px;
     left: 20px;
     right: 20px;
     bottom: 90px;
@@ -199,7 +205,7 @@ body {
 @media (max-width: 500px) {
     .ost-map {
         position: absolute;
-        top: 200px;
+        top: 240px;
         left: 0px;
         right: 0px;
         bottom: 70px;
@@ -335,4 +341,155 @@ body {
 
 .thin-page .container {
     max-width: 500px;
+}
+
+
+.main .oceanspaces-logo {
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.page-footer .point97.logo {
+    height: 50px;
+    margin-top: 50px;
+}
+
+
+.navbar .container {
+    position: relative;
+}
+
+.navbar-header img.oceanspaces.logo {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    height: 30px;
+}
+
+.navbar-header .center {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 18px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 100;
+    letter-spacing: 2px;
+}
+@media (max-width: 767px) {
+    .navbar-header .center {
+        font-size: 18px;
+    }
+    .navbar-header img.oceanspaces.logo {
+        top: 22px;
+        right: 20px;
+        height: 20px;
+    }
+}
+@media (max-width: 550px) {
+    .navbar-header .center {
+        padding-left: 50px;
+    }
+    .navbar-header img.oceanspaces.logo {
+        display: none;
+    }
+}
+
+.navbar .home-btn {
+    z-index: 10;
+}
+
+.main h1.ost-title {
+    color: white;
+    font-weight: 100;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.btn-main {
+    background-color: #FABD12;
+    text-transform: none;
+    color: #01415C;
+    border: none;
+}
+.btn-main:hover,
+.btn-main.disabled, 
+.btn-main[disabled], 
+.btn-main:focus {
+    color: #01415C;
+    background-color: #b6b564 !important;
+}
+
+p.intro {
+    color: #F1F1F1;;
+    margin: 0 20px 50px 20px;
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.main .btn-main {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    /*letter-spacing: 1px;*/
+}
+.main .seperator {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.btn-container {
+    text-align: center;
+}
+.btn-container .btn-caption {
+    margin: 0 50px; 
+    text-align: left;
+    color: #474747;
+    font-size: 13px;
+}
+.new-user-form {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+}
+.new-user-form a {
+    font-size: 14px;
+}
+
+.forgot-password {
+    margin-top: 5px;
+    color: #EEE;
+    font-size: 14px;
+}
+
+.main .fieldset {
+    margin-bottom: 0px;
+}
+
+p.sign-up {
+    margin-top: 15px;
+}
+.loading-indicator {
+    text-align: center;
+}
+
+.auth-separator {
+    height: 0px;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #FFF;
+    position: relative;
+    margin: 50px 50px;
+}
+
+.or-auth-separator {
+    left: 38%;
+    position: absolute;
+    padding: 0px 16px;
+    color: #EEE;
+    background: #72AFB6;
+    font-size: 14px;
+    top: -7px;    
 }

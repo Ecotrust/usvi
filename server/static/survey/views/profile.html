@@ -8,16 +8,10 @@
             <div class="forms">
                 <div class="new-user-form">
                     
-                    <h1>Welcome!</h1>
-                    <h3>Take a moment to complete your profile.</h3> 
-                    <p>You will be able to edit this information at any time from the home screen. You will also be prompted to review your profile details at the beginning of each new report.</p>
+                    <h4>Welcome! Please take a moment to complete your profile.</h4> 
 
                         <form ng-submit="updateProfile(profileQuestions)">
                         
-                        <div class="question">
-                            <h4 class="question-title">Email Address</h4>
-                            <input class="form-control" type="email" placeholder="Email Address" ng-model="userEmail" />
-                        </div>
                         <div class="question-wrapper" ng-repeat="question in profileQuestions">
                             <h4 class="question-title">{{ question.title }}</h4>
                             <div ng-switch on="question.type">

@@ -113,7 +113,7 @@ angular.module('askApp')
                     app.user.registration = {};
                     storage.saveState(app);
                     // $location.path('/surveys');
-                    $location.path('/main');
+                    $location.path('/profile');
                 })
             .error(function (data, status) {
                 $scope.working = false;

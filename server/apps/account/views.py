@@ -136,7 +136,7 @@ def updateUser(request):
             profile, created = UserProfile.objects.get_or_create(user=user)
             profile.registration = simplejson.dumps(param.get('registration'))
             profile.save()
-            user.email = param.get('email', None)
+            #user.email = param.get('email', None)
             user.save()
             user_dict = {
                 'username': user.username,

@@ -52,8 +52,8 @@ if (window.browserNotSupported) {
 
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $routeProvider.when('/', {
-            templateUrl: app.viewPath + 'views/splash.html',
-            controller: 'SplashCtrl'
+            templateUrl: app.viewPath + 'views/signin.html',
+            controller: 'MainCtrl'
         })
         .when('/signup', {
                 templateUrl: app.viewPath + 'views/signup.html',
