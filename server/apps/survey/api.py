@@ -138,7 +138,8 @@ class ReportRespondantResource(SurveyModelResource):
     survey_slug = fields.CharField(attribute='survey_slug', readonly=True)
 
     class Meta:
-        queryset = Respondant.objects.all().order_by('-ordering_date')
+        # queryset = Respondant.objects.all().order_by('ordering_date')
+        queryset = Respondant.objects.all().order_by('-ts')
         filtering = {
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
@@ -299,3 +300,5 @@ class SurveyReportResource(SurveyResource):
     completes = fields.IntegerField(attribute='completes', readonly=True)
     survey_responses = fields.IntegerField(attribute='survey_responses', readonly=True)
     activity_points = fields.IntegerField(attribute='activity_points', readonly=True)
+    response_date_start = fields.DateField(attribute='response_date_start', readonly=True, null=True, blank=True)
+    response_date_end = fields.DateField(attribute='response_date_end', readonly=True, null=True, blank=True)

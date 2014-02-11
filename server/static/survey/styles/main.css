@@ -50,7 +50,7 @@
 
 
 #sidebar_nav {
-    margin-top: 15px;
+    margin-top: 10px;
     border-top: 10px solid #466B71;
     border-bottom: 10px solid #466B71;
     color: #195D68;
@@ -68,7 +68,12 @@
     background: #8BC9D2;
 }
 
-
+.filter-box {
+  margin-bottom: 20px;
+} 
+  .filter-box .form-control {
+    text-align: right;
+  }
 
 .search-results {
   height: 200px; overflow-y: auto;

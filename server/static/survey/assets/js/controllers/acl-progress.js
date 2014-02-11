@@ -1,7 +1,7 @@
 
 angular.module('askApp')
     .controller('AnnualCatchLimitProgressCtrl', function($scope, $http, $routeParams, $location) {
-        var areaMapping = {
+        $scope.areaMapping = {
             stcroix: "St. Croix",
             stthomas: "St. Thomas",
             puertorico: "Puerto Rico",

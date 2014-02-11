@@ -4,24 +4,7 @@
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="btn-group" ng-model="filter.area" bs-radio-group>
-                        <!-- <label class="btn btn-default">
-                            <input type="radio" class="btn btn-default" value="region">
-                            Region
-                        </label> -->
-                        <label class="btn btn-default">
-                            <input type="radio" class="btn btn-default" value="stcroix">
-                            St. Croix
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" class="btn btn-default" value="stthomas">
-                            St. Thomas/St.John
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" class="btn btn-default" value="puertorico">
-                            Puerto Rico
-                        </label>
-                    </div>
+                    <div ng-include="'/static/survey/views/areaButtons.html'"></div>
                 </div>
             </div>
             <div class="row" ng-hide="aclResults">

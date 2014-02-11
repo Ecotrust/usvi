@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Count, Sum
+from django.db.models import Max, Min, Count, Sum
 from django.contrib.auth.models import User
 from django.db.models import signals
 from django.shortcuts import get_object_or_404
@@ -129,6 +129,16 @@ class Survey(caching.base.CachingMixin, models.Model):
     @property
     def activity_points(self):
         return Location.objects.filter(response__respondant__in=self.respondant_set.filter(complete=True)).count()
+
+    @property
+    def response_date_start(self):
+        #return self.questions.filter(slug='survey-date').aggregate(date=Min('response__answer_date')).get('date', None)
+        return self.respondant_set.all().aggregate(lowest=Min('ts'), highest=Max('ts'))['lowest']
+
+    @property
+    def response_date_end(self):
+        #return self.questions.filter(slug='survey-date').aggregate(date=Max('response__answer_date')).get('date', None)
+        return self.respondant_set.all().aggregate(lowest=Min('ts'), highest=Max('ts'))['highest']
 
     def __unicode__(self):
         return "%s" % self.name

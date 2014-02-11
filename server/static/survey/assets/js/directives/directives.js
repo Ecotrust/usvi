@@ -1,4 +1,74 @@
 angular.module('askApp')
+    .directive('dateRangePicker', function() {
+
+        return {
+            template: '<div><i class="icon-calendar icon-large"></i> <span ng-bind="displayMin"></span> to <span ng-bind="displayMax"></span></div>',
+            restrict: 'EA',
+            transclude: true,
+            replace: true,
+            scope: {
+                min: "=min",
+                max: "=max",
+                start: "=start",
+                end: "=end"
+
+            },
+            link: function(scope, element, attrs) {
+                var min, max;
+                var initializePicker = _.once(function(start, end) {
+                    // element.val(_.string.sprintf("%s - %s", start, end));
+                    element.daterangepicker({
+                        format: 'MM-DD-YYYY',
+                        startDate: start,
+                        endDate: end,
+                        minDate: start,
+                        maxDate: end,
+                        opens: 'left',
+                        showDropdowns: true,
+                        ranges: {
+                            'Today': [moment(), moment()],
+                            'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                            'Last 7 Days': [moment().subtract('days', 6), moment()],
+                            'Last 30 Days': [moment().subtract('days', 29), moment()],
+                            'This Month': [moment().startOf('month'), moment().endOf('month')],
+                            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                        }
+                    }, function(start, end) {
+                        scope.$apply(function(s) {
+                            s.start = start;
+                            s.displayMin = (new Date(start)).toString('MMM dd, yyyy')
+                            s.end = end;
+                            s.displayMax = (new Date(end)).toString('MMM dd, yyyy')
+                        });
+                    });
+                });
+
+                scope.$watch('min', function(newValue) {
+                    if (newValue) {
+                        scope.displayMin = (new Date(newValue)).toString('MMM dd, yyyy');
+                        min = (new Date(newValue)).toString('MM-dd-yyyy');
+                        if (max && min) {
+                            initializePicker(min, max);
+                        }
+                    }
+
+                });
+                scope.$watch('max', function(newValue) {
+                    if (newValue) {
+                        scope.displayMax = (new Date(newValue)).toString('MMM dd, yyyy');
+                        max = (new Date(newValue)).toString('MM-dd-yyyy');
+                        if (max && min) {
+                            initializePicker(min, max);
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+
+
+angular.module('askApp')
     .directive('password', function() {
 
         return {
