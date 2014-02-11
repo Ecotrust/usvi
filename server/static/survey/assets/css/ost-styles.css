@@ -54,6 +54,14 @@ body {
 .menu-page .progress .progress-bar {
     height: 16px;
 }
+.progress-container p.small-label {
+    line-height: 15px;
+}
+@media (max-width: 400px) {
+    .menu-page .progress {
+        width: 100px;
+    }
+}
 
 #page-controls {
     padding-top: 20px;
@@ -75,6 +83,9 @@ body {
     border-color: #FFDC7B;
 }
 
+h1, h2, h3, h4 {
+    font-weight: 200;
+}
 
 .info-content p, .question-title {
     color: #002535;
@@ -349,9 +360,18 @@ body {
     margin-top: 20px;
     margin-bottom: 50px;
 }
-.page-footer .point97.logo {
+.footer .prepend-point97-logo {
+    margin-top: 70px;
+    margin-bottom: 15px;
+    font-weight: 200;
+}
+.footer .point97.logo {
     height: 50px;
-    margin-top: 50px;
+}
+.footer {
+    text-align: center;
+    color: #EEE;
+    padding-bottom: 70px;
 }
 
 
@@ -433,11 +453,11 @@ p.intro {
     font-size: 18px;
     /*letter-spacing: 1px;*/
 }
-.main .seperator {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    color: white;
+
+.login-container {
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .btn-container {
@@ -450,9 +470,9 @@ p.intro {
     font-size: 13px;
 }
 .new-user-form {
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
+    /*max-width: 320px;*/
+    /*margin-left: auto;
+    margin-right: auto;*/
     font-size: 14px;
 }
 .new-user-form a {
@@ -481,7 +501,7 @@ p.sign-up {
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #FFF;
     position: relative;
-    margin: 50px 50px;
+    margin: 50px 0;
 }
 
 .or-auth-separator {
@@ -492,4 +512,28 @@ p.sign-up {
     background: #72AFB6;
     font-size: 14px;
     top: -7px;    
+}
+
+.main a:hover,
+.main a:focus,
+.main a:active {
+    text-decoration: none;
+}
+
+@media (max-width: 550px) {
+    .main h1.ost-title {
+        font-size: 30px;
+    }
+}
+@media (max-width: 450px) {
+    .signin .btn-main {
+        font-size: 14px;
+    }
+@media (max-width: 400px) {
+    .btn-container .btn-caption {
+        margin: 0 15px; 
+    }
+    .main h1.ost-title {
+        font-size: 26px;
+    }
 }

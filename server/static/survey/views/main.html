@@ -1,9 +1,4 @@
 <div id="wrap" class="main thin-page">
-    <!-- Fixed navbar -->
-    <!-- Begin page content -->
-    <div class="navbar navbar-default navbar-fixed-top">
-
-    </div>
 
     <div class="container">
         <div class="page-header">
@@ -16,13 +11,8 @@
             </div>
         </div>
         <div ng-hide="!user || working">
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" ng-show="user.resumePath" href="{{user.resumePath}}">Resume Report</a>
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/signup" ng-show="user.status == 'signup'">Finish Signing Up</a>
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/signin" ng-show="user.status == 'signin'">Finish Signing In</a>
             <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="newReportOnline('monitoring-project')">Take Survey</button>
             <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/history">Revisit Survey</a>
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/profile">Profile</a>
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/settings">Settings</a>
             <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="logout()">Logout</button>
         </div>
         <!-- <p class="pull-right">{{stage}}/{{version}}</p> -->
@@ -41,10 +31,10 @@
         </div>
     </div>
 
-</div>
-<!-- <div id="footer">
-    <div class="container">
-        <p class="text-muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>
+    <div class="footer">
+        <p class="prepend-point97-logo">Courtesy of</p>
+        <img src="static/survey/assets/img/point_97_logo.svg" class="center logo point97" />
     </div>
+
 </div>
- -->
+

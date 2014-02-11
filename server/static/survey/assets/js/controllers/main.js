@@ -196,7 +196,7 @@ angular.module('askApp')
 
         $http.get(url)
             .success(function (data) {
-                var surveyUrl = "/survey/" + surveySlug + "/1/" + data.uuid;
+                var surveyUrl = "/survey/" + surveySlug + "/2/" + data.uuid;
                 $location.path(surveyUrl);
 
             })
