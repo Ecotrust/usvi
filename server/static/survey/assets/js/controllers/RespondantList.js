@@ -26,10 +26,13 @@ angular.module('askApp')
     //     $scope.filter.area = $location.search().area;
     // }
 
-    $scope.$watch('filter', function (newFilter) {
+    $scope.$watch('filter.area', function (newFilter) {
         console.log('watch');
         // $location.search($scope.filter);
-        $scope.area = areaMapping[$scope.filter.area];
+        if (newFilter) {
+            $scope.area = areaMapping[newFilter];    
+        }
+        
     }, true);
 
     $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {

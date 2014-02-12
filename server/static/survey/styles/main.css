@@ -72,9 +72,11 @@
   margin-bottom: 20px;
 } 
   .filter-box .form-control {
-    text-align: right;
+    text-align: center;
   }
-
+.report-controls {
+  margin-bottom: 10px;
+}
 .search-results {
   height: 200px; overflow-y: auto;
   margin: 10px 0;

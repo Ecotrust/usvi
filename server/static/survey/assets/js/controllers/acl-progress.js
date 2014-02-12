@@ -12,7 +12,7 @@ angular.module('askApp')
             var url = app.server + '/reports/distribution/catch-report/weight-*';
             
             if ($scope.filter.area) {
-                url = url + "?filters="+ JSON.stringify({island: areaMapping[$scope.filter.area]});
+                url = url + "?filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area]});
             }
             $http.get(url)
                 .success(function (data) {

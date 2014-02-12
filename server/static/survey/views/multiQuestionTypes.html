@@ -84,7 +84,7 @@
         <div class="question yes-no">
             <div class="select mrm">
                 <ul ng-class="{'option-checked': $parent.question.answerSelected, 'option-unchecked': !$parent.question.answerSelected }">
-                    <li class="option" ng-tap="$parent.onSingleSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
+                    <li class="option" ng-click="$parent.onSingleSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
                         <div class="select-content">
                             <div class="checkbox"></div>
                             <h4 class="select-name option-name">
@@ -106,8 +106,8 @@
             <div ng-show="question.groupedOptions">
                 <div class="panel-group grouped-options">
                     <div class="panel panel-default" ng-repeat="groupOption in question.groupedOptions">
-                        <!-- <div class="panel-heading" ng-tap="groupOption.open = !groupOption.open"> -->
-                        <div class="panel-heading" ng-tap="$parent.openOption(groupOption)">
+                        <!-- <div class="panel-heading" ng-click="groupOption.open = !groupOption.open"> -->
+                        <div class="panel-heading" ng-click="$parent.openOption(groupOption)">
                             <h4 class="panel-title">
                                 <a class="accordion-toggle">
                                   {{groupOption.optionLabel}}
@@ -117,7 +117,7 @@
                         <div id="{{ groupOption.optionLabel }}" class="panel-collapse collapse" ng-class="{ 'in': groupOption.open }">
                             <div class="panel-body">
                                 <ul class="choices list-unstyled">
-                                    <li class="option" ng-tap="$parent.onSingleSelectClicked(option, $parent.question)" ng-repeat="option in groupOption.options" ng-class="{'select-unchecked': !option.checked, 'select-checked': option.checked, 'option-group-name': option.isGroupName }">
+                                    <li class="option" ng-click="$parent.onSingleSelectClicked(option, $parent.question)" ng-repeat="option in groupOption.options" ng-class="{'select-unchecked': !option.checked, 'select-checked': option.checked, 'option-group-name': option.isGroupName }">
                                         <div class="select-content">
                                             <div class="checkbox"></div>
                                             <h4 class="select-name option-name">
@@ -134,7 +134,7 @@
                     <!-- <div ng-show="question.allow_other">
 
                         <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
-                            <li class="option" ng-tap="onSingleSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked }" ng-model="question.otherAnswer.text">
+                            <li class="option" ng-click="onSingleSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked }" ng-model="question.otherAnswer.text">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
@@ -166,7 +166,7 @@
             <div class="select mrm">
                 <div ng-show="question.groupedOptions.length == 0" ng-class="{'option-checked': $parent.question.answerSelected, 'option-unchecked': ! $parent.question.answerSelected }">
                     <ul class="list-unstyled">
-                        <li class="option" ng-tap="$parent.onSingleSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
+                        <li class="option" ng-click="$parent.onSingleSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
                             <div class="select-content">
                                 <div class="checkbox"></div>
                                 <h4 class="select-name option-name">
@@ -175,7 +175,7 @@
 
                             </div>
                         </li>
-                        <!-- <li class="option" ng-show="question.allow_other" ng-tap="$parent.onSingleSelectClicked($parent.question.otherOption, $parent.question)" ng-class="{'select-checked': $parent.question.otherOption.checked, 'select-unchecked': ! $parent.question.otherOption.checked }">
+                        <!-- <li class="option" ng-show="question.allow_other" ng-click="$parent.onSingleSelectClicked($parent.question.otherOption, $parent.question)" ng-class="{'select-checked': $parent.question.otherOption.checked, 'select-unchecked': ! $parent.question.otherOption.checked }">
                             <div class="select-content">
                                 <div class="checkbox"></div>
                                 <h4 class="select-name option-name">
@@ -203,7 +203,7 @@
             <div ng-show="question.groupedOptions.length != 0">
                 <div class="panel-group">
                     <div class="panel panel-default" ng-repeat="groupOption in question.groupedOptions">
-                        <div class="panel-heading" ng-tap="groupOption.open = !groupOption.open">
+                        <div class="panel-heading" ng-click="groupOption.open = !groupOption.open">
                             <h4 class="panel-title">
                                 <a class="accordion-toggle">
                                   {{groupOption.optionLabel}}
@@ -213,7 +213,7 @@
                         <div id="{{ groupOption.optionLabel }}" class="panel-collapse collapse" ng-class="{ 'in': groupOption.open }">
                             <div class="panel-body">
                                 <ul class="choices list-unstyled">
-                                    <li class="option" ng-tap="$parent.onMultiSelectClicked(option, $parent.question)" ng-repeat="option in groupOption.options" ng-class="{'select-unchecked': !option.checked, 'select-checked': option.checked, 'option-group-name': option.isGroupName }">
+                                    <li class="option" ng-click="$parent.onMultiSelectClicked(option, $parent.question)" ng-repeat="option in groupOption.options" ng-class="{'select-unchecked': !option.checked, 'select-checked': option.checked, 'option-group-name': option.isGroupName }">
                                         <div class="select-content">
                                             <div class="checkbox"></div>
                                             <h4 class="select-name option-name">
@@ -229,7 +229,7 @@
                     <div ng-show="question.allow_other">
 
                         <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
-                            <li class="option" ng-tap="onMultiSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked }" ng-model="question.otherAnswer.text">
+                            <li class="option" ng-click="onMultiSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked }" ng-model="question.otherAnswer.text">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
@@ -276,7 +276,7 @@
             <div ng-show="question.groupedOptions.length == 0">
                 <h3 ng-show="question.hoisted_options.length > 0">Other Activities</h3>
                 <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
-                    <li class="option" ng-tap="$parent.onMultiSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
+                    <li class="option" ng-click="$parent.onMultiSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
                         <div class="select-content">
                             <div class="checkbox"></div>
                             <h4 class="select-name option-name">
@@ -285,14 +285,14 @@
 
                         </div>
                     </li>
-                    <!-- <li ng-show="question.allow_other" ng-tap="onMultiSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked, 'select-unchecked': ! question.otherOption.checked }" ng-model="question.otherAnswer.text">
+                    <!-- <li ng-show="question.allow_other" ng-click="onMultiSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked, 'select-unchecked': ! question.otherOption.checked }" ng-model="question.otherAnswer.text">
                         <div class="select-content">
                             <h4 class="select-name option-name">
                                 Other
                             </h4>
                         </div>
                     </li> --><!-- 
-                    <li ng-show="question.allow_other" ng-tap="onMultiSelectOtherClicked(question)" ng-repeat="n in range(5)" ng-class="{'select-checked': question.otherOption.checked, 'select-unchecked': ! question.otherOption.checked }">
+                    <li ng-show="question.allow_other" ng-click="onMultiSelectOtherClicked(question)" ng-repeat="n in range(5)" ng-class="{'select-checked': question.otherOption.checked, 'select-unchecked': ! question.otherOption.checked }">
                         <div ng-show="question.allow_other" ng-class="{'other-input-selected': question.otherAnswers[0], 'select-checked': question.otherAnswer[$index], 'select-unchecked': ! question.otherAnswer[$index] }">
                             <div class="other-checkbox"></div>
                             <input class="select-content multi-select-other" type="text" ng-class="{'with-text': question.otherAnswer[$index]}" placeholder="Other Species" ng-model="question.otherAnswer[$index]" />
