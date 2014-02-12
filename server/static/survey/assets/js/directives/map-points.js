@@ -74,53 +74,71 @@ angular.module('askApp')
                 var map = MapUtils.initMap(element[0].children[0], scope.question);
                 scope.question.markers = [];
                 scope.activeMarker = false;
-                scope.isAddingMarker = false;
+                scope.addByClick = false;
+                scope.hoverLatLng = {};
 
                 $(".block-title").hide();
                 $(".question-title").addClass('map-question-title');
 
                 scope.onMapClick = function (e) {
-                    // assumption: this event is called outside of the angular framework
+                    if (scope.addByClick) {
+                        // assumption: this event is called outside of the angular framework
+                        scope.$apply(function (scope) {
+                            scope.addMarker(e.latlng);
+                        });
+                    }
+                };
+
+                scope.onMouseMove = function (e /*Leaflet MouseEvent */) {
                     scope.$apply(function (scope) {
-                        scope.addMarker(e.latlng);
+                        scope.hoverLatLng = e.latlng;
+                        $('.floatingMouseCoordinates').css('top', e.containerPoint.y + 15);
+                        $('.floatingMouseCoordinates').css('left', e.containerPoint.x + 15);
                     });
                 };
-                
+
+                scope.onMouseOut = function (e /*Leaflet MouseEvent */) {
+                    scope.$apply(function (scope) {
+                        scope.hoverLatLng = null;
+                    });
+                };
 
                 scope.addMarker = function (latlng /* Leaflet LatLng */) {
                     var marker, popup;
 
-                    if (! scope.isAddingMarker) {
-                        return;
+                    if (_.isNumber(latlng.lat) && _.isNumber(latlng.lng)) {
+
+                        if (scope.activeMarker) {
+                            scope.activeMarker.closePopup();
+                        }
+
+                        marker = MapUtils.createMarker(latlng);
+
+                        marker.data = {
+                            lat: latlng.lat.toString(),
+                            lng: latlng.lng.toString(),
+                            answers: [{text: "dummyanswer", label: "dummylabel"}]
+                        };
+
+                        popup += '<a href="javascript:void(0)" class="btn btn-danger pull-right" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a>';
+                        popup += '<div class="clearfix"></div>';
+                        marker.bindPopup(popup, { closeButton: true });
+                        marker.on('click', function(e) {
+                            scope.activeMarker = marker;
+                            // The popup is added to the DOM outside of the angular framework so
+                            // its content must be compiled for any interaction with this scope.
+                            $compile(angular.element(map._popup._contentNode))(scope);
+                            scope.$digest();
+                        });
+                    
+                        scope.question.markers.push(marker);
+                        scope.addMarkerToMap(marker);
                     }
 
-                    if (scope.activeMarker) {
-                        scope.activeMarker.closePopup();
-                    }
-
-                    marker = MapUtils.createMarker(latlng);
-
-                    marker.data = {
-                        lat: latlng.lat.toString(),
-                        lng: latlng.lng.toString(),
-                        answers: [{text: "dummyanswer", label: "dummylabel"}]
-                    };
-
-                    popup += '<a href="javascript:void(0)" class="btn btn-danger pull-right" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a>';
-                    popup += '<div class="clearfix"></div>';
-                    marker.bindPopup(popup, { closeButton: true });
-                    marker.on('click', function(e) {
-                        scope.activeMarker = marker;
-                        // The popup is added to the DOM outside of the angular framework so
-                        // its content must be compiled for any interaction with this scope.
-                        $compile(angular.element(map._popup._contentNode))(scope);
-                        scope.$digest();
-                    });
-
-                    scope.question.markers.push(marker);
-                    scope.addMarkerToMap(marker);
-                    scope.isAddingMarker = false;
+                    scope.addByClick = false;
+                    scope.addByLatLng = false;
                     scope.activeMarker = false;
+                    scope.showError = "invlaid-lat-lng";
                 };
 
 
@@ -153,6 +171,8 @@ angular.module('askApp')
                 }
 
                 map.on('click', scope.onMapClick);
+                map.on('mousemove', scope.onMouseMove);
+                map.on('mouseout', scope.onMouseOut);
 
             } /* end link function */
         }

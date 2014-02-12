@@ -190,7 +190,57 @@ h1, h2, h3, h4 {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+    z-index: 1000;
 }
+.map-controls-container {
+    background-color: #AEB9BF;
+    background-color: rgba(174, 185, 191, 0.71);
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.map-controls-container > p,
+.map-controls-container > span,
+.coordinate {
+    color: white;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    text-align: center;
+}
+
+.map-controls-coordinates-container {
+    width: 300px;
+}
+
+.coordinate .coordinate-label {
+    margin-right: 15px;
+}
+.coordinate,
+.map-controls-container > p.coordinate {
+    text-align: right;
+}
+
+.floatingMouseCoordinates {
+    display: none;
+    position: absolute;
+    background-color: #AEB9BF;
+    background-color: rgba(174, 185, 191, 0.71);
+    padding: 6px;
+    width: auto;
+    z-index: 1000;
+    margin-bottom: 0;
+}
+.floatingMouseCoordinates.visible {
+    display: block;
+}
+.coordinate {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+.coordinate .value {
+    text-align: right;
+}
+
 .leaflet-control-container .leaflet-top.leaflet-left {
     /* the zoom control is being forced to bottom left 
     while staying in the top left class (if time available, 
@@ -206,14 +256,18 @@ h1, h2, h3, h4 {
 }
 
 .ost-map {
+    height: 500px;
+    margin-top: 20px;
+}
+/*.ost-map {
     position: absolute;
-    top: 220px;
+    top: 260px;
     left: 20px;
     right: 20px;
-    bottom: 90px;
-}
+    bottom: 0px;
+}*/
 
-@media (max-width: 500px) {
+/*@media (max-width: 500px) {
     .ost-map {
         position: absolute;
         top: 240px;
@@ -221,7 +275,7 @@ h1, h2, h3, h4 {
         right: 0px;
         bottom: 70px;
     }
-}
+}*/
 
 
 /* Enlarged Zoom In/Out Controls */
@@ -277,6 +331,11 @@ h1, h2, h3, h4 {
     line-height: 40px !important;
     }
 
+@media (max-width: 500px) {
+    .leaflet-control-zoom  {
+        display: none;
+    }
+}
 
 #history-wrap .panel-body, 
 #history-wrap .panel-body h1, 

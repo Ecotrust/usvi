@@ -1,26 +1,77 @@
-<div class="map map-points ost-map" ng-class="{'adding-marker': isAddingMarker}">
+<div class="map map-points ost-map" ng-class="{'adding-marker': addByClick}">
 	
 	<div id="map-container" >
 		
 	</div>
 
     <div class="map-controls map-controls-top-right">
-        <div class="btn-group">
+        <div ng-hide="askingAddStyle || addByClick || addByLatLng" class="map-controls-container">
             <a  class="btn btn-large btn-primary btn-add-marker"
-                ng-hide="isAddingMarker"
-                ng-click="isAddingMarker = true"
+                ng-click="askingAddStyle = true"
                 href="javascript:void(0)">
                 <i class="icon-map-marker icon-large"></i><span class="map-control-label"></span>&nbsp;Add Marker
             </a>
         </div>
-        <div class="btn-group">
-            <a  class="btn btn-large btn-danger btn-primary btn-cancel"
-                ng-show="isAddingMarker"
-                ng-click="isAddingMarker = false"
-                href="javascript:void(0)">
-                Cancel
-            </a>
+        <div ng-show="askingAddStyle" class="map-controls-container">
+            <p>
+                How would you like to add a marker?
+            </p>
+            <div class="btn-group">
+                <a  class="btn btn-large btn-primary btn-add-marker"
+                    ng-click="addByClick = true; askingAddStyle = false;"
+                    href="javascript:void(0)">
+                    <span class="glyphicon glyphicon-hand-up"></span><span class="map-control-label"></span>&nbsp;Click Map
+                </a>
+            </div>
+            <div class="btn-group">
+                <a  class="btn btn-large btn-primary btn-add-marker"
+                    ng-click="addByLatLng = true; askingAddStyle = false; manualLatLng = null;"
+                    href="javascript:void(0)">
+                    <i class="glyphicon glyphicon-pencil"></i><span class="map-control-label"></span>&nbsp;Enter Latitude & Longitude
+                </a>
+            </div>
         </div>
+        <!-- Clicking Controls -->
+        <div ng-show="addByClick" class="map-controls-container">
+            <!-- <p class="coordinate"><span class="coordinate-label">Lat:</span>{{hoverLatLng.lat}}</p>
+            <p class="coordinate"><span class="coordinate-label">Lng:</span>{{hoverLatLng.lng}}</p> -->
+            <div class="btn-group">
+                <a  class="btn btn-large btn-danger btn-primary btn-cancel"
+                    ng-click="addByClick = false"
+                    href="javascript:void(0)">
+                    Cancel
+                </a>
+            </div>
+        </div>
+        <!-- LatLng Controls -->
+        <div ng-show="addByLatLng" class="map-controls-container">
+            <span>Lat:&nbsp;</span><input type="text" ng-model="manualLatLng.lat"/>
+            <span>Lng:&nbsp;</span><input type="text" ng-model="manualLatLng.lng"/>
+            <div class="btn-group">
+                <a  class="btn btn-large btn-primary btn-add-marker"
+                    ng-click="addByLatLng = false; addMarker(manualLatLng);"
+                    href="javascript:void(0)">
+                    Enter
+                </a>
+            </div>
+            <div class="btn-group">
+                <a  class="btn btn-large btn-danger btn-primary btn-cancel"
+                    ng-click="addByLatLng = false"
+                    href="javascript:void(0)">
+                    Cancel
+                </a>
+            </div>
+        </div>
+        <!-- Errors -->
+        <!-- <div ng-show="showError='invlaid-lat-lng'" class="error map-controls-container">
+            Invalid latitude or longitude values.
+        </div> -->
+        
+    </div>
+
+    <div class="floatingMouseCoordinates map-controls-coordinates-container" ng-class="{'visible': hoverLatLng && addByClick }">
+        <p class="coordinate"><span class="coordinate-label pull-left">Lat:</span><span class="value">{{hoverLatLng.lat | number:8 }}</span></p>
+        <p class="coordinate"><span class="coordinate-label pull-left">Lng:</span><span class="value">{{hoverLatLng.lng | number:8 }}</span></p>
     </div>
 
 </div>
