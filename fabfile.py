@@ -377,6 +377,11 @@ def package_android_dev():
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V android")
         local("scp ./mobile/platforms/android/bin/DigitalDeck-debug.apk usvi-dev.pointnineseven.com:/srv/downloads")
 
+@task
+def run_android_dev():
+        run("cd %s && %s/bin/python manage.py package --test-run http://usvi-dev.pointnineseven.com '../mobile/www'" % (env.app_dir, env.venv))
+        local("cd mobile && /usr/local/share/npm/bin/phonegap run -V android")
+
 
 @task
 def package_android_test():
