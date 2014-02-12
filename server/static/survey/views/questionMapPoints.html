@@ -44,28 +44,28 @@
             </div>
         </div>
         <!-- LatLng Controls -->
-        <div ng-show="addByLatLng" class="map-controls-container">
+        <div ng-show="addByLatLng" class="map-controls-container clearfix">
             <span>Lat:&nbsp;</span><input type="text" ng-model="manualLatLng.lat"/>
             <span>Lng:&nbsp;</span><input type="text" ng-model="manualLatLng.lng"/>
             <div class="btn-group">
                 <a  class="btn btn-large btn-primary btn-add-marker"
-                    ng-click="addByLatLng = false; addMarker(manualLatLng);"
+                    ng-click="addMarkerByLatLng(manualLatLng);"
                     href="javascript:void(0)">
                     Enter
                 </a>
             </div>
             <div class="btn-group">
                 <a  class="btn btn-large btn-danger btn-primary btn-cancel"
-                    ng-click="addByLatLng = false"
+                    ng-click="addByLatLng = false; latLngError = null;"
                     href="javascript:void(0)">
                     Cancel
                 </a>
             </div>
+            <!-- Errors -->
+            <div ng-hide="latLngError==null" class="error">
+                Invalid values. Decimal format is required. <span class="example">Example: 37.61324237</span>
+            </div>
         </div>
-        <!-- Errors -->
-        <!-- <div ng-show="showError='invlaid-lat-lng'" class="error map-controls-container">
-            Invalid latitude or longitude values.
-        </div> -->
         
     </div>
 

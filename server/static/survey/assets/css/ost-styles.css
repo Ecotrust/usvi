@@ -207,6 +207,23 @@ h1, h2, h3, h4 {
     font-size: 16px;
     text-align: center;
 }
+.map-controls-container .error {
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.4);
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+    margin-top: 3px;
+    border: solid 1px;
+    border-color: red;
+    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 0, 0, 0.5);
+}
+.map-controls-container .error .example {
+    font-weight: normal;
+}
 
 .map-controls-coordinates-container {
     width: 300px;
@@ -239,6 +256,15 @@ h1, h2, h3, h4 {
 }
 .coordinate .value {
     text-align: right;
+}
+.map-points .btn-danger {
+    color: white;
+}
+
+.leaflet-popup-content-wrapper {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    color: white;
 }
 
 .leaflet-control-container .leaflet-top.leaflet-left {

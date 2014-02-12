@@ -103,42 +103,74 @@ angular.module('askApp')
                     });
                 };
 
-                scope.addMarker = function (latlng /* Leaflet LatLng */) {
-                    var marker, popup;
 
-                    if (_.isNumber(latlng.lat) && _.isNumber(latlng.lng)) {
+                /**
+                 * Used to validate the manually entered lat lng values.
+                 */
+                scope.isValidLatLng = function (latlng /* {lat: <string>, lng: <string>} */) {
+                    var isValidLat = false, 
+                        isValidLng = false, 
+                        val,
+                        errors = [];
 
-                        if (scope.activeMarker) {
-                            scope.activeMarker.closePopup();
-                        }
-
-                        marker = MapUtils.createMarker(latlng);
-
-                        marker.data = {
-                            lat: latlng.lat.toString(),
-                            lng: latlng.lng.toString(),
-                            answers: [{text: "dummyanswer", label: "dummylabel"}]
-                        };
-
-                        popup += '<a href="javascript:void(0)" class="btn btn-danger pull-right" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a>';
-                        popup += '<div class="clearfix"></div>';
-                        marker.bindPopup(popup, { closeButton: true });
-                        marker.on('click', function(e) {
-                            scope.activeMarker = marker;
-                            // The popup is added to the DOM outside of the angular framework so
-                            // its content must be compiled for any interaction with this scope.
-                            $compile(angular.element(map._popup._contentNode))(scope);
-                            scope.$digest();
-                        });
-                    
-                        scope.question.markers.push(marker);
-                        scope.addMarkerToMap(marker);
+                    // Latitude
+                    if (latlng && latlng.lat && !isNaN(parseFloat(latlng.lat))) {
+                        val = parseFloat(latlng.lat);
+                        isValidLat = val >= -90 && val <= 90;
                     }
 
+                    // Longitude
+                    if (latlng && latlng.lng && !isNaN(parseFloat(latlng.lng))) {
+                        val = parseFloat(latlng.lng);
+                        isValidLng = val >= -180 && val <= 180;
+                    }
+
+                    return isValidLat && isValidLng;
+                };
+
+                scope.addMarkerByLatLng = function (latlng /* {lat: <string>, lng: <string>} */) {
+                    if (scope.isValidLatLng(latlng)) {
+                        scope.latLngError = null;
+                        scope.addMarker(latlng);
+                        map.panTo(latlng);
+                    } else {
+                        scope.latLngError = true;
+                    }
+                };
+
+                scope.addMarker = function (latlng /* Leaflet LatLng */) {
+                    var marker, popup;
+                    var invalid = false;
+
+                    if (scope.activeMarker) {
+                        scope.activeMarker.closePopup();
+                    }
+
+                    marker = MapUtils.createMarker(latlng);
+
+                    marker.data = {
+                        lat: latlng.lat.toString(),
+                        lng: latlng.lng.toString(),
+                        answers: [{text: "dummyanswer", label: "dummylabel"}]
+                    };
+
+                    popup += '<a href="javascript:void(0)" class="btn btn-danger pull-right" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a>';
+                    popup += '<div class="clearfix"></div>';
+                    popup = '<div>' + popup + '</div>';
+                    marker.bindPopup(popup, { closeButton: true });
+                    marker.on('click', function(e) {
+                        scope.activeMarker = marker;
+                        // The popup is added to the DOM outside of the angular framework so
+                        // its content must be compiled for any interaction with this scope.
+                        $compile(angular.element(map._popup._contentNode))(scope);
+                        scope.$digest();
+                    });
+                
+                    scope.question.markers.push(marker);
+                    scope.addMarkerToMap(marker);
                     scope.addByClick = false;
                     scope.addByLatLng = false;
                     scope.activeMarker = false;
-                    scope.showError = "invlaid-lat-lng";
                 };
 
 
