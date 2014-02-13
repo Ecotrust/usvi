@@ -79,6 +79,7 @@ angular.module('askApp')
 
                 $(".block-title").hide();
                 $(".question-title").addClass('map-question-title');
+                $("body").addClass('map-question');
 
                 scope.onMapClick = function (e) {
                     if (scope.addByClick) {

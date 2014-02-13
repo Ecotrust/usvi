@@ -31,10 +31,12 @@
                 </a>
             </div>
         </div>
+        
         <!-- Clicking Controls -->
         <div ng-show="addByClick" class="map-controls-container">
             <!-- <p class="coordinate"><span class="coordinate-label">Lat:</span>{{hoverLatLng.lat}}</p>
             <p class="coordinate"><span class="coordinate-label">Lng:</span>{{hoverLatLng.lng}}</p> -->
+            <span>Click map to add marker.&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <div class="btn-group">
                 <a  class="btn btn-large btn-danger btn-primary btn-cancel"
                     ng-click="addByClick = false"
@@ -43,6 +45,7 @@
                 </a>
             </div>
         </div>
+
         <!-- LatLng Controls -->
         <div ng-show="addByLatLng" class="map-controls-container clearfix">
             <span>Lat:&nbsp;</span><input type="text" ng-model="manualLatLng.lat"/>
@@ -61,7 +64,6 @@
                     Cancel
                 </a>
             </div>
-            <!-- Errors -->
             <div ng-hide="latLngError==null" class="error">
                 Invalid values. Decimal format is required. <span class="example">Example: 37.61324237</span>
             </div>

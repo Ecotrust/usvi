@@ -158,6 +158,9 @@ h1, h2, h3, h4 {
 .adding-marker .leaflet-container img {
 	cursor: crosshair !important;
 }
+.leaflet-dragging .adding-marker .leaflet-container img {
+    cursor: inherit !important;
+}
 
 
 .question-title {
@@ -180,6 +183,18 @@ h1, h2, h3, h4 {
 /*
  * Map styles
  */
+
+/* map-question class is added to body to allow for 
+ * modifying some of the overall page setup */
+.map-question .page-content {
+    margin-top: 10px;
+}
+.map-question #page-controls {
+    padding-top: 0;
+}
+.map-question .question-wrapper {
+    margin-bottom: 0;
+}
 
 /* Control positioning */
 
@@ -249,6 +264,9 @@ h1, h2, h3, h4 {
 }
 .floatingMouseCoordinates.visible {
     display: block;
+}
+.leaflet-dragging .floatingMouseCoordinates.visible {
+    display: none;
 }
 .coordinate {
     font-size: 12px;
