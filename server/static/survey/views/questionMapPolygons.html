@@ -1,0 +1,22 @@
+<div class="map map-points ost-map">
+	
+	<div id="map-container" >
+		
+	</div>
+
+    <div class="map-controls map-controls-top-right">
+        <div class="map-controls-container">
+            <a  class="btn btn-large btn-primary btn-add-marker"
+                ng-click="selectAllPolygons()"
+                href="javascript:void(0)">
+                <i class="glyphicon glyphicon-th"></i><span class="map-control-label"></span>&nbsp;Select All
+            </a>
+        </div>        
+    </div>
+
+    <div class="floatingMouseCoordinates map-controls-coordinates-container" ng-class="{'visible': hoverLatLng }">
+        <p class="coordinate"><span class="coordinate-label pull-left">Lat:</span><span class="value">{{hoverLatLng.lat | number:8 }}</span></p>
+        <p class="coordinate"><span class="coordinate-label pull-left">Lng:</span><span class="value">{{hoverLatLng.lng | number:8 }}</span></p>
+    </div>
+
+</div>

@@ -161,7 +161,9 @@ h1, h2, h3, h4 {
 .leaflet-dragging .adding-marker .leaflet-container img {
     cursor: inherit !important;
 }
-
+.leaflet-container a.btn-add-marker {
+    color: white;
+}
 
 .question-title {
     text-transform: none;
