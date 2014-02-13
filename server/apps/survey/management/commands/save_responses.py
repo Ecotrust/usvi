@@ -1,20 +1,20 @@
 from django.core.management.base import BaseCommand
-from optparse import make_option
-from survey.models import Response
+# from optparse import make_option
+from survey.models import Response, Respondant
 
 
 class Command(BaseCommand):
     help = 'Save All Responses'
-    option_list = BaseCommand.option_list + (
-        make_option('-W', '--white-space',
-            action='store_true',
-            default=False,
-            help='Get responses with funky white space.'),
-        make_option('-I', '--question_id',
-            action='store',
-            default=False,
-            help='Get responses for a specific quesiton.'),
-    )
+    # option_list = BaseCommand.option_list + (
+    #     make_option('-W', '--white-space',
+    #         action='store_true',
+    #         default=False,
+    #         help='Get responses with funky white space.'),
+    #     make_option('-I', '--question_id',
+    #         action='store',
+    #         default=False,
+    #         help='Get responses for a specific quesiton.'),
+    # )
 
     def handle(self, *args, **options):
         #for response in Response.objects.all():
@@ -26,8 +26,9 @@ class Command(BaseCommand):
         if white_space:
             responses = responses.filter(answer__contains="\r")
         print "Saving Answers for %s Responses" % responses.count()
-        for response in responses:
-            try:
-                response.save_related()
-            except:
-                pass
+        for respondent in Respondant.objects.all():
+            for response in respondent.responses.all():
+                try:
+                    response.save_related()
+                except:
+                    pass

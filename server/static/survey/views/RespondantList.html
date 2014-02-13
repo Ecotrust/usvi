@@ -28,7 +28,7 @@
                                     <div class="panel-body">
                                         <div class="row report-controls">
                                             <div class="col-md-7" ng-if="respondent.open">
-                                                <div dash-map></div>
+                                                <div dash-map island="$parent.activeRespondent.island" locations="$parent.activeRespondent.locations"></div>
                                             </div>
                                             <div class="col-md-5">
                                                 <form role="form">

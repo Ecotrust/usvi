@@ -166,7 +166,7 @@ angular.module('askApp')
             $scope.$watch('filter', function (newFilter) {
                 console.log('watch');
                 $location.search($scope.filter);
-                $scope.area = areaMapping[$scope.filter.area];
+                $scope.area = $scope.areaMapping[$scope.filter.area];
                 getAclReport();
             }, true);
         });

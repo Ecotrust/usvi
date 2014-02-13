@@ -19,7 +19,7 @@ angular.module('askApp')
         return new Date(iso_str);
     };
     $scope.busy = true;
-    $scope.viewPath = app.server + '/static/survey/'; // because app.viewPath was empty string...
+    $scope.viewPath = app.server + '/static/survey/';
     $scope.activePage = 'survey-stats';
 
     // if (! _.isEmpty($location.search())) {
@@ -32,7 +32,6 @@ angular.module('askApp')
         if (newFilter) {
             $scope.area = areaMapping[newFilter];    
         }
-        
     }, true);
 
     $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
@@ -103,9 +102,10 @@ angular.module('askApp')
 
         return $http.get(url)
             .success(function (data) {
-                var respondent = data;
-                if (typeof(respondent.responses.question) !== 'string') {
-                    _.each(respondent.responses, function(response, index) {
+                $scope.respondent = data;
+                $scope.respondent.locations = [];
+                if (typeof($scope.respondent.responses.question) !== 'string') {
+                    _.each($scope.respondent.responses, function(response, index) {
                         var questionSlug = response.question.slug;
                         try {
                             answer_raw = JSON.parse(response.answer_raw);
@@ -113,15 +113,21 @@ angular.module('askApp')
                             console.log('failed to parse answer_raw');
                             answer_raw = response.answer;
                         }
+                        if (response.question.type === 'map-multipolygon') {
+                            $scope.respondent.locations = $scope.respondent.locations.concat(answer_raw);
+                        }
+                        if (response.question.slug === 'island') {
+                            $scope.respondent.island = response.answer;
+                        }
                         response.question = questionSlug;
                         response.answer = answer_raw;
                     });
                 }
-                respondent.survey = respondent.survey_slug;
-                $scope.respondent = respondent;
+                console.log($scope.respondent.locations);
+                $scope.respondent.survey = $scope.respondent.survey_slug;
+                $scope.activeRespondent = $scope.respondent;
             }).error(function (err) {
                 console.log(JSON.stringify(err));
-                debugger;
             }); 
     };
 
@@ -130,9 +136,12 @@ angular.module('askApp')
             respondent.open = false;
         } else {
             $scope.closeRespondents();
-            $scope.respondent = respondent;
-            $scope.getRespondent(respondent);
-            respondent.open = true;
+
+            // $scope.respondent = respondent;
+            $scope.getRespondent(respondent).then(function () {
+                respondent.open = true;
+            });
+            
         }
         // respondent.open = !respondent.open;
     };

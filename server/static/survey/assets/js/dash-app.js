@@ -3,6 +3,7 @@
 var app = {};
 
 app.server = window.location.protocol + '//' + window.location.host;
+app.viewPath = app.server + '/static/survey/';
 angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip',
     'mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal"]) //'ui', 'ui.bootstrap',
     .config(function($routeProvider, $httpProvider) {
