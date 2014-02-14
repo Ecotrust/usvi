@@ -15,9 +15,9 @@ angular.module('askApp').directive('multiquestion', function() {
 
                 // if the question has no content and is not required, it is good to go
                 if (! question.required) {
-                    if (_.isArray(question.answer) && question.answer.length === 0) {
+                    if (_.isArray(question.answer) && (question.answer.length === 0 || (question.answer.length === 1 && question.answer[0].text && question.answer[0].text === 'NO_ANSWER'))) {
                         return true;
-                    } else if (!question.answer) {
+                    } else if (!question.answer) { 
                         return true;
                     } // else: validate the answer that is provided.
                 }
@@ -260,7 +260,7 @@ angular.module('askApp').directive('multiquestion', function() {
                         matches = _.filter(scope.question.answer, function(answer) {
                             return answer.text === row;
                         });
-                    } else if (row === scope.question.answer.text) {
+                    } else if (row === scope.question.answer.text || row === scope.question.answer) {
                         // handle single selects
                         matches = [true];
                     }
