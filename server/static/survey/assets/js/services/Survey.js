@@ -17,7 +17,7 @@ angular.module('askApp')
 
     var isOnFirstPage = function() {
         if (page) { 
-            return (page.order || 1) === 1;
+            return (page.order || 2) === 2;
         }
         return false;
     };
