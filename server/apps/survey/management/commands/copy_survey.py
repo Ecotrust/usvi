@@ -15,7 +15,7 @@ class Command(BaseCommand):
         print 'Copying from "{0} ({1})" to "{2} ({3})"'.format(base_survey.name,
             base_survey.slug, base_survey.name, dest_slug)
 
-        dest_survey, created = Survey.objects.get_or_create(slug=dest_slug)
+        dest_survey, created = Survey.objects.get_or_create(slug=dest_slug, name="{0} {1}".format(base_survey.name, dest_base))
         if created:
             print "New Destination"
         for page in base_survey.page_set.all():
