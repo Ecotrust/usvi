@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.db.models import signals
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-from django.db.models import Q
 
 from account.models import UserProfile
 from acl.models import Dialect, DialectSpecies, Species, SpeciesFamily
@@ -25,6 +24,16 @@ STATE_CHOICES = (
 
 )
 
+REVIEW_STATE_NEEDED = u'needs review'
+REVIEW_STATE_FLAGGED = u'flagged'
+REVIEW_STATE_ACCEPTED = u'accepted'
+
+REVIEW_STATE_CHOICES = (
+    (REVIEW_STATE_NEEDED, u'Needs Review'),
+    (REVIEW_STATE_FLAGGED, u'Flagged'),
+    (REVIEW_STATE_ACCEPTED, u'Accepted')
+)
+
 
 class Respondant(caching.base.CachingMixin, models.Model):
     uuid = models.CharField(max_length=36, primary_key=True, default=make_uuid, editable=False)
@@ -32,6 +41,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
     responses = models.ManyToManyField('Response', related_name='responses', null=True, blank=True)
     complete = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATE_CHOICES, default=None, null=True, blank=True)
+    review_status = models.CharField(max_length=20, choices=REVIEW_STATE_CHOICES, default=REVIEW_STATE_NEEDED)
     last_question = models.CharField(max_length=240, null=True, blank=True)
 
     county = models.CharField(max_length=240, null=True, blank=True)

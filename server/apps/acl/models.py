@@ -7,6 +7,18 @@ from django.core.exceptions import ValidationError
 import re
 
 
+class Island(caching.base.CachingMixin, models.Model):
+    code = models.CharField(max_length=48, unique=True)
+    name = models.CharField(max_length=64)
+    objects = caching.base.CachingManager()
+
+class LandingSite(caching.base.CachingMixin, models.Model):
+    code = models.CharField(max_length=48, unique=True)
+    name = models.CharField(max_length=64)
+    county = models.CharField(max_length=64)
+    island = models.ForeignKey('Island')
+    objects = caching.base.CachingManager()
+
 class Dialect(caching.base.CachingMixin, models.Model):
     code = models.CharField(max_length=48, unique=True)
     name = models.CharField(max_length=64)

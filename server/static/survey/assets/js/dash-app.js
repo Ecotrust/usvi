@@ -64,12 +64,12 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/acl-detail.html',
         controller: 'AnnualCatchLimitDetailCtrl'
     })
-        .when('/acl-progress', {
+        .when('/', {
         templateUrl: '/static/survey/views/acl-progress.html',
         controller: 'AnnualCatchLimitProgressCtrl',
         reloadOnSearch: false
     })
-        .when('/', {
+        .when('/admin', {
         templateUrl: '/static/survey/views/survey-list.html',
         controller: 'SurveyListMenuCtrl'
     })

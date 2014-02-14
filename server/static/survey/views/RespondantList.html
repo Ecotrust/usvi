@@ -22,6 +22,13 @@
                                         {{ respondent.user.username }} -- 
                                         <span ng-show="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }}</span>
                                         <span ng-hide="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }} -- incomplete</span>
+                                        <div class="pull-right">
+                                            <span class="label"
+                                                ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
+                                                {{ respondent.review_status }}
+                                            </span>
+
+                                        </div>
                                     </h4>
                                 </div>
                                 <div id="{{ respondent.survey_title }}" class="panel-collapse collapse" ng-class="{ 'in': respondent.open }">
@@ -39,13 +46,21 @@
                                                         <div class="checkbox">
                                                             <label>
                                                                 <input type="checkbox">
-                                                                Share with fisher
+                                                                Share comment with fisher
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="pull-right">
-                                                        <a class="btn btn-default">Approve</a>
-                                                        <a class="btn btn-danger">Flag</a>
+                                                        <a class="btn" ng-click="setStatus(respondent, 'accepted')"
+                                                           ng-class="{ 'btn-success': respondent.review_status == 'accepted', 'btn-default': respondent.review_status != 'accepted' }">
+                                                            <span class="glyphicon"
+                                                                ng-class="{ 'glyphicon-check': respondent.review_status == 'accepted', 'glyphicon-unchecked': respondent.review_status != 'accepted'  }">Approve
+                                                        </a>
+                                                        <a class="btn" ng-click="setStatus(respondent, 'flagged')"
+                                                           ng-class="{ 'btn-danger': respondent.review_status == 'flagged', 'btn-default': respondent.review_status != 'flagged' }">
+                                                            <span class="glyphicon"
+                                                                ng-class="{ 'glyphicon-check': respondent.review_status == 'flagged', 'glyphicon-unchecked': respondent.review_status != 'flagged'  }">Flag
+                                                        </a>
                                                         <button class="btn btn-default">Save Comment</button>
                                                     </div>
                                                 </form>

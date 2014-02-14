@@ -93,7 +93,13 @@ angular.module('askApp')
                 console.log(data);
             }); 
     };
-
+    $scope.setStatus = function (respondent, status) {
+        if (respondent.review_status === status) {
+            respondent.review_status = 'needs review';
+        } else {
+            respondent.review_status = status;
+        }
+    };
     $scope.getRespondent = function (respondent) {
         var url = app.server 
               + '/api/v1/reportrespondantdetails/'

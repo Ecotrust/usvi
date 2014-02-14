@@ -119,9 +119,12 @@
 }
 
 .respondent-header {
-    background-color: rgb(251, 169, 152);
+    background-color: rgb(251, 169, 152) !important;
     cursor: pointer; 
     cursor: hand;
+}
+.darkSalmonBackground {
+  background-color: rgb(239, 94, 70) !important;    
 }
 
 .page {
