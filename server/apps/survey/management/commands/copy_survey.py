@@ -41,6 +41,7 @@ class Command(BaseCommand):
                     block.skip_question.slug = "%s-%s" % (block.skip_question.slug, dest_base)
                     block.skip_question.save()
                     new_block.skip_question = block.skip_question
+                new_block.save()
                 new_page.blocks.add(new_block)
             for question in page.questions.all():
                 try:
