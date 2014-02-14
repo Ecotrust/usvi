@@ -84,7 +84,7 @@ angular.module('askApp')
                         onEachFeature: function(feature, layer) {
                             if ( _.indexOf( scope.question.answer, layer.feature.properties.ID ) !== -1 ) {
                                 layer.setStyle( {
-                                    fillOpacity: .8
+                                    fillOpacity: .6
                                 });
                             }
                             layer.on("click", function (e) {
