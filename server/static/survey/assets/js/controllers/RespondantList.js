@@ -1,6 +1,15 @@
 //'use strict';
 
 angular.module('askApp')
+    .config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.headers.patch = {
+            'Content-Type': 'application/json;charset=utf-8'
+            // 'X-CSRFToken': getCookie('csrftoken')
+        }
+        // $httpProvider.defaults.headers['delete'] = {
+        //     'X-CSRFToken': getCookie('csrftoken')
+        // }
+    }])
     .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
     var areaMapping = {
         stcroix: "St. Croix",
@@ -93,12 +102,31 @@ angular.module('askApp')
                 console.log(data);
             }); 
     };
+    $scope.saveRespondent = function (respondent, data) {
+        return $http({
+            url: respondent.resource_uri,
+            data: data,
+            method: "PATCH"
+        })
+            .success(function (data) {
+            })
+            .error(function (err) {
+                alert(err.message);
+            });
+    }
     $scope.setStatus = function (respondent, status) {
+        var newStatus;
+
         if (respondent.review_status === status) {
-            respondent.review_status = 'needs review';
+            newStatus = 'needs review';
         } else {
-            respondent.review_status = status;
+            newStatus = status;
         }
+        $scope.saveRespondent(respondent, { review_status: newStatus })
+            .success(function (data) {
+                respondent.review_status = newStatus;
+            });
+        
     };
     $scope.getRespondent = function (respondent) {
         var url = app.server 
