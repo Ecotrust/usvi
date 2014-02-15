@@ -42,6 +42,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
     complete = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATE_CHOICES, default=None, null=True, blank=True)
     review_status = models.CharField(max_length=20, choices=REVIEW_STATE_CHOICES, default=REVIEW_STATE_NEEDED)
+    comment = models.TextField(null=True, blank=True)
+    notify = models.BooleanField(default=False)
     last_question = models.CharField(max_length=240, null=True, blank=True)
 
     county = models.CharField(max_length=240, null=True, blank=True)

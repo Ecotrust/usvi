@@ -113,7 +113,14 @@ angular.module('askApp')
             .error(function (err) {
                 alert(err.message);
             });
-    }
+    };
+    $scope.saveComment = function (respondent, comment, notify) {
+        $scope.saveRespondent(respondent,
+            { 
+                comment: comment,
+                notify: notify
+             });
+    };
     $scope.setStatus = function (respondent, status) {
         var newStatus;
 
