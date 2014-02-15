@@ -1,6 +1,6 @@
 angular.module('askApp').directive('dashMap', function($http, $timeout) {
     return {
-        template: '<div class="map" style="height: 300px; width: 100%;"></div>',
+        template: '<div class="map-container"><div ng-show="spinner" class="spinner-cover"></div><div ng-show="spinner" class="spinner-container"><i class="icon-spinner icon-spin"></i></div><div class="map" style="height: 300px; width: 100%;"></div></div>',
         restrict: 'EA',
         replace: true,
         transclude: true,
@@ -11,7 +11,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
         },
         link: function(scope, element) {
             var $el = element[0];
-            
+            scope.spinner = true;
             // Layer init
             var nautical = L.tileLayer.wms("http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/ImageServer/WMSServer", {
                 format: 'img/png',
@@ -49,6 +49,10 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
             } else {
                 jsonPath = app.viewPath + "data/StThomas.json";
             }
+            var selectedLocations = L.featureGroup();
+            selectedLocations.on('layeradd', function () {
+                map.panTo(selectedLocations.getBounds().getCenter());
+            });
             $http.get(jsonPath).success(function(data) {
                 var geojsonLayer = L.geoJson(data, { 
                     style: function(feature) {
@@ -65,6 +69,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                                 fillOpacity: .6
                             });
                             createAndAddLabel(layer);
+                            selectedLocations.addLayer(layer);
                         }
                         // layer.on("click", function (e) {
                         //     // layerClick(layer);
@@ -74,7 +79,6 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                 });
                 geojsonLayer.addTo(map);
             });
-
             var createAndAddLabel = function(layer) {
                 layer.feature.label = new L.Label( {
                     offset: [-22, -15],
@@ -122,6 +126,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
             });
             $timeout(function () {
                 map.invalidateSize(false);
+                scope.spinner = false;
             }, 2000);
         }
     }

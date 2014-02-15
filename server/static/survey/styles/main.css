@@ -416,6 +416,26 @@ form .btn-block {
 .dash .map {
   height: 300px;
 }
+.map-container {
+  position: relative;
+}
+.map-container i {
+  font-size: 42px;
+  
+  z-index: 500;
+  color: rgb(24,24,24);
+}
+.map-container .spinner-cover {
+  background-color: rgb(1, 170, 186);
+}
+.map-container .spinner-container {
+  position: absolute;
+  z-index: 499;
+  height: 50px;
+  width: 50px;
+  top: 40%;
+  left: 45%;
+}
 .chart {
   margin-top: 50px;
   margin-bottom: 50px;

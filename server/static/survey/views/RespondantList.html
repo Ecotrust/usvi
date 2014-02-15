@@ -22,6 +22,7 @@
                                         {{ respondent.user.username }} -- 
                                         <span ng-show="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }}</span>
                                         <span ng-hide="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }} -- incomplete</span>
+                                        <i ng-show="respondent.spin" class="icon-spinner icon-spin"></i>
                                         <div class="pull-right">
                                             <span class="label"
                                                 ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">

@@ -177,10 +177,11 @@ angular.module('askApp')
             respondent.open = false;
         } else {
             $scope.closeRespondents();
-
+            respondent.spin = true;
             // $scope.respondent = respondent;
             $scope.getRespondent(respondent).then(function () {
                 respondent.open = true;
+                respondent.spin = false;
             });
             
         }
