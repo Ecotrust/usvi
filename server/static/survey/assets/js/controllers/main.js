@@ -18,6 +18,11 @@ angular.module('askApp')
     };
 
     if (app.user) {
+        if ($location.path() === '/') {
+            /* Don't show login screen if user already logged in. */
+            $location.path('/main');
+        }
+
         $scope.user = app.user;
         if (! $scope.user.registration || _.isEmpty($scope.user.registration)) {
             $scope.getUserProfile($scope.user);
