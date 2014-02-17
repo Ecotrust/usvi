@@ -228,8 +228,8 @@
                     <div class="panel panel-default" ng-repeat="groupOption in question.groupedOptions">
                         <div class="panel-heading" ng-click="groupOption.open = !groupOption.open">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle">
-                                  {{groupOption.optionLabel}}
+                                <a class="accordion-toggle" ng-bind-html-unsafe="groupOption.optionLabel">
+                                    
                                 </a>
                             </h4>
                         </div>
@@ -239,8 +239,8 @@
                                     <li class="option" ng-click="$parent.onMultiSelectClicked(option, $parent.question)" ng-repeat="option in groupOption.options" ng-class="{'select-unchecked': !option.checked, 'select-checked': option.checked, 'option-group-name': option.isGroupName }">
                                         <div class="select-content">
                                             <div class="checkbox"></div>
-                                            <h4 class="select-name option-name">
-                                                {{option.text}}
+                                            <h4 class="select-name option-name" ng-bind-html-unsafe="option.text">
+                                                
                                             </h4>
                                         </div>
                                     </li>
