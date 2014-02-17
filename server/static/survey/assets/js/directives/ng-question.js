@@ -17,7 +17,7 @@ angular.module('askApp').directive('multiquestion', function() {
                 if (! question.required) {
                     if (_.isArray(question.answer) && (question.answer.length === 0 || (question.answer.length === 1 && question.answer[0].text && question.answer[0].text === 'NO_ANSWER'))) {
                         return true;
-                    } else if (!question.answer) { 
+                    } else if (!question.answer || question.type === 'single-select' || question.type === 'multi-select') { 
                         return true;
                     } // else: validate the answer that is provided.
                 }
