@@ -57,11 +57,11 @@ def get_geojson(request, survey_slug, question_slug):
 def get_distribution(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
     if question_slug.find('*') == -1:
-        question = get_object_or_404(QuestionReport, slug=question_slug, survey=survey)
+        question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey=survey)
         answers = question.response_set.filter(respondant__complete=True)
         question_type = question.type
     else:
-        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''), survey=survey)
+        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''), question_page__survey=survey)
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None:
@@ -83,12 +83,11 @@ def get_distribution(request, survey_slug, question_slug):
     if filters is not None:
         for filter_slug in filter_list.keys():
             value = filter_list[filter_slug]
-            filter_question = QuestionReport.objects.get(slug=filter_slug, survey=survey)
+            filter_question = QuestionReport.objects.get(slug=filter_slug, question_page__survey=survey)
             if question_type in ['map-multipoint']:
                 if filter_question == self:
                     locations = locations.filter(answer__in=value)
                 else:
-
                     answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
                     locations = locations.filter(location__response__in=answers)
             else:
