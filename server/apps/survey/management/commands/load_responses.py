@@ -20,6 +20,12 @@ class Command(BaseCommand):
                     continue
                 try:
                     r, created = Response.objects.get_or_create(respondant=respondant, question=question, answer_raw=row[3])
+                    respondant.responses.clear()
+                    respondant.response_set.clear()
+                    respondant.responses.add(r)
+                    respondant.response_set.add(r)
+                    respondant.save()
+                    print respondant.uuid
                     if created:
                         print row
                 except:
