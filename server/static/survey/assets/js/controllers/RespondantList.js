@@ -144,7 +144,7 @@ angular.module('askApp')
         return $http.get(url)
             .success(function (data) {
                 $scope.respondent = data;
-                $scope.respondent.locations = [];
+                $scope.respondent.areas_fished = [];
                 if (typeof($scope.respondent.responses.question) !== 'string') {
                     _.each($scope.respondent.responses, function(response, index) {
                         var questionSlug = response.question.slug;
@@ -155,7 +155,7 @@ angular.module('askApp')
                             answer_raw = response.answer;
                         }
                         if (response.question.type === 'map-multipolygon') {
-                            $scope.respondent.locations = $scope.respondent.locations.concat(answer_raw);
+                            $scope.respondent.areas_fished = $scope.respondent.areas_fished.concat(answer_raw);
                         }
                         if (response.question.slug === 'island') {
                             $scope.respondent.island = response.answer;
@@ -164,7 +164,6 @@ angular.module('askApp')
                         response.answer = answer_raw;
                     });
                 }
-                console.log($scope.respondent.locations);
                 $scope.respondent.survey = $scope.respondent.survey_slug;
                 $scope.activeRespondent = $scope.respondent;
             }).error(function (err) {
