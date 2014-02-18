@@ -3,9 +3,9 @@
     <div mobilemenu></div>
     <!-- Begin page content -->
     <div id="header-bar" ng-hide="sendingFeedback">
-            <a class="btn back pull-left" ng-click="skipBack()"><span class="glyphicon glyphicon-chevron-left"></span></a>
-            <a class="btn pull-right" ng-class="{ 'valid': pageIsValid }" ng-click="submitPage(page)"><span class="glyphicon glyphicon-chevron-right advance"></span></a>
-        </div>
+        <a class="btn back pull-left" ng-click="skipBack()"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <a class="btn pull-right" ng-class="{ 'valid': pageIsValid }" ng-click="submitPage(page)"><span class="glyphicon glyphicon-chevron-right advance"></span></a>
+    </div>
     <div class="container">
 
         <div class="feedback" ng-show="sendingFeedback" ng-cloak>
@@ -35,6 +35,7 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-primary btn-block" id="dash-button" ng-click="submitPage(page)">continue</button>
                 </div>
             </div>
         </div>

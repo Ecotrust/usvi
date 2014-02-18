@@ -81,15 +81,17 @@ class UserObjectsOnlyAuthorization(Authorization):
 
 class ResponseResource(SurveyModelResource):
     question = fields.ToOneField('apps.survey.api.QuestionResource', 'question', full=True)
+    respondant = fields.ToOneField('apps.survey.api.RespondantResource', 'respondant', full=False)
     answer_count = fields.IntegerField(readonly=True)
 
     class Meta:
-        queryset = Response.objects.all()
+        queryset = Response.objects.all().order_by('question__question_page__order')
         filtering = {
             'answer': ALL,
-            'question': ALL_WITH_RELATIONS
+            'question': ALL_WITH_RELATIONS,
+            'respondant': ALL_WITH_RELATIONS
         }
-        ordering = ['question__order']
+        ordering = ('question__question_page__order',)
 
 
 class OfflineResponseResource(SurveyModelResource):
@@ -98,7 +100,7 @@ class OfflineResponseResource(SurveyModelResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True)
     
     class Meta:
-        queryset = Response.objects.all()
+        queryset = Response.objects.all().order_by('question__question_page__order')
         authorization = UserObjectsOnlyAuthorization()
         authentication = Authentication()
     
@@ -150,8 +152,10 @@ class ReportRespondantResource(SurveyModelResource):
         authorization = StaffUserOnlyAuthorization()
         authentication = Authentication()
 
+
 class DashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
+
 
 class DashRespondantDetailsResource(ReportRespondantResource):
     responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
@@ -173,6 +177,7 @@ class RespondantResource(SurveyModelResource):
         filtering = {
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
+            'uuid': ALL,
             'ts': ['gte','lte']
         }
         ordering = ['-ts']

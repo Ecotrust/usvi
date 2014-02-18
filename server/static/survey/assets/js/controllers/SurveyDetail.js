@@ -21,7 +21,7 @@ angular.module('askApp')
     $scope.survey = {
         state: 'loading'
     };
-
+    $scope.dash = app.dash;
     console.log('loading');
 
     $scope.answers = {};
@@ -178,7 +178,7 @@ angular.module('askApp')
                     $scope.answers[answer.slug] = answer.answer;
 
                     // update user profile
-                    if (question.attach_to_profile || question.persistent) {
+                    if ((question.attach_to_profile || question.persistent) && app.offline) {
                         app.user.registration[answer.question.slug] = answer.answer;
                     }
                     if (!app.data.responses) {
@@ -484,22 +484,22 @@ $scope.loadSurvey = function(data) {
         }
 
         _.each(data.responses, function(response) {
-            try {
-                $scope.answers[response.question] = JSON.parse(response.answer_raw);
-            } catch (e) {
-                $scope.answers[response.question] = response.answer;
-            }
-        });
-
-        // if (data.last_question && !data.complete) {
-        //     $scope.resumeQuestionPath = $scope.getResumePage(data.last_question);
-        // } else {
-        //     $scope.resumeQuestionPath = 'NO_RESUME';
-        // }
-        // if (data.complete) {
-        //     $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug].join('/'));
-        // }
-        // we may inject a question into the scope
+            if (_.isObject(response.question)) {
+                try {
+                    $scope.answers[response.question.slug] = JSON.parse(response.answer_raw);
+                } catch (e) {
+                    $scope.answers[response.question.slug] = response.answer;
+                }    
+            } else if(_.isString(response.question)) {
+                try {
+                    $scope.answers[response.question] = JSON.parse(response.answer_raw);
+                } catch (e) {
+                    $scope.answers[response.question] = response.answer;
+                }    
+            }            
+        });    
+        debugger;
+        
         if ($routeParams.pageID) {
             $scope.page = _.findWhere($scope.survey.pages, { order: parseInt($routeParams.pageID, 10) });
             if (!$scope.page) {
@@ -510,8 +510,14 @@ $scope.loadSurvey = function(data) {
         } else if (!$scope.question) {
             $scope.question = _.findWhere($scope.survey.questions, { slug: $routeParams.questionSlug });
         }
+        if ($routeParams.action === 'edit') {
+            $scope.page = _.filter($scope.survey.pages, function (page) {
+                if (_.contains(_.pluck(page.questions, 'slug'), $routeParams.questionSlug)) {
+                    return true;
+                }
+            })[0];
+        }
         $scope.surveyProgress = ($scope.survey.pages.indexOf($scope.page)  /  $scope.survey.pages.length) * 100;
-
 
 
         _.each($scope.page.questions, function (question) {
@@ -662,6 +668,7 @@ $scope.loadSurvey = function(data) {
             _.each($scope.question.options, function(item) {
                 item.checked = false;
             });
+
             if ($scope.answer) {
                 var answerArr = _.isArray($scope.answer) ? $scope.answer : [$scope.answer];
                 _.each($scope.question.options, function(item) {
@@ -691,7 +698,6 @@ $scope.loadSurvey = function(data) {
         }, true);    
     };
     $scope.viewPath = app.viewPath;
-
     if ($routeParams.uuidSlug && ! _.string.startsWith($routeParams.uuidSlug, 'offline') && app.offline) {
         $http.get(app.server + '/api/v1/survey/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
             app.data = {

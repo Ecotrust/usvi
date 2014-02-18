@@ -35,10 +35,10 @@
                                 <div id="{{ respondent.survey_title }}" class="panel-collapse collapse" ng-class="{ 'in': respondent.open }">
                                     <div class="panel-body">
                                         <div class="row report-controls">
-                                            <div class="col-md-7" ng-if="respondent.open">
+                                            <div class="col-md-6" ng-if="respondent.open">
                                                 <div dash-map island="$parent.activeRespondent.island" locations="$parent.activeRespondent.areas_fished"></div>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <form role="form">
                                                     <div class="form-group">
                                                         <textarea ng-model="respondent.comment" placeholder="comments" class="form-control" rows="10"></textarea>
@@ -52,6 +52,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="pull-right">
+                                                        <a class="btn btn-default" target="_blank" href="#/RespondantDetail/{{survey.slug}}/{{respondent.uuid}}"><span class="glyphicon glyphicon-pencil"> Edit</span></a>
                                                         <a class="btn" ng-click="setStatus(respondent, 'accepted')"
                                                            ng-class="{ 'btn-success': respondent.review_status == 'accepted', 'btn-default': respondent.review_status != 'accepted' }">
                                                             <span class="glyphicon"

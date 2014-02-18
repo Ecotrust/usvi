@@ -530,3 +530,47 @@ table {
 .carousel-indicators li.active {
   background-color: rgb(241,92,73);
 }
+#header-bar {
+  display: none;
+}
+#header-bar span {
+  font-size: 48px;
+}
+
+.map {
+  height: 400px !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  position: relative!important;
+}
+
+.select-content {
+    background-color: rgb(246, 235, 194);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding: 10px;
+
+}
+
+.select-checked .select-content {
+  background-color: rgb(1, 170, 186);
+}
+
+
+.select-content h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.checkbox, .option .checkbox, .select-unchecked .other-checkbox  {
+    display: none;
+    width: 15px;
+    height: 15px;
+    background-image: url(../assets/img/checkbox.png);
+    float: right;
+    margin: 0;
+}
+.select-checked .checkbox {
+    display: block;
+}

@@ -41,7 +41,7 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
         if (typeof token != 'undefined') {
             $httpProvider.defaults.headers.post['X-CSRFToken'] = token;
         }
-
+        app.dash = false;
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $routeProvider.when('/', {
             templateUrl: app.viewPath + 'views/splash.html',

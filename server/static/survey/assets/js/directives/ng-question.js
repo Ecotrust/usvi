@@ -51,7 +51,6 @@ angular.module('askApp').directive('multiquestion', function() {
                     
                     var otherEntry = otherAnswers, 
                         standardEntry = false;
-                    
                     if (otherEntry) {
                         return true;
                     } else {
@@ -60,7 +59,7 @@ angular.module('askApp').directive('multiquestion', function() {
                         } else {
                             return _.some(_.pluck(question.options, 'checked')) || question.otherAnswers.length;        
                         }
-                    }
+                    }   
 
                     // if ( question.allow_other && question.otherOption.checked && ! otherAnswers ) {
                     //     return false;

@@ -3,14 +3,16 @@
 angular.module('askApp')
     .controller('RespondantDetailCtrl', function($scope, $routeParams, $http) {
 
-    $http.get('/api/v1/dashrespondantdetails/'  + $routeParams.uuidSlug + '/?format=json&survey__slug=' + $routeParams.surveySlug).success(function(data) {
-        //order responses to reflect the order in which they were presented in the survey
-        data.responses = _.sortBy(data.responses, function(response) { return response.question.order; });
-        _.each(data.responses, function (response) {
-
-            response.answer_parsed = JSON.parse(response.answer_raw);
-        });
+    $http.get('/api/v1/dashrespondant/'  + $routeParams.uuidSlug + '/?format=json&survey__slug=' + $routeParams.surveySlug).success(function(data) {
+        
         $scope.respondent = data;
+        $http.get('/api/v1/response?format=json&limit=0&respondant__uuid=' + $routeParams.uuidSlug).success(function (data) {
+            var responses = data.objects;
+            _.each(responses, function (response) {
+                response.answer_parsed = JSON.parse(response.answer_raw);
+            });
+            $scope.respondent.responses = responses;
+        });
     });
         
     
