@@ -140,8 +140,8 @@ class ReportRespondantResource(SurveyModelResource):
     survey_slug = fields.CharField(attribute='survey_slug', readonly=True)
 
     class Meta:
-        # queryset = Respondant.objects.all().order_by('ordering_date')
-        queryset = Respondant.objects.all().order_by('-ts')
+        queryset = Respondant.objects.all().order_by('-ordering_date')
+        # queryset = Respondant.objects.all().order_by('-')
         filtering = {
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,

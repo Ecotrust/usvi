@@ -18,18 +18,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #for response in Response.objects.all():
-        white_space = options.get('white_space')
-        question_id = options.get('question_id')
         responses = Response.objects.all().order_by('-id')
-        if question_id:
-            responses = responses.filter(question__id=question_id)
-        if white_space:
-            responses = responses.filter(answer__contains="\r")
         print "Saving Answers for %s Responses" % responses.count()
         for respondent in Respondant.objects.all():
+            print respondent.response_set.count()
             if respondent.response_set.count():
                 for response in respondent.response_set.all():
                     try:
+                        print response.question.slug
                         response.save_related()
                     except:
                         pass

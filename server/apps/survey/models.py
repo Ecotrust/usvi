@@ -57,6 +57,13 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     objects = caching.base.CachingManager()
 
+    def save(self, *args, **kwargs):
+        if self.uuid and ":" in self.uuid:
+            self.uuid = self.uuid.replace(":", "_")
+        if self.ordering_date is None:
+            self.ordering_date = self.ts
+        super(Respondant, self).save(*args, **kwargs)
+
     @property
     def survey_title(self):
         try:
@@ -88,14 +95,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
             return "%s" % self.email
         else:
             return "%s" % self.uuid
-
-    def save(self, *args, **kwargs):
-        if self.uuid and ":" in self.uuid:
-            self.uuid = self.uuid.replace(":", "_")
-        self.locations = self.location_set.all().count()
-        if self.ordering_date is None:
-            self.ordering_date = self.ts
-        super(Respondant, self).save(*args, **kwargs)
 
 
 class Page(caching.base.CachingMixin, models.Model):
@@ -523,14 +522,8 @@ class Response(caching.base.CachingMixin, models.Model):
 
         if self.question.slug == 'landed-date':
             if self.respondant is not None:
-                from datetime import datetime
-                #try:
-                if self.answer.find('-') != -1:
-                    dnf_date = datetime.strptime(self.answer, '%Y-%m-%d')
-                elif self.answer.find('/') != -1:
-                    dnf_date = datetime.strptime(self.answer, '%Y/%m/%d')
-                self.respondant.ordering_date = dnf_date
-                print dnf_date
+                import dateutil.parser
+                self.respondant.ordering_date = dateutil.parser.parse(self.answer)
                 self.respondant.save()
 
         

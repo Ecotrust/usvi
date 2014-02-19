@@ -54,6 +54,7 @@ angular.module('askApp')
     $scope.submitFeedback = function (feedback) {
         var url = app.server + "/account/sendFeedback";
         $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
         $http({
             method: 'POST',
             url: url,
@@ -170,7 +171,7 @@ angular.module('askApp')
                     })
                 },
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/json'
                 }
             }).success(function (response, status, getHeaders, request) {
                 _.each(request.data.answers, function (answer){
@@ -498,7 +499,6 @@ $scope.loadSurvey = function(data) {
                 }    
             }            
         });    
-        debugger;
         
         if ($routeParams.pageID) {
             $scope.page = _.findWhere($scope.survey.pages, { order: parseInt($routeParams.pageID, 10) });
