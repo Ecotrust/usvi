@@ -1,13 +1,98 @@
 /* Will be compiled down to a single stylesheet with your sass files */
 
+#topnav {
+    height: 90px;
+    background: #01AABA;
+    color: white;
+    border-radius: 0;
+    position: relative;
+    padding-top: 25px;
+}
+#topnav a {
+    color: inherit;
+}
+#topnav .btn {
+  color: rgb(24,24,24);
+}
 
+#sidenav_respondants {
+    color: white;
+    text-align: center;
+}
+#sidenav_respondants .row {
+  margin-right: 0;
+  margin-left: 0;
+}
+#sidenav_respondants h1 {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+#sidenav_respondants p {
+    font-weight: bold;
+    font-size: 0.85em;
+}
+#side_total {
+    background: #5B9AA9;
+}
+#side_total h1 {
+    font-size: 4em;
+    margin-top: 10px;
+}
+.stats .row .box{
+  padding-bottom: 10px;
+}
+#side_reviews_needed {
+    background: #FD7C6F;
+}
+#side_flagged {
+    background: #F6C432;
+}
+
+
+#sidebar_nav {
+    margin-top: 10px;
+    border-top: 10px solid #466B71;
+    border-bottom: 10px solid #466B71;
+    color: #195D68;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+#sidebar_nav a {
+    color: inherit;
+    background: #EEEEEE;
+}
+#sidebar_nav a:hover {
+    background: #AEDAE0;
+}
+#sidebar_nav a.active {
+    background: #8BC9D2;
+}
+
+.filter-box {
+  margin-bottom: 20px;
+} 
+  .filter-box .form-control {
+    text-align: center;
+  }
+.report-controls {
+  margin-bottom: 10px;
+}
+.search-results {
+  height: 200px; overflow-y: auto;
+  margin: 10px 0;
+}
+
+.acl-list {
+  height: 600px;
+  overflow-y: auto;
+}
 .myLabel {
   position: relative !important;
 
 }
 
 .dashboard {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .dashboard .range-slider {
@@ -15,24 +100,31 @@
   margin-right: 30px;
 }
 
-#survey-landing-table td {
+.dash-table td {
     vertical-align: middle;
 }
-#survey-landing-table .survey-num, #survey-landing-table p {
-    text-align: center;
+.dash-table p {
+    text-align: left;
     margin: auto;
 }
-#survey-landing-table .icon-plus,
-#survey-landing-table .icon-mobile-phone,
-#survey-landing-table .icon-trash,
-#survey-landing-table .icon-edit {
+.dash-table .kpi-num {
+  text-align: center;
+  margin-top: 0;
+}
+.dash-table .icon-plus,
+.dash-table .icon-mobile-phone,
+.dash-table .icon-trash,
+.dash-table .icon-edit {
     font-size: 24px;
 }
 
 .respondent-header {
-    background-color: rgb(251, 169, 152);
+    background-color: rgb(251, 169, 152) !important;
     cursor: pointer; 
     cursor: hand;
+}
+.darkSalmonBackground {
+  background-color: rgb(239, 94, 70) !important;    
 }
 
 .page {
@@ -98,6 +190,10 @@ background-color: #f5f5f5;
     margin-bottom: 0;
 }
 
+.navbar-btn {
+  margin-left: 10px;
+}
+
 .admin-edit {
     position: absolute;
     top: 10px;
@@ -149,10 +245,10 @@ padding: 7px 9px;
 .buttons .btn {
     margin-left: 5px;
 }
-button[type='submit'] {
+/*button[type='submit'] {
     margin-top: 15px;
     margin-bottom: 0px;
-}
+}*/
 form {
     margin-bottom: 10px;
 }
@@ -320,6 +416,26 @@ form .btn-block {
 .dash .map {
   height: 300px;
 }
+.map-container {
+  position: relative;
+}
+.map-container i {
+  font-size: 42px;
+  
+  z-index: 500;
+  color: rgb(24,24,24);
+}
+.map-container .spinner-cover {
+  background-color: rgb(1, 170, 186);
+}
+.map-container .spinner-container {
+  position: absolute;
+  z-index: 499;
+  height: 50px;
+  width: 50px;
+  top: 40%;
+  left: 45%;
+}
 .chart {
   margin-top: 50px;
   margin-bottom: 50px;
@@ -359,4 +475,58 @@ table {
 
 .tree .active {
   font-weight: bold;
+}
+
+.acl-progress .carousel .chart {
+  height: 350px;
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+}
+.acl-progress .carousel .carousel-control {
+  /*opacity: 0;*/
+  background-image: none;
+  font-size: 48px;
+  color: black;
+}
+.acl-progress .family-title {
+  text-align: left;
+  font-size: 18px;
+}
+.acl-progress .acl-result {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.acl-progress .acl-result .info-sign {
+  position: absolute;
+  right: 0;
+  top: 9px;
+
+}
+.acl-progress .acl-result .info-percent{
+  position: absolute;
+  top: 5px;
+
+}
+.acl-progress .acl-results {
+  height: 400px;
+  overflow: auto;
+}
+.carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
+  right: 10px;
+  top: 43%;
+}
+.carousel-control .icon-next, .carousel-control .glyphicon-chevron-left {
+  left: 10px;
+  top: 43%;
+}
+.carousel-indicators {
+  bottom: 5px;
+}
+.carousel-indicators li {
+  background-color: rgb(64,63,65);
+}
+.carousel-indicators li.active {
+  background-color: rgb(241,92,73);
 }

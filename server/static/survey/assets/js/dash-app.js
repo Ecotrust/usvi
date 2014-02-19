@@ -3,13 +3,18 @@
 var app = {};
 
 app.server = window.location.protocol + '//' + window.location.host;
-angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid'])
+app.viewPath = app.server + '/static/survey/';
+angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip',
+    'mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal"]) //'ui', 'ui.bootstrap',
     .config(function($routeProvider, $httpProvider) {
 
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
+    $httpProvider.defaults.headers.patch = {
+        'Content-Type': 'application/json;charset=utf-8'
+    };
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
+    
     $routeProvider.when('/author/:surveySlug', {
         templateUrl: '/static/survey/views/author.html',
         controller: 'AuthorCtrl',
@@ -42,16 +47,34 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid'])
     })
         .when('/RespondantList/:surveySlug', {
         templateUrl: '/static/survey/views/RespondantList.html',
-        controller: 'RespondantListCtrl'
+        controller: 'RespondantListCtrl',
+        reloadOnSearch: false
+
     })
         .when('/agency-dash/:surveySlug', {
         templateUrl: '/static/survey/views/agency-dash.html',
         controller: 'AgencyDashCtrl'
     })
-
         .when('/RespondantDetail/:surveySlug/:uuidSlug', {
         templateUrl: '/static/survey/views/RespondantDetail.html',
         controller: 'RespondantDetailCtrl'
+    })
+        .when('/acl', {
+        templateUrl: '/static/survey/views/acl-list.html',
+        controller: 'AnnualCatchLimitListCtrl'
+    })
+        .when('/acl/:id', {
+        templateUrl: '/static/survey/views/acl-detail.html',
+        controller: 'AnnualCatchLimitDetailCtrl'
+    })
+        .when('/', {
+        templateUrl: '/static/survey/views/acl-progress.html',
+        controller: 'AnnualCatchLimitProgressCtrl',
+        reloadOnSearch: false
+    })
+        .when('/admin', {
+        templateUrl: '/static/survey/views/survey-list.html',
+        controller: 'SurveyListMenuCtrl'
     })
         .otherwise({
         redirectTo: '/'
