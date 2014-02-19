@@ -27,8 +27,11 @@ class Command(BaseCommand):
             responses = responses.filter(answer__contains="\r")
         print "Saving Answers for %s Responses" % responses.count()
         for respondent in Respondant.objects.all():
-            for response in respondent.responses.all():
-                try:
-                    response.save_related()
-                except:
-                    pass
+            if respondent.response_set.count():
+                for response in respondent.response_set.all():
+                    try:
+                        response.save_related()
+                    except:
+                        pass
+            else:
+                respondent.save()

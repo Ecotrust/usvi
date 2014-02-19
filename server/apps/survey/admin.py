@@ -4,8 +4,8 @@ from survey.models import *
 
 
 class RespondantAdmin(admin.ModelAdmin):
-    readonly_fields=('uuid', 'responses')
-    list_display = ('user', 'uuid', 'ts', 'complete',)
+    readonly_fields=('uuid', 'response_set')
+    list_display = ('user', 'uuid', 'ts', 'ordering_date')
 
 
 

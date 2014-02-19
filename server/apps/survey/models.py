@@ -38,7 +38,6 @@ REVIEW_STATE_CHOICES = (
 class Respondant(caching.base.CachingMixin, models.Model):
     uuid = models.CharField(max_length=36, primary_key=True, default=make_uuid, editable=False)
     survey = models.ForeignKey('Survey')
-    responses = models.ManyToManyField('Response', related_name='responses', null=True, blank=True)
     complete = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATE_CHOICES, default=None, null=True, blank=True)
     review_status = models.CharField(max_length=20, choices=REVIEW_STATE_CHOICES, default=REVIEW_STATE_NEEDED)
@@ -62,14 +61,14 @@ class Respondant(caching.base.CachingMixin, models.Model):
     def survey_title(self):
         try:
             if self.survey.slug == 'catch-report':
-                date = self.responses.get(question__slug='landed-date').answer
+                date = self.response_set.get(question__slug='landed-date').answer
                 if date.find('-') != -1:
                     dateItems = date.split('-')
                 elif date.find('/') != -1:
                     dateItems = date.split('/')
                 date = '%s/%s/%s' % (dateItems[1], dateItems[2], dateItems[0])
             else:
-                date = self.responses.get(question__slug='did-not-fish-for-month-of').answer
+                date = self.response_set.get(question__slug='did-not-fish-for-month-of').answer
                 if date.find('-') != -1:
                     dateItems = date.split('-')
                 elif date.find('/') != -1:
@@ -94,6 +93,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
         if self.uuid and ":" in self.uuid:
             self.uuid = self.uuid.replace(":", "_")
         self.locations = self.location_set.all().count()
+        if self.ordering_date is None:
+            self.ordering_date = self.ts
         super(Respondant, self).save(*args, **kwargs)
 
 
@@ -145,12 +146,12 @@ class Survey(caching.base.CachingMixin, models.Model):
     @property
     def response_date_start(self):
         #return self.questions.filter(slug='survey-date').aggregate(date=Min('response__answer_date')).get('date', None)
-        return self.respondant_set.all().aggregate(lowest=Min('ts'), highest=Max('ts'))['lowest']
+        return self.respondant_set.all().aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest']
 
     @property
     def response_date_end(self):
         #return self.questions.filter(slug='survey-date').aggregate(date=Max('response__answer_date')).get('date', None)
-        return self.respondant_set.all().aggregate(lowest=Min('ts'), highest=Max('ts'))['highest']
+        return self.respondant_set.all().aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest']
 
     def __unicode__(self):
         return "%s" % self.name
@@ -502,7 +503,6 @@ class Response(caching.base.CachingMixin, models.Model):
                         else:
                             print grid_col.type
                             print answer
-                    
             if hasattr(self.respondant, self.question.slug):
                 setattr(self.respondant, self.question.slug, self.answer)
                 self.respondant.save()
@@ -530,11 +530,9 @@ class Response(caching.base.CachingMixin, models.Model):
                 elif self.answer.find('/') != -1:
                     dnf_date = datetime.strptime(self.answer, '%Y/%m/%d')
                 self.respondant.ordering_date = dnf_date
+                print dnf_date
                 self.respondant.save()
-                # except:
-                #     import pdb
-                #     pdb.set_trace()
-                #     pass
+
         
         if self.question.slug == 'did-not-fish-for-month-of':
             if self.respondant is not None:
@@ -546,10 +544,6 @@ class Response(caching.base.CachingMixin, models.Model):
                     dnf_date = datetime.strptime(self.answer, '%m/%Y')
                 self.respondant.ordering_date = dnf_date
                 self.respondant.save()
-                # except:
-                #     import pdb
-                #     pdb.set_trace()
-                #     pass
 
 
 

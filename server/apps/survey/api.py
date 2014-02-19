@@ -109,7 +109,7 @@ class OfflineResponseResource(SurveyModelResource):
 
 
 class OfflineRespondantResource(SurveyModelResource):
-    responses = fields.ToManyField('apps.survey.api.OfflineResponseResource', 'responses', null=True, blank=True)
+    responses = fields.ToManyField('apps.survey.api.OfflineResponseResource', 'response_set', null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True)
 
@@ -128,12 +128,12 @@ class OfflineRespondantResource(SurveyModelResource):
     def save_related(self, bundle):
         resource_uri = self.get_resource_uri(bundle.obj)
         user_uri = self.get_resource_uri(bundle.request.user)
-        for response in bundle.data.get('responses'):
+        for response in bundle.data.get('response_set'):
             response['respondant'] = resource_uri
             response['user'] = user_uri
 
 class ReportRespondantResource(SurveyModelResource):
-    responses = fields.ToManyField(ResponseResource, 'responses', full=False, null=True, blank=True)
+    responses = fields.ToManyField(ResponseResource, 'response_set', full=False, null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, readonly=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=False, readonly=True)
     survey_title = fields.CharField(attribute='survey_title', readonly=True)
@@ -158,17 +158,17 @@ class DashRespondantResource(ReportRespondantResource):
 
 
 class DashRespondantDetailsResource(ReportRespondantResource):
-    responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
+    responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
 
 
 class ReportRespondantDetailsResource(ReportRespondantResource):
-    responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
+    responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
     
 
 class RespondantResource(SurveyModelResource):
-    responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
+    responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, full=True, readonly=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
 

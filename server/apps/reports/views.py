@@ -33,7 +33,7 @@ def get_geojson(request, survey_slug, question_slug):
             slug = filter.keys()[0]
             value = filter[slug]
             filter_question = QuestionReport.objects.get(slug=slug, survey=survey)
-            locations = locations.filter(location__respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+            locations = locations.filter(location__respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
 
     geojson = [];
     for location in locations:
@@ -88,12 +88,12 @@ def get_distribution(request, survey_slug, question_slug):
                 if filter_question == self:
                     locations = locations.filter(answer__in=value)
                 else:
-                    answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+                    answers = answers.filter(respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
                     locations = locations.filter(location__response__in=answers)
             else:
                 if not isinstance(value, (list, tuple)):
                     value = [value]
-                answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+                answers = answers.filter(respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
         answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
@@ -138,7 +138,7 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
                 #respondants = respondants.filter(responses__in=date_question.response_set.filter(answer_date__gte=start_date))
                 respondants = respondants.filter(ts__lte=end_date, ts__gte=start_date)
 
-            respondants = respondants.filter(responses__in=question_a_responses.filter(answer=question_a_answer['answer']))
+            respondants = respondants.filter(response_set__in=question_a_responses.filter(answer=question_a_answer['answer']))
 
             # if end_date is not None:
             #     #respondants = respondants.filter(respondantsesponses__in=date_question.response_set.filter(answer_date__lte=end_date))

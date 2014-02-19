@@ -132,12 +132,10 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
     def lookup(cls, name, group):
         regex = re.compile('\((.*)\)')
         query = Q(name__iexact=name)
-        print "trying ", name
         if name.endswith('s'):
             query = query | Q(name__iexact=name[:-1])
         map_match = species_mapping.get(name.strip().lower(), None)
         if map_match is not None:
-            print "matching ", map_match
             query = query | Q(name__iexact=map_match)
         matches = DialectSpecies.objects.filter(query)
         if len(matches.values('species__name', 'species__code').distinct()) == 1:
