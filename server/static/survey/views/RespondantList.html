@@ -2,9 +2,9 @@
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9">
-            <div ng-hide="busy" class="row">    
+            <div class="row">    
                 <!-- <h1>Completed {{ survey.name }}s -- <small>{{ survey.survey_responses |number}} reports submitted</small></h1> -->
-                <h1>Catch Report Review: {{ area }}</h1>
+                <h1>Catch Report Review: {{ area }} <i ng-show="busy" class="icon-spinner icon-spin"></i></h1>
                 <div>
                     <div class="row filter-box">
                         <div class="col-md-8">
@@ -14,7 +14,14 @@
                             <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-hide="respondents.length || busy">
+                        <div class='col-md-12'>
+                            <div class="alert alert-warning">
+                                No records for this date range or area. <a ng-click="clearFilters()" class="alert-link">Clear Filters?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="respondents.length">
                         <div class="col-md-12">
                             <div class="panel panel-default" ng-repeat="respondent in respondents">  <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
                                 <div class="panel-heading respondent-header" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
@@ -71,10 +78,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="btn btn-default btn-lg btn-block panel-heading" style="margin-bottom: 20px; padding: 10px;" ng-click="showNext20(surveyFilter)">
-                                Show More...
-                                <i class="icon-spinner icon-spin" ng-show="gettingNext20"></i>
-                            </a>
+                            <ul class="pager">
+                                <li class="previous" ng-class="{ 'disabled': !meta.next }">
+                                    <a ng-click="getReports(meta.next)">&larr; Older</a>
+                                </li>
+                                <li class="next" ng-class="{ 'disabled': !meta.previous }">
+                                    <a ng-click="getReports(meta.previous)">Newer &rarr;</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

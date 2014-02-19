@@ -37,25 +37,38 @@ angular.module('askApp')
         //     $scope.filter.area = $location.search().area;
         // }
 
-        $scope.getReports = function() {
-            var startDate = new Date($scope.filter.startDate).toString('yyyy-MM-dd');
-            var endDate = new Date($scope.filter.endDate).toString('yyyy-MM-dd');
-            console.log(endDate);
-            var url = [
-                '/api/v1/dashrespondant/?format=json&limit=5&survey__slug__exact=',
-                $routeParams.surveySlug//,
-                // '&ordering_date__gte=' + startDate,
-                // '&ordering_date__lte=' + endDate,
-            ].join('');
+        $scope.getReports = function(metaUrl) {
+            var url;
+            $scope.busy = true;
+            if (metaUrl) {
+                url = metaUrl; 
+            } else {
+                url = [
+                    '/api/v1/dashrespondant/?format=json&limit=5&survey__slug__exact=',
+                    $routeParams.surveySlug,
+                    '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
+                    '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd'),
+                ].join('');    
+            }
+            
             console.log(url);
             $http.get(url).success(function(data) {
                 $scope.respondents = data.objects;
                 $scope.meta = data.meta;
                 $scope.responsesShown = $scope.respondents.length;
                 $scope.busy = false;
+                $scope.filterChanged = {};
             });
 
         }
+
+        $scope.filterChanged = {};
+
+        $scope.clearFilters = function () {
+            $scope.filter.startDate = $scope.filter.min;
+            $scope.filter.endDate = $scope.filter.max;
+        }
+        
         $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
             $scope.survey = data;
             var start_date = $location.search().ts__gte ?
@@ -70,33 +83,39 @@ angular.module('askApp')
                 startDate: start_date.valueOf(),
                 endDate: end_date.valueOf()
             }
-            _.each($scope.survey.questions, function(question) {
-                // save a reference to filter questions which are specified by uri
-                question.filters = {};
-                if (question.visualize && question.filter_questions) {
-                    question.filterQuestions = [];
-                    _.each(question.filter_questions, function(filterQuestion) {
-                        question.filterQuestions.push($scope.getQuestionByUri(filterQuestion));
-                    });
-
-                }
-            });
-
 
         }).success(function() {
 
+            $scope.$watch('filter.startDate', function (startDate) {
+                console.log('start date ' + startDate)
+                $scope.filterChanged.start = true;
+                if ($scope.filterChanged.start && $scope.filterChanged.end) {
+                    $scope.getReports();    
+                }
+                
+            })
+            $scope.$watch('filter.endDate', function (endDate) {
+                $scope.filterChanged.end = true;
+                if ($scope.filterChanged.start && $scope.filterChanged.end) {
+                    $scope.getReports();
+                }
+            })
+            $scope.$watch('filter.area', function(area) {
+                console.log('watch');
+                // $location.search($scope.filter);
+                if (area) {
+                    console.log('filter')
+                    if (area) {
+                        $scope.area = areaMapping[area];
+                    }
+                    console.log('get')
+                    $scope.getReports();    
+                }
+                
+            }, true);
             $scope.getReports();
         });
 
-        $scope.$watch('filter.area', function(newFilter) {
-            console.log('watch');
-            // $location.search($scope.filter);
-            if (newFilter) {
-                $scope.area = areaMapping[newFilter];
-                console.log('filter');
-                $scope.getReports();
-            }
-        }, true);
 
         $scope.getQuestionByUri = function(uri) {
             return _.findWhere($scope.survey.questions, {

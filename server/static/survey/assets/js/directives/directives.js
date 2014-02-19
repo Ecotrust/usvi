@@ -1,5 +1,5 @@
 angular.module('askApp')
-    .directive('dateRangePicker', function() {
+    .directive('dateRangePicker', function($q) {
 
         return {
             template: '<div><i class="icon-calendar icon-large"></i> <span ng-bind="displayMin"></span> to <span ng-bind="displayMax"></span></div>',
@@ -17,6 +17,7 @@ angular.module('askApp')
                 var min, max;
                 var initializePicker = _.once(function(start, end) {
                     // element.val(_.string.sprintf("%s - %s", start, end));
+                    var deferred = $q.defer();
                     element.daterangepicker({
                         format: 'MM-DD-YYYY',
                         startDate: start,
@@ -26,6 +27,7 @@ angular.module('askApp')
                         opens: 'left',
                         showDropdowns: true,
                         ranges: {
+                            'All Dates': [start, end],
                             'Today': [moment(), moment()],
                             'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
                             'Last 7 Days': [moment().subtract('days', 6), moment()],
@@ -34,12 +36,18 @@ angular.module('askApp')
                             'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
                         }
                     }, function(start, end) {
-                        scope.$apply(function(s) {
-                            s.start = start;
-                            s.displayMin = (new Date(start)).toString('MMM dd, yyyy')
-                            s.end = end;
-                            s.displayMax = (new Date(end)).toString('MMM dd, yyyy')
-                        });
+                        if (start !== scope.start) {
+                            scope.$apply(function(s) {
+                                s.start = start;
+                                s.displayMin = (new Date(start)).toString('MMM dd, yyyy');
+                            });    
+                        }
+                        if (end !== scope.end) {
+                            scope.$apply(function(s) {
+                                s.end = end;
+                                s.displayMax = (new Date(end)).toString('MMM dd, yyyy')
+                            });
+                        }
                     });
                 });
 
@@ -61,6 +69,18 @@ angular.module('askApp')
                             initializePicker(min, max);
                         }
                     }
+                });
+                scope.$watch('start', function (newValue) {
+                    if (newValue) {
+                        scope.displayMin = (new Date(newValue)).toString('MMM dd, yyyy');    
+                    }
+                    
+                });
+                scope.$watch('end', function (newValue) {
+                    if (newValue) {
+                        scope.displayMax = (new Date(newValue)).toString('MMM dd, yyyy');    
+                    }
+                    
                 });
             }
         }
