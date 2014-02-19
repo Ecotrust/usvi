@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'discover_runner',
     'csvimport',
+    'registration',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:

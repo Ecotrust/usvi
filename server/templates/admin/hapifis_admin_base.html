@@ -1,0 +1,142 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{%block title %}Dashboard Log in{% endblock %}
+{% block extrahead %}
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-41476817-2', 'pointnineseven.com'); ga('send', 'pageview');
+</script>
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+
+<style>
+html, #grp-content-container {
+    background-color: #DFF2F4;
+}
+.container {
+    margin-top: 10%;
+}
+#grp-navigation, #grp-navigation h1, #grp-context-navigation {
+    display: none;
+}
+img {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+h1 {
+    text-align: center;
+}
+#login-form input,
+#login-form li {
+    border-radius: 0px;
+    float: right;
+    margin-bottom: 1em;
+    list-style-type: none;
+    padding: 12px;
+    height: 100%;
+}
+#login_text {
+    color: #82B4C0;
+    margin: 0 auto;
+    width: 16.5em;
+    text-align: center;
+}
+#login-form input[type=text], input[type=password] {
+    clear: right;
+}
+#login-row, .submit-row {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 392px;
+    margin: 0 auto;
+    text-align: center;
+}
+.submit-row input, #login_btn {
+    color: #000;
+    background-color: #f6c431;
+    border-radius: 0px;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+#login-row {
+    background-color: #82B4C0;
+}
+.header {
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #91CDD7), color-stop(1, #00ABBA));
+    background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -webkit-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -ms-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: linear-gradient(to left, #91CDD7 0%, #00ABBA 100%);
+    border-radius: 0px;
+    height: 9.5em;
+    margin-bottom: 0px;
+}
+.header p,
+.header a,
+.header h3,
+.header .navbar-brand {
+    color: #fff !important;
+}
+.header img {
+    margin-top: -1.5em;
+}
+
+.header .navbar-left {
+    margin-left: 2em;
+    margin-top: 3.5em;
+}
+
+.header .navbar-right {
+    margin-top: 5em;
+    margin-right: 2em;
+}
+.header-border {
+    position: relative;
+    top: -1px;
+    border-bottom: solid 2.5em #195d65;
+    margin-bottom: 20px;
+}
+
+</style>
+{% endblock %}
+
+{% block bodyclass %}login{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-default header" role="navigation" ng-controller="SurveyListMenuCtrl" ng-cloak>
+    <div>
+        <ul class="nav navbar-nav navbar-left">
+            <li><a class="navbar-brand" href="http://pointnineseven.com/"><img src="{{STATIC_URL}}survey/assets/img/point97.png"></img></a></li>
+            <li><h3 class="navbar-text">Digital Deck Caribbean</h3></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    {% block container %}
+    <div id="login_text">
+        <h1>DASHBOARD LOGIN</h1>
+    </div>
+    <div id="login-row" class="row">
+        {% block hapifis_content %}
+        {% endblock %}
+    </div>
+    <div class="row">
+        {% block hapifis_content_nobg%}
+        {% endblock %}
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}
