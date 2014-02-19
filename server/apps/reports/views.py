@@ -58,7 +58,7 @@ def get_distribution(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
     if question_slug.find('*') == -1:
         question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey=survey)
-        answers = question.response_set.filter(respondant__complete=True)
+        answers = question.response.filter(respondant__complete=True)
         question_type = question.type
     else:
         questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''), question_page__survey=survey)
@@ -93,7 +93,7 @@ def get_distribution(request, survey_slug, question_slug):
             else:
                 if not isinstance(value, (list, tuple)):
                     value = [value]
-                answers = answers.filter(respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
+                answers = answers.filter(respondant__response__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
         answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
