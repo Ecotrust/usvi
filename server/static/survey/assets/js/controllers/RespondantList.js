@@ -1,4 +1,4 @@
-//'use strict';
+7//'use strict';
 
 angular.module('askApp')
     .config(['$httpProvider',
@@ -16,9 +16,13 @@ angular.module('askApp')
         var areaMapping = {
             stcroix: "St. Croix",
             stthomas: "St. Thomas",
+            stjohn: "St. John",
             puertorico: "Puerto Rico",
+
             region: "Region"
         };
+
+        var cache = {};
 
         var dateFromISO = function(iso_str) {
             // IE8 and lower can't parse ISO strings into dates. See this
@@ -36,7 +40,14 @@ angular.module('askApp')
         // if (! _.isEmpty($location.search())) {
         //     $scope.filter.area = $location.search().area;
         // }
-
+        var loadReports = function(data, url) {
+            $scope.respondents = data.objects;
+            $scope.meta = data.meta;
+            $scope.responsesShown = $scope.respondents.length;
+            $scope.busy = false;
+            $scope.filterChanged = {};
+            cache[url] = data;
+        };
         $scope.getReports = function(metaUrl) {
             var url;
             $scope.busy = true;
@@ -47,18 +58,22 @@ angular.module('askApp')
                     '/api/v1/dashrespondant/?format=json&limit=5&survey__slug__exact=',
                     $routeParams.surveySlug,
                     '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
-                    '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd'),
-                ].join('');    
+                    '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
+                ].join('');
+                if ($scope.area) {
+                    url = url + '&island__contains=' + $scope.area;
+                }
             }
             
-            console.log(url);
-            $http.get(url).success(function(data) {
-                $scope.respondents = data.objects;
-                $scope.meta = data.meta;
-                $scope.responsesShown = $scope.respondents.length;
-                $scope.busy = false;
-                $scope.filterChanged = {};
-            });
+            
+            if (_.has(cache, url)) {
+                loadReports(cache[url], url);
+            } else {
+                $http.get(url).success(function (data) {
+                    loadReports(data, url) 
+                });
+            }
+            
 
         }
 
@@ -68,9 +83,15 @@ angular.module('askApp')
             $scope.filter.startDate = $scope.filter.min;
             $scope.filter.endDate = $scope.filter.max;
         }
-        
-        $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
-            $scope.survey = data;
+ 
+        $scope.getSurveyDetails = function () {
+            return $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
+                $scope.survey = data;
+            });
+        }
+
+        $scope.getSurveyDetails().success(function(data) {
+            
             var start_date = $location.search().ts__gte ?
                 new Date(parseInt($location.search().ts__gte, 10)) :
                 dateFromISO($scope.survey.response_date_start);
@@ -104,11 +125,9 @@ angular.module('askApp')
                 console.log('watch');
                 // $location.search($scope.filter);
                 if (area) {
-                    console.log('filter')
                     if (area) {
                         $scope.area = areaMapping[area];
                     }
-                    console.log('get')
                     $scope.getReports();    
                 }
                 
@@ -129,20 +148,6 @@ angular.module('askApp')
             });
         };
 
-        $scope.showNext20 = function(surveyFilter) {
-            $scope.gettingNext20 = true;
-            $http.get($scope.meta.next)
-                .success(function(data, callback) {
-                    _.each(data.objects, function(respondent, index) {
-                        $scope.respondents.push(respondent);
-                    });
-                    $scope.gettingNext20 = false;
-                    $scope.meta = data.meta;
-                    // console.log($scope.respondentList);
-                }).error(function(data) {
-                    console.log(data);
-                });
-        };
         $scope.saveRespondent = function(respondent, data) {
             return $http({
                 url: respondent.resource_uri,
@@ -173,6 +178,7 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     respondent.review_status = newStatus;
+                    $scope.getSurveyDetails();
                 });
 
         };

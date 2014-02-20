@@ -4,7 +4,7 @@
         <div class="col-md-9">
             <div class="row">    
                 <!-- <h1>Completed {{ survey.name }}s -- <small>{{ survey.survey_responses |number}} reports submitted</small></h1> -->
-                <h1>Catch Report Review: {{ area }} <i ng-show="busy" class="icon-spinner icon-spin"></i></h1>
+                <h1>Catch Report Review: {{ area || 'All Islands' }} <i ng-show="busy" class="icon-spinner icon-spin"></i></h1>
                 <div>
                     <div class="row filter-box">
                         <div class="col-md-8">
@@ -78,15 +78,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <ul class="pager">
-                                <li class="previous" ng-class="{ 'disabled': !meta.next }">
-                                    <a ng-click="getReports(meta.next)">&larr; Older</a>
-                                </li>
-                                <li class="next" ng-class="{ 'disabled': !meta.previous }">
-                                    <a ng-click="getReports(meta.previous)">Newer &rarr;</a>
-                                </li>
-                            </ul>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <p>
+                                        Showing {{ respondents.length }} of {{ meta.total_count }}
+                                        <span ng-hide="survey.survey_responses == meta.total_count">filtered from {{survey.survey_responses || 0}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="pager">
+                                        <li class="previous" ng-class="{ 'disabled': !meta.next }">
+                                            <a ng-disabled="! meta.next" ng-click="getReports(meta.next)">&larr; Older</a>
+                                        </li>
+                                        <li class="next" ng-class="{ 'disabled': !meta.previous }">
+                                            <a ng-disabled="! meta.previous" ng-click="getReports(meta.previous)">Newer &rarr;</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

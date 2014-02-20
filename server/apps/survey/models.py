@@ -45,8 +45,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
     notify = models.BooleanField(default=False)
     last_question = models.CharField(max_length=240, null=True, blank=True)
 
-    county = models.CharField(max_length=240, null=True, blank=True)
-    state = models.CharField(max_length=240, null=True, blank=True)
+    island = models.CharField(max_length=240, null=True, blank=True)
     locations = models.IntegerField(null=True, blank=True)
 
     ts = models.DateTimeField(auto_now_add=True)
@@ -129,6 +128,16 @@ class Survey(caching.base.CachingMixin, models.Model):
     offline = models.BooleanField(default=False)
 
     objects = caching.base.CachingManager()
+
+    
+    @property
+    def reviews_needed(self):
+        return self.respondant_set.filter(review_status=REVIEW_STATE_NEEDED).count()
+
+    @property
+    def flagged(self):
+        return self.respondant_set.filter(review_status=REVIEW_STATE_FLAGGED).count()
+
 
     @property
     def survey_responses(self):

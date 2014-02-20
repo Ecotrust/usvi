@@ -146,7 +146,9 @@ class ReportRespondantResource(SurveyModelResource):
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
-            'ordering_date': ['gte','lte']
+            'ordering_date': ['gte', 'lte'],
+            'island': ALL
+
         }
         #ordering = ['-ordering_date']
         authorization = StaffUserOnlyAuthorization()
@@ -178,7 +180,7 @@ class RespondantResource(SurveyModelResource):
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
             'uuid': ALL,
-            'ts': ['gte','lte']
+            'ts': ['gte', 'lte']
         }
         ordering = ['-ts']
         authorization = StaffUserOnlyAuthorization()
@@ -262,7 +264,7 @@ class DialectResource(SurveyModelResource):
         queryset = Dialect.objects.all()
 
 class SurveyResource(SurveyModelResource):
-    questions = fields.ToManyField(QuestionResource, 'questions', full=True, null=True, blank=True)
+    # questions = fields.ToManyField(QuestionResource, 'questions', full=True, null=True, blank=True)
     #question = fields.ToOneField(QuestionResource, 'question', full=True, null=True, blank=True)
     pages = fields.ToManyField(PageResource, 'page_set', full=True, null=True, blank=True)
  
@@ -307,3 +309,5 @@ class SurveyReportResource(SurveyResource):
     activity_points = fields.IntegerField(attribute='activity_points', readonly=True)
     response_date_start = fields.DateField(attribute='response_date_start', readonly=True, null=True, blank=True)
     response_date_end = fields.DateField(attribute='response_date_end', readonly=True, null=True, blank=True)
+    reviews_needed = fields.IntegerField(attribute='reviews_needed', readonly=True)
+    flagged = fields.IntegerField(attribute='flagged', readonly=True)
