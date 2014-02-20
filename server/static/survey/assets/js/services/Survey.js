@@ -13,6 +13,10 @@ angular.module('askApp')
         survey = thisSurvey;
         page = thisPage;
         answers = thisAnswers;
+        if (survey.slug === thisSurvey.slug && ! survey.questions) {
+            survey.questions = _.flatten(_.pluck(thisSurvey.pages, 'questions'));
+        }
+        
     };
 
     var getPageFromQuestion = function(questionSlug) {

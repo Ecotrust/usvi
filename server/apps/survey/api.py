@@ -128,7 +128,7 @@ class OfflineRespondantResource(SurveyModelResource):
     def save_related(self, bundle):
         resource_uri = self.get_resource_uri(bundle.obj)
         user_uri = self.get_resource_uri(bundle.request.user)
-        for response in bundle.data.get('response_set'):
+        for response in bundle.data.get('responses'):
             response['respondant'] = resource_uri
             response['user'] = user_uri
 

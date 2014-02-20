@@ -129,7 +129,7 @@ class Survey(caching.base.CachingMixin, models.Model):
 
     objects = caching.base.CachingManager()
 
-    
+
     @property
     def reviews_needed(self):
         return self.respondant_set.filter(review_status=REVIEW_STATE_NEEDED).count()
@@ -538,12 +538,14 @@ class Response(caching.base.CachingMixin, models.Model):
         
         if self.question.slug == 'did-not-fish-for-month-of':
             if self.respondant is not None:
+                self.answer = self.answer.replace('"', '')
                 from datetime import datetime
-                #try:
                 if self.answer.find('-') != -1:
-                    dnf_date = datetime.strptime(self.answer, '%m-%Y')
+                    dnf_date = datetime.strptime(self.answer, '%Y-%m')
                 elif self.answer.find('/') != -1:
-                    dnf_date = datetime.strptime(self.answer, '%m/%Y')
+                    dnf_date = datetime.strptime(self.answer, '%Y/%m')
+            
+
                 self.respondant.ordering_date = dnf_date
                 self.respondant.save()
 
