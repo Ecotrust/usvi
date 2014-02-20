@@ -1,24 +1,12 @@
 7//'use strict';
 
 angular.module('askApp')
-    .config(['$httpProvider',
-        function($httpProvider) {
-            $httpProvider.defaults.headers.patch = {
-                'Content-Type': 'application/json;charset=utf-8'
-                // 'X-CSRFToken': getCookie('csrftoken')
-            }
-            // $httpProvider.defaults.headers['delete'] = {
-            //     'X-CSRFToken': getCookie('csrftoken')
-            // }
-        }
-    ])
     .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
         var areaMapping = {
             stcroix: "St. Croix",
             stthomas: "St. Thomas",
             stjohn: "St. John",
             puertorico: "Puerto Rico",
-
             region: "Region"
         };
 
@@ -37,9 +25,6 @@ angular.module('askApp')
         $scope.viewPath = app.server + '/static/survey/';
         $scope.activePage = 'survey-stats';
 
-        // if (! _.isEmpty($location.search())) {
-        //     $scope.filter.area = $location.search().area;
-        // }
         var loadReports = function(data, url) {
             $scope.respondents = data.objects;
             $scope.meta = data.meta;
@@ -63,6 +48,9 @@ angular.module('askApp')
                 if ($scope.area) {
                     url = url + '&island__contains=' + $scope.area;
                 }
+                if ($scope.filter.review_status) {
+                    url = url + '&review_status__exact=' + $scope.filter.review_status;
+                }
             }
             
             
@@ -82,6 +70,7 @@ angular.module('askApp')
         $scope.clearFilters = function () {
             $scope.filter.startDate = $scope.filter.min;
             $scope.filter.endDate = $scope.filter.max;
+            $scope.filter.review_status = "";
         }
  
         $scope.getSurveyDetails = function () {
@@ -122,16 +111,18 @@ angular.module('askApp')
                 }
             })
             $scope.$watch('filter.area', function(area) {
-                console.log('watch');
-                // $location.search($scope.filter);
                 if (area) {
-                    if (area) {
-                        $scope.area = areaMapping[area];
-                    }
+                    $scope.area = areaMapping[area];
                     $scope.getReports();    
                 }
                 
             }, true);
+
+            $scope.$watch('filter.review_status', function (newFilter) {
+                // can be null...
+                $scope.getReports();
+            });
+
             $scope.getReports();
         });
 

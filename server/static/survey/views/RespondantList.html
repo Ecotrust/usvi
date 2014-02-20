@@ -2,36 +2,59 @@
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9">
-            <div class="row">    
+            <div class="row">
                 <!-- <h1>Completed {{ survey.name }}s -- <small>{{ survey.survey_responses |number}} reports submitted</small></h1> -->
-                <h1>Catch Report Review: {{ area || 'All Islands' }} <i ng-show="busy" class="icon-spinner icon-spin"></i></h1>
+                <h1>Catch Report Review: {{ area || 'All Islands' }} <i ng-show="busy" class="icon-spinner icon-spin"></i>
+                </h1>
                 <div>
                     <div class="row filter-box">
                         <div class="col-md-8">
                             <div ng-include="'/static/survey/views/areaButtons.html'"></div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
+                        </div>
+                    </div>
+                    <div class="row filter-box">
+                        <div class="col-md-7">
+                            <form class="form-inline" role="form">
+                                <div class="form-group search-group col-md-7">
+                                    <label class="sr-only" for="search-input">Search</label>
+                                    <input type="search" class="form-control search-input" id="search-input" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-4 col-md-offset-1">
+                            <select class="form-control" ng-model="filter.review_status">
+                                <option value="">All Review States</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="flagged">Flagged</option>
+                                <option value="needs review">Needs Review</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row" ng-hide="respondents.length || busy">
                         <div class='col-md-12'>
                             <div class="alert alert-warning">
-                                No records for this date range or area. <a ng-click="clearFilters()" class="alert-link">Clear Filters?</a>
+                                No records for these filters. <a ng-click="clearFilters()" class="alert-link">Clear Filters?</a>
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show="respondents.length">
                         <div class="col-md-12">
-                            <div class="panel panel-default" ng-repeat="respondent in respondents">  <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
+                            <div class="panel panel-default" ng-repeat="respondent in respondents">
+                                <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
                                 <div class="panel-heading respondent-header" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
                                     <h4 class="panel-title">
-                                        {{ respondent.user.username }} -- 
+                                        {{ respondent.user.username }} --
                                         <span ng-show="respondent.complete">{{ respondent.ordering_date | date: 'MM/dd/yyyy' }}</span>
                                         <i ng-show="respondent.spin" class="icon-spinner icon-spin"></i>
                                         <div class="pull-right">
-                                            <span class="label"
-                                                ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
+                                            <span class="label" ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
                                                 {{ respondent.review_status }}
                                             </span>
 
@@ -52,22 +75,19 @@
                                                     <div class="form-group">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="checkbox" ng-model="respondent.notify">
-                                                                Share comment with fisher
+                                                                <input type="checkbox" ng-model="respondent.notify">Share comment with fisher
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="pull-right">
-                                                        <a class="btn btn-default" target="_blank" href="#/RespondantDetail/{{survey.slug}}/{{respondent.uuid}}"><span class="glyphicon glyphicon-pencil"> Edit</span></a>
-                                                        <a class="btn" ng-click="setStatus(respondent, 'accepted')"
-                                                           ng-class="{ 'btn-success': respondent.review_status == 'accepted', 'btn-default': respondent.review_status != 'accepted' }">
-                                                            <span class="glyphicon"
-                                                                ng-class="{ 'glyphicon-check': respondent.review_status == 'accepted', 'glyphicon-unchecked': respondent.review_status != 'accepted'  }">Approve
+                                                        <a class="btn btn-default" target="_blank" href="#/RespondantDetail/{{survey.slug}}/{{respondent.uuid}}">
+                                                            <span class="glyphicon glyphicon-pencil">Edit</span>
                                                         </a>
-                                                        <a class="btn" ng-click="setStatus(respondent, 'flagged')"
-                                                           ng-class="{ 'btn-danger': respondent.review_status == 'flagged', 'btn-default': respondent.review_status != 'flagged' }">
-                                                            <span class="glyphicon"
-                                                                ng-class="{ 'glyphicon-check': respondent.review_status == 'flagged', 'glyphicon-unchecked': respondent.review_status != 'flagged'  }">Flag
+                                                        <a class="btn" ng-click="setStatus(respondent, 'accepted')" ng-class="{ 'btn-success': respondent.review_status == 'accepted', 'btn-default': respondent.review_status != 'accepted' }">
+                                                            <span class="glyphicon" ng-class="{ 'glyphicon-check': respondent.review_status == 'accepted', 'glyphicon-unchecked': respondent.review_status != 'accepted'  }">Approve
+                                                        </a>
+                                                        <a class="btn" ng-click="setStatus(respondent, 'flagged')" ng-class="{ 'btn-danger': respondent.review_status == 'flagged', 'btn-default': respondent.review_status != 'flagged' }">
+                                                            <span class="glyphicon" ng-class="{ 'glyphicon-check': respondent.review_status == 'flagged', 'glyphicon-unchecked': respondent.review_status != 'flagged'  }">Flag
                                                         </a>
                                                         <button class="btn btn-default" ng-click="saveComment(respondent, respondent.comment, respondent.notify)">Save Comment</button>
                                                     </div>
@@ -95,7 +115,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                             </div>
                         </div>
 

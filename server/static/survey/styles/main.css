@@ -77,10 +77,17 @@
 }
 
 .filter-box {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 } 
-  .filter-box .form-control {
+  .filter-box .date-range-picker {
     text-align: center;
+  }
+  .filter-box .search-group {
+    padding-right: 5px;
+    padding-left: 0;
+  }
+  .filter-box .search-input {
+    margin-bottom: 0;
   }
 .report-controls {
   margin-bottom: 10px;

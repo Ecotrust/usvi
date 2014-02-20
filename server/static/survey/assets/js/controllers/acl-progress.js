@@ -6,7 +6,8 @@ angular.module('askApp')
             stthomas: "St. Thomas",
             puertorico: "Puerto Rico",
             region: "Region"
-        }
+        };
+
         $scope.activePage = 'overview';
         var getAclReport = function () {
             var url = app.server + '/reports/distribution/catch-report/weight-*';

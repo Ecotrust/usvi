@@ -146,6 +146,7 @@ class ReportRespondantResource(SurveyModelResource):
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
+            'review_status': ALL,
             'ordering_date': ['gte', 'lte'],
             'island': ALL
 
