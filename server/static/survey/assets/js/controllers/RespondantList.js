@@ -10,7 +10,6 @@ angular.module('askApp')
             region: "Region"
         };
 
-        var cache = {};
 
         var dateFromISO = function(iso_str) {
             // IE8 and lower can't parse ISO strings into dates. See this
@@ -30,19 +29,15 @@ angular.module('askApp')
             $scope.responsesShown = $scope.respondents.length;
             $scope.busy = false;
             $scope.filterChanged = {};
-            cache[url] = data;
         };
         $scope.getReports = function(metaUrl, button) {
             var url;
-            console.log(metaUrl); 
-            console.log(button)
-           
+
             if (metaUrl) {
                 url = metaUrl; 
             } else {
 
                 if (button) {
-                    console.log('returning');
                     // clicking button, but url is null
                     return false;
                 }
@@ -60,14 +55,11 @@ angular.module('askApp')
                 }
             }
             
-            $scope.busy = true;
-            if (_.has(cache, url)) {
-                loadReports(cache[url], url);
-            } else {
-                $http.get(url).success(function (data) {
-                    loadReports(data, url) 
-                });
-            }
+            $scope.busy = true;    
+            $http.get(url).success(function (data) {
+                loadReports(data, url) 
+            });
+        
             
 
         }
