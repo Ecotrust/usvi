@@ -21,7 +21,6 @@ angular.module('askApp')
             }
             return new Date(iso_str);
         };
-        $scope.busy = true;
         $scope.viewPath = app.server + '/static/survey/';
         $scope.activePage = 'survey-stats';
 
@@ -33,12 +32,20 @@ angular.module('askApp')
             $scope.filterChanged = {};
             cache[url] = data;
         };
-        $scope.getReports = function(metaUrl) {
+        $scope.getReports = function(metaUrl, button) {
             var url;
-            $scope.busy = true;
+            console.log(metaUrl); 
+            console.log(button)
+           
             if (metaUrl) {
                 url = metaUrl; 
             } else {
+
+                if (button) {
+                    console.log('returning');
+                    // clicking button, but url is null
+                    return false;
+                }
                 url = [
                     '/api/v1/dashrespondant/?format=json&limit=5&survey__slug__exact=',
                     $routeParams.surveySlug,
@@ -53,7 +60,7 @@ angular.module('askApp')
                 }
             }
             
-            
+            $scope.busy = true;
             if (_.has(cache, url)) {
                 loadReports(cache[url], url);
             } else {
@@ -64,6 +71,10 @@ angular.module('askApp')
             
 
         }
+
+        $scope.search = function () {
+            $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + $scope.searchTerm);
+        };
 
         $scope.filterChanged = {};
 

@@ -2,4 +2,4 @@
 {{ answer }}
 {% endfor %}
 {{ object.user.username }}
-{{ object.user.last_name }}
+{{ object.user.get_full_name }}

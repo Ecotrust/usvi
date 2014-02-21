@@ -18,10 +18,10 @@
                     </div>
                     <div class="row filter-box">
                         <div class="col-md-7">
-                            <form class="form-inline" role="form">
+                            <form class="form-inline" role="form" ng-submit="search()">
                                 <div class="form-group search-group col-md-7">
                                     <label class="sr-only" for="search-input">Search</label>
-                                    <input type="search" class="form-control search-input" id="search-input" placeholder="Search">
+                                    <input type="search" class="form-control search-input" id="search-input" placeholder="Search" ng-model="searchTerm">
                                 </div>
                                 <button type="submit" class="btn btn-default">
                                     <span class="glyphicon glyphicon-search"></span>
@@ -108,10 +108,10 @@
                                 <div class="col-md-3">
                                     <ul class="pager">
                                         <li class="previous" ng-class="{ 'disabled': !meta.next }">
-                                            <a ng-disabled="! meta.next" ng-click="getReports(meta.next)">&larr; Older</a>
+                                            <a ng-disabled="! meta.next" ng-click="getReports(meta.next, true)">&larr; Previous</a>
                                         </li>
                                         <li class="next" ng-class="{ 'disabled': !meta.previous }">
-                                            <a ng-disabled="! meta.previous" ng-click="getReports(meta.previous)">Newer &rarr;</a>
+                                            <a ng-disabled="! meta.previous" ng-click="getReports(meta.previous, true)">Next &rarr;</a>
                                         </li>
                                     </ul>
                                 </div>

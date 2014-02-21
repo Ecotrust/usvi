@@ -8,6 +8,8 @@ from django.conf.urls import url
 from django.db.models import Avg, Max, Min, Count
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
+from django.core.urlresolvers import reverse
+
 from haystack.query import SearchQuerySet
 from haystack.query import SQ
 
@@ -202,7 +204,7 @@ class DashRespondantResource(ReportRespondantResource):
 
           
         url = reverse('api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
-        
+
         if page.has_next():
             next_url = "{0}?q={1}&page={2}&limit={3}&format=json".format(url, query, page.next_page_number(), limit)
         else:
