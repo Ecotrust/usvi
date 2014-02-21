@@ -434,7 +434,10 @@ form .btn-block {
   height: 400px;
 }
 
-
+.panel-title .icon-spin {
+  margin: 0;
+  padding: 0;
+}
 .dash .map {
   height: 300px;
 }

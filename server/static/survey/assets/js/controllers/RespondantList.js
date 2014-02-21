@@ -154,12 +154,15 @@ angular.module('askApp')
         };
 
         $scope.saveRespondent = function(respondent, data) {
+            respondent.spin = true;
             return $http({
                 url: respondent.resource_uri,
                 data: data,
                 method: "PATCH"
             })
-                .success(function(data) {})
+                .success(function(data) {
+                    respondent.spin = false;
+                })
                 .error(function(err) {
                     alert(err.message);
                 });
