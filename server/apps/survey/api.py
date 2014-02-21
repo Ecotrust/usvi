@@ -6,6 +6,13 @@ from tastypie.authorization import Authorization
 
 from django.conf.urls import url
 from django.db.models import Avg, Max, Min, Count
+from django.core.paginator import Paginator, InvalidPage
+from django.http import Http404
+from haystack.query import SearchQuerySet
+from haystack.query import SQ
+
+from tastypie.resources import ModelResource
+from tastypie.utils import trailing_slash
 
 from survey.models import Survey, Question, Option, Respondant, Response, Page, Block, Dialect, DialectSpecies
 
@@ -159,6 +166,67 @@ class ReportRespondantResource(SurveyModelResource):
 class DashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
 
+    def prepend_urls(self):
+            return [
+                url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_search'), name="api_get_search"),
+            ]
+
+    def get_search(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        # Do the query.
+        limit = int(request.GET.get('limit', 20))
+        query = request.GET.get('q', '')
+        page = int(request.GET.get('page', 1))
+
+        sqs =  SearchQuerySet().models(Respondant).load_all().filter(content__contains=query)# .auto_query(query)
+
+        paginator = Paginator(sqs, limit)
+        total = sqs.count()
+
+        try:
+            page = paginator.page(page)
+        except InvalidPage:
+            raise Http404("Sorry, no results on that page.")
+
+        
+
+        objects = []
+
+        for result in page.object_list:
+            bundle = self.build_bundle(obj=result.object, request=request)
+            bundle = self.full_dehydrate(bundle)
+            objects.append(bundle)
+
+          
+        url = reverse('api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
+        
+        if page.has_next():
+            next_url = "{0}?q={1}&page={2}&limit={3}&format=json".format(url, query, page.next_page_number(), limit)
+        else:
+            next_url = None
+
+        if page.has_previous():
+            previous_url = "{0}?q={1}&page={2}&limit={3}&format=json".format(url, query, page.previous_page_number(), limit)
+        else:
+            previous_url = None
+        
+        meta = {
+            "limit": limit,
+            "next": next_url,
+            "previous": previous_url,
+            "total_count": total
+        }
+
+        object_list = {
+            'objects': objects,
+            'meta': meta
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
 
 class DashRespondantDetailsResource(ReportRespondantResource):
     responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)

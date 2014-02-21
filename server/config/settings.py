@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'discover_runner',
     'csvimport',
     'registration',
+    'haystack',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:
@@ -218,3 +219,13 @@ HEROKU = False
 ANALYTICS_ID = ""
 
 TEST_RUNNER = 'discover_runner.DiscoverRunner'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

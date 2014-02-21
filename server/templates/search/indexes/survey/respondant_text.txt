@@ -1,0 +1,5 @@
+{% for answer in object.profile_values %}
+{{ answer }}
+{% endfor %}
+{{ object.user.username }}
+{{ object.user.last_name }}

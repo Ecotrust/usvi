@@ -13,7 +13,7 @@ import uuid
 import simplejson
 import caching.base
 import re
-
+import json
 
 def make_uuid():
     return str(uuid.uuid4())
@@ -48,6 +48,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
     island = models.CharField(max_length=240, null=True, blank=True)
     locations = models.IntegerField(null=True, blank=True)
 
+
     ts = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(max_length=254, null=True, blank=True, default=None)
     ordering_date = models.DateTimeField(null=True, blank=True)
@@ -62,6 +63,11 @@ class Respondant(caching.base.CachingMixin, models.Model):
         if self.ordering_date is None:
             self.ordering_date = self.ts
         super(Respondant, self).save(*args, **kwargs)
+
+    @property
+    def profile_values(self):
+        answers = self.response_set.filter(question__attach_to_profile=True).values('answer')
+        return [a['answer'] for a in answers]
 
     @property
     def survey_title(self):
