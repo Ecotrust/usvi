@@ -588,7 +588,7 @@ table {
     margin-top: 0;
     margin-bottom: 0;
 }
-.checkbox, .option .checkbox, .select-unchecked .other-checkbox  {
+.option .checkbox, .select-unchecked .other-checkbox  {
     display: none;
     width: 15px;
     height: 15px;
