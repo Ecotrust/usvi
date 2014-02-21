@@ -70,6 +70,20 @@ class Respondant(caching.base.CachingMixin, models.Model):
         return [a['answer'] for a in answers]
 
     @property
+    def species_values(self):
+        answers = self.response_set.filter(question__use_species_list=True).values('answer')
+        species_list = []
+        for answer in answers:
+            for species in answer['answer'].split(','):
+                species_list.append(species)
+        return species_list
+
+    @property
+    def answers_list(self):
+        answers = self.response_set.all().values('answer')
+        return [a['answer'] for a in answers]
+    
+    @property
     def survey_title(self):
         try:
             if self.survey.slug == 'catch-report':
@@ -426,30 +440,35 @@ class Response(caching.base.CachingMixin, models.Model):
                 except Exception as e:
                     self.answer = self.answer_raw
             if self.question.type in ['auto-multi-select', 'multi-select']:
+                print "multianswer"
                 answers = []
                 self.multianswer_set.all().delete()
                 answer_list = simplejson.loads(self.answer_raw)
                 if type(answer_list) is dict:
                     answer_list = [answer_list]
                 for answer in answer_list:
-                    try:
-                        if answer.get('text'):
-                            answer_text = answer['text'].strip()
-                        if answer.get('name'):
-                            answer_text = answer['name'].strip()
-                        answers.append(answer_text)
-                        answer_label = answer.get('label', None)
-                        if self.question.use_species_list:
-                            code = answer.get('code', None)
+                    if answer.get('text'):
+                        answer_text = answer['text'].strip()
+                    if answer.get('name'):
+                        answer_text = answer['name'].strip()
+                    answers.append(answer_text)
+                    answer_label = answer.get('label', None)
+                    if self.question.use_species_list:
+                        code = answer.get('code', None)
+                        if code is not None:
                             code_match = re.search(r'\((.*)\)', code)
                             if code_match is not None:
                                 species = Species.objects.get(code=code_match.group(1))
                             else:
                                 species = None
-                        multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label, species=species)
-                        multi_answer.save()
-                    except Exception as e:
-                        pass
+                        else:
+                            try:
+                                species = DialectSpecies.lookup(answer_text, None)
+                            except:
+                                species = None
+                    multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label, species=species)
+                    multi_answer.save()
+                    
                 self.answer = ", ".join(answers)
             if self.question.type in ['map-multipolygon']:
                 answers = []

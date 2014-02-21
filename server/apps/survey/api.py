@@ -183,7 +183,7 @@ class DashRespondantResource(ReportRespondantResource):
         query = request.GET.get('q', '')
         page = int(request.GET.get('page', 1))
 
-        sqs =  SearchQuerySet().models(Respondant).load_all().filter(content__contains=query)# .auto_query(query)
+        sqs =  SearchQuerySet().models(Respondant).order_by('ordering_date').load_all().auto_query(query)
 
         paginator = Paginator(sqs, limit)
         total = sqs.count()

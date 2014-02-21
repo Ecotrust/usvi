@@ -25,9 +25,8 @@ class Command(BaseCommand):
             if respondent.response_set.count():
                 for response in respondent.response_set.all():
                     try:
-                        print response.question.slug
                         response.save_related()
                     except:
-                        pass
+                        print "Error saving", response.id
             else:
                 respondent.save()

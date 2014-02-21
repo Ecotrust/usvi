@@ -73,7 +73,12 @@ angular.module('askApp')
         }
 
         $scope.search = function () {
-            $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + $scope.searchTerm);
+            if ($scope.searchTerm) {
+                $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + $scope.searchTerm);    
+            } else {
+                $scope.getReports();
+            }
+            
         };
 
         $scope.filterChanged = {};

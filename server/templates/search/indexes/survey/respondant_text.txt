@@ -1,5 +1,7 @@
-{% for answer in object.profile_values %}
+{% for answer in object.answers_list %}
 {{ answer }}
 {% endfor %}
 {{ object.user.username }}
 {{ object.user.get_full_name }}
+{{ object.review_status }}
+
