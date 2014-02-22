@@ -77,6 +77,10 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/survey-list.html',
         controller: 'SurveyListMenuCtrl'
     })
+        .when('/users', {
+        templateUrl: '/static/survey/views/user-list.html',
+        controller: 'UserListCtrl'
+    })
         .otherwise({
         redirectTo: '/'
     });

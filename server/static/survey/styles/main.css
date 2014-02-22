@@ -63,9 +63,11 @@
     background: #F6C432;
 }
 
+#sidenav_respondants .stats {
+  margin-bottom: 10px;
+}
 
 #sidebar_nav {
-    margin-top: 10px;
     border-top: 10px solid #466B71;
     border-bottom: 10px solid #466B71;
     color: #195D68;
@@ -102,6 +104,9 @@
 .search-results {
   height: 200px; overflow-y: auto;
   margin: 10px 0;
+}
+.user-list .search-group {
+  width: 80%;
 }
 
 .acl-list {

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row" ng-cloak>
-        <div ng-include="'/static/survey/views/sideNav.html'"></div>
+        <div ng-include="'/static/survey/views/admin-dash-menu.html'"></div>
         <div class="col-md-9">
             <!-- <i ng-hide="loaded" class="icon-spinner icon-spin"></i> -->
             <table id="survey-landing-table" class="table table-striped">
@@ -43,9 +43,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="col-md-2">
-            <a href="#/author"><button class="btn btn-success">New Survey</button></a>
+            <a class="btn btn-success pull-right" href="#/author">New Survey</a>
         </div>
     </div>
 </div>

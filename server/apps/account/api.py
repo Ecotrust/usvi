@@ -11,8 +11,13 @@ class UserResource(ModelResource):
 
 
     class Meta:
-        queryset = User.objects.all()
+        queryset = User.objects.all().order_by('username')
         excludes = ['email', 'password', 'is_superuser']
         filtering = {
-            'username': ALL
+            'username': ALL,
+            'is_staff': ALL
         }
+        ordering = ['username']
+        authentication = SessionAuthentication()
+        authorization = DjangoAuthorization()
+        always_return_data = True
