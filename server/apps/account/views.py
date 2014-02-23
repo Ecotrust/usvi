@@ -45,43 +45,49 @@ def authenticateUser(request):
 
 @csrf_exempt
 def createUser(request):
-    if request.POST:
+    
+    try:
+        param = simplejson.loads(request.body)
+    except:
         param = simplejson.loads(request.POST.keys()[0])
-        email = param.get('emailaddress1', None)
-        if email is not None:
-            email = email.replace(' ', '+')
-            if email_re.match(email) is None:
-                if email.find('+') == -1:
-                    return HttpResponse("invalid-email", status=500)
-        else:
-            return HttpResponse("invalid-email", status=500)
-        try:
-            user, created = User.objects.get_or_create(
-                username=param.get('username', None), email=email)
-        except IntegrityError:
-            return HttpResponse("duplicate-user", status=500)
-        if created:
-            user.set_password(param.get('password'))
-            user.save()
-            profile, created = UserProfile.objects.get_or_create(user=user)
-            profile.registration = '{}'
-            profile.save()
-            user.save()
+    email = param.get('emailaddress1', None)
+    dash = param.get('dash', False)
+    user_type = param.get('type', 'fishers')
+    if email is not None:
+        email = email.replace(' ', '+')
+        if email_re.match(email) is None:
+            if email.find('+') == -1:
+                return HttpResponse("invalid-email", status=500)
+    else:
+        return HttpResponse("invalid-email", status=500)
+    try:
+        user, created = User.objects.get_or_create(
+            username=param.get('username', None), email=email)
+    except IntegrityError:
+        return HttpResponse("duplicate-user", status=500)
+    if created:
+        user.set_password(param.get('password'))
+        if user_type == 'staff' and request.user.is_staff:
+            user.is_staff = True
+        user.save()
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        profile.registration = '{}'
+        profile.save()
+        user.save()
+        if dash is False:
             user = authenticate(
                 username=user.username, password=param.get('password'))
             login(request, user)
-            user_dict = {
-                'username': user.username,
-                'name': ' '.join([user.first_name, user.last_name]),
-                'email': user.email,
-                'is_staff': user.is_staff,
-                'registration': profile.registration
-            }
-            return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
-        else:
-            return HttpResponse("duplicate-user", status=500)
+        user_dict = {
+            'username': user.username,
+            'name': ' '.join([user.first_name, user.last_name]),
+            'email': user.email,
+            'is_staff': user.is_staff,
+            'registration': profile.registration
+        }
+        return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
     else:
-        return HttpResponse("error", status=500)
+        return HttpResponse("duplicate-user", status=500)
 
 @csrf_exempt
 def forgotPassword(request):

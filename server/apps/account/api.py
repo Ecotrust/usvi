@@ -12,7 +12,7 @@ class UserResource(ModelResource):
 
     class Meta:
         queryset = User.objects.all().order_by('username')
-        excludes = ['email', 'password', 'is_superuser']
+        excludes = ['password', 'is_superuser']
         filtering = {
             'username': ALL,
             'is_staff': ALL
