@@ -17,6 +17,10 @@
                             <input type="radio" class="btn btn-default" value="fishers">
                             Fishers
                         </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="btn btn-default" value="archived">
+                            Archived
+                        </label>
                         
                     </div>
                 </div>
@@ -37,7 +41,11 @@
                 <tbody>
                     <tr ng-repeat="user in users">
                         <td>
-                            <a href="#/RespondantList/{{survey.slug}}"><h4>{{user.username}}  <span class="label label-success" ng-show="user.is_new">new</span></h4></a>
+                            <a href="#/RespondantList/{{survey.slug}}"><h4>{{user.username}}
+                                <span class="label label-success" ng-show="user.is_new">new</span>
+                                <span class="label label-default" ng-show="user.profile.is_intern">intern</span>
+                                <span class="label label-default" ng-show="user.is_staff && $parent.filter.type!='staff'">staff</span>
+                            </h4></a>
                         </td>
                         <td>
                             <h4>{{ user.email }}</h4>
@@ -58,8 +66,36 @@
                             <h2 class="survey-num">{{survey.flagged || 0}}</h2>
                             <p>Flagged</p>
                         </td> -->
-                        <td ng-hide="confirmDelete">
-                            <div class="btn-group pull-right">
+                        <td ng-show="filter.type != 'archived'">
+                            <div ng-hide="confirmDelete" class="btn-group pull-right">
+                                <!-- <a target="_blank" class="btn btn-default icon-plus" href="/respond/{{survey.slug}}"></a>
+                                <a target="_blank" class="btn btn-default icon-mobile-phone" href="/static/survey/mobile.html#/survey/{{survey.slug}}/{{survey.questions[0].slug}}/offline"></a> -->
+                                <!-- <a class="btn btn-default icon-edit" href="#/author/{{ survey.slug }}"></a> -->
+                                <!-- <a class="btn btn-default" href="#/author/{{ survey.slug }}">Edit</a> -->
+                                <a class="btn btn-default" ng-click="confirmDelete = true">
+                                    <i class="icon-trash"></i> Archive
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right" ng-show="confirmDelete">
+                                <a class="btn btn-default btn-danger" ng-click="archiveUser(user)">Archive</a>
+                                <a class="btn btn-default" ng-click="confirmDelete = false">Cancel</a>
+                            </div>
+                        </td>
+                        <td ng-show="filter.type == 'archived'">
+                            <div ng-hide="confirmActivate || confirmDelete" class="btn-group pull-right">
+                                <!-- <a target="_blank" class="btn btn-default icon-plus" href="/respond/{{survey.slug}}"></a>
+                                <a target="_blank" class="btn btn-default icon-mobile-phone" href="/static/survey/mobile.html#/survey/{{survey.slug}}/{{survey.questions[0].slug}}/offline"></a> -->
+                                <!-- <a class="btn btn-default icon-edit" href="#/author/{{ survey.slug }}"></a> -->
+                                <!-- <a class="btn btn-default" href="#/author/{{ survey.slug }}">Edit</a> -->
+                                <a class="btn btn-default" ng-click="confirmActivate = true">
+                                    Activate
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right" ng-show="confirmActivate">
+                                <a class="btn btn-default btn-success" ng-click="activateUser(user)">Activate</a>
+                                <a class="btn btn-default" ng-click="confirmActivate = false">Cancel</a>
+                            </div>
+                            <div ng-hide="confirmDelete || confirmActivate" class="btn-group pull-right">
                                 <!-- <a target="_blank" class="btn btn-default icon-plus" href="/respond/{{survey.slug}}"></a>
                                 <a target="_blank" class="btn btn-default icon-mobile-phone" href="/static/survey/mobile.html#/survey/{{survey.slug}}/{{survey.questions[0].slug}}/offline"></a> -->
                                 <!-- <a class="btn btn-default icon-edit" href="#/author/{{ survey.slug }}"></a> -->
@@ -68,9 +104,7 @@
                                     <i class="icon-trash"></i> Delete
                                 </a>
                             </div>
-                        </td>
-                        <td ng-show="confirmDelete">
-                            <div class="btn-group pull-right">
+                            <div class="btn-group pull-right" ng-show="confirmDelete">
                                 <a class="btn btn-default btn-danger" ng-click="deleteUser(user)">Delete</a>
                                 <a class="btn btn-default" ng-click="confirmDelete = false">Cancel</a>
                             </div>

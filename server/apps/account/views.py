@@ -53,6 +53,7 @@ def createUser(request):
     email = param.get('emailaddress1', None)
     dash = param.get('dash', False)
     user_type = param.get('type', 'fishers')
+    dash_can_create = request.user.is_staff and request.user.profile.is_intern is False
     if email is not None:
         email = email.replace(' ', '+')
         if email_re.match(email) is None:
@@ -67,11 +68,15 @@ def createUser(request):
         return HttpResponse("duplicate-user", status=500)
     if created:
         user.set_password(param.get('password'))
-        if user_type == 'staff' and request.user.is_staff:
+        print dash_can_create
+        if user_type in ['staff', 'intern'] and dash_can_create:
             user.is_staff = True
+        
         user.save()
         profile, created = UserProfile.objects.get_or_create(user=user)
         profile.registration = '{}'
+        if user_type in ['intern'] and dash_can_create:
+            profile.is_intern = True
         profile.save()
         user.save()
         if dash is False:
@@ -83,7 +88,8 @@ def createUser(request):
             'name': ' '.join([user.first_name, user.last_name]),
             'email': user.email,
             'is_staff': user.is_staff,
-            'registration': profile.registration
+            'registration': profile.registration,
+            'is_intern': profile.is_intern
         }
         return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
     else:

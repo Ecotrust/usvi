@@ -7,13 +7,35 @@ angular.module('askApp')
     	$scope.filter = {
     		type: 'staff'
     	};
+        var updateUser = function (user, data) {
+            return $http({
+                url: user.resource_uri,
+                method: 'PATCH',
+                data: data
+            });
+        };
         $scope.deleteUser = function (user) {
             var resource_uri = user.resource_uri;
             $http({
                 url: user.resource_uri,
                 method: 'DELETE',
                 data: user
-            }).success(function (data, status, func, headers) {
+            }).success(function (data) {
+                $scope.getUsers(currentUrl);
+            });
+        }
+        $scope.archiveUser = function (user) {
+            var resource_uri = user.resource_uri;
+            updateUser(user, {is_active: false }).success(function (data, status, func, headers) {
+                // var uri = headers.data.resource_uri;
+                // $scope.users = _.without($scope.users,
+                //     _.findWhere($scope.users, { resource_uri: uri }));
+                $scope.getUsers(currentUrl);
+            });
+        };
+        $scope.activateUser = function (user) {
+            var resource_uri = user.resource_uri;
+            updateUser(user, {is_active: true }).success(function (data, status, func, headers) {
                 // var uri = headers.data.resource_uri;
                 // $scope.users = _.without($scope.users,
                 //     _.findWhere($scope.users, { resource_uri: uri }));
@@ -46,9 +68,11 @@ angular.module('askApp')
     			url = metaUrl;
     		} else {
     			url = app.server + '/api/v1/user/?format=json&limit=5';
-    			if ($scope.filter.type == 'staff') {
-	    			url = url + '&is_staff=true';
-	    		} else {
+    			if ($scope.filter.type === 'staff') {
+	    			url = url + '&is_staff=true&is_active=true';
+                } else if ($scope.filter.type === 'archived') {
+                    url = url + '&is_active=false';
+                } else {
 	    			url = url + '&is_staff=false';
 	    		}
                 if ($scope.searchTerm && $scope.searchTerm > 2) {
