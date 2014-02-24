@@ -1,4 +1,4 @@
-<div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants">
+<div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants" ng-controller="SideBarCtrl">
     <div class="stats">
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
@@ -33,4 +33,20 @@
             </li>
         </ul>
     </div>
+    <!-- <form class="form-inline" role="form" ng-submit="search()">
+        <div class="input-goup">
+            <input type="search" class="form-control" placeholder="Search" ng-model="searchTerm">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+    </form> -->
+    <form class="form-inline" role="form" ng-submit="search(searchTerm)">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="Search" ng-model="searchTerm">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+    </form>
 </div>

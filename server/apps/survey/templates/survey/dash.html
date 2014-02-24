@@ -77,13 +77,6 @@
         </div>
       </div>
     </div>
-   <!--  <nav id="global-navbar" class="navbar navbar-static-top" role="navigation">
-      <div class="container">
-        <a href="{% url 'auth_logout' %}"><button type="button" class="navbar-btn navbar-right btn btn-default">Sign Out</button></a>
-        <p class="navbar-text navbar-right">Signed in as {{user.username}}</p>
-      </div>
-    </nav> -->
-    <!-- <div ng-include="'/static/survey/views/landingPage.html'" ng-controller="SurveyListMenuCtrl"></div> -->
     <div class="container-fluid dashboard" id="ng-app" ng-app="askApp" ng-view></div>
     {% endif %}
     
@@ -132,6 +125,7 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/user-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/add-catch-report.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/sidebarmenu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantDetail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/complete.js"></script>
     <!-- // <script src="{{ STATIC_URL }}survey/assets/js/directives/leaflet.js"></script>

@@ -84,7 +84,26 @@
 #sidebar_nav a.active {
     background: #8BC9D2;
 }
-
+#sidenav_respondants form {
+  margin-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 10px solid #466B71;
+}
+  #sidenav_respondants form .form-group {
+    padding-left: 0; padding-right: 0;
+    /*width: 83%;*/
+  }
+  @media (min-width: 992px) {
+    #sidenav_respondants form .form-group {
+      /*width: 80%;*/
+    } 
+    #sidenav_respondants p {
+    font-size: .75em;
+    }
+  }
+#sidenav_respondants .btn {
+  
+}
 .filter-box {
   margin-bottom: 10px;
 } 

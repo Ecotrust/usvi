@@ -70,21 +70,37 @@ angular.module('askApp')
 
         }
 
-        $scope.search = function () {
-            if ($scope.searchTerm) {
-                $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + $scope.searchTerm);    
+        $scope.search = function (searchTerm) {
+            if (searchTerm) {
+                $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + searchTerm);    
             } else {
                 $scope.getReports();
             }
+            $scope.searchTerm = $location.search().q;
             
         };
 
+        if ($location.search().q) {
+            $scope.search($location.search().q);
+        }
+
+        $scope.$watch(function () {
+            return $location.search().q;
+        }, function (newSearch) {
+            if (newSearch) {
+                $scope.search(newSearch);    
+            } if (newSearch === "") {
+                $scope.searchTerm = "";
+            }
+            
+        });
         $scope.filterChanged = {};
 
         $scope.clearFilters = function () {
             $scope.filter.startDate = $scope.filter.min;
             $scope.filter.endDate = $scope.filter.max;
             $scope.filter.review_status = "";
+            $location.search({q: ""});
         }
  
         $scope.getSurveyDetails = function () {
@@ -113,6 +129,7 @@ angular.module('askApp')
             $scope.$watch('filter.startDate', function (startDate) {
                 console.log('start date ' + startDate)
                 $scope.filterChanged.start = true;
+                $location.search({q: ""})
                 if ($scope.filterChanged.start && $scope.filterChanged.end) {
                     $scope.getReports();    
                 }
@@ -120,6 +137,7 @@ angular.module('askApp')
             })
             $scope.$watch('filter.endDate', function (endDate) {
                 $scope.filterChanged.end = true;
+                $location.search({q: ""})
                 if ($scope.filterChanged.start && $scope.filterChanged.end) {
                     $scope.getReports();
                 }
@@ -127,7 +145,8 @@ angular.module('askApp')
             $scope.$watch('filter.area', function(area) {
                 if (area) {
                     $scope.area = areaMapping[area];
-                    $scope.getReports();    
+                    $scope.getReports(); 
+                    $location.search({q: ""})   
                 }
                 
             }, true);
@@ -135,6 +154,7 @@ angular.module('askApp')
             $scope.$watch('filter.review_status', function (newFilter) {
                 // can be null...
                 $scope.getReports();
+                $location.search({q: ""})
             });
 
             $scope.getReports();
