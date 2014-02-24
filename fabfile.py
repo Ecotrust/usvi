@@ -379,6 +379,12 @@ def package_android_test():
         local("scp ./mobile/platforms/android/bin/DigitalDeck-debug.apk ninkasi:/var/www/survey-ost/survey-ost.apk")
 
 @task
+def sync_db():
+    with cd(env.code_dir):
+        with _virtualenv():
+             _manage_py('syncdb --noinput')
+
+@task
 def migrate_db():
     with cd(env.code_dir):
         with _virtualenv():

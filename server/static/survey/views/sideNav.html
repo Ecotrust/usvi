@@ -3,33 +3,33 @@
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
                 <h1>{{survey.survey_responses || 0}}</h1>
-                <p>TOTAL REPORTS</p>
+                <p>REGISTERED</p>
             </div>
         </div>
         <div class="row">
-            <div id="side_reviews_needed" class="col-sm-6 col-md-6 box">
+            <div id="side_started" class="col-sm-6 col-md-6 box">
                 <h1>{{survey.reviews_needed || 0}}</h1>
-                <p>NEED REVIEW</p>
+                <p>STARTED</p>
             </div>
-            <div id="side_flagged" class="col-sm-6 col-md-6 box">
+            <div id="side_completed" class="col-sm-6 col-md-6 box">
                 <h1>{{survey.flagged || 0}}</h1>
-                <p>FLAGGED</p>
+                <p>COMPLETED</p>
             </div>
         </div>
     </div>
     <div id="sidebar_nav">
         <ul class="nav">
             <li>
-                <a ng-class="{'active': activePage == 'overview'}" href="#/acl-progress">Overview: ACL Progress</a>
+                <a ng-class="{'active': activePage == 'ecosystems'}" href="#/ecosystems/{{survey.slug}}">Ecosystems</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'survey-stats'}" href="#/RespondantList/catch-report">Catch Report Data</a>
+                <a ng-class="{'active': activePage == 'project-info'}" href="#/project-info/{{survey.slug}}">Project Info</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'economic'}" href="#/RespondantList/{{survey.slug}}">Review Catch Reports</a>
+                <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">Responses</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'biological'}" href="#/">Add Catch Report</a>
+                <a ng-class="{'active': activePage == 'download'}" href="#/download/{{survey.slug}}">Download</a>
             </li>
         </ul>
     </div>

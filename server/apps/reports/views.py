@@ -18,7 +18,7 @@ def get_respondants_summary(request):
 @staff_member_required
 def get_geojson(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
-    question = get_object_or_404(QuestionReport, slug=question_slug, survey=survey)
+    question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey=survey)
     locations = LocationAnswer.objects.filter(location__response__respondant__survey=survey, location__respondant__complete=True)
     
     filter_list = []
@@ -59,15 +59,15 @@ def get_geojson(request, survey_slug, question_slug):
 def get_distribution(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
     if question_slug.find('*') == -1:
-        question = get_object_or_404(QuestionReport, slug=question_slug, survey=survey)
+        question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey=survey)
         answers = question.response_set.filter(respondant__complete=True)
         question_type = question.type
     else:
-        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''), survey=survey)
+        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''),question_page__survey=survey)
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
 
-    answers = answers.filter(user=request.user)
+    #answers = answers.filter(user=request.user)
     filter_question_slug = None
     filter_value = None
 
@@ -124,9 +124,9 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
 
         survey = Survey.objects.get(slug = survey_slug)
 
-        question_a = Question.objects.get(slug = question_a_slug, survey=survey)
-        question_b = Question.objects.get(slug = question_b_slug, survey=survey)
-        date_question = Question.objects.get(slug = 'survey-date', survey=survey)
+        question_a = Question.objects.get(slug = question_a_slug, question_page__survey=survey)
+        question_b = Question.objects.get(slug = question_b_slug, question_page__survey=survey)
+        date_question = Question.objects.get(slug = 'survey-date', question_page__survey=survey)
         question_a_responses = Response.objects.filter(question=question_a)
 
         if start_date is not None and end_date is not None:

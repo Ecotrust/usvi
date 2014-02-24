@@ -41,10 +41,10 @@
 .stats .row .box{
   padding-bottom: 10px;
 }
-#side_reviews_needed {
+#side_completed {
     background: #FD7C6F;
 }
-#side_flagged {
+#side_started {
     background: #F6C432;
 }
 

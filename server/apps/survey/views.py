@@ -130,6 +130,8 @@ def answer(request, survey_slug, question_slug, uuid): #, survey_slug, question_
 
 
 def complete(request, survey_slug, uuid, action=None, question_slug=None):
+    import pdb
+    pdb.set_trace()
     if request.method == 'POST':
         survey = get_object_or_404(Survey, slug=survey_slug)
         respondant = get_object_or_404(Respondant, uuid=uuid, survey=survey)
