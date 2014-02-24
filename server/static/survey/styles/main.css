@@ -518,6 +518,7 @@ table {
   background-image: none;
   font-size: 48px;
   color: black;
+  top: 55%;
 }
 .acl-progress .family-title {
   text-align: left;

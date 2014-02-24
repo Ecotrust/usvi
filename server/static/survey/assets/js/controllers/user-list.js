@@ -51,6 +51,9 @@ angular.module('askApp')
 	    		} else {
 	    			url = url + '&is_staff=false';
 	    		}
+                if ($scope.searchTerm && $scope.searchTerm > 2) {
+                    url = url + '&username__icontains=' + $scope.searchTerm;
+                }
     		}
     		
     		$http.get(url).success(function(data) {
@@ -63,6 +66,10 @@ angular.module('askApp')
     	$scope.$watch('filter.type', function () {
     		$scope.getUsers();
     	});
+        $scope.$watch('searchTerm', function (newSearch) {
+            if (newSearch && newSearch.length > 2)
+            $scope.getUsers();
+        });
         
     });
 

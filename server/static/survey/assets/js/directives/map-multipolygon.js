@@ -137,6 +137,8 @@ angular.module('askApp').directive('map', function($http) {
                 jsonPath = app.viewPath + "data/StThomas.json";
             } else if (scope.question.slug.indexOf('st-croix') !== -1) {
                 jsonPath = app.viewPath +  "data/StCroix.json";
+            } else if (scope.question.slug.indexOf('puerto-rico') !== -1) {
+                jsonPath = app.viewPath +  "data/puerto-rico.json";
             } else {
                 jsonPath = app.viewPath + "data/StThomas.json";
             }

@@ -68,7 +68,6 @@ angular.module('askApp')
                                 var terms = [];
                     
                                 _.each(groups, function (group) {
-                                    console.log(group.total/aclChunk.acl.pounds);
                                     if (group.total && group.total/aclChunk.acl.pounds > .05) {
                                         terms.push({
                                             term: [group.species__name, group.col_text].join(' '),
@@ -85,7 +84,7 @@ angular.module('askApp')
                                         terms.push(extra);
                                     }
                                 if (aclChunk.total !== aclChunk.acl.pounds) {
-                                    terms.push({
+                                    terms.unshift({
                                         term: 'Unfilled',
                                         count: aclChunk.acl.pounds - aclChunk.total
                                     });    
@@ -99,7 +98,7 @@ angular.module('askApp')
                                         missing : 0,
                                         total : aclChunk.acl.pounds,
                                         other : 0,
-                                        terms : terms
+                                        terms : terms.reverse()
                                     }
                                 });
                             });

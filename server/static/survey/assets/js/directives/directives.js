@@ -202,7 +202,49 @@ angular.module('askApp')
                 var fontSize = scope.fontSize || 24;
                 var fontColor = attrs.fontColor || "#fff";
                 var color = undefined;
-
+                // var colorMap = ["4BB1E4",
+                //     "#47ACDE",
+                //     "#43A7D9",
+                //     "#3FA3D3",
+                //     "#3C9ECE",
+                //     "#389AC8",
+                //     "#3495C3",
+                //     "#3091BD",
+                //     "#2D8CB8",
+                //     "#2988B2",
+                //     "#2583AD",
+                //     "#217EA8",
+                //     "#1E7AA2",
+                //     "#1A759D",
+                //     "#167197",
+                //     "#126C92",
+                //     "#0E688C",
+                //     "#0B6387",
+                //     "#075F81",
+                //     "#035A7C"
+                // ];
+                var colorMap = [
+                    "#3498B7",
+                    "#48A2BE",
+                    "#5CACC5",
+                    "#70B6CC",
+                    "#85C1D3",
+                    "#99CBDB",
+                    "#ADD5E2",
+                    "#C2E0E9",
+                    "#D6EAF0",
+                    "#EAF4F7"
+                ];
+                var colorIndex = 0;
+                var colorPop = function () {
+                    var color = colorMap[colorIndex];
+                    if (colorIndex < colorMap.length) {
+                        colorIndex++;
+                    } else {
+                        colorIndex = 0;
+                    }
+                    return color;
+                }
                 // if no field param is set, use the facet name but normalize the case
                 if (attrs.field == undefined) {
                     attrs.field = attrs.bind.split('.').pop().toLowerCase();
@@ -212,7 +254,8 @@ angular.module('askApp')
                 // If none is found, then use built-in color pallete
                 // but see if user has defined a domain of values.
                 if (scope.colorMap === undefined) {
-                    color = d3.scale.category20c();
+                    color = d3.scale.category20();
+                    
                     if (scope.domain !== undefined) {
                         color.domain(scope.domain);
                     }
@@ -315,7 +358,9 @@ angular.module('askApp')
                                     .attr('stroke', '#fff')
                                     .attr('stroke-width', '1.5')
                                     .attr('cursor', 'pointer')
-                                    .style('fill', function(d) { return color(d.data.term); })
+                                    .style('fill', function(d) { 
+                                        return colorPop();
+                                     })
                                     .each(function(d) { this._current = d; })
                                     .on('mousedown', function(d) {
                                         scope.$apply(function() {
