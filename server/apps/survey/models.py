@@ -51,7 +51,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     ts = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(max_length=254, null=True, blank=True, default=None)
-    ordering_date = models.DateTimeField(null=True, blank=True)
+    ordering_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     user = models.ForeignKey(User, null=True, blank=True)
 

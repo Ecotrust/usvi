@@ -1,0 +1,88 @@
+<div class="container user-list">
+    <div class="row" ng-cloak>
+        <div ng-include="'/static/survey/views/admin-dash-menu.html'"></div>
+        <div class="col-md-9">
+            <div class="row">
+                <!-- <div class="col-md-8">
+                    <div ng-model="filter.type" bs-radio-group>
+                        <label class="btn btn-default">
+                            <input type="radio" class="btn btn-default" value="staff">
+                            Staff
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="btn btn-default" value="fishers">
+                            Fishers
+                        </label>
+                        
+                    </div>
+                </div> -->
+                <div class="col-md-6 filter-box">
+                    <form class="form-inline" role="form" ng-submit="search()">
+                        <div class="form-group search-group col-md-7">
+                            <label class="sr-only" for="search-input">Search</label>
+                            <input type="search" class="form-control search-input" id="search-input" placeholder="Search" ng-model="searchTerm">
+                        </div>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- <i ng-hide="loaded" class="icon-spinner icon-spin"></i> -->
+            <table id="survey-landing-table" class="table table-striped">
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <td>
+                            <a href="#/RespondantList/{{survey.slug}}"><h4>{{user.username}}  <span class="label label-success" ng-show="user.is_new">new</span></h4></a>
+                        </td>
+                        <td>
+                            <h4>{{ user.email }}</h4>
+                        </td>
+                        <!-- <td>
+                            <h2 class="survey-num">{{survey.survey_responses || 0}}</h2>
+                            <p>Total</p>
+                        </td> -->
+                        <!-- <td>
+                            <h2 class="survey-num">{{survey.today || 0}}</h2>
+                            <p>Today</p>
+                        </td>
+                        <td>
+                            <h2 class="survey-num">{{survey.reviews_needed || 0}}</h2>
+                            <p>Need Review</p>
+                        </td>
+                        <td>
+                            <h2 class="survey-num">{{survey.flagged || 0}}</h2>
+                            <p>Flagged</p>
+                        </td> -->
+                        <td>
+                            <div class="btn-group pull-right">
+                                <a class="btn btn-default" target="_blank" href="/respond/catch-report?user={{user.username}}">
+                                    <i class="icon-plus"></i> Add Catch Report
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>
+                        Showing {{ users.length }} of {{ meta.total_count }}
+                        
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <ul class="pager">
+                        <li class="previous" ng-class="{ 'disabled': !meta.next }">
+                            <a ng-disabled="! meta.next" ng-click="getUsers(meta.next, true)">&larr; Previous</a>
+                        </li>
+                        <li class="next" ng-class="{ 'disabled': !meta.previous }">
+                            <a ng-disabled="! meta.previous" ng-click="getUsers(meta.previous, true)">Next &rarr;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.contrib.auth.models import User
 
 import datetime
 import simplejson
@@ -28,11 +29,17 @@ def delete_responses(request, uuid, template='survey/delete.html'):
 def survey(request, survey_slug=None, template='survey/survey.html'):
     if survey_slug is not None:
         survey = get_object_or_404(Survey, slug=survey_slug, anon=True)
-        respondant = Respondant(survey=survey)
+        if request.user.is_staff:
+            survey_user = request.GET.get('user', None)
+            if survey_user is not None:
+                user = get_object_or_404(User, username=survey_user)
+                respondant = Respondant(survey=survey, user=user)
+        else:
+            respondant = Respondant(survey=survey)
         respondant.save()
         if request.GET.get('get-uid', None) is not None:
             return HttpResponse(simplejson.dumps({'success': "true", "uuid": respondant.uuid}))
-        return redirect("/respond#/survey/%s/0/%s/landing" % (survey.slug, respondant.uuid))
+        return redirect("/respond#/survey/%s/1/%s" % (survey.slug, respondant.uuid))
     context = {'ANALYTICS_ID': settings.ANALYTICS_ID}
     return render_to_response(template, RequestContext(request, context))
 
@@ -79,7 +86,9 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
             if created:
                 respondant.response_set.add(response)
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated() and not respondant.user:
+            respondant.user = request.user
+            response.user = request.user
             respondant.user = request.user
 
         respondant.last_question = question_slug
@@ -105,7 +114,6 @@ def answer(request, survey_slug, question_slug, uuid): #, survey_slug, question_
 
         if created:
             respondant.response_set.add(response)
-
         if request.user and not respondant.user:
             respondant.user = request.user
             response.user = request.user

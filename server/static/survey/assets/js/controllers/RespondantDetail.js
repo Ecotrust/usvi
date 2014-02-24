@@ -18,7 +18,7 @@ angular.module('askApp')
     
     $scope.uuid = $routeParams.uuidSlug;
     $scope.surveySlug = $routeParams.surveySlug;
-
+    $scope.activePage = "survey-detail"
     $scope.map = {
         center: {
             lat: 47,

@@ -8,6 +8,7 @@ from account.models import UserProfile
 from survey.api import StaffUserOnlyAuthorization
 
 class UserResource(ModelResource):
+    # profile = fields.ToOneField(attribute='profile', readonly=True)
 
 
     class Meta:
