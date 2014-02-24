@@ -67,11 +67,9 @@ def createUser(request):
     except IntegrityError:
         return HttpResponse("duplicate-user", status=500)
     if created:
-        user.set_password(param.get('password'))
-        print dash_can_create
         if user_type in ['staff', 'intern'] and dash_can_create:
             user.is_staff = True
-        
+        user.set_password(param.get('password1'))
         user.save()
         profile, created = UserProfile.objects.get_or_create(user=user)
         profile.registration = '{}'
@@ -81,7 +79,7 @@ def createUser(request):
         user.save()
         if dash is False:
             user = authenticate(
-                username=user.username, password=param.get('password'))
+                username=user.username, password=param.get('password1'))
             login(request, user)
         user_dict = {
             'username': user.username,
