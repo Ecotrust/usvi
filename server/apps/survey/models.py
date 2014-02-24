@@ -54,6 +54,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
     ordering_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     user = models.ForeignKey(User, null=True, blank=True)
+    entered_by = models.ForeignKey(User, null=True, blank=True, related_name='entered_by')
 
     objects = caching.base.CachingManager()
 

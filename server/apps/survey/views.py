@@ -33,7 +33,7 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
             survey_user = request.GET.get('user', None)
             if survey_user is not None:
                 user = get_object_or_404(User, username=survey_user)
-                respondant = Respondant(survey=survey, user=user)
+                respondant = Respondant(survey=survey, user=user, entered_by=request.user)
         else:
             respondant = Respondant(survey=survey)
         respondant.save()

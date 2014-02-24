@@ -56,6 +56,9 @@ angular.module('askApp')
                 if ($scope.filter.review_status) {
                     url = url + '&review_status__exact=' + $scope.filter.review_status;
                 }
+                if ($scope.filter.entered_by) {
+                    url = url + '&entered_by__username__exact=' + $scope.filter.entered_by;
+                }
             }
             
             $scope.busy = true;
@@ -106,6 +109,7 @@ angular.module('askApp')
         $scope.getSurveyDetails = function () {
             return $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
                 $scope.survey = data;
+                $scope.survey_meta = data.meta;
             });
         }
 
@@ -152,6 +156,11 @@ angular.module('askApp')
             }, true);
 
             $scope.$watch('filter.review_status', function (newFilter) {
+                // can be null...
+                $scope.getReports();
+                $location.search({q: ""})
+            });
+            $scope.$watch('filter.entered_by', function (newFilter) {
                 // can be null...
                 $scope.getReports();
                 $location.search({q: ""})

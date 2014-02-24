@@ -56,6 +56,24 @@
 .stats .row .box{
   padding-bottom: 10px;
 }
+
+.respondent-table th {
+    background-color: #c7d8db;
+}
+.respondent-table table {
+    color: #195d65;
+    border-top: solid 1em #466b71;
+    background-color: #dff2f4;
+}
+.respondent-table .table-stripe {
+    background-color: #8bc9d2;
+}
+.respondent-table .highlightable_row:hover {
+    background-color: #5b9aa9;
+    color: #FFF;
+    cursor: pointer;
+}
+
 #side_reviews_needed {
     background: #FD7C6F;
 }

@@ -33,7 +33,7 @@
                 <tbody>
                     <tr ng-repeat="user in users">
                         <td>
-                            <a href="#/RespondantList/{{survey.slug}}"><h4>{{user.username}}  <span class="label label-success" ng-show="user.is_new">new</span></h4></a>
+                            <a target="_blank" href="/respond/catch-report?user={{user.username}}"><h4>{{user.username}}  <span class="label label-success" ng-show="user.is_new">new</span></h4></a>
                         </td>
                         <td>
                             <h4>{{ user.email }}</h4>

@@ -156,6 +156,7 @@ class ReportRespondantResource(SurveyModelResource):
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
             'review_status': ALL,
+            'entered_by': ALL_WITH_RELATIONS,
             'ordering_date': ['gte', 'lte'],
             'island': ALL
 
@@ -167,6 +168,7 @@ class ReportRespondantResource(SurveyModelResource):
 
 class DashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
+    entered_by = fields.ToOneField('apps.account.api.UserResource', 'entered_by', null=True, blank=True, full=True, readonly=True)
 
     def prepend_urls(self):
             return [
@@ -383,3 +385,13 @@ class SurveyReportResource(SurveyResource):
     response_date_end = fields.DateField(attribute='response_date_end', readonly=True, null=True, blank=True)
     reviews_needed = fields.IntegerField(attribute='reviews_needed', readonly=True)
     flagged = fields.IntegerField(attribute='flagged', readonly=True)
+
+    def alter_detail_data_to_serialize(self, request, bundle):
+        if 'meta' not in bundle.data:
+            bundle.data['meta'] = {}
+
+        bundle.data['meta'] = {
+            "entered_by": [u['entered_by__username'] for u in bundle.obj.respondant_set.exclude(entered_by=None)
+                    .values('entered_by__username').distinct()]
+        } 
+        return bundle
