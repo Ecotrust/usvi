@@ -75,7 +75,7 @@ angular.module('askApp')
                 } else {
 	    			url = url + '&is_staff=false';
 	    		}
-                if ($scope.searchTerm && $scope.searchTerm > 2) {
+                if ($scope.searchTerm && $scope.searchTerm.length > 2) {
                     url = url + '&username__icontains=' + $scope.searchTerm;
                 }
     		}
@@ -88,11 +88,14 @@ angular.module('askApp')
     	};
     	$scope.getUsers();
     	$scope.$watch('filter.type', function () {
+            $scope.searchTerm = "";
     		$scope.getUsers();
     	});
         $scope.$watch('searchTerm', function (newSearch) {
-            if (newSearch && newSearch.length > 2)
-            $scope.getUsers();
+            if (newSearch && newSearch.length > 2) {
+                $scope.getUsers();    
+            }
+            
         });
         
     });
