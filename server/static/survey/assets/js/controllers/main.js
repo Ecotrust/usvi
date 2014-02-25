@@ -40,7 +40,7 @@ angular.module('askApp')
             $scope.newVersion = data.version;
             if (app.version < data.version) {
                 $scope.update = "An update is available for Digital Deck."
-                app.user.refreshSurveys = true;
+                app.refreshSurveys = true;
                 storage.saveState(app);
             } else {
                 $scope.update = false;

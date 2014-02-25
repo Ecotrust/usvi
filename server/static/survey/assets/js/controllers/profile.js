@@ -90,9 +90,8 @@ angular.module('askApp')
 
         var tags = _.pluck(_.where($scope.areas, {checked: true}), 'tag');
         if (_.difference(app.user.tags, _.pluck(tags, 'tag')).length) {
-            app.user.refreshSurveys = true;
+            app.refreshSurveys = true;
         }
-        console.log(app.user.refreshSurveys);
         app.user.tags = tags;
         _.each(profileQuestions, function(item, i) {
             registration[item.slug] = item.answer;

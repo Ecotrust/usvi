@@ -24,7 +24,7 @@ angular.module('askApp')
 
         $http.get(app.server + '/api/v1/survey/?format=json').success(function(data) {
             $scope.useSurveys(data.objects);
-            app.user.refreshSurveys = false;
+            app.refreshSurveys = false;
         }).error(function (data, status) {
             $http.get('assets/surveys.json').success(function(data) {
                 $scope.useSurveys(data.objects);
@@ -38,7 +38,7 @@ angular.module('askApp')
     } else {
         $location.path('/');
     }
-    if (! app.surveys || app.user.refreshSurveys) {
+    if (! app.surveys || app.refreshSurveys) {
         $scope.updateSurveys();
     } else {
         $scope.surveys = app.surveys;
