@@ -21,7 +21,7 @@
                 <div>
                     <div class="question-title block-title" ng-class="{ 'map-page': page.questions[0].type == 'map-multipolygon'}"> {{ getPageBlockTitle() }} </div>
                     <div class="question-wrapper" ng-class="{ 'grid-question': question.type == 'grid', 'non-focus-question': question.type == 'grid' || question.type=='number-with-unit' }" ng-repeat="question in page.questions">
-                        <h4 class="question-title">{{ question.title }}</h4>
+                        <h4 class="question-title" ng-bind-html="question.title | to_trusted"></h4>
                         <div ng-switch on="question.type">
                             <div ng-switch-when="grid">
                                 <form ng-submit="$parent.submitPage(page)">
