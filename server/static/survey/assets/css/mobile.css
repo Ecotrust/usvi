@@ -273,7 +273,6 @@ input.datepicker {
     padding: 0;
 }
 
-#history-wrap > .container
 
 .report-list .button-row {
     padding: 10px;
@@ -368,7 +367,7 @@ input.datepicker {
     padding: 40px 40px 20px;
 }
 #wrap.menu-page > .container {
-    padding: 140px 45px 100px;
+    padding: 140px 20px 100px;
 }
 .container .credit {
     margin: 20px 0;
