@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5 {
 html, body {
     width: 100%;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    /*-webkit-overflow-scrolling: touch;*/
 }
 
 html, body, #app_shell, #app_shell > div, #wrap, .splash {
