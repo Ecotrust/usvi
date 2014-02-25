@@ -38,7 +38,9 @@ angular.module('askApp')
             if (metaUrl) {
                 url = metaUrl; 
             } else {
-
+                if ($scope.clearingFilters) {
+                    return false;
+                }
                 if (button) {
                     console.log('returning');
                     // clicking button, but url is null
@@ -50,7 +52,7 @@ angular.module('askApp')
                     '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
                     '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
                 ].join('');
-                if ($scope.area) {
+                if ($scope.area && $scope.area !== 'Region') {
                     url = url + '&island__contains=' + $scope.area;
                 }
                 if ($scope.filter.review_status) {
@@ -59,6 +61,7 @@ angular.module('askApp')
                 if ($scope.filter.entered_by) {
                     url = url + '&entered_by__username__exact=' + $scope.filter.entered_by;
                 }
+                $location.search({q: ""})
             }
             
             $scope.busy = true;
@@ -75,35 +78,30 @@ angular.module('askApp')
 
         $scope.search = function (searchTerm) {
             if (searchTerm) {
-                $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + searchTerm);    
+                $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + searchTerm);
+                
             } else {
                 $scope.getReports();
             }
             $scope.searchTerm = $location.search().q;
-            
         };
 
         if ($location.search().q) {
             $scope.search($location.search().q);
         }
 
-        $scope.$watch(function () {
-            return $location.search().q;
-        }, function (newSearch) {
-            if (newSearch) {
-                $scope.search(newSearch);    
-            } if (newSearch === "") {
-                $scope.searchTerm = "";
-            }
-            
-        });
+    
         $scope.filterChanged = {};
 
         $scope.clearFilters = function () {
+            console.log('clear');
+            $scope.clearingFilters = true;
             $scope.filter.startDate = $scope.filter.min;
             $scope.filter.endDate = $scope.filter.max;
             $scope.filter.review_status = "";
             $location.search({q: ""});
+            $scope.clearingFilters = false;
+            $scope.getReports();
         }
  
         $scope.getSurveyDetails = function () {
@@ -125,7 +123,8 @@ angular.module('askApp')
                 min: dateFromISO($scope.survey.response_date_start).valueOf(),
                 max: dateFromISO($scope.survey.response_date_end).valueOf(),
                 startDate: start_date.valueOf(),
-                endDate: end_date.valueOf()
+                endDate: end_date.valueOf(),
+                area: "region"
             }
 
         }).success(function() {
@@ -133,7 +132,6 @@ angular.module('askApp')
             $scope.$watch('filter.startDate', function (startDate) {
                 console.log('start date ' + startDate)
                 $scope.filterChanged.start = true;
-                $location.search({q: ""})
                 if ($scope.filterChanged.start && $scope.filterChanged.end) {
                     $scope.getReports();    
                 }
@@ -141,7 +139,7 @@ angular.module('askApp')
             })
             $scope.$watch('filter.endDate', function (endDate) {
                 $scope.filterChanged.end = true;
-                $location.search({q: ""})
+                // $location.search({q: ""})
                 if ($scope.filterChanged.start && $scope.filterChanged.end) {
                     $scope.getReports();
                 }
@@ -150,20 +148,30 @@ angular.module('askApp')
                 if (area) {
                     $scope.area = areaMapping[area];
                     $scope.getReports(); 
-                    $location.search({q: ""})   
+                    // $location.search({q: ""})   
+                }
+            }, true);
+            $scope.$watch(function () {
+                return $location.search().q;
+            }, function (newSearch) {
+                console.log('watch ' + newSearch )
+                if (newSearch) {
+                    $scope.search(newSearch);    
+                } if (newSearch === "") {
+                    $scope.searchTerm = "";
                 }
                 
-            }, true);
+            });
 
             $scope.$watch('filter.review_status', function (newFilter) {
                 // can be null...
                 $scope.getReports();
-                $location.search({q: ""})
+                // $location.search({q: ""})
             });
             $scope.$watch('filter.entered_by', function (newFilter) {
                 // can be null...
                 $scope.getReports();
-                $location.search({q: ""})
+                // $location.search({q: ""})
             });
 
             $scope.getReports();
