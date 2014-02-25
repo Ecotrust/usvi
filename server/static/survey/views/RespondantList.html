@@ -19,13 +19,13 @@
                     <div class="row filter-box">
                         <div class="col-md-5">
                             <select class="form-control" ng-model="filter.entered_by">
-                                <option value="">All Review States</option>
+                                <option value="">All Staff</option>
                                 <option value="{{user}}" ng-repeat="user in survey_meta.entered_by">{{ user }}</option>
                             </select>
                         </div>
                         <div class="col-md-5 col-md-offset-2">
                             <select class="form-control" ng-model="filter.review_status">
-                                <option value="">All Staff</option>
+                                <option value="">All Review States</option>
                                 <option value="accepted">Accepted</option>
                                 <option value="flagged">Flagged</option>
                                 <option value="needs review">Needs Review</option>
@@ -97,8 +97,8 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <p>
-                                        Showing {{ respondents.length }} of {{ meta.total_count }}
-                                        <span ng-hide="survey.survey_responses == meta.total_count">filtered from {{survey.survey_responses || 0}}</span>
+                                        Showing {{ respondents.length }} of {{ meta.total }}
+                                        <span ng-hide="survey.survey_responses == meta.total_count">filtered from {{ total_surveys || 0}}</span>
                                     </p>
                                 </div>
                                 <div class="col-md-3">

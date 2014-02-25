@@ -23,7 +23,7 @@ angular.module('askApp')
         };
         $scope.viewPath = app.server + '/static/survey/';
         $scope.activePage = 'survey-stats';
-
+        $scope.total_surveys = app.survey_meta.total;
         var loadReports = function(data, url) {
             $scope.respondents = data.objects;
             $scope.meta = data.meta;
@@ -42,7 +42,6 @@ angular.module('askApp')
                     return false;
                 }
                 if (button) {
-                    console.log('returning');
                     // clicking button, but url is null
                     return false;
                 }
@@ -111,72 +110,66 @@ angular.module('askApp')
             });
         }
 
-        $scope.getSurveyDetails().success(function(data) {
-            
-            var start_date = $location.search().ts__gte ?
-                new Date(parseInt($location.search().ts__gte, 10)) :
-                dateFromISO($scope.survey.response_date_start);
-            var end_date = $location.search().ts__lte ?
-                new Date(parseInt($location.search().ts__lte, 10)) :
-                dateFromISO($scope.survey.response_date_end);
-            $scope.filter = {
-                min: dateFromISO($scope.survey.response_date_start).valueOf(),
-                max: dateFromISO($scope.survey.response_date_end).valueOf(),
-                startDate: start_date.valueOf(),
-                endDate: end_date.valueOf(),
-                area: "region"
+       var start_date = $location.search().ts__gte ?
+            new Date(parseInt($location.search().ts__gte, 10)) :
+            dateFromISO(app.survey_meta.reports_start);
+        var end_date = $location.search().ts__lte ?
+            new Date(parseInt($location.search().ts__lte, 10)) :
+            dateFromISO(app.survey_meta.reports_end);
+        $scope.filter = {
+            min: dateFromISO(app.survey_meta.reports_start).valueOf(),
+            max: dateFromISO(app.survey_meta.reports_end).valueOf(),
+            startDate: start_date.valueOf(),
+            endDate: end_date.valueOf(),
+            area: "region"
+        }
+
+        $scope.$watch('filter.startDate', function (startDate) {
+            console.log('start date ' + startDate)
+            $scope.filterChanged.start = true;
+            if ($scope.filterChanged.start && $scope.filterChanged.end) {
+                $scope.getReports();    
             }
-
-        }).success(function() {
-
-            $scope.$watch('filter.startDate', function (startDate) {
-                console.log('start date ' + startDate)
-                $scope.filterChanged.start = true;
-                if ($scope.filterChanged.start && $scope.filterChanged.end) {
-                    $scope.getReports();    
-                }
-                
-            })
-            $scope.$watch('filter.endDate', function (endDate) {
-                $scope.filterChanged.end = true;
-                // $location.search({q: ""})
-                if ($scope.filterChanged.start && $scope.filterChanged.end) {
-                    $scope.getReports();
-                }
-            })
-            $scope.$watch('filter.area', function(area) {
-                if (area) {
-                    $scope.area = areaMapping[area];
-                    $scope.getReports(); 
-                    // $location.search({q: ""})   
-                }
-            }, true);
-            $scope.$watch(function () {
-                return $location.search().q;
-            }, function (newSearch) {
-                console.log('watch ' + newSearch )
-                if (newSearch) {
-                    $scope.search(newSearch);    
-                } if (newSearch === "") {
-                    $scope.searchTerm = "";
-                }
-                
-            });
-
-            $scope.$watch('filter.review_status', function (newFilter) {
-                // can be null...
+            
+        })
+        $scope.$watch('filter.endDate', function (endDate) {
+            $scope.filterChanged.end = true;
+            // $location.search({q: ""})
+            if ($scope.filterChanged.start && $scope.filterChanged.end) {
                 $scope.getReports();
-                // $location.search({q: ""})
-            });
-            $scope.$watch('filter.entered_by', function (newFilter) {
-                // can be null...
-                $scope.getReports();
-                // $location.search({q: ""})
-            });
-
-            $scope.getReports();
+            }
+        })
+        $scope.$watch('filter.area', function(area) {
+            if (area) {
+                $scope.area = areaMapping[area];
+                $scope.getReports(); 
+                // $location.search({q: ""})   
+            }
+        }, true);
+        $scope.$watch(function () {
+            return $location.search().q;
+        }, function (newSearch) {
+            console.log('watch ' + newSearch )
+            if (newSearch) {
+                $scope.search(newSearch);    
+            } if (newSearch === "") {
+                $scope.searchTerm = "";
+            }
+            
         });
 
+        $scope.$watch('filter.review_status', function (newFilter) {
+            // can be null...
+            $scope.getReports();
+            // $location.search({q: ""})
+        });
+        $scope.$watch('filter.entered_by', function (newFilter) {
+            // can be null...
+            $scope.getReports();
+            // $location.search({q: ""})
+        });
+
+        $scope.getReports();
 
         $scope.getQuestionByUri = function(uri) {
             return _.findWhere($scope.survey.questions, {

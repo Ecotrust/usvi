@@ -158,6 +158,14 @@
       username: "{{user.username}}",
       is_intern: "{{ user.profile.is_intern }}" === "True"
     }
+    app.survey_meta = {
+        total: {{ meta.total }},
+        flagged: {{ meta.flagged }},
+        needs_review: {{ meta.needs_review }},
+        reports_start: '{{ meta.reports_start|date:"Y-m-d\TH:i:sO" }}',
+        reports_end: '{{ meta.reports_end|date:"Y-m-d\TH:i:sO" }}'
+
+      }
     {% else %}
     var isAuthenticated = false;
     {% endif %}

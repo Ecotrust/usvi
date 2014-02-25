@@ -11,5 +11,6 @@ angular.module('askApp')
     	};
     	$scope.$watch(function () { return $location.search().q; }, function (newTerm) {
     		$scope.searchTerm = newTerm;
-    	})
+    	});
+        $scope.survey_meta = app.survey_meta;
     });

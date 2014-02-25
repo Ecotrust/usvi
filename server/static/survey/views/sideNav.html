@@ -2,17 +2,17 @@
     <div class="stats">
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
-                <h1>{{survey.survey_responses || 0}}</h1>
+                <h1>{{survey_meta.total || 0}}</h1>
                 <p>TOTAL REPORTS</p>
             </div>
         </div>
         <div class="row">
             <div id="side_reviews_needed" class="col-sm-6 col-md-6 box">
-                <h1>{{survey.reviews_needed || 0}}</h1>
+                <h1>{{survey_meta.needs_review || 0}}</h1>
                 <p>NEED REVIEW</p>
             </div>
             <div id="side_flagged" class="col-sm-6 col-md-6 box">
-                <h1>{{survey.flagged || 0}}</h1>
+                <h1>{{survey_meta.flagged || 0}}</h1>
                 <p>FLAGGED</p>
             </div>
         </div>
