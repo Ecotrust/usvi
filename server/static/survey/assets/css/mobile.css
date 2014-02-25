@@ -78,17 +78,17 @@ a {
     min-height: 100%;
 }
 
-.menu-page .panel-default {
+.settings .panel-default {
     background-color: rgb(77,136,153);
     border-color: rgb(24, 75, 83);
     color: rgb(244,244,244);
 }
-.menu-page .panel-default > .panel-heading {
+.settings .panel-default > .panel-heading {
     background-color: rgb(24, 75, 83);
     border-color: rgb(24, 75, 83);
     color: rgb(250, 189, 18);
 }
-.menu-page .panel {
+.settings .panel {
     margin-top: 20px;
 }
 .btn-main {
