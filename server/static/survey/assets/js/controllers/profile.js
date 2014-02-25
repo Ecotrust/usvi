@@ -10,6 +10,20 @@ angular.module('askApp')
     $scope.width = 0;
     // QUESTION - something causes this to be called for SurveyList, but I'm not sure what that something is...
     // ...manually calling updateSurveys here (see if app.surveys below)
+
+    $scope.areas = [
+        {
+            name: "United States Virgin Islands",
+            tag: "usvi"
+        },
+        {
+            name: "Puerto Rico",
+            tag: "puerto-rico"
+        }
+    ];
+    _.each($scope.areas, function (area) {
+        area.checked = _.contains(app.user.tags, area.tag);
+    });
     var updateSurveys = function () {
         $scope.hideSurveys = true;
         $scope.width = 0;
@@ -74,10 +88,23 @@ angular.module('askApp')
         var url = app.server + '/account/updateUser/',
             registration = {};
 
+        var tags = _.pluck(_.where($scope.areas, {checked: true}), 'tag');
+        if (_.difference(app.user.tags, _.pluck(tags, 'tag')).length) {
+            app.user.refreshSurveys = true;
+        }
+        console.log(app.user.refreshSurveys);
+        app.user.tags = tags;
         _.each(profileQuestions, function(item, i) {
             registration[item.slug] = item.answer;
         });
-        $http.post(url, {username: app.user.username, registration: registration, email: $scope.userEmail})
+
+        if (! tags.length) {
+            $scope.showError = "You must choose at least one fishing area.";
+            return false;
+        }
+      
+
+        $http.post(url, {username: app.user.username, registration: registration, email: $scope.userEmail, tags: tags})
             .success(function (data) {
                 app.user.registration = registration;
                 app.user.email = data.user.email;
@@ -87,6 +114,7 @@ angular.module('askApp')
             .error(function (data, status) {
                 if (status === 0) {
                     app.user.registration = registration;
+
                     storage.saveState(app);
                     $location.path('/main');      
                 }

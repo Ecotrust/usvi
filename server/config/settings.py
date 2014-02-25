@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'csvimport',
     'registration',
     'haystack',
+    'taggit',
     # 'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:

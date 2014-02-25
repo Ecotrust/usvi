@@ -5,6 +5,8 @@ from django.db.models import signals
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 
+from taggit.managers import TaggableManager
+
 from account.models import UserProfile
 from acl.models import Dialect, DialectSpecies, Species, SpeciesFamily
 
@@ -148,6 +150,7 @@ class Survey(caching.base.CachingMixin, models.Model):
     anon = models.BooleanField(default=True)
     offline = models.BooleanField(default=False)
 
+    tags = TaggableManager()
     objects = caching.base.CachingManager()
 
 
@@ -289,6 +292,9 @@ class Question(caching.base.CachingMixin, models.Model):
     visualize = models.BooleanField(default=False)
     report_type = models.CharField(max_length=20,choices=REPORT_TYPE_CHOICES,null=True, default=None)
     filter_questions = models.ManyToManyField('self', null=True, blank=True)
+
+    tags = TaggableManager()
+
 
     @property
     def answer_domain(self):

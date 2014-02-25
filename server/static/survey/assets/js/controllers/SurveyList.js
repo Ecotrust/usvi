@@ -5,9 +5,10 @@ angular.module('askApp')
 
     $scope.path = $location.path().slice(1,5);
     $scope.loaded=false;
-    $scope.width = 0;
 
     $scope.useSurveys = function (surveys) {
+        console.log(_.pluck(surveys, 'slug'));
+        console.log(app.user.tags);
         $scope.surveys = surveys;
         _.each($scope.surveys, function (survey) {
             survey.updated_at = new Date();
@@ -16,19 +17,15 @@ angular.module('askApp')
         storage.saveState(app);
         $scope.hideSurveys = false;
         $scope.loaded = true;
-        clearInterval($scope.timer);
     }
     $scope.showUpdateSurveys = true;
     $scope.updateSurveys = function () {
         $scope.hideSurveys = true;
-        $scope.width = 0;
-        $scope.timer = setInterval(function () {
-            $scope.width = $scope.width + 10;
-        }, 500);
+
         $http.get(app.server + '/api/v1/survey/?format=json').success(function(data) {
             $scope.useSurveys(data.objects);
+            app.user.refreshSurveys = false;
         }).error(function (data, status) {
-            
             $http.get('assets/surveys.json').success(function(data) {
                 $scope.useSurveys(data.objects);
             });
@@ -41,10 +38,9 @@ angular.module('askApp')
     } else {
         $location.path('/');
     }
-    
-    if (app.surveys) {
-        $scope.surveys = app.surveys;
-    } else {
+    if (! app.surveys || app.user.refreshSurveys) {
         $scope.updateSurveys();
+    } else {
+        $scope.surveys = app.surveys;
     }
 });

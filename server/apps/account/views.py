@@ -32,7 +32,8 @@ def authenticateUser(request):
                 'name': ' '.join([user.first_name, user.last_name]),
                 'email': user.email,
                 'is_staff': user.is_staff,
-                'registration': user.profile.registration
+                'registration': user.profile.registration,
+                'tags': [tag.name for tag in profile.tags.all()]
             }
             return HttpResponse(simplejson.dumps({
                 'success': True, 'user': user_dict
@@ -139,6 +140,9 @@ def updateUser(request):
         else:
             profile, created = UserProfile.objects.get_or_create(user=user)
             profile.registration = simplejson.dumps(param.get('registration'))
+            profile.tags.clear()
+            for tag in param.get('tags', []):
+                profile.tags.add(tag)
             profile.save()
             user.email = param.get('email', None)
             user.save()

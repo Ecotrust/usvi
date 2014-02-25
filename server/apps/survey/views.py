@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 import datetime
 import simplejson
 
-from apps.survey.models import Survey, Question, Response, Respondant
+from apps.survey.models import *
 
 @staff_member_required
 def delete_responses(request, uuid, template='survey/delete.html'):
@@ -45,7 +45,15 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
 
 @staff_member_required
 def dash(request, template='survey/dash.html'):
-    return render_to_response(template, RequestContext(request, {}))
+    all_respondents = Respondant.objects.all()
+    survey_data = {
+        "total": all_respondents.count(),
+        "needs_review": all_respondents.filter(review_status=REVIEW_STATE_NEEDED).count(),
+        "flagged": all_respondents.filter(review_status=REVIEW_STATE_FLAGGED).count(),
+        "reports_start": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest'],
+        "reports_end": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest']
+    }
+    return render_to_response(template, RequestContext(request, {"meta": survey_data}))
 
 @login_required
 def fisher(request, uuid=None, template='survey/fisher-dash.html'):

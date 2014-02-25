@@ -837,6 +837,18 @@ input.multi-select-other:-ms-input-placeholder {
     transition: height 0.8s;
 }
 */
+
+.question .areas-fished .select-unchecked .select-content h4 {
+    color: rgb(0,0,0) !important;
+}
+
+.question .areas-fished .select-checked .select-content {
+    background-color: rgb(24,75,83) !important;
+}
+
+.question .areas-fished .select-checked .select-content h4 {
+    color: rgb(244,244,244) !important;
+}
 .question .select {
     margin-top: 10px;
 }

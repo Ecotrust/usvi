@@ -341,6 +341,11 @@ class SurveyResource(SurveyModelResource):
     # questions = fields.ToManyField(QuestionResource, 'questions', full=True, null=True, blank=True)
     #question = fields.ToOneField(QuestionResource, 'question', full=True, null=True, blank=True)
     pages = fields.ToManyField(PageResource, 'page_set', full=True, null=True, blank=True)
+
+    def get_object_list(self, request):
+        user_tags = [tag.name for tag in request.user.profile.tags.all()]
+        print user_tags
+        return super(SurveyResource, self).get_object_list(request).filter(tags__name__in=user_tags)
  
     class Meta:
         detail_uri_name = 'slug'
@@ -349,7 +354,8 @@ class SurveyResource(SurveyModelResource):
         authorization = StaffUserOnlyAuthorization()
         authentication = Authentication()
         filtering = {
-            'slug': ['exact']
+            'slug': ['exact'],
+            'tags': ALL_WITH_RELATIONS
         }
 
 

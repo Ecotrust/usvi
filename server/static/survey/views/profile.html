@@ -13,6 +13,21 @@
                             <h4 class="question-title">Email Address</h4>
                             <input class="form-control" type="email" placeholder="Email Address" ng-model="userEmail" />
                         </div>
+                        <h4 class="question-title">Choose the areas that you fish.</h4>
+                        <div class="question yes-no">
+                            <div class="select mrm areas-fished">
+                                <ul class="list-unstyled">
+                                    <li class="option" ng-click="option.checked = ! option.checked" ng-repeat="option in areas" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">
+                                        <div class="select-content">
+                                            <div class="checkbox"></div>
+                                            <h4 class="select-name option-name">
+                                                {{ option.name }}
+                                            </h4>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="question-wrapper" ng-repeat="question in profileQuestions">
                             <h4 class="question-title">{{ question.title }}</h4>
                             <div ng-switch on="question.type">
@@ -32,6 +47,7 @@
 
                         <input class="form-control" type="email" placeholder="enter your email address..." data-ng-model="profileQuestions.emailaddress" required>
  -->
+                        <div class="error" ng-show="showError">{{ showError}}</div>
                         <button class="btn btn-main btn-default btn-block" ng-click="updateProfile(profileQuestions)">submit</button>
                         <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/main">cancel</a>
                                                 

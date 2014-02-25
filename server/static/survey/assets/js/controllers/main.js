@@ -46,7 +46,8 @@ angular.module('askApp')
         })
         .error(function (data) {
         });
-    
+
+
     $scope.updateApp = function () {
         var ref = window.open(app.server + '/downloads/update.html', '_blank', 'location=yes');
     }
