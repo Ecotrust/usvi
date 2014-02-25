@@ -19,7 +19,7 @@ class Migration(DataMigration):
         for profile in orm.UserProfile.objects.all():
 
             tag, created = orm['taggit.tag'].objects.get_or_create(
-                name=tag, slug=tag)
+                name='usvi', slug='usvi')
 
             tagged_item, created = orm['taggit.taggeditem'].objects.get_or_create(
                 tag=tag,
