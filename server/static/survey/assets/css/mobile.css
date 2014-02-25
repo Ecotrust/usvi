@@ -367,7 +367,10 @@ input.datepicker {
     padding: 40px 40px 20px;
 }
 #wrap.menu-page > .container {
-    padding: 140px 20px 100px;
+    padding: 140px 40px 100px;
+}
+#wrap.wide-menu-page > .container {
+    padding: 140px 15px 100px !important;
 }
 .container .credit {
     margin: 20px 0;
