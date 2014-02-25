@@ -21,7 +21,8 @@ class Migration(DataMigration):
             else:
                 tag = 'usvi'
             tag, created = orm['taggit.tag'].objects.get_or_create(
-                name=tag)
+                name=tag, slug=tag)
+            tag.save()
             tagged_item, created = orm['taggit.taggeditem'].objects.get_or_create(
                 tag=tag,
                 content_type=ct,
