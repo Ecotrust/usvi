@@ -419,8 +419,6 @@ def full_data_dump_csv(request, survey_slug):
 
     writer = SlugCSVWriter(response, fields)
     writer.writeheader()
-    import pdb
-    pdb.set_trace()
     for resp in survey.respondant_set.filter(complete=True):
         # very basic removal of some characters that were causing issue in writing rows
         row_string = resp.csv_row.json_data.replace('\u2019', '\'')

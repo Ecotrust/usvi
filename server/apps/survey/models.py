@@ -112,8 +112,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
         for response in self.response_set.all().select_related('question'):
             if response.question.type != 'info':
                 flat.update(response.generate_flat_dict())
-            elif response.question.type == 'info':
-                print 'info question'
         return flat
 
     @classmethod
@@ -174,12 +172,19 @@ class Survey(caching.base.CachingMixin, models.Model):
     objects = caching.base.CachingManager()
 
     @property
+    def num_registered(self):
+        return self.respondant_set.values('user').distinct().count()
+
+    @property
     def survey_responses(self):
         return self.respondant_set.all().count()
 
     @property
     def completes(self):
         return self.respondant_set.filter(complete=True).count()
+
+    def incompletes(self):
+        return self.respondant_set.filter(complete=False).count()
 
     @property
     def activity_points(self):
