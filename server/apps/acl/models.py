@@ -106,7 +106,14 @@ species_mapping = {
     "yellowtail": "yellowtail snapper",
     "yellow tail": "yellowtail snapper",
     "yellow tal": "yellowtail snapper",
-    "yllow tail": "yellowtail snapper"
+    "yllow tail": "yellowtail snapper",
+    
+    # puerto rico overrides
+    "bonito": "blackfin tuna",
+    "mantequilla": "butterfish coney",
+    "patudo": "bigeye tuna",
+    "tiburon arrecife caribeño": "caribbean reef shark"
+
 }
 
 
