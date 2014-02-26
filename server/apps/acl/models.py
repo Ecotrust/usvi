@@ -1,4 +1,5 @@
-﻿from django.db.models import Q
+﻿# -*- coding: utf-8 -*-
+from django.db.models import Q
 from django.db import models
 import caching.base
 from django.contrib.contenttypes import generic
@@ -112,7 +113,7 @@ species_mapping = {
     "bonito": "blackfin tuna",
     "mantequilla": "butterfish coney",
     "patudo": "bigeye tuna",
-    "tiburon arrecife caribeño": "caribbean reef shark"
+    # "tiburon arrecife caribeño": "caribbean reef shark"
 
 }
 
@@ -135,13 +136,17 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
     def species_name(self):
         return "%s (%s)" % (self.species.name, self.species.code)
 
+
+
     @classmethod
-    def lookup(cls, name, group):
+    def lookup(cls, name, group=None):
         regex = re.compile('\((.*)\)')
+        name = name.encode('utf8').decode('utf8')
         query = Q(name__iexact=name)
         if name.endswith('s'):
             query = query | Q(name__iexact=name[:-1])
         map_match = species_mapping.get(name.strip().lower(), None)
+        
         if map_match is not None:
             query = query | Q(name__iexact=map_match)
         matches = DialectSpecies.objects.filter(query)
