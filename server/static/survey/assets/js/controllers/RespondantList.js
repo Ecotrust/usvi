@@ -1,7 +1,7 @@
 7//'use strict';
 
 angular.module('askApp')
-    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
+    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history) {
         var areaMapping = {
             stcroix: "St. Croix",
             stthomasstjohn: "St. Thomas & St. John",
@@ -184,6 +184,7 @@ angular.module('askApp')
 
         $scope.saveRespondent = function(respondent, data) {
             respondent.spin = true;
+            delete respondent.updated_at;
             return $http({
                 url: respondent.resource_uri,
                 data: data,
@@ -191,15 +192,22 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     respondent.spin = false;
+                    
                 })
                 .error(function(err) {
                     alert(err.message);
                 });
         };
         $scope.saveComment = function(respondent, comment, notify) {
+
             $scope.saveRespondent(respondent, {
                 comment: comment,
                 notify: notify
+            }).success(function (data) {
+                respondent.updated_at = new Date();
+                $timeout(function () {
+                    delete respondent.updated_at;
+                }, 3000);
             });
         };
         $scope.setStatus = function(respondent, status) {
@@ -252,6 +260,9 @@ angular.module('askApp')
                 });
         };
 
+
+
+     
         $scope.openRespondent = function(respondent) {
             if (respondent.open) {
                 respondent.open = false;
@@ -262,6 +273,9 @@ angular.module('askApp')
                 $scope.getRespondent(respondent).then(function() {
                     respondent.open = true;
                     respondent.spin = false;
+                    $scope.$watch(function () { return respondent.notify }, function () {
+                        $scope.saveRespondent(respondent, { notify: true });
+                    });
                 });
 
             }
