@@ -67,6 +67,9 @@ angular.module('askApp')
     		if (metaUrl) {                
     			url = metaUrl;
     		} else {
+                if (button) {
+                    return false;
+                }
     			url = app.server + '/api/v1/user/?format=json&limit=5';
     			if ($scope.filter.type === 'staff') {
 	    			url = url + '&is_staff=true&is_active=true';
@@ -93,6 +96,8 @@ angular.module('askApp')
     	});
         $scope.$watch('searchTerm', function (newSearch) {
             if (newSearch && newSearch.length > 2) {
+                $scope.getUsers();    
+            } else if (newSearch === '') {
                 $scope.getUsers();    
             }
             

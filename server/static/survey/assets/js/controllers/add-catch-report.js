@@ -3,8 +3,16 @@
 angular.module('askApp')
 	.controller('AddCatchReportCtrl', function($scope, $http, $routeParams, $location) {
 		$scope.activePage = 'add-reports';
-		$scope.$watch('searchTerm', function() {
-			var url = app.server + '/api/v1/user/?format=json&limit=5&is_staff=false';
+		$scope.getUsers = function (metaUrl, button) {
+			var url;
+			if (metaUrl) {
+				url = metaUrl;
+			} else {
+				if (button) {
+					return false;
+				}
+				url = app.server + '/api/v1/user/?format=json&limit=5&is_staff=false';
+			}
 			if ($scope.searchTerm && $scope.searchTerm.length > 2) {
 				url = url + '&username__icontains=' + $scope.searchTerm;
 			}
@@ -12,5 +20,8 @@ angular.module('askApp')
 				$scope.users = data.objects;
 				$scope.meta = data.meta;
 			});
+		}
+		$scope.$watch('searchTerm', function() {
+			$scope.getUsers();
 		});
 	});

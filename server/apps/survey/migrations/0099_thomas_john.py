@@ -17,7 +17,6 @@ class Migration(DataMigration):
         for response in question.response_set.filter(Q(answer__icontains='Thomas') | Q(answer__icontains='John')):
             response.answer_raw = '{"text":"St. Thomas & St. John","label":"st-thomas-st-john","checked":true,"isGroupName":false,"$$hashKey":"016"}'
             response.save_related()
-        for acl in AnnualCatchLimit.objects.filter(area='sthomas-stjohn'): acl.area = 'stthomasstjohn'; acl.save()
 
     def backwards(self, orm):
         "Write your backwards methods here."

@@ -124,3 +124,4 @@ mobile/platforms/ios/DigitalDeck.xcodeproj/project.xcworkspace/xcuserdata/eknuth
 server/static/usvi.apk
 *.dump
 backups
+scripts/cookbooks/node_staging.json
