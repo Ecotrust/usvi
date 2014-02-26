@@ -6,7 +6,9 @@ from django.db import models
 from django.core.management import call_command
 
 class Migration(DataMigration):
-
+    depends_on = (
+        ("tastypie", "0001_initial"),
+    )
     def forwards(self, orm):
         "Write your forwards methods here."
         # Note: Don't use "from appname.models import ModelName". 
