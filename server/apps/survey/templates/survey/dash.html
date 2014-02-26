@@ -82,8 +82,14 @@
       </div>
     </div>
     <div class="container-fluid dashboard" id="ng-app" ng-app="askApp" ng-view></div>
+
     {% endif %}
-    
+    <div id="footer" ng-cloak>
+    <div class="container">
+        <p class="pull-right text-muted">&copy; 2014, Point 97</p>
+
+    </div>
+</div>
     <script src="{{ STATIC_URL }}survey/components/flatui/js/jquery-1.8.2.min.js"></script>
     <script src="{{ STATIC_URL }}survey/components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="{{ STATIC_URL }}javascripts/libs/jquery.mjs.nestedSortable.js"></script>
@@ -103,7 +109,7 @@
     <script src="{{ STATIC_URL }}survey/lib/js/leaflet.awesome-markers.min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/jQDateRangeSlider-min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/date.js"></script>
-        <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet.label.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet.label.js"></script>
 
     <!--<script src="{{ STATIC_URL }}survey/lib/js/heatmap.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/heatmap-leaflet.js"></script>
