@@ -61,7 +61,8 @@ urlpatterns = patterns('',
 
     url(r'^account/', include('apps.account.urls')),
     url(r'^mobile/', include('apps.mobile.urls')),
-    url(r'^report', include(report_urls)),
+    url(r'^report/', include(report_urls)),
+    url(r'^reports', include(report_urls)),
     #anon survey user for specific survey
     url(r'^respond/(?P<survey_slug>[\w\d-]+)$', 'apps.survey.views.survey'),
     #survey responder with preassigned uuid
