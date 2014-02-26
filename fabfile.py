@@ -385,6 +385,12 @@ def sync_db():
              _manage_py('syncdb --noinput')
 
 @task
+def create_migrations(app_name):
+    with cd(env.code_dir):
+        with _virtualenv():
+            _manage_py('schemamigration %s --auto' % app_name)
+
+@task
 def migrate_db():
     with cd(env.code_dir):
         with _virtualenv():
@@ -402,3 +408,15 @@ def restore_db(dump_name):
     put(dump_name, "/tmp/%s" % dump_name.split('/')[-1])
     run("pg_restore --verbose --clean --no-acl --no-owner -U postgres -d geosurvey /tmp/%s" % dump_name.split('/')[-1])
     #run("cd %s && %s/bin/python manage.py migrate --settings=config.environments.staging" % (env.app_dir, env.venv))
+
+@task
+def save_responses():
+    with cd(env.code_dir):
+        with _virtualenv():
+            _manage_py('save_responses')
+
+@task
+def save_respondents():
+    with cd(env.code_dir):
+        with _virtualenv():
+            _manage_py('save_respondents')
