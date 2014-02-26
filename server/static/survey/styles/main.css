@@ -12,7 +12,7 @@
     color: white;
     border-radius: 0;
     position: relative;
-    padding-top: 25px;
+    padding-top: 20px;
       background-image: -webkit-gradient(linear, right top, left top, color-stop(0, rgb(145, 205, 215)), color-stop(1, rgb(0, 171, 186)));
   background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
   background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
@@ -22,6 +22,14 @@
   border-radius: 0px;
   margin-bottom: 0px;
 }
+#topnav .navbar-brand {
+  padding-top: 0;
+  font-size: 20px;
+}
+#topnav .navbar-brand img {
+  margin-right: 10px;
+}
+
 #topnav a {
     color: inherit;
 }
