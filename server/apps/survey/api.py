@@ -1,7 +1,8 @@
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
-from tastypie.authentication import Authentication
+from tastypie.authentication import SessionAuthentication, ApiKeyAuthentication, MultiAuthentication
+
 from tastypie.authorization import Authorization
 
 from django.conf.urls import url
@@ -110,8 +111,8 @@ class OfflineResponseResource(SurveyModelResource):
     
     class Meta:
         queryset = Response.objects.all().order_by('question__question_page__order')
-        authorization = UserObjectsOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
     
     def obj_create(self, bundle, **kwargs):
         return super(OfflineResponseResource, self).obj_create(bundle, user=bundle.request.user)
@@ -120,13 +121,13 @@ class OfflineResponseResource(SurveyModelResource):
 class OfflineRespondantResource(SurveyModelResource):
     responses = fields.ToManyField('apps.survey.api.OfflineResponseResource', 'response_set', null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True)
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True)
+    # user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, readonly=True)
 
     class Meta:
         always_return_data = True
         queryset = Respondant.objects.all()
-        authorization = UserObjectsOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
         ordering = ['-ts']
     
     def obj_create(self, bundle, **kwargs):
@@ -162,8 +163,8 @@ class ReportRespondantResource(SurveyModelResource):
 
         }
         #ordering = ['-ordering_date']
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
 
 
 class DashRespondantResource(ReportRespondantResource):
@@ -257,16 +258,16 @@ class RespondantResource(SurveyModelResource):
             'ts': ['gte', 'lte']
         }
         ordering = ['-ts']
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
 
 
 class OptionResource(SurveyModelResource):
     class Meta:
         always_return_data = True
         queryset = Option.objects.all().order_by('order')
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
 
 
     # save_m2m = main_save_m2m
@@ -280,8 +281,8 @@ class PageResource(SurveyModelResource):
     class Meta:
         queryset = Page.objects.all().order_by('order')
         always_return_data = True
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
         filtering = {
             'survey': ALL_WITH_RELATIONS
         }
@@ -299,8 +300,8 @@ class BlockResource(SurveyModelResource):
     class Meta:
         queryset = Block.objects.all()
         always_return_data = True
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
 
 
 class DialectSpeciesResource(SurveyModelResource):
@@ -325,8 +326,8 @@ class QuestionResource(SurveyModelResource):
     class Meta:
         queryset = Question.objects.all()
         always_return_data = True
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
         filtering = {
             'slug': ALL,
             'surveys': ALL_WITH_RELATIONS
@@ -351,8 +352,8 @@ class SurveyResource(SurveyModelResource):
         detail_uri_name = 'slug'
         queryset = Survey.objects.all()
         always_return_data = True
-        authorization = StaffUserOnlyAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
         filtering = {
             'slug': ['exact'],
             'tags': ALL_WITH_RELATIONS

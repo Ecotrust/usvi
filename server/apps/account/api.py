@@ -5,11 +5,12 @@ from tastypie.authentication import SessionAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization, Authorization
 from django.contrib.auth.models import User
 from account.models import UserProfile
-from survey.api import StaffUserOnlyAuthorization
 
 class UserProfileResource(ModelResource):
     class Meta:
         queryset = UserProfile.objects.all()
+        authentication = Authentication()
+        authorization = Authorization()
         resource_name = 'profile'
 
 class UserResource(ModelResource):
@@ -25,6 +26,6 @@ class UserResource(ModelResource):
             'is_active': ALL
         }
         ordering = ['username']
-        authentication = SessionAuthentication()
-        authorization = DjangoAuthorization()
+        authentication = Authentication()
+        authorization = Authorization()
         always_return_data = True

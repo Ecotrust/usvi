@@ -11,19 +11,20 @@
 		<div ng-hide="confirmClear || editProfile || changingPassword">
 			<a class="btn btn-main btn-default btn-lg btn-block btn-main" ng-click="changingPassword=true">Change Password</a>
 		    <a class="btn btn-main btn-default btn-lg btn-block btn-danger" ng-click="confirmClear = true; changesSaved = false;">Clear Cache</a>
+		    <div class="panel panel-default">
+		      <div class="panel-heading">
+		        <h3 class="panel-title">Map Attribution</h3>
+		      </div>
+		      <div class="panel-body">
+		      	<p>
+		    	    Spatial data for the areas fished section of the catch report is courtesy of the
+		    	    <strong>Southeast Fisheries Science Center.</strong>
+		    	</p>
+		        <p><strong>app server</strong>: {{ server }}</p>
+		      </div>
+		    </div>
 		</div>
-		<div class="panel panel-default">
-		  <div class="panel-heading">
-		    <h3 class="panel-title">Map Attribution</h3>
-		  </div>
-		  <div class="panel-body">
-		  	<p>
-			    Spatial data for the areas fished section of the catch report is courtesy of the
-			    <strong>Southeast Fisheries Science Center.</strong>
-			</p>
-		    <p><strong>app server</strong>: {{ server }}</p>
-		  </div>
-		</div>
+		
 		<div ng-show="editProfile">
 			<form ng-submit="updateUser(user)">
 				<div profilefields user="user"></div>

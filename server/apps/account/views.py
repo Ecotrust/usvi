@@ -33,7 +33,8 @@ def authenticateUser(request):
                 'email': user.email,
                 'is_staff': user.is_staff,
                 'registration': user.profile.registration,
-                'tags': [tag.name for tag in profile.tags.all()]
+                'tags': [tag.name for tag in profile.tags.all()],
+                'api_key': user.api_key.key
             }
             return HttpResponse(simplejson.dumps({
                 'success': True, 'user': user_dict
@@ -88,7 +89,8 @@ def createUser(request):
             'email': user.email,
             'is_staff': user.is_staff,
             'registration': profile.registration,
-            'is_intern': profile.is_intern
+            'is_intern': profile.is_intern,
+            'api_key': user.api_key.key
         }
         return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
     else:

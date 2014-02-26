@@ -220,7 +220,8 @@ angular.module('askApp')
     $http.defaults.headers.post['Content-Type'] = 'application/json';
 
     var sendRespondent = function (respondent) {
-        var url = app.server + '/api/v1/offlinerespondant/';
+        var url = app.server + _.string.sprintf('/api/v1/offlinerespondant/?username=%s&api_key=%s',
+                    app.user.username, app.user.api_key);
         var responses = angular.copy(respondent.responses);
         
         _.each(responses, function (response) {

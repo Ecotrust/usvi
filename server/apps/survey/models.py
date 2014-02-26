@@ -473,6 +473,8 @@ class Response(caching.base.CachingMixin, models.Model):
                                 species = DialectSpecies.lookup(answer_text, None)
                             except:
                                 species = None
+                    else:
+                        species = None
                     multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label, species=species)
                     multi_answer.save()
                     

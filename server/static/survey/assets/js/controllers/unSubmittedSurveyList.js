@@ -123,8 +123,8 @@ angular.module('askApp')
                     }
                     
                 })
-                .error(function (err) {
-                    debugger;
+                .error(function (err, status) {
+                    console.log(err + status);
                 });
             }
             
@@ -156,8 +156,8 @@ angular.module('askApp')
                     $scope.deleteRespondent(respondent);
                     $scope.showSurveyList = true;
                     $scope.busy = false;
-                }).error( function(err) {
-                    debugger;
+                }).error( function(err, status) {
+                    console.log(err + status)
                 });
             
         };
