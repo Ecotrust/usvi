@@ -5,15 +5,18 @@ angular.module('askApp')
             stcroix: "St. Croix",
             stthomasstjohn: "St. Thomas & St. John",
             puertorico: "Puerto Rico",
-            region: "Region"
+            uscaribeez: "Region"
         };
 
         $scope.activePage = 'overview';
         var getAclReport = function () {
-            var url = app.server + '/reports/distribution/catch-report/weight-*';
+            var url = app.server + '/reports/distribution/catch-report/weight-*?';
             
             if ($scope.filter.area) {
-                url = url + "?filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area].replace(/&/, '|')});
+                url = url + "filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area].replace(/&/, '|')});
+            }
+            if ($scope.filter.accepted) {
+                url = url + "&accepted=true";
             }
             $http.get(url)
                 .success(function (data) {
@@ -27,7 +30,8 @@ angular.module('askApp')
                         $scope.slides = [];
                         $scope.familyNames = _.keys($scope.byFamily).sort();
                         $scope.totalIndex = {};
-                        $scope.aclResults = _.map(_.filter($scope.acls, function (acl) {
+                        $scope.aclResults = [];
+                         _.each(_.filter($scope.acls, function (acl) {
                                 return acl.area === $scope.filter.area
                             }),
                         function (acl) {
@@ -39,20 +43,19 @@ angular.module('askApp')
                             }
                             total = _.reduce(_.pluck(groups, 'total'),
                                     function (memo, num) { return memo + num; }, 0);
-
-                            return {
+                            $scope.aclResults.push({
                                 groups: groups,
                                 acl: acl,
                                 total: total,
                                 percent: total / acl.pounds * 100
-                            };        
+                            });        
 
                             
                         });
+
                         $scope.aclResults = $scope.aclResults.sort(function (a,b) {
                             return b.percent - a.percent;
                         });
-
                         var i=0, chunk=3, aclChunks, tmpArray;
                         while (i < _.size($scope.aclResults)) {
                             aclChunks = $scope.aclResults.slice(i,i+chunk);
@@ -145,16 +148,11 @@ angular.module('askApp')
             $scope.slideIndex = index;
         }
 
-                
-        if (_.isEmpty($location.search())) {
-            $scope.filter = {
-                "area": "stcroix"
-            };
-        } else {
-            $scope.filter = $location.search();
-        }   
 
-        
+        $scope.filter = {
+            "area": "stcroix",
+            "accepted": true
+        };
         
 
 
@@ -164,7 +162,6 @@ angular.module('askApp')
             getAclReport();
 
             $scope.$watch('filter', function (newFilter) {
-                console.log('watch');
                 $location.search($scope.filter);
                 $scope.area = $scope.areaMapping[$scope.filter.area];
                 getAclReport();

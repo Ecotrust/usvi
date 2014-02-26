@@ -199,7 +199,7 @@ angular.module('askApp')
                 // Setup default parameters.
                 var outerRadius = scope.outerRadius || 200;
                 var innerRadius = scope.innerRadius || 0;
-                var fontSize = scope.fontSize || 24;
+                var fontSize = scope.fontSize || 28;
                 var fontColor = attrs.fontColor || "#fff";
                 var color = undefined;
                 
@@ -336,8 +336,15 @@ angular.module('askApp')
                                     .attr('stroke', '#fff')
                                     .attr('stroke-width', '1.5')
                                     .attr('cursor', 'pointer')
-                                    .style('fill', function(d) { 
-                                        return colorPop();
+                                    .style('fill', function(d) {
+                                        var color;
+                                        if (d.data.term === 'Unfilled') {
+                                            color = '#999899';
+                                        } else {
+                                            color = colorPop();    
+                                        }
+                                        console.log(d.data.term + color)
+                                        return color;
                                      })
                                     .each(function(d) { this._current = d; })
                                     .on('mousedown', function(d) {
@@ -400,8 +407,9 @@ angular.module('askApp')
 
                             percentLabels.enter().append("text")
                                 .attr("class", "value")
-                                .attr('font-size', 24)
+                                .attr('font-size', 28)
                                 .attr('font-weight', 'bold')
+
                                 .attr("transform", function(d) {
                                     return "translate(" + 
                                         Math.cos(((d.startAngle + d.endAngle - Math.PI)/2)) * (outerRadius + textOffset) + "," + 
@@ -454,7 +462,7 @@ angular.module('askApp')
 
                             nameLabels.enter().append("text")
                                 .attr("class", "units")
-                                .attr('font-size', 18)
+                                .attr('font-size', 24)
                                 .attr('stroke', 'none')
                                 .attr('fill', '#000')
                                 .attr("transform", function(d) {
@@ -476,7 +484,7 @@ angular.module('askApp')
                                     } else if (d.data.term === 'F') {
                                         return 'FALSE' + ' (' + d.value + ')';
                                     } else {
-                                        return d.data.term + ' (' + d.value + ')';
+                                        return d.data.term;
                                     }
                                 })
                                 .each(function(d) {this._current = d;});

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 import simplejson
 
-from apps.survey.models import Survey, Question, Response, Respondant, Location, LocationAnswer, GridAnswer
+from apps.survey.models import Survey, Question, Response, Respondant, Location, LocationAnswer, GridAnswer, REVIEW_STATE_ACCEPTED
 from apps.reports.models import QuestionReport
 
 def get_respondants_summary(request):
@@ -65,8 +65,9 @@ def get_distribution(request, survey_slug, question_slug):
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
-        print "fisher"
         answers = answers.filter(user=request.user)
+    elif request.GET.get('accepted', None) is not None:
+        answers = answers.filter(respondant__review_status=REVIEW_STATE_ACCEPTED)
 
     filter_list = []
 
@@ -97,8 +98,7 @@ def get_distribution(request, survey_slug, question_slug):
                 answers = answers.filter(respondant__response__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
-        answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
-        print answer_domain.count()
+        answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code').annotate(total=Sum('answer_number')).order_by('species__name')
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
         answer_domain = locations.values('answer').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))

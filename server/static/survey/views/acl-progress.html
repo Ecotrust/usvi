@@ -1,4 +1,4 @@
-<div class="container acl-progress" ng-cloak>
+<div class="container acl-progress" ng-cloak style="min-height: 600px;">
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9">
@@ -57,7 +57,14 @@
                                 </div>
                             </div>
                         </li>
-                    </table>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="filter.accepted"> Only Show "Accepted" Records
+                    </label>
                 </div>
             </div>
         </div>
