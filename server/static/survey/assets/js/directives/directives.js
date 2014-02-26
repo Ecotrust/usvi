@@ -202,38 +202,16 @@ angular.module('askApp')
                 var fontSize = scope.fontSize || 24;
                 var fontColor = attrs.fontColor || "#fff";
                 var color = undefined;
-                // var colorMap = ["4BB1E4",
-                //     "#47ACDE",
-                //     "#43A7D9",
-                //     "#3FA3D3",
-                //     "#3C9ECE",
-                //     "#389AC8",
-                //     "#3495C3",
-                //     "#3091BD",
-                //     "#2D8CB8",
-                //     "#2988B2",
-                //     "#2583AD",
-                //     "#217EA8",
-                //     "#1E7AA2",
-                //     "#1A759D",
-                //     "#167197",
-                //     "#126C92",
-                //     "#0E688C",
-                //     "#0B6387",
-                //     "#075F81",
-                //     "#035A7C"
-                // ];
+                
                 var colorMap = [
-                    "#3498B7",
-                    "#48A2BE",
-                    "#5CACC5",
-                    "#70B6CC",
-                    "#85C1D3",
-                    "#99CBDB",
-                    "#ADD5E2",
-                    "#C2E0E9",
-                    "#D6EAF0",
-                    "#EAF4F7"
+                    "#4bb1e4",
+                    "#f15c49",
+                    "#4eb889",
+                    "#3498b7",
+                    "#0074c8",
+                    "#005677",
+                    "#999899",
+                    "#403F41"
                 ];
                 var colorIndex = 0;
                 var colorPop = function () {
