@@ -3,7 +3,7 @@ angular.module('askApp')
     .controller('AnnualCatchLimitProgressCtrl', function($scope, $http, $routeParams, $location) {
         $scope.areaMapping = {
             stcroix: "St. Croix",
-            stthomas: "St. Thomas",
+            stthomasstjohn: "St. Thomas & St. John",
             puertorico: "Puerto Rico",
             region: "Region"
         };
@@ -13,7 +13,7 @@ angular.module('askApp')
             var url = app.server + '/reports/distribution/catch-report/weight-*';
             
             if ($scope.filter.area) {
-                url = url + "?filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area]});
+                url = url + "?filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area].replace(/&/, '|')});
             }
             $http.get(url)
                 .success(function (data) {

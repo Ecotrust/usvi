@@ -4,8 +4,7 @@ angular.module('askApp')
     .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
         var areaMapping = {
             stcroix: "St. Croix",
-            stthomas: "St. Thomas",
-            stjohn: "St. John",
+            stthomasstjohn: "St. Thomas & St. John",
             puertorico: "Puerto Rico",
             region: "Region"
         };

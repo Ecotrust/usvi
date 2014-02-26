@@ -82,7 +82,7 @@ def get_distribution(request, survey_slug, question_slug):
 
     if filters is not None:
         for filter_slug in filter_list.keys():
-            value = filter_list[filter_slug]
+            value = filter_list[filter_slug].replace('|', '&')
             filter_question = QuestionReport.objects.get(slug=filter_slug, question_page__survey=survey)
             if question_type in ['map-multipoint']:
                 if filter_question == self:
@@ -97,6 +97,7 @@ def get_distribution(request, survey_slug, question_slug):
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
         answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code', 'col_text').annotate(total=Sum('answer_number')).order_by('species__name')
+        print answer_domain.count()
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
         answer_domain = locations.values('answer').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))

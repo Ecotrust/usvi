@@ -184,7 +184,7 @@ class DialectSpecies(caching.base.CachingMixin, models.Model):
 
 AREA_CHOICES = (
     ('stcroix', 'St. Croix'),
-    ('stthomas', 'St. Thomas/St. John'),
+    ('stthomasstjohn', 'St. Thomas & St. John'),
     ('puertorico', 'Puerto Rico'),
     ('uscaribeez', 'U.S. Caribbean Exclusive Economic Zone'),
 )
