@@ -1,7 +1,7 @@
 
 angular.module('askApp')
     .controller('SummaryCtrl', function($scope, $http, $routeParams) {
-    	var url = app.server + '/reports/distribution/catch-report/weight-*';
+    	var url = app.server + '/reports/distribution/catch-report/weight-*?fisher=true';
 
     	$http.get(url)
     		.success(function (data) {
