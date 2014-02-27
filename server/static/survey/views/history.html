@@ -4,27 +4,31 @@
     <div class="container">
 
         <h4>Summary</h4>
-
-        <div>
-            <a class="btn btn-default btn-main btn-lg btn-block" href="#/fisher-summary">Overall Summary</a>
+        <div ng-show="error">
+            Not able to reach server.  Please log in or try again later.
+            <a class="btn btn-default btn-main btn-lg btn-block" href="#/signin">Retry Login</a>
         </div>
+        <div ng-hide="error">
+            <div>
+                <a class="btn btn-default btn-main btn-lg btn-block" href="#/fisher-summary">Overall Summary</a>
+            </div>
 
-        <h4 style="margin-top: 20px">Catch Reports</h4>
+            <h4 style="margin-top: 20px">Catch Reports</h4>
 
-        <div>
-            <a class="btn btn-default btn-main btn-lg btn-block" href="#/unSubmittedSurveyList">
-                un-submitted <span class="badge pull-right" style="top: 0px">{{respondents.length}}</span>
-            </a>
+            <div>
+                <a class="btn btn-default btn-main btn-lg btn-block" href="#/unSubmittedSurveyList">
+                    un-submitted <span class="badge pull-right" style="top: 0px">{{respondents.length}}</span>
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-default btn-main btn-lg btn-block" href="#/submittedSurveyList" ng-class="{ 'disabled': !respondentList }">
+                    submitted
+                    <span class="badge pull-right" style="top: 0px">
+                        {{respondentList.length}}
+                        <i class="icon-spinner icon-spin" ng-show="submittedSpinner"></i>
+                    </span>
+                </a>
+            </div>
         </div>
-        <div>
-            <a class="btn btn-default btn-main btn-lg btn-block" href="#/submittedSurveyList" ng-class="{ 'disabled': !respondentList }">
-                submitted
-                <span class="badge pull-right" style="top: 0px">
-                    {{respondentList.length}}
-                    <i class="icon-spinner icon-spin" ng-show="submittedSpinner"></i>
-                </span>
-            </a>
-        </div>
-
     </div>
 </div>

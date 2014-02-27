@@ -37,7 +37,8 @@ angular.module('askApp')
                     $scope.submittedSpinner = false;
                     // console.log($scope.respondentList);
                 }).error(function (data) {
-                    debugger;
+                    $scope.error = true;
+                    // $location.path('/signin?error=not-logged-in');
                 }); 
         };
 
