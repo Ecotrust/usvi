@@ -57,6 +57,9 @@ a {
    font-weight: normal;
 }
 
+.paper-group .title {
+    color: rgb(24,24,24) !important;
+}
 
 
 .select .option-checked .other-option ::-webkit-input-placeholder {

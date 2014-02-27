@@ -22,13 +22,8 @@ angular.module('askApp')
     }
 
     var getTitle = function(respondent) {
-        try {
-            var island = _.findWhere(respondent.responses, {question: 'island'}).answer.text,
-                title = 'USVI Commercial Catch Report Form - ' + island;  
-        } catch(e) {
-            var title = 'USVI Commercial Catch Report Form';
-        }
-        return title;
+        debugger;
+        return _.findWhere(app.surveys, {slug: respondent.survey}).name;
     };
 
     var gearTypeIncludes = function(type, respondent) {

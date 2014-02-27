@@ -48,6 +48,7 @@ angular.module('askApp')
 
     $scope.surveyProgress = 100;
 
+
     $scope.skipBack = function () {
         $location.path($scope.respondent.resumePath.replace('#', ''));
     };
@@ -94,5 +95,13 @@ angular.module('askApp')
         storage.saveState(app);
         $location.path('/main');
     }   
+
+
+    if ($scope.respondent.survey.match(/puerto-rico/)) {
+        $scope.groups = _.groupBy($scope.getAnswer('fish-species-puerto-rico'), 'groupName');
+        $scope.fw = _.indexBy($scope.getAnswer('fish-weight-price-puerto-rico'), 'text');
+        console.log($scope.fw);
+    }
+
     
   });

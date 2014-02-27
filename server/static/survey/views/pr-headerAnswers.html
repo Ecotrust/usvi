@@ -1,0 +1,105 @@
+
+<!-- HEADER -->
+
+<div class="row">
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Fecha del desembarco: </strong>
+            <span>{{ getAnswer('trip-landing-date-puerto-rico') }}</span>
+        </div>
+        <div>
+            <strong>Pesca: </strong>
+            <span>{{ getAnswer('fishing-day-night-puerto-rico')['text'] }}</span>
+        </div>
+        <div>
+            <strong>Reportado por: </strong>
+            <span>{{ getAnswer('report-for-puerto-rico')['text'] }}</span>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <div>
+                <strong>Municipio de Desembarco: </strong>
+                <span>{{ getAnswer('trip-landing-town-puerto-rico')['text'] }}</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <strong>Centro de Desembarco: </strong>
+                <span>{{ getAnswer('trip-landing-center-puerto-rico')['text'] }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Nombre del pescador:</strong>
+            <span>{{ getAnswer('first-name-puerto-rico') }} {{ getAnswer('last-name-puerto-rico') }}</span>
+        </div>
+        <div>
+            <strong>Número de Licencia:</strong>
+            <span>{{ getAnswer('license-number-puerto-rico') }}</span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 margin-top-10" ng-show="getAnswer('license-number-partner-1-puerto-rico')">
+        <div>
+            <strong>Nombre del pescador (2):</strong>
+            <span>{{ getAnswer('first-name-partner-1-puerto-rico') }} {{ getAnswer('last-name-partner-1-puerto-rico') }}</span>
+        </div>
+        <div>
+            <strong>Número de Licencia (2):</strong>
+            <span>{{ getAnswer('license-number-partner-1-puerto-rico') }}</span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 margin-top-10" ng-show="getAnswer('license-number-partner-2-puerto-rico')">
+        <div>
+            <strong>Nombre del pescador (3):</strong>
+            <span>{{ getAnswer('first-name-partner-2-puerto-rico') }} {{ getAnswer('last-name-partner-2-puerto-rico') }}</span>
+        </div>
+        <div>
+            <strong>Número de Licencia (3):</strong>
+            <span>{{ getAnswer('license-number-partner-2-puerto-rico') }}</span>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Número de teléfono:</strong>
+            <span>{{ getAnswer('telephone-puerto-rico') }}</span>
+        </div>
+        <div>
+            <strong>Registro de embarcacion:</strong>
+            <span>{{ getAnswer('license-number-puerto-rico') }}</span>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Profundidad donde occurrio la ayor captura:</strong>
+            <span>{{ getAnswer('telephone-puerto-rico') }} (brasas)</span>
+        </div>
+        <div>
+            <strong>Área de captura:</strong>
+            <span>{{ getAnswer('area-fished-puerto-rico') }}</span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Número de Permiso para HMS si aplica:</strong>
+            <span>{{ getAnswer('hms-species-permit-number-puerto-rico') }}</span>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 margin-top-10 paper-group" ng-repeat="(group,species) in groups">
+        <h4 class="title">{{ group }}</h4>
+        <ul class="list-unstyled">
+            <li ng-repeat="s in species">
+                <p><strong>{{ s.text }}</strong></p>
+                <p>precio por libra: {{ fw[s.text].precioporlibra}}</p>
+                <p>libras: {{ fw[s.text].libras}}</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- end Header -->

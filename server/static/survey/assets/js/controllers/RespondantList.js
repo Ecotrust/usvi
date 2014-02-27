@@ -288,8 +288,8 @@ angular.module('askApp')
         };
 
 
-        $scope.getTitle = function() {
-            return history.getTitle($scope.respondent);
+        $scope.getTitle = function(respondent) {
+            return history.getTitle(respondent);
         };
 
         $scope.getAnswer = function(questionSlug) {

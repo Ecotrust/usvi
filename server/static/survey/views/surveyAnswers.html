@@ -2,7 +2,7 @@
 <div class="panel panel-default">
 
     <div class="panel-heading" style="border-radius: 0px">
-        <div class="span12 text-center survey-title"><h4>{{getTitle()}}</h4></div>
+        <!-- <div class="span12 text-center survey-title"><h4>{{getTitle(respondent)}}</h4></div> -->
         <!-- <div class="span12 text-center margin-bottom-20"><h4>A separate form must be completed for each trip or month of no fishing</h4></div> -->
     </div>
 
@@ -29,6 +29,13 @@
             <!-- SPEAR OR BY HAND -->
             <div ng-show="gearTypeIncludes('hand')" ng-include="viewPath + 'views/spearOrByHandAnswers.html'"></div>
 
+        </div>
+
+        <div ng-show="respondent.survey == 'catch-report-puerto-rico'">
+            <div ng-include="viewPath + 'views/pr-headerAnswers.html'"></div>
+        </div>
+        <div ng-show="respondent.survey_slug == 'catch-report-puerto-rico'">
+            <div ng-include="viewPath + 'views/pr-headerAnswers.html'"></div>
         </div>
     
     </div>
