@@ -76,12 +76,12 @@ angular.module('askApp')
         delete app.user.resumePath;
         survey.submitSurvey(newRespondent, $scope.survey).success(function () {
             delete app.respondents[$routeParams.uuidSlug]
-            app.message = "You catch report was submitted successfully."
+            app.message = "Your catch report was submitted successfully."
             storage.saveState(app);
             $location.path('/main');
             $scope.working = true;
         }).error(function () {
-            app.message = "You catch report was saved and can be submitted later."
+            app.message = "Your catch report was saved and can be submitted later."
             storage.saveState(app);
             $location.path('/main');
         });
@@ -89,7 +89,7 @@ angular.module('askApp')
     };
 
     $scope.continueOffline = function () {
-        app.message = "You catch report was saved and can be submitted later."
+        app.message = "Your catch report was saved and can be submitted later."
         delete app.user.resumePath;
         storage.saveState(app);
         $location.path('/main');
