@@ -269,6 +269,28 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super(CustomJSONEncoder, self).default(obj)
 
 
+@api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def ecosystem_project_counts_json(request, survey_slug):
+
+    question_slug = 'ecosystem-features'
+
+    # Count of each answers for a given question (only for completed respondants).
+    question = get_object_or_404(Question, slug=question_slug, question_page__survey__slug=survey_slug)
+    responses = question.response_set.filter(respondant__complete__exact=True)
+    groups = responses.values('answer').annotate(count=Count("answer")).filter(count__gte=1).order_by("answer")
+
+    graph_data = []
+    for group in groups:
+        graph_data.append({'data': group['count'], 'name': group['answer']})
+
+    return HttpResponse(json.dumps({
+        'success': True,
+        'graph_data': graph_data
+    }, cls=CustomJSONEncoder), content_type='application/json')
+
+
+
+
 def _grid_standard_deviation(interval, question_slug, row=None, market=None,
                              col=None, status=None, start_date=None, end_date=None):
     rows = (GridAnswer.objects.filter(response__question__slug=question_slug)

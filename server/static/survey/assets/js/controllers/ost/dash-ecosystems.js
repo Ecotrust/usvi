@@ -13,65 +13,45 @@ angular.module('askApp').controller('DashEcosystemsCtrl', function($scope, $http
     }
 
     function setup_ecosystems_dropdown ($scope) {
-        var url = "/report/distribution/" + $routeParams.surveySlug + "/ecosystem-features";
+        var url = "/reports/distribution/" + $routeParams.surveySlug + "/ecosystem-features";
 
         $http.get(url).success(function(data) {
-            $scope.ecosystems = _.pluck(data.answer_domain, "answer");
+            $scope.ecosystems = _.pluck(data.answer_domain, "answer_text");
         });
     }
 
-    function build_survey_stats_url ($scope) {
-        var start_date = new Date($scope.filter.startDate).toString('yyyy-MM-dd');
-        var end_date = new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
-        var url = '/report/surveyor-stats/' + $routeParams.surveySlug + '/' + $scope.surveyorTimeFilter;
-        url += '?start_date=' + start_date;
-        url += '&end_date=' + end_date;
+    function build_ecosystem_project_counts_url ($scope) {
+        // var url = '/reports/ecosystem-project-counts/' + $routeParams.surveySlug;
+        var url = "/reports/distribution/" + $routeParams.surveySlug + "/ecosystem-features";
 
         if ($scope.market) {
             url += '&market=' + $scope.market;
         }
-
-        if ($scope.status_single) {
-            url += '&status=' + $scope.status_single;
-        }
+        
         return url;
     }
 
-    function build_survey_totals() {
-        var url = build_survey_stats_url($scope);
+    function build_ecosystem_project_counts() {
+        var url = build_ecosystem_project_counts_url($scope);
 
         $http.get(url).success(function(data) {
-            $scope.surveyor_by_time = {
-                yLabel: "Surveys Collected",
-                title: "Surveys Collected by Date",
+            $scope.ecosystem_project_counts = {
+                labels: _.pluck(data.answer_domain, "answer_text"),
                 displayTitle: false,
-                raw_data: data.graph_data,
-                download_url: url.replace($scope.surveyorTimeFilter, $scope.surveyorTimeFilter + '.csv'),
-                unit: "surveys"
-            }
-            // map reduuuuuuce
-            var bar_data = _.map(data.graph_data,
-                function (x) {
-                    return _.reduce(x.data, function (attr, val) { return attr + val[1]; }, 0);
-                }
-            );
-            $scope.surveyor_total = {
-                labels: _.pluck(data.graph_data, 'name'),
-                displayTitle: false,
-                yLabel: "Surveys Collected",
-                title: "Total Surveys Collected by Surveyor",
+                yLabel: "Number of Projects",
+                title: "Reported Ecosystem Features",
                 categories: [""],
-                type: "bar",
-                data: bar_data,
+                type: "stacked-column",
+                data: _.pluck(data.answer_domain, "surveys"),
                 download_url: url.replace($scope.surveyorTimeFilter, $scope.surveyorTimeFilter + ".csv"),
-                unit: "surveys"
+                unit: "projects"
             }
         });
     }
 
     function filters_changed(surveySlug) {
         // reportsCommon.getRespondents(null, $scope);
-        // build_survey_totals();
+        build_ecosystem_project_counts();
     }
             
     $scope.$watch('filter', function (newValue) {
@@ -123,7 +103,6 @@ angular.module('askApp').controller('DashEcosystemsCtrl', function($scope, $http
     });
 
 
-    
-
+    filters_changed('');
 
 });

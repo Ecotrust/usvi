@@ -18,8 +18,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div>
-                        <h2>{{ ecosystem_totals.title }}</h2>
-                        <div bar-chart chart="ecosystem_totals"></div>
+                        <h2>{{ ecosystem_project_counts.title }}</h2>
+                        <div class="error">{{ ecosystem_project_counts.message }}</div>
+                        
+                        <div bar-chart chart="ecosystem_project_counts"></div>
+                    
                     </div>
                 </div>
             </div>
