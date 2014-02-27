@@ -25,7 +25,7 @@ class Place(caching.base.CachingMixin, models.Model):
 class Area(models.Model):
     id = models.CharField(max_length=64, primary_key=True)
     et_index = models.CharField(max_length=254)
-    geom = models.PolygonField(srid=None)
+    geom = models.PolygonField(srid=4326)
     objects = models.GeoManager()
 
     def __unicode__(self):

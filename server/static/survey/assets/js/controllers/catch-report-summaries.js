@@ -27,11 +27,6 @@ angular.module('askApp')
 			area: "uscaribeez"
 		};
 
-		$http.get('/reports/distribution/all/area-fished*').success(function(data) {
-			$scope.locations = _.flatten(_.map(_.pluck(data.results, 'answer'), function(item) {
-				return item.split(', ')
-			}));
-		});
-
+		$scope.geojson_layer = '/reports/distribution/all/area-fished*';
 		$scope.activePage = 'catch-report-summaries';
 	});

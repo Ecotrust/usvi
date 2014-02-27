@@ -6,6 +6,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
         transclude: true,
         scope: {
             islands: "=islands",
+            geojson: "=",
             locations: "=locations",
             zoom: "=",
             dash: "="
@@ -29,12 +30,12 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
 
 
             // Map init
-            var initPoint = new L.LatLng(18.35, -64.85);
-            var initialZoom = 11;
+            var initPoint = new L.LatLng(18.2, -64.8);
+            var initialZoom = 10;
             var map = new L.Map($el, {
                 inertia: false,
-                minZoom: 8,
-                maxZoom: 13
+                minZoom: 1,
+                maxZoom: 14
             }).addLayer(bing).setView(initPoint, initialZoom);
 
             map.attributionControl.setPrefix('');
@@ -52,16 +53,25 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
             var islands = {
                 'stcroix': "data/StCroix.json",
                 "stthomasstjohn": "data/StThomas.json",
-                "puertorico": "data/puerto-rico.json"
+                "puertorico": "data/puerto-rico.json",
+                "St. Croix": "data/StCroix.json",
+                "St. Thomas & St. John": "data/StThomas.json",
+                "Puerto Rico": "data/puerto-rico.json",
             };
+
 
             
             
+            
             var selectedLocations = L.featureGroup();
-            // selectedLocations.on('layeradd', function () {
-            //     map.panTo(selectedLocations.getBounds().getCenter());
-            // });
-            _.each(scope.islands || _.keys(islands), function (island) {
+            var locations = L.featureGroup();
+            selectedLocations.on('layeradd', function () {
+                map.panTo(selectedLocations.getBounds().getCenter());
+            });
+            locations.on('layeradd', function () {
+                map.panTo(locations.getBounds().getCenter());
+            });
+            _.each(scope.islands || [], function (island) {
                 var jsonPath = app.viewPath + islands[island];
                 $http.get(jsonPath).success(function(data) {
                     var geojsonLayer = L.geoJson(data, { 
@@ -79,7 +89,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                                     fillOpacity: .6,
                                     opacity: .6
                                 });
-                                // createAndAddLabel(layer);
+                                createAndAddLabel(layer);
                                 selectedLocations.addLayer(layer);
                             }
                             // layer.on("click", function (e) {
@@ -91,7 +101,31 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                     geojsonLayer.addTo(map);
                 });
             })
-            
+
+            var getGeoJson = function (url) {
+    
+    
+                $http.get(url).success(function(data) {
+                    var geojsonLayer = L.geoJson(data, { 
+                        style: function(feature) {
+                            return {
+                                "color": "#E6D845",
+                                "weight": 1,
+                                "opacity": 0.6,
+                                "fillOpacity": 0.0
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            locations.addLayer(layer);
+                            createAndAddLabel(layer);
+                        }
+                    });
+                    geojsonLayer.addTo(map);
+                });
+            }
+            if (scope.geojson) {
+                getGeoJson(scope.geojson);
+            }
             
             var createAndAddLabel = function(layer) {
                 layer.feature.label = new L.Label( {
@@ -99,7 +133,12 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                     clickable: true,
                     opacity: 1
                 });
-                layer.feature.label.setContent(layer.feature.properties.ID.toString());
+                if (layer.feature.properties.ID) {
+                    layer.feature.label.setContent(layer.feature.properties.ID.toString());    
+                } else if (layer.feature.properties.id) {
+                    layer.feature.label.setContent(layer.feature.properties.id.toString());    
+                }
+
                 layer.feature.label.setLatLng(layer.getBounds().getCenter());
 
                 labelList.push(layer.feature.label);
@@ -121,7 +160,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                 // adjust font size (and hide altogether when zoomed out)
                 _.each(labelElems, function(labelElem) {
                     labelElem.style.display = "block";
-                    if (zoom > 10) {
+                    if (zoom > 9) {
                         labelElem.style.fontSize = fontSize + "px";    
                     } else {
                         labelElem.style.display = "none";
@@ -134,7 +173,9 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                     label._update();
                 });                                
             }
-
+            map.on('zoomend', function () {
+                adjustLabelStyles();
+            });
             // scope.$watch('locations', function (newValue) {
             //     console.log(newValue);
             // });

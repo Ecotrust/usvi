@@ -18,15 +18,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #for response in Response.objects.all():
-        responses = Response.objects.all().order_by('-id')
+        responses = Response.objects.all()
         print "Saving Answers for %s Responses" % responses.count()
         for respondent in Respondant.objects.all():
             print respondent.response_set.count()
             if respondent.response_set.count():
                 for response in respondent.response_set.all():
-                    try:
-                        response.save_related()
-                    except:
-                        print "Error saving", response.id
+                    print response.id
+                    response.save_related()
             else:
                 respondent.save()

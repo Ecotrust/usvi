@@ -16,6 +16,7 @@ import simplejson
 import caching.base
 import re
 import json
+import dateutil.parser
 
 def make_uuid():
     return str(uuid.uuid4())
@@ -49,7 +50,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     island = models.CharField(max_length=240, null=True, blank=True)
     locations = models.IntegerField(null=True, blank=True)
-
 
     ts = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(max_length=254, null=True, blank=True, default=None)
@@ -391,6 +391,9 @@ class MultiAnswer(caching.base.CachingMixin, models.Model):
     species = models.ForeignKey('acl.Species', null=True, blank=True)
     area = models.ForeignKey('places.Area', null=True, blank=True)
 
+    def __unicode__(self):
+        return self.answer_text
+
 class GridAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
     row_text = models.TextField(null=True, blank=True)
@@ -489,11 +492,9 @@ class Response(caching.base.CachingMixin, models.Model):
                     multi_answer = MultiAnswer(response=self, answer_text=answer, answer_label=answer_label)
                     try:
                         area = Area.objects.get(id=answer)
-                        multi_answer = area
-                        print area, "!!!"
-                    except:
-                        pass
-
+                    except Area.DoesNotExist:
+                        area = None
+                    multi_answer.area = area
                     multi_answer.save()
                 self.answer = ", ".join(answers)
             if self.question.type in ['map-multipoint'] and self.id:
@@ -573,7 +574,6 @@ class Response(caching.base.CachingMixin, models.Model):
 
         if self.question.slug == 'landed-date':
             if self.respondant is not None:
-                import dateutil.parser
                 self.respondant.ordering_date = dateutil.parser.parse(self.answer)
                 self.respondant.save()
 
@@ -582,14 +582,17 @@ class Response(caching.base.CachingMixin, models.Model):
             if self.respondant is not None:
                 self.answer = self.answer.replace('"', '')
                 from datetime import datetime
-                if self.answer.find('-') != -1:
-                    dnf_date = datetime.strptime(self.answer, '%Y-%m')
-                elif self.answer.find('/') != -1:
-                    dnf_date = datetime.strptime(self.answer, '%Y/%m')
-            
-
-                self.respondant.ordering_date = dnf_date
-                self.respondant.save()
+                dnf_date = None
+                try:
+                    if self.answer.find('-') != -1:
+                        dnf_date = datetime.strptime(self.answer, '%Y-%m')
+                    elif self.answer.find('/') != -1:
+                        dnf_date = datetime.strptime(self.answer, '%Y/%m')
+                except ValueError:
+                    dnf_date = dateutil.parser.parse(self.answer)
+                if dnf_date is not None:
+                    self.respondant.ordering_date = dnf_date
+                    self.respondant.save()
 
 
 def save_related(sender, instance, created, **kwargs):

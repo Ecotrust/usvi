@@ -4,10 +4,13 @@ from django.db.models import Avg, Max, Min, Count, Sum
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from djgeojson.views import GeoJSONLayerView
+from djgeojson.serializers import Serializer as GeoJSONSerializer
 
 import simplejson
 
-from apps.survey.models import Survey, Question, Response, Respondant, Location, LocationAnswer, GridAnswer, REVIEW_STATE_ACCEPTED
+from apps.survey.models import (Survey, Question, Response, Respondant, Location,
+                                MultiAnswer, LocationAnswer, GridAnswer, REVIEW_STATE_ACCEPTED)
+from apps.places.models import Area
 from apps.reports.models import QuestionReport
 
 def get_respondants_summary(request):
@@ -108,6 +111,12 @@ def get_distribution(request, survey_slug, question_slug):
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
         answer_domain = locations.values('answer').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))
+    elif question_type in ['map-multipolygon']:
+        #answer_domain = answers.values('answer')
+        answer_domain = MultiAnswer.objects.filter(response__in=answers).exclude(area=None)
+        areas = Area.objects.filter(multianswer__in=answer_domain).values('geom', 'id').distinct()
+        return HttpResponse(GeoJSONSerializer().serialize(areas, use_natural_keys=True))
+        # print MultiAnswer.objects.filter(response__in=answers).exclude(area=None).values('area')
     else:
         answer_domain = answers.values('answer')
 

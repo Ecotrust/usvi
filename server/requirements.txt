@@ -15,7 +15,7 @@ django-redis-cache==0.9.7
 django-storages==1.1.8
 django-tastypie==0.9.15
 django-taggit
-django-geojson
+-e git+https://github.com/point97/django-geojson.git@2.3.0-path#egg=django-geojson
 gunicorn==0.17.4
 hiredis==0.1.1
 mimeparse==0.1.3
