@@ -13,6 +13,10 @@
   top: 20px!important;
 }
 
+.catch-report-summaries {
+  margin-top: 10px;
+}
+
 #topnav {
     height: 90px;
     color: white;

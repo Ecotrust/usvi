@@ -29,4 +29,18 @@ angular.module('askApp')
 
 		$scope.geojson_layer = '/reports/distribution/all/area-fished*';
 		$scope.activePage = 'catch-report-summaries';
+		$scope.totals = {};
+		$scope.max = 0;
+		$http.get(app.server + '/reports/distribution/all/weight-*?').success(function (data) {
+			$scope.weights = _.groupBy(data.results, 'species__family__name');
+			_.each($scope.weights, function (groups, k) {
+				var total = _.reduce(_.pluck(groups, 'total'),
+                    function (memo, num) { return memo + num; }, 0);
+				if (total > $scope.max) {
+					$scope.max = total;
+				}
+				$scope.totals[k] = total;
+			});
+
+		})
 	});

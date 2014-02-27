@@ -2,17 +2,39 @@
     <div class="row" ng-cloak>
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9">
-            <div class="row filter-box">
+            <!-- <div class="row filter-box">
                 <div class="col-md-7">
                     <div ng-include="'/static/survey/views/areaButtons.html'"></div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
             	<div dash-map zoom="8"  locations="locations" geojson="geojson_layer"></div>
         	</div>
+            <div class="row">
+                <ol class="list-unstyled" class="acl-results catch-report-summaries" style="margin-top: 20px;">
+                    <li ng-repeat="(k, total) in totals" class="acl-result" >
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-3">
+                                <span ng-hide="k== 'null'">{{ k }}</span>
+                                <span ng-hide="k != 'null'">Not Matched</span>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="progress">
+                                  <div class="progress-bar" role="progressbar" aria-valuenow="{{ max/total }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ max/total }}%;">
+                                    <span class="sr-only">{{ max/total }}% Complete</span>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="info-percent">{{ total|number:1 }} lbs</span>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
        	</div>
     </div>
 </div>
