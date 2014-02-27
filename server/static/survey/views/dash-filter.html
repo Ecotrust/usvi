@@ -1,0 +1,22 @@
+<div>
+    <select ng-if="allowMultiSelect != true"
+        ui-select2 
+        placeholder="placeholderText" 
+        ng-model="selectedValuesInternal" 
+        style="width: 200px">
+        <option value="{{answer}}" ng-repeat="answer in filterOptions">
+            <strong>{{answer}}</strong>
+        </option>
+    </select>
+
+    <select ng-if="allowMultiSelect == true" 
+        ui-select2 
+        placeholder="{{placeholderText}}" 
+        multiple="true" 
+        ng-model="selectedValuesInternal" 
+        style="width: 200px">
+        <option value="{{answer}}" ng-repeat="answer in filterOptions">
+            <strong>{{answer}}</strong>
+        </option>
+    </select>
+</div>
