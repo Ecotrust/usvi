@@ -1,7 +1,7 @@
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
-from tastypie.authentication import SessionAuthentication, ApiKeyAuthentication, MultiAuthentication
+from tastypie.authentication import SessionAuthentication, ApiKeyAuthentication, MultiAuthentication, Authentication
 
 from tastypie.authorization import Authorization
 
@@ -353,7 +353,7 @@ class SurveyResource(SurveyModelResource):
         queryset = Survey.objects.all()
         always_return_data = True
         authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authentication = Authentication()
         filtering = {
             'slug': ['exact'],
             'tags': ALL_WITH_RELATIONS
