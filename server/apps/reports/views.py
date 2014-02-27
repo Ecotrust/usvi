@@ -70,7 +70,6 @@ def get_distribution(request, survey_slug, question_slug):
         question_type = question.type
     else:
         questions = Question.objects.filter(slug__istartswith=question_slug.replace('*', ''))
-        print questions
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
