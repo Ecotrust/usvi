@@ -104,7 +104,7 @@ def get_distribution(request, survey_slug, question_slug):
             else:
                 if not isinstance(value, (list, tuple)):
                     value = [value]
-                answers = answers.filter(respondant__response__in=filter_question.response_set.filter(answer__in=value))
+            answers = answers.filter(respondant__response__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
         

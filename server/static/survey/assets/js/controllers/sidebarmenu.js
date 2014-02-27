@@ -7,7 +7,7 @@ angular.module('askApp')
      //        $scope.surveys = data.objects;
      //    })
     	$scope.search = function (searchTerm) {
-    		$location.path('/RespondantList/catch-report').search({q: searchTerm});
+    		$location.path('/RespondantList').search({q: searchTerm});
     	};
     	$scope.$watch(function () { return $location.search().q; }, function (newTerm) {
     		$scope.searchTerm = newTerm;
