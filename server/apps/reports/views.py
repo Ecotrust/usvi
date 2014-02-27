@@ -69,14 +69,15 @@ def get_distribution(request, survey_slug, question_slug):
         answers = question.response.filter(respondant__complete=True)
         question_type = question.type
     else:
-        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''))
+        questions = Question.objects.filter(slug__istartswith=question_slug.replace('*', ''))
+        print questions
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
         answers = answers.filter(user=request.user)
     elif request.GET.get('accepted', None) is not None:
         answers = answers.filter(respondant__review_status=REVIEW_STATE_ACCEPTED)
-    print answers.values('answer')
+    print question_type
 
     filter_list = []
 
@@ -107,6 +108,7 @@ def get_distribution(request, survey_slug, question_slug):
                 answers = answers.filter(respondant__response__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
+        
         answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code').annotate(total=Sum('answer_number')).order_by('species__name')
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
