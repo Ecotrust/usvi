@@ -56,7 +56,7 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/agency-dash.html',
         controller: 'AgencyDashCtrl'
     })
-        .when('/RespondantDetail/:surveySlug/:uuidSlug', {
+        .when('/RespondantDetail/:uuidSlug', {
         templateUrl: '/static/survey/views/RespondantDetail.html',
         controller: 'RespondantDetailCtrl'
     })
