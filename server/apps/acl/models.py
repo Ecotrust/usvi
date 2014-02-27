@@ -6,6 +6,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 import re
+from datetime import datetime    
 
 
 class Island(caching.base.CachingMixin, models.Model):
@@ -40,7 +41,7 @@ class SpeciesFamily(caching.base.CachingMixin, models.Model):
     description = models.TextField()
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     objects = caching.base.CachingManager()
-
+    acl = generic.GenericRelation('AnnualCatchLimit')
     def __unicode__(self):
         return self.name
 
@@ -55,6 +56,7 @@ class Species(caching.base.CachingMixin, models.Model):
     name = models.CharField(max_length=144)
     description = models.TextField()
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    acl = generic.GenericRelation('AnnualCatchLimit')
     objects = caching.base.CachingManager()
 
     def __unicode__(self):
@@ -217,11 +219,17 @@ class AnnualCatchLimit(caching.base.CachingMixin, models.Model):
     area = models.CharField(max_length=144, choices=AREA_CHOICES)
     pounds = models.IntegerField(null=True, blank=True)
     number_of_fish = models.IntegerField(null=True, blank=True)
+    updated_at = models.DateField(null=True, blank=True, default=datetime.now)
+
     objects = caching.base.CachingManager()
 
     @property
     def by_species(self):
         return self.species.__class__.__name__ == 'Species'
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        super(AnnualCatchLimit, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ("content_type", "object_id", "start_date", "end_date", "area", "sector", )

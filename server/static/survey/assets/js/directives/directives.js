@@ -133,6 +133,31 @@ angular.module('askApp')
     });
 
 angular.module('askApp')
+    .directive('tooly', function() {
+
+        return {
+            restrict: 'EA',
+            scope: {
+                ttitle: "="
+            },
+            link: function(scope, element, attrs) {
+                element.on("mouseover", function(d) {
+                        $(this).tooltip({ 
+                            'container': 'body',
+                            'placement': 'bottom',
+                            title: scope.ttitle,
+                            html: true
+                        });
+                        $(this).tooltip('show');
+                    })
+                element.on("mouseout", function(d) {       
+                        $(this).tooltip('hide');
+                    })
+            }
+        }
+    });
+
+angular.module('askApp')
     .directive('speciesSelect', function($http) {
 
         return {

@@ -47,7 +47,8 @@ angular.module('askApp')
                                 groups: groups,
                                 acl: acl,
                                 total: total,
-                                percent: total / acl.pounds * 100
+                                percent: total / acl.pounds * 100,
+                                tooltip: 'acl total: ' + acl.pounds + ' ' + ' lbs<br/>' + 'entered at: ' + acl.updated_at
                             });        
 
                             

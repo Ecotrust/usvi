@@ -39,7 +39,7 @@
             <div class="row" ng-show="aclResults">
                 <div class="col-md-12">
                     <ol class="list-unstyled" class="acl-results">
-                        <li ng-repeat="acl in aclResults" class="acl-result"  data-trigger="hover" bs-tooltip="'test'">
+                        <li ng-repeat="acl in aclResults" class="acl-result" >
                             <div class="row">
                                 <div class="col-md-3">
                                     {{ acl.acl.species.name }}
@@ -50,7 +50,7 @@
                                         <span class="sr-only">{{ acl.percent }}% Complete</span>
                                       </div>
                                     </div>
-                                    <i class="icon-info-sign info-sign"></i>
+                                    <span class="info-box"><i tooly ttitle="acl.tooltip" class="icon-info-sign info-sign"></i></span>
                                 </div>
                                 <div class="col-md-1">
                                     <span class="info-percent">{{ acl.percent|number:1 }}%</span>
@@ -70,11 +70,3 @@
         </div>
     </div>
 </div>
-<script>
-$('info-percent').tooltip({ 
-    'container': 'body',
-    'placement': 'bottom',
-    title: "test"
-});
-$('info-percent').tooltip('show');
-</script>

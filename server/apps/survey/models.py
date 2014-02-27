@@ -425,6 +425,7 @@ class Response(caching.base.CachingMixin, models.Model):
         ordering = ['-ts']
 
     def save_related(self):
+        species = None
         if self.answer_raw:
             self.answer = simplejson.loads(self.answer_raw)
             if self.question.type in ['auto-single-select', 'single-select', 'yes-no']:
@@ -583,7 +584,7 @@ class Response(caching.base.CachingMixin, models.Model):
                 self.respondant.ordering_date = dnf_date
                 self.respondant.save()
 
-
+        print species
 
 
 def save_related(sender, instance, created, **kwargs):

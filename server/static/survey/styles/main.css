@@ -7,7 +7,11 @@
   margin: 0;
 }
 
-
+.acl-progress .tooltip.fade.bottom.in {
+  right: -10px;
+  left: auto!important;
+  top: 20px!important;
+}
 
 #topnav {
     height: 90px;
@@ -430,6 +434,7 @@ ul + ul {
 .progress .bar {
     -webkit-transition: none;
 }
+
 form .btn-block {
     width: 100%;
 }
