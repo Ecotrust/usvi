@@ -12,3 +12,4 @@ class PlaceResource(ModelResource):
             'name': ['exact', 'startswith', 'endswith', 'icontains'],
             'state': ALL
         }
+

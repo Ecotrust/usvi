@@ -627,7 +627,9 @@ table {
   margin-right: 0 !important;
   position: relative!important;
 }
-
+.summary .map {
+  height: 250px !important;
+}
 .select-content {
     background-color: rgb(246, 235, 194);
     font-size: 24px;

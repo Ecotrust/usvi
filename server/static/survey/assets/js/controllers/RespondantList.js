@@ -45,8 +45,7 @@ angular.module('askApp')
                     return false;
                 }
                 url = [
-                    '/api/v1/dashrespondant/?format=json&limit=5&survey__slug__exact=',
-                    $routeParams.surveySlug,
+                    '/api/v1/dashrespondant/?format=json&limit=5',
                     '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
                     '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
                 ].join('');

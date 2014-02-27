@@ -10,7 +10,7 @@ angular.module('askApp')
 
         $scope.activePage = 'overview';
         var getAclReport = function () {
-            var url = app.server + '/reports/distribution/catch-report/weight-*?';
+            var url = app.server + '/reports/distribution/all/weight-*?';
             
             if ($scope.filter.area) {
                 url = url + "filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area].replace(/&/, '|')});

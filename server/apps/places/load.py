@@ -1,22 +1,20 @@
 import os
 from django.contrib.gis.utils import LayerMapping
-from models import ShoreLine
+from models import Area
 
-# Auto-generated `LayerMapping` dictionary for ShoreLine model
-shoreline_mapping = {
-    's_scale' : 'S_SCALE',
-    's_chart' : 'S_CHART',
-    's_datum' : 'S_DATUM',
-    's_rev_date' : 'S_REV_DATE',
-    's_source' : 'S_SOURCE',
-    's_arc_code' : 'S_ARC_CODE',
-    's_integrit' : 'S_INTEGRIT',
-    'regions' : 'REGIONS',
-    'geom' : 'MULTILINESTRING',
+
+area_mapping = {
+    'id': 'ID',
+    'geom': 'POLYGON',
 }
 
-shp = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data/us_medium_shoreline.shp'))
+
+shps = ['/vagrant/data/4326_Final_grid_2.5_noland.shp',
+        '/vagrant/data/4326_Grid_STCroix_2.5x2.5_noland_final.shp', '/vagrant/data/4326_Grid_STTHomas_landout.shp']
+
 
 def run(verbose=True):
-    lm = LayerMapping(ShoreLine, shp, shoreline_mapping, transform=False, encoding='iso-8859-1')
-    lm.save(strict=True, verbose=verbose)
+    for shp in shps:
+        lm = LayerMapping(Area, shp, area_mapping,
+                      transform=True, encoding='iso-8859-1')
+        lm.save(strict=True, verbose=verbose)

@@ -9,7 +9,7 @@ from taggit.managers import TaggableManager
 
 from account.models import UserProfile
 from acl.models import Dialect, DialectSpecies, Species, SpeciesFamily
-
+from places.models import Area
 import dateutil.parser
 import uuid
 import simplejson
@@ -389,6 +389,7 @@ class MultiAnswer(caching.base.CachingMixin, models.Model):
     answer_text = models.TextField()
     answer_label = models.TextField(null=True, blank=True)
     species = models.ForeignKey('acl.Species', null=True, blank=True)
+    area = models.ForeignKey('places.Area', null=True, blank=True)
 
 class GridAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
@@ -448,7 +449,6 @@ class Response(caching.base.CachingMixin, models.Model):
                 except Exception as e:
                     self.answer = self.answer_raw
             if self.question.type in ['auto-multi-select', 'multi-select']:
-                print "multianswer"
                 answers = []
                 self.multianswer_set.all().delete()
                 answer_list = simplejson.loads(self.answer_raw)
@@ -487,6 +487,13 @@ class Response(caching.base.CachingMixin, models.Model):
                     answers.append(answer)
                     answer_label = None
                     multi_answer = MultiAnswer(response=self, answer_text=answer, answer_label=answer_label)
+                    try:
+                        area = Area.objects.get(id=answer)
+                        multi_answer = area
+                        print area, "!!!"
+                    except:
+                        pass
+
                     multi_answer.save()
                 self.answer = ", ".join(answers)
             if self.question.type in ['map-multipoint'] and self.id:
@@ -583,8 +590,6 @@ class Response(caching.base.CachingMixin, models.Model):
 
                 self.respondant.ordering_date = dnf_date
                 self.respondant.save()
-
-        print species
 
 
 def save_related(sender, instance, created, **kwargs):

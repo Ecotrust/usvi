@@ -46,7 +46,7 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/landing.html',
         controller: 'SurveyDetailCtrl'
     })
-        .when('/RespondantList/:surveySlug', {
+        .when('/RespondantList', {
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
@@ -84,6 +84,10 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         .when('/add-catch-report', {
         templateUrl: '/static/survey/views/add-catch-report.html',
         controller: 'AddCatchReportCtrl'
+    })
+        .when('/catch-report-summaries', {
+        templateUrl: '/static/survey/views/catch-report-summaries.html',
+        controller: 'CatchReportSummariesCtrl'
     })
         .otherwise({
         redirectTo: '/'

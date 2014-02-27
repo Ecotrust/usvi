@@ -1,0 +1,18 @@
+<div class="container summary">
+    <div class="row" ng-cloak>
+        <div ng-include="'/static/survey/views/sideNav.html'"></div>
+        <div class="col-md-9">
+            <div class="row filter-box">
+                <div class="col-md-7">
+                    <div ng-include="'/static/survey/views/areaButtons.html'"></div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
+                </div>
+            </div>
+            <div class="row">
+            	<div dash-map zoom="8"  locations="locations" dash="true"></div>
+        	</div>
+       	</div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Max, Min, Count, Sum
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from djgeojson.views import GeoJSONLayerView
 
 import simplejson
 
@@ -55,19 +56,24 @@ def get_geojson(request, survey_slug, question_slug):
 
 @login_required
 def get_distribution(request, survey_slug, question_slug):
-    survey = get_object_or_404(Survey, slug=survey_slug)
+    if survey_slug == 'all':
+        surveys = Survey.objects.all()
+    else:
+        surveys = Survey.objects.filter(slug=survey_slug)
+
     if question_slug.find('*') == -1:
-        question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey=survey)
+        question = get_object_or_404(QuestionReport, slug=question_slug)
         answers = question.response.filter(respondant__complete=True)
         question_type = question.type
     else:
-        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''), question_page__survey=survey)
+        questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''))
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
         answers = answers.filter(user=request.user)
     elif request.GET.get('accepted', None) is not None:
         answers = answers.filter(respondant__review_status=REVIEW_STATE_ACCEPTED)
+    print answers.values('answer')
 
     filter_list = []
 
@@ -85,7 +91,7 @@ def get_distribution(request, survey_slug, question_slug):
     if filters is not None:
         for filter_slug in filter_list.keys():
             value = filter_list[filter_slug].replace('|', '&')
-            filter_question = QuestionReport.objects.get(slug=filter_slug, question_page__survey=survey)
+            filter_question = QuestionReport.objects.get(slug=filter_slug, question_page__survey__in=surveys)
             if question_type in ['map-multipoint']:
                 if filter_question == self:
                     locations = locations.filter(answer__in=value)
@@ -103,7 +109,7 @@ def get_distribution(request, survey_slug, question_slug):
     elif question_type in ['map-multipoint']:
         answer_domain = locations.values('answer').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))
     else:
-        answer_domain = answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
+        answer_domain = answers.values('answer')
 
     return HttpResponse(simplejson.dumps({'success': "true", "results": list(answer_domain)}))
 
@@ -112,7 +118,6 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
     start_date = request.GET.get('startdate', None)
     end_date = request.GET.get('enddate', None)
     group = request.GET.get('group', None)
-    print "cross tab"
     try:
         if start_date is not None:
             start_date = datetime.datetime.strptime(start_date, '%Y%m%d') - datetime.timedelta(days=1)
@@ -178,3 +183,10 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
     except Exception, err:
         print Exception, err
         return HttpResponse(json.dumps({'success': False, 'message': "No records for this date range." }))    
+
+
+class MapLayer(GeoJSONLayerView):
+    # Options
+    precision = 4   # float
+    simplify = 0.5  # generalization
+    srid = None

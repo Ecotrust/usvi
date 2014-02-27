@@ -5,9 +5,10 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
         replace: true,
         transclude: true,
         scope: {
-            island: "=island",
-            locations: "=locations"
-
+            islands: "=islands",
+            locations: "=locations",
+            zoom: "=",
+            dash: "="
         },
         link: function(scope, element) {
             var $el = element[0];
@@ -19,11 +20,13 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                 layers: null,
                 attribution: "NOAA Nautical Charts"
             });
-                        var labelList = [];
+            
+            var labelList = [];
 
             var bing = new L.BingLayer("Av8HukehDaAvlflJLwOefJIyuZsNEtjCOnUB_NtSTCwKYfxzEMrxlKfL1IN7kAJF", {
                 type: "AerialWithLabels"
             });
+
 
             // Map init
             var initPoint = new L.LatLng(18.35, -64.85);
@@ -36,49 +39,60 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
 
             map.attributionControl.setPrefix('');
             map.zoomControl.options.position = 'bottomleft';
-
+            scope.$watch('zoom', function (newZoom) {
+                if (newZoom) {
+                    map.setZoom(newZoom);
+                }
+            });
 
             // Layer picker init
             var baseMaps = { "Satellite": bing }; //, "Nautical Charts": nautical };
             //var options = { position: 'topright' };
             //L.control.layers(baseMaps, null, options).addTo(map);
-            if (scope.island === 'St. Thomas') {
-                jsonPath = app.viewPath + "data/StThomas.json";
-            } else if (scope.island === 'St. Croix') {
-                jsonPath = app.viewPath +  "data/StCroix.json";
-            } else {
-                jsonPath = app.viewPath + "data/StThomas.json";
-            }
-            var selectedLocations = L.featureGroup();
-            selectedLocations.on('layeradd', function () {
-                map.panTo(selectedLocations.getBounds().getCenter());
-            });
-            $http.get(jsonPath).success(function(data) {
-                var geojsonLayer = L.geoJson(data, { 
-                    style: function(feature) {
-                        return {
-                            "color": "#E6D845",
-                            "weight": 1,
-                            "opacity": 0.6,
-                            "fillOpacity": 0.0
-                        };
-                    },
-                    onEachFeature: function(feature, layer) {
-                        if ( _.contains(scope.locations, layer.feature.properties.ID) ) {
-                            layer.setStyle( {
-                                fillOpacity: .6
-                            });
-                            createAndAddLabel(layer);
-                            selectedLocations.addLayer(layer);
-                        }
-                        // layer.on("click", function (e) {
-                        //     // layerClick(layer);
-                        // });
+            var islands = {
+                'stcroix': "data/StCroix.json",
+                "stthomasstjohn": "data/StThomas.json",
+                "puertorico": "data/puerto-rico.json"
+            };
 
-                    }
+            
+            
+            var selectedLocations = L.featureGroup();
+            // selectedLocations.on('layeradd', function () {
+            //     map.panTo(selectedLocations.getBounds().getCenter());
+            // });
+            _.each(scope.islands || _.keys(islands), function (island) {
+                var jsonPath = app.viewPath + islands[island];
+                $http.get(jsonPath).success(function(data) {
+                    var geojsonLayer = L.geoJson(data, { 
+                        style: function(feature) {
+                            return {
+                                "color": "#E6D845",
+                                "weight": 1,
+                                "opacity": scope.dash? 0: 0.6,
+                                "fillOpacity": 0.0
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            if ( _.contains(scope.locations, layer.feature.properties.ID) ) {
+                                layer.setStyle( {
+                                    fillOpacity: .6,
+                                    opacity: .6
+                                });
+                                // createAndAddLabel(layer);
+                                selectedLocations.addLayer(layer);
+                            }
+                            // layer.on("click", function (e) {
+                            //     // layerClick(layer);
+                            // });
+
+                        }
+                    });
+                    geojsonLayer.addTo(map);
                 });
-                geojsonLayer.addTo(map);
-            });
+            })
+            
+            
             var createAndAddLabel = function(layer) {
                 layer.feature.label = new L.Label( {
                     offset: [-22, -15],
@@ -121,9 +135,9 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                 });                                
             }
 
-            scope.$watch('locations', function (newValue) {
-                console.log(newValue);
-            });
+            // scope.$watch('locations', function (newValue) {
+            //     console.log(newValue);
+            // });
             $timeout(function () {
                 map.invalidateSize(false);
                 scope.spinner = false;

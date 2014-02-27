@@ -131,7 +131,7 @@ INSTALLED_APPS = (
     'haystack',
     'taggit',
     'tastypie',
-    # 'django.contrib.gis',
+    'django.contrib.gis',
 
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
