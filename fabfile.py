@@ -350,8 +350,8 @@ def package_vagrant():
     local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
 @task
 def package_ios_test():
-        run("cd %s && %s/bin/python manage.py package http://usvi-test.pointnineseven.com '../mobile/www' --stage=test" % (env.app_dir, env.venv))
-        local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
+    run("cd %s && %s/bin/python manage.py package http://usvi-test.pointnineseven.com '../mobile/www' --stage=test --id='com.pointnineseven.digitaldeck'" % (env.app_dir, env.venv))
+    local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
 
 @task
 def package_ios_dev():
