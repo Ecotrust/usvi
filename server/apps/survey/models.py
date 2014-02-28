@@ -574,7 +574,10 @@ class Response(caching.base.CachingMixin, models.Model):
 
         if self.question.slug == 'landed-date':
             if self.respondant is not None:
-                self.respondant.ordering_date = dateutil.parser.parse(self.answer)
+                try:
+                    self.respondant.ordering_date = dateutil.parser.parse(self.answer)
+                except:
+                    pass
                 self.respondant.save()
 
         
