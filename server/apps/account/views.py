@@ -15,35 +15,34 @@ import datetime
 
 @csrf_exempt
 def authenticateUser(request):
-    if request.POST:
-        param = simplejson.loads(request.body)
-        # user = User.objects.get(username=param.get('username', None))
-        user = authenticate(username=param.get(
-            'username', None), password=param.get('password'))
-        try:
-            login(request, user)
-        except:
-            return HttpResponse("auth-error", status=500)
 
-        if user:
-            profile = user.profile
-            user_dict = {
-                'username': user.username,
-                'name': ' '.join([user.first_name, user.last_name]),
-                'email': user.email,
-                'is_staff': user.is_staff,
-                'registration': user.profile.registration,
-                'tags': [tag.name for tag in profile.tags.all()],
-                'api_key': user.api_key.key
-            }
-            return HttpResponse(simplejson.dumps({
-                'success': True, 'user': user_dict
-            }))
-        else:
-            return HttpResponse(simplejson.dumps({'success': False}))
+    param = simplejson.loads(request.body)
+    print param
+    # user = User.objects.get(username=param.get('username', None))
+    user = authenticate(username=param.get(
+        'username', None), password=param.get('password'))
+    try:
+        login(request, user)
+    except:
+        return HttpResponse("auth-error", status=500)
+
+    if user:
+        profile = user.profile
+        user_dict = {
+            'username': user.username,
+            'name': ' '.join([user.first_name, user.last_name]),
+            'email': user.email,
+            'is_staff': user.is_staff,
+            'registration': user.profile.registration,
+            'tags': [tag.name for tag in profile.tags.all()],
+            'api_key': user.api_key.key
+        }
+        return HttpResponse(simplejson.dumps({
+            'success': True, 'user': user_dict
+        }))
     else:
-        return HttpResponse("error", status=500)
-
+        return HttpResponse(simplejson.dumps({'success': False}))
+    
 
 @csrf_exempt
 def createUser(request):
