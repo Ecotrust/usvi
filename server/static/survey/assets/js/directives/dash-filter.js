@@ -10,39 +10,32 @@ angular.module('askApp')
             allowMultiSelect: "=",
             surveySlug: "=",
             questionSlug: "=",
-            selectedValuesJson: "="
+            selectedValues: "="
         },
 
         link: function postLink(scope, element, attrs) {
 
+            scope.model = {};
+
+
             function setFilterOptions () {
+                var onFail = function () { debugger; };
+
                 var onSuccess = function (data) {
                     scope.filterOptions = _.pluck(data.answer_domain, "answer_text");
                 };
-                var onFail = function () { debugger; };
 
                 dashData.getDistribution(scope.surveySlug, scope.questionSlug, '' /*no filter*/, onSuccess, onFail);
             }
-            
+
+
+            scope.selectionChanged = function (value) {
+                scope.selectedValues = scope.model.selectedValuesInternal;
+            };
+
+
             setFilterOptions();
-
-            scope.$watch('selectedValuesInternal', function (newFilter) {
-                // Format the new filter value and present it to this 
-                // directive's public variable.
-                var filter = [];
-                
-                _.each(newFilter, function (v, k) {
-                    var thisFilter = {};
-                    
-                    if (v.length) {
-                        thisFilter[k] = v;
-                        filter.push(thisFilter);
-                    }
-                });
-                
-                scope.selectedValuesJson = JSON.stringify(filter);
-            }, true);
-
         }
     }
 });
+

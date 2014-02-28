@@ -8,8 +8,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div ng-include="'/static/survey/views/ost/dash-filters.html'"></div>
+                <div class="col-md-12 col-sm-12 clearfix">
+                    <div dash-filter 
+                        placeholder-text="'Select Ecosystem Feature'" 
+                        allow-multi-select=true 
+                        survey-slug="'monitoring-project'" 
+                        question-slug="'ecosystem-features'" 
+                        selected-values="filters['ecosystem-features']" 
+                        class="pull-right"></div>
                 </div>
             </div>
             <div class="row" ng-hide="filter_results">
