@@ -361,7 +361,7 @@ class Question(caching.base.CachingMixin, models.Model):
         return REPORT_TYPE_CHOICES
 
     def get_answer_domain(self, survey, filters=None):
-        answers = self.response_set.all()  # self.response_set.filter(respondant__complete=True)
+        answers = self.response_set.filter(respondant__complete=True)
         if self.type in ['map-multipoint']:
             locations = LocationAnswer.objects.filter(location__response__in=answers)
         if filters is not None:
@@ -377,7 +377,8 @@ class Question(caching.base.CachingMixin, models.Model):
                         answers = answers.filter(respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
                         locations = locations.filter(location__response__in=answers)
                 else:
-                    answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+                    for item in value:
+                        answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__contains=item))
         if self.type in ['map-multipoint']:
             return locations.values('answer', 'location__lat', 'location__lng').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))
         elif self.type in ['multi-select']:

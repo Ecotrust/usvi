@@ -58,19 +58,12 @@ def get_distribution(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
     if question_slug.find('*') == -1:
         question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
-        answers = question.response_set.filter(respondant__complete=True)
     else:
         questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''),question_page__survey=survey)
-        answers = Response.objects.filter(question__in=questions)
-
-    filter_question_slug = None
-    filter_value = None
 
     filter_list = []
 
     if request.method == 'GET':
-        filter_value = request.GET.get('filter_value')
-        filter_question_slug = request.GET.get('filter_question')
         filters = request.GET.get('filters', None)
 
     if filters is not None:
