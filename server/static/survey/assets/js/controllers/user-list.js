@@ -128,8 +128,7 @@ angular.module('askApp')
                     username: $scope.user.username,
                     emailaddress1: $scope.user.email,
                     emailaddress2: $scope.user.email,
-                    password1: $scope.user.password1,
-                    password2: $scope.user.password2,
+                    password: $scope.user.password1,
                     type: $scope.user.type,
                     dash: true
                 }

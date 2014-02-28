@@ -9,14 +9,14 @@ from django.db import IntegrityError
 from django.conf import settings
 from django.core.validators import email_re
 from django.core.exceptions import MultipleObjectsReturned
-
+from tastypie.models import ApiKey
 import simplejson
 import datetime
 
 @csrf_exempt
 def authenticateUser(request):
     if request.POST:
-        param = simplejson.loads(request.POST.keys()[0])
+        param = simplejson.loads(request.body)
         # user = User.objects.get(username=param.get('username', None))
         user = authenticate(username=param.get(
             'username', None), password=param.get('password'))
@@ -48,11 +48,10 @@ def authenticateUser(request):
 @csrf_exempt
 def createUser(request):
     
-    try:
-        param = simplejson.loads(request.body)
-    except:
-        param = simplejson.loads(request.POST.keys()[0])
+    param = simplejson.loads(request.body)
     email = param.get('emailaddress1', None)
+    if email != param.get('emailaddress2', None):
+        return HttpResponse("email-mismatch", status=500)
     dash = param.get('dash', False)
     user_type = param.get('type', 'fishers')
     dash_can_create = request.user.is_staff and request.user.profile.is_intern is False
@@ -71,18 +70,24 @@ def createUser(request):
     if created:
         if user_type in ['staff', 'intern'] and dash_can_create:
             user.is_staff = True
-        user.set_password(param.get('password1'))
+        user.set_password(param.get('password'))
         user.save()
+
         profile, created = UserProfile.objects.get_or_create(user=user)
         profile.registration = '{}'
+        profile.tags.add('usvi')
         if user_type in ['intern'] and dash_can_create:
             profile.is_intern = True
         profile.save()
         user.save()
         if dash is False:
             user = authenticate(
-                username=user.username, password=param.get('password1'))
+                username=user.username, password=param.get('password'))
             login(request, user)
+        api_key, created = ApiKey.objects.get_or_create(user=user)
+        api_key.key = api_key.generate_key()
+        api_key.save()
+
         user_dict = {
             'username': user.username,
             'name': ' '.join([user.first_name, user.last_name]),
@@ -99,7 +104,7 @@ def createUser(request):
 @csrf_exempt
 def forgotPassword(request):
     if request.POST:
-        param = simplejson.loads(request.POST.keys()[0])
+        param = simplejson.loads(request.body)
         email = param.get('email', None)
         try:
             user = User.objects.get(email=email)
