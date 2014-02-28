@@ -589,7 +589,11 @@ class Response(caching.base.CachingMixin, models.Model):
                     elif self.answer.find('/') != -1:
                         dnf_date = datetime.strptime(self.answer, '%Y/%m')
                 except ValueError:
+                    pass
+                try:
                     dnf_date = dateutil.parser.parse(self.answer)
+                except:
+                    pass
                 if dnf_date is not None:
                     self.respondant.ordering_date = dnf_date
                     self.respondant.save()
