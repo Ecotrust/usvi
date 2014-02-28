@@ -1,7 +1,7 @@
 //'use strict';
 
 angular.module('askApp')
-    .controller('SurveyListCtrl', function($scope, $http, $routeParams, $location, storage) {
+    .controller('SurveyListCtrl', function($scope, $http, $routeParams, $location, $timeout, storage) {
 
     $scope.path = $location.path().slice(1,5);
     $scope.loaded=false;
@@ -43,4 +43,8 @@ angular.module('askApp')
     } else {
         $scope.surveys = app.surveys;
     }
+    $timeout(function () {
+        $(':active').blur();
+    });
+
 });

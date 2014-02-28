@@ -1,6 +1,6 @@
 angular.module('askApp')
-    .controller('MainCtrl', ['$scope', '$location', '$http', 'storage',
-        function MainCtrl($scope, $location, $http, storage) {
+    .controller('MainCtrl', ['$scope', '$location', '$http', 'storage', '$timeout',
+        function MainCtrl($scope, $location, $http, storage, $timeout) {
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
             function versionCompare(v1, v2, options) {
@@ -247,7 +247,9 @@ angular.module('askApp')
                 $scope.resizeMap();
             }
 
-
+            $timeout(function () {
+                $(':active').blur();
+            });
 
         }
     ]);

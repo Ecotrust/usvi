@@ -144,8 +144,24 @@ a {
         width: 300px;
         margin-left: -150px;
     }
-        .splash .branding img {
+        .splash .branding .deck-logo {
             height: 90px;
+        }
+        .splash .branding .p97-logo {
+            margin-top: 40px;
+        }
+        .panel .p97-logo {
+            opacity: 1;
+            margin-top: 15px;
+        }
+        .p97-logo {
+            margin-top: 20px;
+            margin-bottom: 15px;
+            height: 40px;
+            opacity: .6;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         .splash .branding h1 {
             font-size: 24px;
