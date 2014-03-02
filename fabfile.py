@@ -141,7 +141,7 @@ def dumpacldata():
 def loaddata():
     with cd(env.code_dir):
         with _virtualenv():
-            _manage_py('loaddata apps/survey/fixtures/surveys.json.gz')
+            _manage_py('loaddata   --settings=config.environments.staging apps/survey/fixtures/surveys.json.gz')
            
 @task
 def push():
