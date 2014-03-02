@@ -125,10 +125,9 @@ def runserver():
             
 @task
 def dumpdata():
-    set_env_for_user('vagrant')
     with cd(env.code_dir):
         with _virtualenv():
-            _manage_py('dumpdata --format=json --indent=4 survey --exclude=survey.Respondant --exclude=survey.LocationAnswer --exclude=survey.Location --exclude=survey.MultiAnswer --exclude=survey.GridAnswer --exclude=survey.Response | gzip > apps/survey/fixtures/surveys.json.gz ')
+            _manage_py('dumpdata --format=json --indent=4  --settings=config.environments.staging survey.Survey survey.Block survey.Page survey.Question survey.Option  | gzip > apps/survey/fixtures/surveys.json.gz ')
             get('apps/survey/fixtures/surveys.json.gz', 'backups/surveys.json.gz')
                         
 @task
@@ -140,7 +139,6 @@ def dumpacldata():
             get('apps/acl/fixtures/initial_data.json.gz', 'backups/acl.json.gz')
 @task
 def loaddata():
-    set_env_for_user('vagrant')
     with cd(env.code_dir):
         with _virtualenv():
             _manage_py('loaddata apps/survey/fixtures/surveys.json.gz')
