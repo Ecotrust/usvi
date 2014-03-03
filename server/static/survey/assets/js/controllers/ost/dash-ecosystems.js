@@ -19,13 +19,21 @@ angular.module('askApp').controller('DashEcosystemsCtrl', function($scope, $http
 
 
     function buildCharts() {
-        var onSuccess = function (chartConfig) {
-            $scope.ecosystem_project_counts = chartConfig;
+        var options, onFail, onSuccess;
+        onFail = function (data) {
+            if (data.message && data.message.length > 0) {
+                $scope.ecosystemProjectsChart = {message: data.message};
+            }
         };
-        chartUtils.buildStackedBarChart($routeParams.surveySlug, 'ecosystem-features', $scope.filtersJson, onSuccess, {
+        onSuccess = function (chartConfig) {
+            $scope.ecosystemProjectsChart = chartConfig;
+        };
+        options = {
             title: "Reported Ecosystem Features",
-            yLabel: "Number of Projects",
-        });
+            yLabel: "Number of Projects"
+        };
+        chartUtils.buildStackedBarChart($routeParams.surveySlug, 'ecosystem-features',
+            $scope.filtersJson, options, onSuccess, onFail);
     }
 
 

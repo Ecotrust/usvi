@@ -3,10 +3,12 @@ angular.module('askApp')
   .factory('chartUtils', function ($http, dashData) {
 
 
-    var buildStackedBarChart = function (surveySlug, questionSlug, filters, setChart_callback, options) {
-        var url = '';
-        
-        var onDataFail = function (data) { debugger; };
+    var buildStackedBarChart = function (surveySlug, questionSlug, filters, options, setChart_callback, onFail_callback) {
+
+        var onDataFail = function (data) { 
+            debugger; 
+            onFail_callback(data);
+        };
 
         var onDataSuccess = function (data) {
             var chartConfig = {
@@ -17,13 +19,13 @@ angular.module('askApp')
                 categories: [""],
                 type: "stacked-column",
                 data: _.pluck(data.answer_domain, "surveys"),
-                download_url: url + '.csv',
+                download_url: data.csvUrl,
                 unit: options.unit || "projects"
             };
             setChart_callback(chartConfig);
         };
 
-        url = dashData.getDistribution(surveySlug, questionSlug, filters, onDataSuccess, onDataFail);
+        dashData.getDistribution(surveySlug, questionSlug, filters, onDataSuccess, onDataFail);
     }
 
 

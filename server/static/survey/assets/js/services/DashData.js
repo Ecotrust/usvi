@@ -4,12 +4,14 @@ angular.module('askApp')
 
 
     var getDistribution = function(surveySlug, questionSlug, filters, onSuccess, onFail) {
-        var url = _distributionUrl(surveySlug, questionSlug, filters);
+        var url = _distributionUrl(surveySlug, questionSlug, filters, false),
+            csvUrl = _distributionUrl(surveySlug, questionSlug, filters, true);
         $http.get(url)
-            .success(onSuccess)
-            .error(onFail);
-
-        return url;
+            .error(onFail)
+            .success(function (data) {
+                data.csvUrl = csvUrl;
+                onSuccess(data)
+            });
     };
 
 
@@ -30,8 +32,9 @@ angular.module('askApp')
     };
 
 
-    var _distributionUrl = function (surveySlug, questionSlug, filters) {
-        var url = ["/reports/distribution", surveySlug, questionSlug].join('/');
+    var _distributionUrl = function (surveySlug, questionSlug, filters, isForCsv) {
+        var baseUrl = "/reports/distribution" + (isForCsv ? "/csv" : "")
+        var url = [baseUrl, surveySlug, questionSlug].join('/');
         if (filters.length > 0) {
             url = url + '?filters=' + filters;
         }

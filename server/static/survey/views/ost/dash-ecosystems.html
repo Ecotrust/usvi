@@ -18,16 +18,16 @@
                         class="pull-right"></div>
                 </div>
             </div>
-            <div class="row" ng-hide="filter_results">
+            <!-- <div class="row" ng-hide="filter_results">
                 <div class="col-md-12 col-sm-12">No data for found.</div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-12">
                     <div>
-                        <h2>{{ ecosystem_project_counts.title }}</h2>
-                        <div class="error">{{ ecosystem_project_counts.message }}</div>
+                        <h2>{{ ecosystemProjectsChart.title }}</h2>
+                        <div class="error">{{ ecosystemProjectsChart.message }}</div>
                         
-                        <div bar-chart chart="ecosystem_project_counts"></div>
+                        <div bar-chart chart="ecosystemProjectsChart"></div>
                     
                     </div>
                 </div>
