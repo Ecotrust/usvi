@@ -26,6 +26,8 @@
   <input type="hidden" name="this_is_the_login_form" value="1" />
   <input type="hidden" name="next" id="next_url" />
 </div>
+{% endblock %}
+{% block hapifis_content_nobg %}
 <div class="forgot-row clearfix">
     <a href="{% url 'admin_password_reset' %}">{% trans 'Forgot password?' %}</a>
 </div>
@@ -44,6 +46,6 @@
   document.getElementById('id_password').setAttribute('placeholder', 'Password')
   document.getElementById('id_username').setAttribute('class', 'form-control')
   document.getElementById('id_password').setAttribute('class', 'form-control')
-  document.getElementById('next_url').setAttribute('value', window.location.href)
+  //document.getElementById('next_url').setAttribute('value', window.location.href)
 </script>
 {% endblock %}

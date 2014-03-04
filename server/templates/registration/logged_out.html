@@ -1,7 +1,28 @@
 {% extends "admin/hapifis_admin_base.html" %}
 {% load i18n admin_static %}
+{%block title %}Dashboard Logout{% endblock %}
+{% block stylesheets %}{{block.super}}
+<style>
+    #login-row {
+        background-color: #DFF2F4;
+        font-size: 24px;
+    }
+    .submit-row div {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+</style>
+{% endblock %}
 {% block hapifis_content %}
-  <div class="login-row">
-      <p>You have been logged out. <a href="{% url 'dashboard' %}">Log in again.</a></p>
-  </div>
+  <p>You have been logged out.</p>
+{% endblock %}
+{% block hapifis_content_nobg %}
+<div class="submit-row">
+    <div>
+        <a id="login_btn" href="{% url 'dashboard' %}" class="btn">{% trans 'Log in again' %}</a>
+    </div>
+    <div>
+        <a href="http://pointnineseven.com/">Visit Point97 to learn more &raquo;</a>
+    <div>
+</div>
 {% endblock %}

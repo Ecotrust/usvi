@@ -43,7 +43,6 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',name="my_login"),
     url(r'^logout/(?P<next_page>.*)/$', 'django.contrib.auth.views.logout', name='auth_logout_next'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
-    url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
     (r'^api/', include(v1_api.urls)),
 
@@ -52,12 +51,9 @@ urlpatterns = patterns('',
     (r'^admin/password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     (r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 
     url('', include('social.apps.django_app.urls', namespace='social')),
-
-    # url(r'^grappelli/', include('grappelli.urls')),
-    # (r'^api/', include(v1_api.urls)),
 
     url(r'^account/', include('apps.account.urls')),
     url(r'^mobile/', include('apps.mobile.urls')),
@@ -73,19 +69,12 @@ urlpatterns = patterns('',
     url(r'fisher/(?P<uuid>[\w\d-]+)', 'apps.survey.views.fisher', name="fisher-dash-detail"),
     url(r'^fisher', 'apps.survey.views.fisher', name="fisher-dash"),
 
+    url(r'^dash$', 'apps.survey.views.dash', name='dashboard'),
     url(r'^dash', 'apps.survey.views.dash'),
     url(r'^dash/', 'apps.survey.views.dash'),
 
     # Redirect / to /dash
     url(r'^$', lambda r: HttpResponseRedirect('/dash')),
-
-    # url(r'^dash$', 'apps.survey.views.dash', name='dashboard'),
-    #other survey urls
-    # url(r'^dash', include(survey_urls)),
-
-    # (r'^register', survey_urls.register),
-    #(r'^survey/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.SURVEY_ROOT}),
-    # (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 )
 
 if settings.DEBUG:
