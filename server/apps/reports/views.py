@@ -58,6 +58,7 @@ def get_distribution_json(request, survey_slug, question_slug):
     answer_domain = _get_answer_domain(request, survey_slug, question_slug)
     return HttpResponse(simplejson.dumps({'success': "true", "answer_domain": list(answer_domain)}))
 
+
 @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def get_distribution_csv(request, survey_slug, question_slug):
     answer_domain = _get_answer_domain(request, survey_slug, question_slug)
@@ -76,7 +77,7 @@ def _get_answer_domain(request, survey_slug, question_slug):
     ### Returns a filtered list of answers and their counts for a given question.
     survey = get_object_or_404(Survey, slug=survey_slug)
     if question_slug.find('*') == -1:
-        question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
+        questions = [get_object_or_404(Question, slug=question_slug, question_page__survey=survey)]
     else:
         questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''),question_page__survey=survey)
 
@@ -88,7 +89,10 @@ def _get_answer_domain(request, survey_slug, question_slug):
     if filters is not None:
         filter_list = simplejson.loads(filters)
 
-    answer_domain = question.get_answer_domain(survey, filter_list)
+    answer_domain = []
+    for question in questions:
+        answer_domain = answer_domain + list(question.get_answer_domain(survey, filter_list))
+
     return answer_domain
 
 

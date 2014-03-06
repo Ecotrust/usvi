@@ -22,7 +22,9 @@ angular.module('askApp').controller('DashEcosystemsCtrl', function($scope, $http
         var options, onFail, onSuccess;
         onFail = function (data) {
             if (data.message && data.message.length > 0) {
-                $scope.ecosystemProjectsChart = {message: data.message};
+                $scope.ecosystemProjectsChart = { message: data.message };
+            } else {
+                $scope.ecosystemProjectsChart = { message: "Failed to retrieve data." };
             }
         };
         onSuccess = function (chartConfig) {
