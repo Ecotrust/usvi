@@ -166,7 +166,8 @@
     var isAuthenticated = true;
     app.user = {
       username: "{{user.username}}",
-      is_intern: "{{ user.profile.is_intern }}" === "True"
+      is_intern: "{{ user.profile.is_intern }}" === "True",
+      tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}"
     }
     app.survey_meta = {
         total: {{ meta.total }},

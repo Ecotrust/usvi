@@ -1,3 +1,4 @@
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.contrib.contenttypes.fields import GenericForeignKeyField
 from tastypie import fields
 from .models import AnnualCatchLimit, Species, SpeciesFamily, AREA_CHOICES, SECTOR_CHOICES
@@ -48,7 +49,24 @@ class AnnualCatchLimitResource(SurveyModelResource):
         bundle['meta']['sector_choices'] = SECTOR_CHOICES
         return bundle
 
+    def get_object_list(self, request):
+        objects = super(AnnualCatchLimitResource, self).get_object_list(request)
+        if request.user.is_superuser:
+            return objects
+
+        user_tags = [tag.name for tag in request.user.profile.tags.all()]
+        print user_tags
+        if 'puerto-rico' not in user_tags:
+            objects = objects.exclude(area='puertorico')
+        if 'usvi' not in user_tags:
+            objects = objects.exclude(area='stcroix')
+            objects = objects.exclude(area='stthomasstjohn')
+        return objects
+
     class Meta:
         always_return_data = True
         queryset = AnnualCatchLimit.objects.all()
         authorization = StaffUserOnlyAuthorization()
+        filtering = {
+            'area': ALL,
+        }

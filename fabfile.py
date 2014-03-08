@@ -404,12 +404,12 @@ def restore_db(dump_name):
     env.warn_only = True
     put(dump_name, "/tmp/%s" % dump_name.split('/')[-1])
     run("dropdb geosurvey")
-    run("createdb -U postgres -T template_postgis -O postgres geosurvey")
+    run("createdb -U postgres -T template0 -O postgres geosurvey")
     with cd(env.code_dir):
         with _virtualenv():
             #_manage_py('flush --noinput')
-            _manage_py('syncdb --noinput')
-            run("pg_restore --verbose --clean --no-acl --no-owner -U postgres -d geosurvey /tmp/%s" % dump_name.split('/')[-1])
+            # _manage_py('syncdb --noinput')
+            run("pg_restore --create --no-acl --no-owner -U postgres -d geosurvey /tmp/%s" % dump_name.split('/')[-1])
             _manage_py('migrate')
     #run("cd %s && %s/bin/python manage.py migrate --settings=config.environments.staging" % (env.app_dir, env.venv))
 
