@@ -10,6 +10,8 @@ angular.module('askApp')
             },
             link: function(scope, element) {
                 scope.allPloygons = [];
+                scope.selectionCount = 0;
+
                 if (scope.question.answer) {
 
                     //debugger;
@@ -55,20 +57,49 @@ angular.module('askApp')
                 var options = { position: 'bottomleft' };
                 L.control.layers(baseMaps, null, options).addTo(map);
 
-                var layerClick = function(layer, isSelectAll) {
-                    var id = layer.feature.properties.ID;
-                    if (layer.options.fillOpacity === 0) {                                  
+                var isLayerSelected = function (layer) {
+                    return layer.options.fillOpacity !== 0;
+                }; 
+
+                var selectLayer = function (layer) {
+                    if (!isLayerSelected(layer)) {
+                        var id = layer.feature.properties.ID;
                         layer.setStyle( {
                             fillOpacity: .6
                         });
                         scope.question.answer.push(id);
-                    } else if (!isSelectAll) {
-                        layer.setStyle( {
+                        scope.selectionCount++;
+                    }
+                };
+                
+                var deselectLayer = function (layer) {
+                    if (isLayerSelected(layer)) {
+                        var id = layer.feature.properties.ID;
+                        layer.setStyle({
                             fillOpacity: 0
                         });
                         scope.question.answer = _.without(scope.question.answer, id);
+                        scope.selectionCount--;
                     }
+                };
+
+                var layerClick = function(layer) {
+                    isLayerSelected(layer) ?
+                        deselectLayer(layer) :
+                        selectLayer(layer);
                 }
+
+                scope.deselectAllPolygons = function () {
+                    _.each(scope.allPloygons, function (layer) {
+                        deselectLayer(layer);
+                    });
+                };
+
+                scope.selectAllPolygons = function () {
+                    _.each(scope.allPloygons, function (layer) {
+                        selectLayer(layer);
+                    });
+                };
                 
                 // Add planning units grid
                 $http.get("/static/survey/data/CentralCalifornia_PlanningUnits.json").success(function(data) {
@@ -88,7 +119,9 @@ angular.module('askApp')
                                 });
                             }
                             layer.on("click", function (e) {
-                                layerClick(layer, false);
+                                scope.$apply(function () {
+                                    layerClick(layer);                                    
+                                });
                             });
                             scope.allPloygons.push(layer);
                         }
@@ -99,13 +132,6 @@ angular.module('askApp')
                 $('.leaflet-label').removeClass('leaflet-label-right');
 
                 
-                scope.selectAllPolygons = function () {
-                    _.each(scope.allPloygons, function (layer) {
-                        layerClick(layer, true);
-                    });
-                };
-
-
                 scope.hoverLatLng = {};
 
                 scope.onMouseMove = function (e /*Leaflet MouseEvent */) {

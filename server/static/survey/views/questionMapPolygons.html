@@ -11,6 +11,12 @@
                 href="javascript:void(0)">
                 <i class="glyphicon glyphicon-th"></i><span class="map-control-label"></span>&nbsp;Select All
             </a>
+            <a  class="btn btn-large btn-danger"
+                ng-show="selectionCount > 0"
+                ng-click="deselectAllPolygons()"
+                href="javascript:void(0)">
+                Clear All
+            </a>
         </div>        
     </div>
 
