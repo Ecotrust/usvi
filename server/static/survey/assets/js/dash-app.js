@@ -61,23 +61,12 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     })
 
     /* Routes for dashboard side nav */
-    .when('/ecosystems/', {
-        templateUrl: '/static/survey/views/ost/dash-ecosystems.html',
-        controller: 'DashEcosystemsCtrl'
-    })
-    .when('/ecosystems/:surveySlug', {
-        templateUrl: '/static/survey/views/ost/dash-ecosystems.html',
-        controller: 'DashEcosystemsCtrl'
-    })
-    .when('/project-info/:surveySlug', {
-        templateUrl: '/static/survey/views/ost/dash-project-info.html',
-        controller: 'DashProjectInfoCtrl'
-    })
-    .when('/project-info/:surveySlug/:id', {
-        templateUrl: '/static/survey/views/ost/dash-project-info-detail.html',
-        controller: 'DashProjectInfoDetailCtrl'
-    })
     .when('/RespondantList/:surveySlug', {
+        templateUrl: '/static/survey/views/RespondantList.html',
+        controller: 'RespondantListCtrl',
+        reloadOnSearch: false
+    })
+    .when('/responses/:surveySlug', {
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
@@ -86,11 +75,24 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/RespondantDetail.html',
         controller: 'RespondantDetailCtrl',
     })
-    .when('/download/:surveySlug', {
-        templateUrl: '/static/survey/views/ost/dash-download.html',
-        controller: 'DashDownloadCtrl',
+    .when('/ecosystems/:surveySlug', {
+        templateUrl: '/static/survey/views/ost/dash-ecosystems.html',
+        controller: 'DashEcosystemsCtrl'
     })
+    .when('/project-overview/:surveySlug', {
+        templateUrl: '/static/survey/views/ost/dash-project-overview.html',
+        controller: 'DashProjectOverviewCtrl'
+    })
+    .when('/project-info/:surveySlug/:id', {
+        templateUrl: '/static/survey/views/ost/dash-project-info-detail.html',
+        controller: 'DashProjectInfoDetailCtrl'
+    })
+
+    // .when('/download/:surveySlug', {
+    //     templateUrl: '/static/survey/views/ost/dash-download.html',
+    //     controller: 'DashDownloadCtrl',
+    // })
     .otherwise({
-        redirectTo: '/ecosystems/monitoring-project'
+        redirectTo: '/responses/monitoring-project'
     });
 });

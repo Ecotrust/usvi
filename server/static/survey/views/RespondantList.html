@@ -1,84 +1,79 @@
-<div class="container" ng-cloak>
+<div class="container dash-responses" ng-cloak>
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9">
-            <div ng-hide="busy" class="row">    
-                <!-- <h1>Completed {{ survey.name }}s -- <small>{{ survey.survey_responses |number}} reports submitted</small></h1> -->
-                <h1>Catch Report Review: {{ area }}</h1>
-                <div>
-                    <div class="row filter-box">
-                        <div class="col-md-8">
-                            <div ng-include="'/static/survey/views/areaButtons.html'"></div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default" ng-repeat="respondent in respondents">  <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
-                                <div class="panel-heading respondent-header" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
-                                    <h4 class="panel-title">
-                                        {{ respondent.user.username }} -- 
-                                        <span ng-show="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }}</span>
-                                        <span ng-hide="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }} -- incomplete</span>
-                                        <i ng-show="respondent.spin" class="icon-spinner icon-spin"></i>
-                                        <div class="pull-right">
-                                            <span class="label"
-                                                ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
-                                                {{ respondent.review_status }}
-                                            </span>
-
-                                        </div>
-                                    </h4>
-                                </div>
-                                <div id="{{ respondent.survey_title }}" class="panel-collapse collapse" ng-class="{ 'in': respondent.open }">
-                                    <div class="panel-body">
-                                        <div class="row report-controls">
-                                            <div class="col-md-7" ng-if="respondent.open">
-                                                <div dash-map island="$parent.activeRespondent.island" locations="$parent.activeRespondent.areas_fished"></div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <form role="form">
-                                                    <div class="form-group">
-                                                        <textarea ng-model="respondent.comment" placeholder="comments" class="form-control" rows="10"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="checkbox">
-                                                            <label>
-                                                                <input type="checkbox" ng-model="respondent.notify">
-                                                                Share comment with fisher
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="btn" ng-click="setStatus(respondent, 'accepted')"
-                                                           ng-class="{ 'btn-success': respondent.review_status == 'accepted', 'btn-default': respondent.review_status != 'accepted' }">
-                                                            <span class="glyphicon"
-                                                                ng-class="{ 'glyphicon-check': respondent.review_status == 'accepted', 'glyphicon-unchecked': respondent.review_status != 'accepted'  }">Approve
-                                                        </a>
-                                                        <a class="btn" ng-click="setStatus(respondent, 'flagged')"
-                                                           ng-class="{ 'btn-danger': respondent.review_status == 'flagged', 'btn-default': respondent.review_status != 'flagged' }">
-                                                            <span class="glyphicon"
-                                                                ng-class="{ 'glyphicon-check': respondent.review_status == 'flagged', 'glyphicon-unchecked': respondent.review_status != 'flagged'  }">Flag
-                                                        </a>
-                                                        <button class="btn btn-default" ng-click="saveComment(respondent, respondent.comment, respondent.notify)">Save Comment</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div ng-include="viewPath + 'views/surveyAnswers.html'"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a class="btn btn-default btn-lg btn-block panel-heading" style="margin-bottom: 20px; padding: 10px;" ng-click="showNext20(surveyFilter)">
-                                Show More...
-                                <i class="icon-spinner icon-spin" ng-show="gettingNext20"></i>
-                            </a>
-                        </div>
-                    </div>
+        <div class="col-md-9 col-sm-9">
+            <div ng-hide="busy" class="row">
+                <div class="col-md-12 col-sm-12">  
+                    <h3>MPA Monitoring Framework Survey: Central Coast Survey Responses</h3>
                 </div>
             </div>
+            <div class="row" ng-include="'/static/survey/views/dash-top-filters.html'"></div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="panel panel-default" ng-repeat="respondent in respondents">  <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
+                        <div class="panel-heading respondent-header" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
+                            <h4 class="panel-title">
+                                {{ respondent.user.username }} -- 
+                                <span ng-show="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }}</span>
+                                <span ng-hide="respondent.complete">{{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }} -- incomplete</span>
+                                <i ng-show="respondent.spin" class="icon-spinner icon-spin"></i>
+                                <div class="pull-right">
+                                    <span class="label"
+                                        ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
+                                        {{ respondent.review_status }}
+                                    </span>
+
+                                </div>
+                            </h4>
+                        </div>
+                        <div id="{{ respondent.survey_title }}" class="panel-collapse collapse" ng-class="{ 'in': respondent.open }">
+                            <div class="panel-body">
+                                <div class="row report-controls">
+                                    <div class="col-md-7" ng-if="respondent.open">
+                                        <div dash-map island="$parent.activeRespondent.island" locations="$parent.activeRespondent.areas_fished"></div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <textarea ng-model="respondent.comment" placeholder="comments" class="form-control" rows="10"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" ng-model="respondent.notify">
+                                                        Share comment with fisher
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a class="btn" ng-click="setStatus(respondent, 'accepted')"
+                                                   ng-class="{ 'btn-success': respondent.review_status == 'accepted', 'btn-default': respondent.review_status != 'accepted' }">
+                                                    <span class="glyphicon"
+                                                        ng-class="{ 'glyphicon-check': respondent.review_status == 'accepted', 'glyphicon-unchecked': respondent.review_status != 'accepted'  }">Approve
+                                                </a>
+                                                <a class="btn" ng-click="setStatus(respondent, 'flagged')"
+                                                   ng-class="{ 'btn-danger': respondent.review_status == 'flagged', 'btn-default': respondent.review_status != 'flagged' }">
+                                                    <span class="glyphicon"
+                                                        ng-class="{ 'glyphicon-check': respondent.review_status == 'flagged', 'glyphicon-unchecked': respondent.review_status != 'flagged'  }">Flag
+                                                </a>
+                                                <button class="btn btn-default" ng-click="saveComment(respondent, respondent.comment, respondent.notify)">Save Comment</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div ng-include="viewPath + 'views/surveyAnswers.html'"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-default btn-lg btn-block panel-heading" style="margin-bottom: 20px; padding: 10px;" ng-click="showNext20(surveyFilter)">
+                        Show More...
+                        <i class="icon-spinner icon-spin" ng-show="gettingNext20"></i>
+                    </a>
+                    
+                </div>
+            </div>
+
 
             <div ng-show="busy" ng-include="viewPath + 'static/survey/views/spinner.html'"></div>
         </div>

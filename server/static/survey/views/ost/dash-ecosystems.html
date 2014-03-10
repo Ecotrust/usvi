@@ -4,39 +4,16 @@
         <div class="col-md-9 col-sm-9">
             <div class="row">
                 <div class="col-md-12 col-sm-12">
-                    <h3>MPA Monitoring Framework Survey: Central Coast Project Information</h3>
+                    <h3>MPA Monitoring Framework Survey: Central Coast Ecosystem Monitoring</h3>
                 </div>
             </div>
+            <div class="row" ng-include="'/static/survey/views/dash-top-filters.html'"></div>
             <div class="row">
-                <div class="col-md-12 col-sm-12 clearfix">
-                    <div dash-filter 
-                        placeholder-text="'Select Species/Indicator'" 
-                        allow-multi-select=true 
-                        survey-slug="'monitoring-project'" 
-                        question-slug="'*-species'" 
-                        selected-values="filters['*-species']" 
-                        class="pull-right"></div>
-
-                    <div dash-filter 
-                        placeholder-text="'Select Ecosystem Feature'" 
-                        allow-multi-select=true 
-                        survey-slug="'monitoring-project'" 
-                        question-slug="'ecosystem-features'" 
-                        selected-values="filters['ecosystem-features']" 
-                        class="pull-right"></div>
-
-                </div>
+                <div dash-map zoom="8"  locations="locations" geojson="geojson_layer"></div>
             </div>
-            <!-- <div class="row" ng-hide="filter_results">
-                <div class="col-md-12 col-sm-12">No data for found.</div>
-            </div> -->
             <div class="row">
                 <div class="col-md-12">
-                    <div>
-                        
-                        <div bar-chart chart="ecosystemProjectsChart"></div>
-                    
-                    </div>
+                    <div bar-chart chart="ecosystemProjectsChart"></div>
                 </div>
             </div>
         
