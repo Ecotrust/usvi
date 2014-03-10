@@ -554,35 +554,39 @@ class Response(caching.base.CachingMixin, models.Model):
                         else:
                             print grid_col.type
                             print answer
-            if hasattr(self.respondant, self.question.slug):
-                setattr(self.respondant, self.question.slug, self.answer)
-                self.respondant.save()
+            try:
+                respondent = Respondant.objects.get(uuid=self.respondant.uuid)
+            except:
+                respondent = None
 
-            if self.respondant is not None and self.respondant.user is not None:
+            if hasattr(respondent, self.question.slug):
+                setattr(respondent, self.question.slug, self.answer)
+                respondent.save()
+
+            if respondent is not None and respondent.user is not None:
                 if self.question.attach_to_profile or self.question.persistent:
                     # Get this user's set of profile fields. These can be shared cross-survey (...is this still the case?)
-                    if self.respondant.user.profile.registration and self.respondant.user.profile.registration != 'null':
-                        profileAnswers = simplejson.loads(self.respondant.user.profile.registration)
+                    if respondent.user.profile.registration and respondent.user.profile.registration != 'null':
+                        profileAnswers = simplejson.loads(respondent.user.profile.registration)
                     else:
                         profileAnswers = {}
                     # Replace existing value with new value.
                     profileAnswers[self.question.slug] = self.answer
-                    profile = get_object_or_404(UserProfile, user=self.respondant.user)
+                    profile = get_object_or_404(UserProfile, user=respondent.user)
                     profile.registration = simplejson.dumps(profileAnswers)
                     profile.save()
             self.save()
 
-        if self.question.slug == 'landed-date':
-            if self.respondant is not None:
+        if self.question.slug == 'landed-date' or self.question.slug == 'trip-landing-date-puerto-rico':
+            if respondent is not None:
                 try:
-                    self.respondant.ordering_date = dateutil.parser.parse(self.answer)
+                    respondent.ordering_date = dateutil.parser.parse(self.answer)
                 except:
                     pass
-                self.respondant.save()
-
+                respondent.save()
         
         if self.question.slug == 'did-not-fish-for-month-of':
-            if self.respondant is not None:
+            if respondent is not None:
                 self.answer = self.answer.replace('"', '')
                 from datetime import datetime
                 dnf_date = None
@@ -598,8 +602,8 @@ class Response(caching.base.CachingMixin, models.Model):
                 except:
                     pass
                 if dnf_date is not None:
-                    self.respondant.ordering_date = dnf_date
-                    self.respondant.save()
+                    respondent.ordering_date = dnf_date
+                    respondent.save()
 
 
 def save_related(sender, instance, created, **kwargs):
