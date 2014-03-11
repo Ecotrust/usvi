@@ -7,8 +7,8 @@
         ng-model="model.selectedValuesInternal" 
         ng-change="selectionChanged()"
         style="width: 200px">
-        <option value="{{answer}}" ng-repeat="answer in filterOptions">
-            <strong>{{answer}}</strong>
+        <option value="{{option.value}}" ng-repeat="option in filterOptions">
+            <strong>{{option.displayLabel}}</strong>
         </option>
     </select>
 
@@ -20,8 +20,8 @@
         ng-model="model.selectedValuesInternal" 
         ng-change="selectionChanged(value)"
         style="width: 200px">
-        <option value="{{answer}}" ng-repeat="answer in filterOptions">
-            <strong>{{answer}}</strong>
+        <option value="{{option.value}}" ng-repeat="option in filterOptions">
+            <strong>{{option.displayLabel}}</strong>
         </option>
     </select>
 
