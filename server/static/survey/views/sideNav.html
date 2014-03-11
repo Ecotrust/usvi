@@ -2,17 +2,17 @@
     <div class="stats">
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
-                <h1>{{survey.survey_responses || 0}}</h1>
+                <h1>{{survey.num_registered || 0}}</h1>
                 <p>REGISTERED</p>
             </div>
         </div>
         <div class="row">
             <div id="side_started" class="col-sm-6 col-md-6 box">
-                <h1>{{survey.reviews_needed || 0}}</h1>
-                <p>STARTED</p>
+                <h1>{{survey.incompletes || 0}}</h1>
+                <p>INCOMPLETE</p>
             </div>
             <div id="side_completed" class="col-sm-6 col-md-6 box">
-                <h1>{{survey.flagged || 0}}</h1>
+                <h1>{{survey.completes || 0}}</h1>
                 <p>COMPLETED</p>
             </div>
         </div>
@@ -20,16 +20,16 @@
     <div id="sidebar_nav">
         <ul class="nav">
             <li>
+                <a ng-class="{'active': activePage == 'responses'}" href="#/responses/{{survey.slug}}">Responses</a>
+            </li>
+            <li>
                 <a ng-class="{'active': activePage == 'ecosystems'}" href="#/ecosystems/{{survey.slug}}">Ecosystems</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'project-info'}" href="#/project-info/{{survey.slug}}">Project Info</a>
+                <a ng-class="{'active': activePage == 'project-overview'}" href="#/project-overview/{{survey.slug}}">Project Overview</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">Responses</a>
-            </li>
-            <li>
-                <a ng-class="{'active': activePage == 'download'}" href="#/download/{{survey.slug}}">Download</a>
+                <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
             </li>
         </ul>
     </div>

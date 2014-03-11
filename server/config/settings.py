@@ -125,6 +125,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'gunicorn',
+    'registration',
+
     #'discover_runner',
     # 'django.contrib.gis',
 

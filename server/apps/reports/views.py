@@ -54,30 +54,46 @@ def get_geojson(request, survey_slug, question_slug):
 
 
 @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
-def get_distribution(request, survey_slug, question_slug):
+def get_distribution_json(request, survey_slug, question_slug):
+    answer_domain = _get_answer_domain(request, survey_slug, question_slug)
+    return HttpResponse(simplejson.dumps({'success': "true", "answer_domain": list(answer_domain)}))
+
+
+@api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def get_distribution_csv(request, survey_slug, question_slug):
+    answer_domain = _get_answer_domain(request, survey_slug, question_slug)
+
+    response = _create_csv_response(question_slug + '-counts.csv')
+    writer = csv.writer(response)
+    writer.writerow((question_slug, 'count'))
+    for row in answer_domain:
+        writer.writerow((row['answer_text'], row['surveys']))
+
+    return response
+
+
+@api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def _get_answer_domain(request, survey_slug, question_slug):
+    ### Returns a filtered list of answers and their counts for a given question.
     survey = get_object_or_404(Survey, slug=survey_slug)
     if question_slug.find('*') == -1:
-        question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
-        answers = question.response_set.filter(respondant__complete=True)
+        questions = [get_object_or_404(Question, slug=question_slug, question_page__survey=survey)]
     else:
         questions = Question.objects.filter(slug__contains=question_slug.replace('*', ''),question_page__survey=survey)
-        answers = Response.objects.filter(question__in=questions)
-
-    filter_question_slug = None
-    filter_value = None
 
     filter_list = []
 
     if request.method == 'GET':
-        filter_value = request.GET.get('filter_value')
-        filter_question_slug = request.GET.get('filter_question')
         filters = request.GET.get('filters', None)
 
     if filters is not None:
         filter_list = simplejson.loads(filters)
 
-    answer_domain = question.get_answer_domain(survey, filter_list)
-    return HttpResponse(simplejson.dumps({'success': "true", "answer_domain": list(answer_domain)}))
+    answer_domain = []
+    for question in questions:
+        answer_domain = answer_domain + list(question.get_answer_domain(survey, filter_list))
+
+    return answer_domain
 
 
 def _error(message='An error occurred.', **kwargs):
@@ -269,6 +285,14 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super(CustomJSONEncoder, self).default(obj)
 
 
+def _grouped_answer_counts(survey_slug, question_slug):
+    # Count of each answer for a given question (only for completed respondants).
+    question = get_object_or_404(Question, slug=question_slug, question_page__survey__slug=survey_slug)
+    responses = question.response_set.filter(respondant__complete__exact=True)
+    groups = responses.values('answer').annotate(count=Count("answer")).filter(count__gte=1).order_by("answer")
+
+    return groups
+
 def _grid_standard_deviation(interval, question_slug, row=None, market=None,
                              col=None, status=None, start_date=None, end_date=None):
     rows = (GridAnswer.objects.filter(response__question__slug=question_slug)
@@ -419,8 +443,6 @@ def full_data_dump_csv(request, survey_slug):
 
     writer = SlugCSVWriter(response, fields)
     writer.writeheader()
-    import pdb
-    pdb.set_trace()
     for resp in survey.respondant_set.filter(complete=True):
         # very basic removal of some characters that were causing issue in writing rows
         row_string = resp.csv_row.json_data.replace('\u2019', '\'')

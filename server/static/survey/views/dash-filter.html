@@ -1,0 +1,36 @@
+<div>
+
+    <!-- single select -->
+    <select ng-if="allowMultiSelect != true"
+        ui-select2 
+        placeholder="{{placeholderText}}" 
+        ng-model="model.selectedValuesInternal" 
+        ng-change="selectionChanged()"
+        style="width: 200px">
+        <option value="{{option.value}}" ng-repeat="option in filterOptions">
+            <strong>{{option.displayLabel}}</strong>
+        </option>
+    </select>
+
+    <!-- multi select -->
+    <select ng-if="allowMultiSelect == true" 
+        ui-select2 
+        placeholder="{{placeholderText}}" 
+        multiple="true" 
+        ng-model="model.selectedValuesInternal" 
+        ng-change="selectionChanged(value)"
+        style="width: 200px">
+        <option value="{{option.value}}" ng-repeat="option in filterOptions">
+            <strong>{{option.displayLabel}}</strong>
+        </option>
+    </select>
+
+    <!-- <button type="button" class="btn btn-default" data-html="1" data-multiple="1" data-animation="am-flip-x" 
+        ng-model="selectedValuesInternal"
+        ng-change="selectionChanged()"
+        ng-options="answer as answer for answer in filterOptions" 
+        bs-select>
+      {{placeholderText}}  <span class="caret"></span>
+    </button> -->
+
+</div>

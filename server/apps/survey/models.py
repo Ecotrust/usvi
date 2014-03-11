@@ -112,8 +112,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
         for response in self.response_set.all().select_related('question'):
             if response.question.type != 'info':
                 flat.update(response.generate_flat_dict())
-            elif response.question.type == 'info':
-                print 'info question'
         return flat
 
     @classmethod
@@ -174,12 +172,19 @@ class Survey(caching.base.CachingMixin, models.Model):
     objects = caching.base.CachingManager()
 
     @property
+    def num_registered(self):
+        return self.respondant_set.values('user').distinct().count()
+
+    @property
     def survey_responses(self):
         return self.respondant_set.all().count()
 
     @property
     def completes(self):
         return self.respondant_set.filter(complete=True).count()
+
+    def incompletes(self):
+        return self.respondant_set.filter(complete=False).count()
 
     @property
     def activity_points(self):
@@ -356,23 +361,44 @@ class Question(caching.base.CachingMixin, models.Model):
         return REPORT_TYPE_CHOICES
 
     def get_answer_domain(self, survey, filters=None):
-        answers = self.response_set.all()  # self.response_set.filter(respondant__complete=True)
+        # Get the full response set.
+        answers = self.response_set.filter(respondant__complete=True)
         if self.type in ['map-multipoint']:
             locations = LocationAnswer.objects.filter(location__response__in=answers)
+
+        # Apply filters.        
         if filters is not None:
             for filter in filters:
                 slug = filter.keys()[0]
-                value = filter[slug]
-                filter_question = Question.objects.get(slug=slug, question_page__survey=survey)
+                values = filter[slug]
+                
+                # Allow wildcard in slug. To do this, we merge response sets 
+                # from all maching questions and use that merged response set
+                # to filter. This gives an OR filter accross the questions 
+                # macthing the wildcard rather than an AND filter.
+                if slug.find('*') == -1:
+                    filter_questions = Question.objects.filter(slug=slug, question_page__survey=survey)
+                else:
+                    filter_questions = Question.objects.filter(slug__contains=slug.replace('*', ''),question_page__survey=survey)
+                merged_filter_response_sets = None
+                for fq in filter_questions:
+                    for val in values:
+                        if merged_filter_response_sets is not None:
+                            merged_filter_response_sets = merged_filter_response_sets | fq.response_set.filter(answer__contains=val)
+                        else:
+                            merged_filter_response_sets = fq.response_set.filter(answer__contains=val)
 
                 if self.type in ['map-multipoint']:
                     if filter_question == self:
-                        locations = locations.filter(answer__in=value)
+                        locations = locations.filter(answer__in=values)
                     else:
-                        answers = answers.filter(respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
+                        answers = answers.filter(respondant__response_set__in=merged_filter_response_sets)
                         locations = locations.filter(location__response__in=answers)
                 else:
-                    answers = answers.filter(respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+                    for item in values:
+                        answers = answers.filter(respondant__responses__in=merged_filter_response_sets)
+        
+        # Group for counts.
         if self.type in ['map-multipoint']:
             return locations.values('answer', 'location__lat', 'location__lng').annotate(locations=Count('answer'), surveys=Count('location__respondant', distinct=True))
         elif self.type in ['multi-select']:

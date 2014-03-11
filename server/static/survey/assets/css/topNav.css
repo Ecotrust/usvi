@@ -1,0 +1,45 @@
+.header {
+    background-color: #005072;
+    /*background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #91CDD7), color-stop(1, #00ABBA));
+    background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -webkit-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -ms-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: linear-gradient(to left, #91CDD7 0%, #00ABBA 100%);*/
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+.header p,
+.header a,
+.header h3,
+.header .navbar-brand {
+    color: #fff !important;
+}
+
+.header .navbar-left {
+    margin-left: 2em;
+}
+
+.header .navbar-right {
+    margin-right: 2em;
+}
+.header-border {
+    position: relative;
+    top: -1px;
+    border-bottom: solid 2.5em #195d65;
+    margin-bottom: 20px;
+}
+.oceanspaces-logo {
+    height: 50px;
+}
+.point97-logo {
+    height: 20px;
+    margin-top: 28px;
+}
+.navbar-brand {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.navbar {
+    border: none;
+}

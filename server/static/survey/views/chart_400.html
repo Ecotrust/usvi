@@ -1,0 +1,22 @@
+<div style="position: relative; height: 400px">
+    <style type="text/css">
+        .download_cog {
+            position: absolute;
+            z-index: 10;
+            right: 1.5em;
+            top: 3.5em;
+        }
+        .chart {
+            margin-top: 10px;
+            margin-bottom: 50px;
+            height: 250px;
+            overflow: auto;
+        }       
+    </style>
+
+    <h3>{{ chart.title }}</h3>
+    <div class="error">{{ chart.message }}</div>
+
+    <a class="download_cog print-hide" ng-show="chart.download_url" href="{{chart.download_url}}"><i class="icon-download icon-2x"></i></a>
+    <div class="chart"></div>
+</div>
