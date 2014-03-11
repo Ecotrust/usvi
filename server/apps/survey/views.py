@@ -108,7 +108,7 @@ def answer(request, survey_slug, question_slug, uuid): #, survey_slug, question_
     if request.method == 'POST':
 
         survey = get_object_or_404(Survey, slug=survey_slug)
-        question = get_object_or_404(Question, slug=question_slug, survey=survey)
+        question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
         respondant = get_object_or_404(Respondant, uuid=uuid)
         if respondant.complete is True and not request.user.is_staff:
             return HttpResponse(simplejson.dumps({'success': False, 'complete': True}))
@@ -133,8 +133,6 @@ def complete(request, survey_slug, uuid, action=None, question_slug=None):
     if request.method == 'POST':
         survey = get_object_or_404(Survey, slug=survey_slug)
         respondant = get_object_or_404(Respondant, uuid=uuid, survey=survey)
-        print action, question_slug
-
         if action is None and question_slug is None:
             respondant.complete = True
             respondant.status = 'complete'
