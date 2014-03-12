@@ -16,6 +16,7 @@ import datetime
 import simplejson
 
 from apps.survey.models import Survey, Question, Response, Respondant
+from apps.account.models import UserProfile
 
 @staff_member_required
 def delete_responses(request, uuid, template='survey/delete.html'):
@@ -67,6 +68,44 @@ def fisher(request, uuid=None, template='survey/fisher-dash.html'):
         template='survey/fisher-detail.html'
         return render_to_response(template, RequestContext(request, {'respondent': respondent}))
     
+def set_profile_responses(request, survey_slug, uuid):
+    if request.method == 'POST':
+        survey = get_object_or_404(Survey, slug=survey_slug)
+        respondant = get_object_or_404(Respondant, uuid=uuid)
+        
+        if respondant.complete is True and not request.user.is_staff:
+            return HttpResponse(simplejson.dumps({'success': False, 'complete': True}))
+        
+        # Get email
+        email = request.user.email
+
+        # Get UserProfile question slugs
+        profile = UserProfile.objects.get(user=request.user)
+        profileDict = simplejson.loads(profile.registration)
+        profile_questions = Question.objects.filter(question_page__survey=survey, attach_to_profile=True)
+
+        for question in profile_questions:
+            # Grab answer from profile and save to a response
+            response, created = Response.objects.get_or_create(question=question,respondant=respondant)
+            answer = profileDict.get(question.slug) if profileDict.has_key(question.slug) else ""
+            response.answer_raw = simplejson.dumps(answer)
+            response.ts = datetime.datetime.now()
+            if request.user.is_authenticated():
+                response.user = request.user
+            response.save_related()
+
+            if created:
+                respondant.responses.add(response)
+
+        if request.user.is_authenticated():
+            respondant.user = request.user
+
+        respondant.save()
+
+        return HttpResponse(simplejson.dumps({'success': True }))
+    return HttpResponse(simplejson.dumps({'success': False}))
+
+
 
 
 def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid):

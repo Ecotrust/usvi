@@ -106,7 +106,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
         flat = {
             'model-uuid': self.uuid,
             'model-timestamp': str(self.ts),
-            'model-email': self.email,
+            'model-email': self.user.email,
             'model-complete': self.complete,
         }
         for response in self.response_set.all().select_related('question'):

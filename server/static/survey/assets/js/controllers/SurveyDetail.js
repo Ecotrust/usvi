@@ -154,7 +154,26 @@ angular.module('askApp')
         $scope.pageIsValid = result;
     };
 
+
+    function _setProfileAnswers (survey_slug, uuid) {
+        $http({
+            url: ['/respond/setProfileResponses', survey_slug, uuid].join('/'),
+            method: 'POST',
+            data: {},
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+    }
+
+
     $scope.submitPage = function (page) {
+
+        var firstNonProfilePage = 2;
+        if (page.order === firstNonProfilePage) {
+            _setProfileAnswers($scope.survey.slug, $routeParams.uuidSlug);
+        }
+
         if (! $scope.pageIsValid) {
             return false;
         }
