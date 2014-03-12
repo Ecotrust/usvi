@@ -17,8 +17,10 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Tim Glaser', 'tim.glaser@pointnineseven.com'),
 )
+
+SERVER_ADMIN = 'Tim Glaser <tim.glaser@pointnineseven.com>'
 
 MANAGERS = ADMINS
 

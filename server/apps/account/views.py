@@ -9,7 +9,7 @@ from django.contrib.auth.models import User, check_password
 from django.contrib.auth.forms import PasswordResetForm
 from account.models import UserProfile, Feedback
 from django.db import IntegrityError
-
+from django.conf import settings
 from django.core.validators import email_re
 from django.core.exceptions import ValidationError, MultipleObjectsReturned
 
@@ -103,8 +103,8 @@ def forgotPassword(request):
         except MultipleObjectsReturned:
             return HttpResponse("multiple-users-found", status=500)  
         form = PasswordResetForm({'email': email})
-        setattr(form, 'users_cache', [])
-        form.save(from_email='edwin@pointnineseven.com', email_template_name='registration/password_reset_email.html')
+        setattr(form, 'users_cache', [user])
+        form.save(from_email=settings.SERVER_ADMIN, email_template_name='registration/password_reset_email.html')
         return HttpResponse(simplejson.dumps({'success': True}))
     else:
         return HttpResponse("error", status=500)
