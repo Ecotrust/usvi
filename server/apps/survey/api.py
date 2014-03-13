@@ -215,10 +215,10 @@ class DashRespondantResource(ReportRespondantResource):
         if island is not None:
             sqs = sqs.filter(island=island)
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-
-        for tag in user_tags:
-            sqs = sqs.filter(survey_tags__contains=tag)
-
+        if 'puerto-rico' not in user_tags and 'usvi' not in user_tags:
+            for tag in user_tags:
+                sqs = sqs.filter(survey_tags__contains=tag)
+        print sqs.count()
         sqs = sqs.order_by('-ordering_date')
 
         paginator = Paginator(sqs, limit)
