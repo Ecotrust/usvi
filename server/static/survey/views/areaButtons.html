@@ -1,18 +1,18 @@
-<div ng-model="filter.area" bs-radio-group>
-    <label class="btn btn-default">
+<div ng-model="filter.area" bs-radio-group ng-hide="user.isPuertoRico && ! user.isUsvi">
+    <label class="btn btn-default" ng-hide="activePage == 'overview'">
         <input type="radio" class="btn btn-default" value="uscaribeez">
         Region
     </label>
-    <label class="btn btn-default">
+    <label class="btn btn-default" ng-show="user.isUsvi">
         <input type="radio" class="btn btn-default" value="stcroix">
         St. Croix
     </label>
-    <label class="btn btn-default">
+    <label class="btn btn-default" ng-show="user.isUsvi">
         <input type="radio" class="btn btn-default" value="stthomasstjohn">
         St. Thomas & St. John
     </label>
-<!--     <label class="btn btn-default">
+    <label class="btn btn-default" ng-show="user.isPuertoRico">
         <input type="radio" class="btn btn-default" value="puertorico">
         Puerto Rico
-    </label> -->
+    </label>
 </div>

@@ -7,6 +7,7 @@ angular.module('askApp')
             puertorico: "Puerto Rico",
             uscaribeez: "Region"
         };
+        $scope.user = app.user;
 
         $scope.activePage = 'overview';
         var getAclReport = function () {
@@ -151,9 +152,13 @@ angular.module('askApp')
 
 
         $scope.filter = {
-            "area": "stcroix",
             "accepted": true
         };
+        if ($scope.user.isPuertoRico && ! $scope.user.isUsvi) {
+            $scope.filter.area = "puertorico";
+        } else if ($scope.user.isUsvi) {
+            $scope.filter.area = "stcroix";
+        }
         
 
 

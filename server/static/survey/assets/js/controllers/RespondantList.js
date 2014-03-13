@@ -1,7 +1,7 @@
-7//'use strict';
+//'use strict';
 
 angular.module('askApp')
-    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history) {
+    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history, $rootScope) {
         var areaMapping = {
             stcroix: "St. Croix",
             stthomasstjohn: "St. Thomas & St. John",
@@ -9,7 +9,7 @@ angular.module('askApp')
             region: "Region"
         };
 
-        var cache = {};
+
 
         var dateFromISO = function(iso_str) {
             // IE8 and lower can't parse ISO strings into dates. See this
@@ -20,6 +20,8 @@ angular.module('askApp')
             }
             return new Date(iso_str);
         };
+        $scope.user = app.user;
+
         $scope.viewPath = app.server + '/static/survey/';
         $scope.activePage = 'survey-stats';
         $scope.total_surveys = app.survey_meta.total;
@@ -29,7 +31,6 @@ angular.module('askApp')
             $scope.responsesShown = $scope.respondents.length;
             $scope.busy = false;
             $scope.filterChanged = {};
-            cache[url] = data;
         };
         $scope.getReports = function(metaUrl, button) {
             var url;
@@ -44,31 +45,33 @@ angular.module('askApp')
                     // clicking button, but url is null
                     return false;
                 }
+                // url = [
+                //     '/api/v1/dashrespondant/?format=json&limit=5',
+                //     '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
+                //     '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
+                // ].join('');
                 url = [
-                    '/api/v1/dashrespondant/?format=json&limit=5',
-                    '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
-                    '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
+                    '/api/v1/dashrespondant/search/?format=json&limit=5',
+                    '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
+                    '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
                 ].join('');
+                if ($scope.filter.search) {
+                    url = url + '&q=' + $scope.filter.search;
+                }
                 if ($scope.area && $scope.area !== 'Region') {
-                    url = url + '&island__contains=' + $scope.area;
+                    url = url + '&island=' + $scope.area;
                 }
                 if ($scope.filter.review_status) {
-                    url = url + '&review_status__exact=' + $scope.filter.review_status;
+                    url = url + '&review_status=' + $scope.filter.review_status;
                 }
                 if ($scope.filter.entered_by) {
-                    url = url + '&entered_by__username__exact=' + $scope.filter.entered_by;
+                    url = url + '&entered_by=' + $scope.filter.entered_by;
                 }
-                $location.search({q: ""})
             }
-            
             $scope.busy = true;
-            if (_.has(cache, url) && ! button) {
-                loadReports(cache[url], url);
-            } else {
-                $http.get(url).success(function (data) {
-                    loadReports(data, url) 
-                });
-            }
+            $http.get(url).success(function (data) {
+                loadReports(data, url) 
+            });
             
 
         }
@@ -80,12 +83,8 @@ angular.module('askApp')
             } else {
                 $scope.getReports();
             }
-            $scope.searchTerm = $location.search().q;
+            // $scope.searchTerm = $location.search().q;
         };
-
-        if ($location.search().q) {
-            $scope.search($location.search().q);
-        }
 
     
         $scope.filterChanged = {};
@@ -99,14 +98,11 @@ angular.module('askApp')
             $location.search({q: ""});
             $scope.clearingFilters = false;
             $scope.getReports();
-        }
+        };
  
-        $scope.getSurveyDetails = function () {
-            return $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
-                $scope.survey = data;
-                $scope.survey_meta = data.meta;
-            });
-        }
+        $scope.updateSurveyDetails = function () {
+            $rootScope.$broadcast('update-survey-stats');
+        };
 
        var start_date = $location.search().ts__gte ?
             new Date(parseInt($location.search().ts__gte, 10)) :
@@ -119,55 +115,26 @@ angular.module('askApp')
             max: dateFromISO(app.survey_meta.reports_end).valueOf(),
             startDate: start_date.valueOf(),
             endDate: end_date.valueOf(),
-            area: "region"
-        }
+            area: "region",
+            review_status: "",
+            entered_by: "",
+            search: $location.search().q
+        };
 
-        $scope.$watch('filter.startDate', function (startDate) {
-            console.log('start date ' + startDate)
-            $scope.filterChanged.start = true;
-            if ($scope.filterChanged.start && $scope.filterChanged.end) {
-                $scope.getReports();    
-            }
-            
-        })
-        $scope.$watch('filter.endDate', function (endDate) {
-            $scope.filterChanged.end = true;
-            // $location.search({q: ""})
-            if ($scope.filterChanged.start && $scope.filterChanged.end) {
-                $scope.getReports();
-            }
-        })
-        $scope.$watch('filter.area', function(area) {
-            if (area) {
-                $scope.area = areaMapping[area];
-                $scope.getReports(); 
-                // $location.search({q: ""})   
-            }
-        }, true);
         $scope.$watch(function () {
             return $location.search().q;
         }, function (newSearch) {
-            console.log('watch ' + newSearch )
-            if (newSearch) {
-                $scope.search(newSearch);    
-            } if (newSearch === "") {
-                $scope.searchTerm = "";
+            $scope.filter.search = newSearch;
+        });    
+        
+        $scope.$watchCollection('filter', function (newFilter) {
+            if (newFilter.area) {
+                $scope.area = areaMapping[newFilter.area];
+            } else {
+                $scope.area = areaMapping['region'];
             }
-            
-        });
-
-        $scope.$watch('filter.review_status', function (newFilter) {
-            // can be null...
             $scope.getReports();
-            // $location.search({q: ""})
-        });
-        $scope.$watch('filter.entered_by', function (newFilter) {
-            // can be null...
-            $scope.getReports();
-            // $location.search({q: ""})
-        });
-
-        $scope.getReports();
+        })
 
         $scope.getQuestionByUri = function(uri) {
             return _.findWhere($scope.survey.questions, {
@@ -222,7 +189,7 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     respondent.review_status = newStatus;
-                    $scope.getSurveyDetails();
+                    $scope.updateSurveyDetails();
                 });
 
         };

@@ -17,6 +17,8 @@ from haystack.query import SQ
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
+import datetime
+
 from survey.models import Survey, Question, Option, Respondant, Response, Page, Block, Dialect, DialectSpecies
 
 
@@ -169,12 +171,18 @@ class ReportRespondantResource(SurveyModelResource):
 
 class DashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
+    survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, full=False, readonly=True)
     entered_by = fields.ToOneField('apps.account.api.UserResource', 'entered_by', null=True, blank=True, full=True, readonly=True)
 
     def prepend_urls(self):
             return [
                 url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_search'), name="api_get_search"),
             ]
+
+    def get_object_list(self, request):
+        user_tags = [tag.name for tag in request.user.profile.tags.all()]
+        surveys = Survey.objects.filter(tags__name__in=user_tags)
+        return super(DashRespondantResource, self).get_object_list(request).filter(survey__in=surveys)
 
     def get_search(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
@@ -185,8 +193,33 @@ class DashRespondantResource(ReportRespondantResource):
         limit = int(request.GET.get('limit', 20))
         query = request.GET.get('q', '')
         page = int(request.GET.get('page', 1))
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        review_status = request.GET.get('review_status', None)
+        entered_by = request.GET.get('entered_by', None)
+        island = request.GET.get('island', None)
 
-        sqs =  SearchQuerySet().models(Respondant).order_by('ordering_date').load_all().auto_query(query)
+        sqs = SearchQuerySet().models(Respondant).load_all()
+        if query != '':
+            sqs = sqs.auto_query(query)
+
+        if start_date is not None:
+            sqs = sqs.filter(ordering_date__gte=datetime.datetime.strptime(start_date + " 00:00", '%Y-%m-%d %H:%M'))
+        if end_date is not None:
+            sqs = sqs.filter(ordering_date__lte=datetime.datetime.strptime(end_date, '%Y-%m-%d') + datetime.timedelta(days=1))
+
+        if review_status is not None:
+            sqs = sqs.filter(review_status=review_status)
+        if entered_by is not None:
+            sqs = sqs.filter(entered_by=entered_by)
+        if island is not None:
+            sqs = sqs.filter(island=island)
+        user_tags = [tag.name for tag in request.user.profile.tags.all()]
+
+        for tag in user_tags:
+            sqs = sqs.filter(survey_tags__contains=tag)
+
+        sqs = sqs.order_by('-ordering_date')
 
         paginator = Paginator(sqs, limit)
         total = sqs.count()
@@ -219,6 +252,26 @@ class DashRespondantResource(ReportRespondantResource):
         else:
             previous_url = None
         
+        if next_url is not None:
+            if start_date is not None:
+                next_url = next_url + "&start_date=" + start_date
+            if entered_by is not None:
+                next_url = next_url + "&entered_by" + entered_by
+            if review_status is not None:
+                next_url = review_status + "&review_status" + review_status
+            if island is not None:
+                next_url = next_url + "&island" + island
+
+        if previous_url is not None:
+            if start_date:
+                previous_url = previous_url + "&start_date=" + start_date
+            if entered_by is not None:
+                previous_url = previous_url + "&entered_by" + entered_by
+            if review_status is not None:
+                previous_url = previous_url + "&review_status" + review_status
+            if island is not None:
+                previous_url = previous_url + "&island" + island
+
         meta = {
             "limit": limit,
             "next": next_url,
@@ -345,7 +398,6 @@ class SurveyResource(SurveyModelResource):
 
     def get_object_list(self, request):
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-        print user_tags
         return super(SurveyResource, self).get_object_list(request).filter(tags__name__in=user_tags)
  
     class Meta:

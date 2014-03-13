@@ -60,23 +60,25 @@ def get_geojson(request, survey_slug, question_slug):
 @login_required
 def get_distribution(request, survey_slug, question_slug):
     if survey_slug == 'all':
-        surveys = Survey.objects.all()
+        user_tags = [tag.name for tag in request.user.profile.tags.all()]
+        surveys = Survey.objects.filter(tags__name__in=user_tags)
     else:
-        surveys = Survey.objects.filter(slug=survey_slug)
+        surveys = Survey.objects.filter(slug=survey_slug, question_page__survey__in=surveys)
 
     if question_slug.find('*') == -1:
-        question = get_object_or_404(QuestionReport, slug=question_slug)
+        question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey__in=surveys)
         answers = question.response.filter(respondant__complete=True)
         question_type = question.type
     else:
-        questions = Question.objects.filter(slug__istartswith=question_slug.replace('*', ''))
+        questions = Question.objects.filter(slug__istartswith=question_slug.replace('*', ''), question_page__survey__in=surveys)
+        if questions.count() == 0:
+            return HttpResponse(simplejson.dumps({'success': "true", "results": []}))
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
     if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
         answers = answers.filter(user=request.user)
     elif request.GET.get('accepted', None) is not None:
         answers = answers.filter(respondant__review_status=REVIEW_STATE_ACCEPTED)
-    print question_type
 
     filter_list = []
 

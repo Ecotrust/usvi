@@ -36,18 +36,16 @@ angular.module('askApp')
                             'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
                         }
                     }, function(start, end) {
-                        if (start !== scope.start) {
-                            scope.$apply(function(s) {
+                        scope.$apply(function(s) {
+                            if (start !== scope.start) {         
                                 s.start = start;
                                 s.displayMin = (new Date(start)).toString('MMM dd, yyyy');
-                            });    
-                        }
-                        if (end !== scope.end) {
-                            scope.$apply(function(s) {
+                            }
+                            if (end !== scope.end) {
                                 s.end = end;
                                 s.displayMax = (new Date(end)).toString('MMM dd, yyyy')
-                            });
-                        }
+                            }
+                        });  
                     });
                 });
 
@@ -74,13 +72,11 @@ angular.module('askApp')
                     if (newValue) {
                         scope.displayMin = (new Date(newValue)).toString('MMM dd, yyyy');    
                     }
-                    
                 });
                 scope.$watch('end', function (newValue) {
                     if (newValue) {
                         scope.displayMax = (new Date(newValue)).toString('MMM dd, yyyy');    
                     }
-                    
                 });
             }
         }

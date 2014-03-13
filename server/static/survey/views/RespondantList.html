@@ -3,8 +3,8 @@
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9">
             <div class="row">
-                <!-- <h1>Completed {{ survey.name }}s -- <small>{{ survey.survey_responses |number}} reports submitted</small></h1> -->
-                <h1>Catch Report Review: {{ area || 'All Islands' }} <i ng-show="busy" class="icon-spinner icon-spin"></i>
+                <h1>Catch Report Review<span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
+                <i ng-show="busy" class="icon-spinner icon-spin"></i>
                 </h1>
                 <div>
                     <div class="row filter-box">
@@ -102,8 +102,8 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <p>
-                                        Showing {{ respondents.length }} of {{ meta.total }}
-                                        <span ng-hide="survey.survey_responses == meta.total_count">filtered from {{ total_surveys || 0}}</span>
+                                        Showing {{ respondents.length }} of {{ meta.total_count }}
+                                        <span ng-hide="total_surveys == meta.total_count">filtered from {{ total_surveys || 0}}</span>
                                     </p>
                                 </div>
                                 <div class="col-md-3">

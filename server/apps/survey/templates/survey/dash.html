@@ -168,7 +168,11 @@
       username: "{{user.username}}",
       is_intern: "{{ user.profile.is_intern }}" === "True",
       tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}"
-    }
+    };
+
+    app.user.isUsvi = _.string.contains(app.user.tags, "usvi");
+    app.user.isPuertoRico = _.string.contains(app.user.tags, "puerto-rico");
+
     app.survey_meta = {
         total: {{ meta.total }},
         flagged: {{ meta.flagged }},
@@ -176,7 +180,8 @@
         reports_start: '{{ meta.reports_start|date:"Y-m-d\TH:i:sO" }}',
         reports_end: '{{ meta.reports_end|date:"Y-m-d\TH:i:sO" }}'
 
-      }
+      };
+
     {% else %}
     var isAuthenticated = false;
     {% endif %}

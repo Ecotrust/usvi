@@ -55,7 +55,6 @@ class AnnualCatchLimitResource(SurveyModelResource):
             return objects
 
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-        print user_tags
         if 'puerto-rico' not in user_tags:
             objects = objects.exclude(area='puertorico')
         if 'usvi' not in user_tags:

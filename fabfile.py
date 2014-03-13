@@ -84,8 +84,6 @@ def up():
     """
     local('vagrant up --no-provision')
 
-    set_env_for_user('vagrant')
-
     sudo('gem uninstall --no-all --no-executables --no-ignore-dependencies chef moneta')
     install_chef(latest=False)
     local('vagrant reload')
@@ -94,7 +92,6 @@ def up():
 
 @task
 def bootstrap(username=None):
-    set_env_for_user(username)
 
     # Bootstrap
     #run('test -e %s || ln -s /vagrant/marco %s' % (env.code_dir, env.code_dir))
@@ -107,8 +104,7 @@ def bootstrap(username=None):
             # _manage_py('collectstatic --noinput')
             # _manage_py('enable_sharing')
 @task
-def createsuperuser(username=None):
-    set_env_for_user(username)
+def createsuperuser(username=None):    
 
     # Bootstrap
     #run('test -e %s || ln -s /vagrant/marco %s' % (env.code_dir, env.code_dir))
@@ -118,7 +114,6 @@ def createsuperuser(username=None):
 
 @task
 def runserver():
-    set_env_for_user('vagrant')
     with cd(env.code_dir):
         with _virtualenv():
             _manage_py('runserver 0.0.0.0:8000')
@@ -185,7 +180,6 @@ def push():
 
 @task
 def deploy(branch="master"):
-    set_env_for_user(env.user)
     env.branch = branch
     push()
     sudo('chmod -R 0770 %s' % env.virtualenv)

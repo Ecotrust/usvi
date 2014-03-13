@@ -8,7 +8,9 @@
                 </div>
             </div>
             <div class="row" ng-hide="aclResults">
-                <div class="col-md-12">No data for {{ area }}.</div>
+                <div class="col-md-12">
+                    <div class="alert alert-warning">No data for {{ area }}.</div>
+                </div>
             </div>
             <div class="carousel slide" ng-show="aclResults">
                 <!-- Indicators -->
@@ -61,10 +63,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="checkbox">
-                    <label>
-                      <input type="checkbox" ng-model="filter.accepted"> Only Show "Accepted" Records
-                    </label>
+                <div class="col-md-12">
+                    <div class="checkbox pull-right">
+                        <label>
+                          <input type="checkbox" ng-model="filter.accepted"> Only Show "Accepted" Records
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

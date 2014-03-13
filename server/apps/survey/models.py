@@ -37,6 +37,9 @@ REVIEW_STATE_CHOICES = (
     (REVIEW_STATE_ACCEPTED, u'Accepted')
 )
 
+class TaggedManager(caching.base.CachingManager):
+    def for_user(self, user):
+        return super(TaggedManager, self).get_query_set().filter(creator=user)
 
 class Respondant(caching.base.CachingMixin, models.Model):
     uuid = models.CharField(max_length=36, primary_key=True, default=make_uuid, editable=False)
@@ -65,6 +68,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
             self.uuid = self.uuid.replace(":", "_")
         if self.ordering_date is None:
             self.ordering_date = self.ts
+        if self.survey.slug.find('puerto-rico') != -1:
+            self.island = "Puerto Rico"
         super(Respondant, self).save(*args, **kwargs)
 
     @property

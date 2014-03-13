@@ -13,4 +13,11 @@ angular.module('askApp')
     		$scope.searchTerm = newTerm;
     	});
         $scope.survey_meta = app.survey_meta;
+
+        $scope.$on('update-survey-stats', function () {
+            return $http.get('/dash/survey_details').success(function(data) {
+                $scope.survey_meta = data.meta;
+            });
+        });
+
     });

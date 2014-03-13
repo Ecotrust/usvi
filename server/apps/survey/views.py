@@ -11,9 +11,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.serializers.json import DjangoJSONEncoder
 
 import datetime
-import simplejson
+import json
 
 from apps.survey.models import *
 
@@ -38,22 +39,36 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
             respondant = Respondant(survey=survey)
         respondant.save()
         if request.GET.get('get-uid', None) is not None:
-            return HttpResponse(simplejson.dumps({'success': "true", "uuid": respondant.uuid}))
+            return HttpResponse(json.dumps({'success': "true", "uuid": respondant.uuid}))
         return redirect("/respond#/survey/%s/1/%s" % (survey.slug, respondant.uuid))
     context = {'ANALYTICS_ID': settings.ANALYTICS_ID}
     return render_to_response(template, RequestContext(request, context))
 
-@staff_member_required
-def dash(request, template='survey/dash.html'):
-    all_respondents = Respondant.objects.all()
-    survey_data = {
+
+def survey_details(user):
+    user_tags = [tag.name for tag in user.profile.tags.all()]
+    surveys = Survey.objects.filter(tags__name__in=user_tags)
+    all_respondents = Respondant.objects.filter(survey__in=surveys)
+    return {
         "total": all_respondents.count(),
         "needs_review": all_respondents.filter(review_status=REVIEW_STATE_NEEDED).count(),
         "flagged": all_respondents.filter(review_status=REVIEW_STATE_FLAGGED).count(),
         "reports_start": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest'],
         "reports_end": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest']
     }
+
+
+@staff_member_required
+def get_survey_details(request):
+    survey_data = survey_details(request.user)
+    return HttpResponse(json.dumps({"meta": survey_data}, cls=DjangoJSONEncoder))
+
+
+@staff_member_required
+def dash(request, template='survey/dash.html'):
+    survey_data = survey_details(request.user)
     return render_to_response(template, RequestContext(request, {"meta": survey_data}))
+
 
 @login_required
 def fisher(request, uuid=None, template='survey/fisher-dash.html'):
@@ -75,9 +90,9 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
         respondant = get_object_or_404(Respondant, uuid=uuid)
         
         if respondant.complete is True and not request.user.is_staff:
-            return HttpResponse(simplejson.dumps({'success': False, 'complete': True}))
+            return HttpResponse(json.dumps({'success': False, 'complete': True}))
 
-        answers = simplejson.loads(request.body)
+        answers = json.loads(request.body)
 
         for answerDict in answers.get('answers', []):
             answer = answerDict['answer']
@@ -85,7 +100,7 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
             
             question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
             response, created = Response.objects.get_or_create(question=question,respondant=respondant)
-            response.answer_raw = simplejson.dumps(answer)
+            response.answer_raw = json.dumps(answer)
             response.ts = datetime.datetime.now()
             if request.user.is_authenticated():
                 response.user = request.user
@@ -102,8 +117,8 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
         respondant.last_question = question_slug
         respondant.save()
 
-        return HttpResponse(simplejson.dumps({'success': True }))
-    return HttpResponse(simplejson.dumps({'success': False}))
+        return HttpResponse(json.dumps({'success': True }))
+    return HttpResponse(json.dumps({'success': False}))
 
 
 
@@ -114,10 +129,10 @@ def answer(request, survey_slug, question_slug, uuid): #, survey_slug, question_
         question = get_object_or_404(Question, slug=question_slug, survey=survey)
         respondant = get_object_or_404(Respondant, uuid=uuid)
         if respondant.complete is True and not request.user.is_staff:
-            return HttpResponse(simplejson.dumps({'success': False, 'complete': True}))
+            return HttpResponse(json.dumps({'success': False, 'complete': True}))
 
         response, created = Response.objects.get_or_create(question=question,respondant=respondant)
-        response.answer_raw = simplejson.dumps(simplejson.loads(request.POST.keys()[0]).get('answer', None))
+        response.answer_raw = json.dumps(json.loads(request.POST.keys()[0]).get('answer', None))
         response.save_related()
 
         if created:
@@ -127,8 +142,8 @@ def answer(request, survey_slug, question_slug, uuid): #, survey_slug, question_
             response.user = request.user
         respondant.last_question = question_slug
         respondant.save()
-        return HttpResponse(simplejson.dumps({'success': "%s/%s/%s" % (survey_slug, question_slug, uuid)}))
-    return HttpResponse(simplejson.dumps({'success': False}))
+        return HttpResponse(json.dumps({'success': "%s/%s/%s" % (survey_slug, question_slug, uuid)}))
+    return HttpResponse(json.dumps({'success': False}))
 
 
 def complete(request, survey_slug, uuid, action=None, question_slug=None):
@@ -145,8 +160,8 @@ def complete(request, survey_slug, uuid, action=None, question_slug=None):
             respondant.status = 'terminate'
             respondant.last_question = question_slug
         respondant.save()
-        return HttpResponse(simplejson.dumps({'success': True}))
-    return HttpResponse(simplejson.dumps({'success': False}))
+        return HttpResponse(json.dumps({'success': True}))
+    return HttpResponse(json.dumps({'success': False}))
 
 def send_email(email, uuid):
     from django.contrib.sites.models import Site
