@@ -218,7 +218,7 @@ class DashRespondantResource(ReportRespondantResource):
         if 'puerto-rico' not in user_tags and 'usvi' not in user_tags:
             for tag in user_tags:
                 sqs = sqs.filter(survey_tags__contains=tag)
-        print sqs.count()
+
         sqs = sqs.order_by('-ordering_date')
 
         paginator = Paginator(sqs, limit)
@@ -227,9 +227,7 @@ class DashRespondantResource(ReportRespondantResource):
         try:
             page = paginator.page(page)
         except InvalidPage:
-            raise Http404("Sorry, no results on that page.")
-
-        
+            raise Http404("Sorry, no results on that page.")        
 
         objects = []
 
@@ -240,43 +238,40 @@ class DashRespondantResource(ReportRespondantResource):
                 objects.append(bundle)
 
           
-        url = reverse('api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
+        base_url = reverse('api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
+
+        base_url = base_url + "?limit={0}&q={1}&format=json".format(limit, query)
+
+        if start_date is not None:
+            base_url = base_url + "&start_date=" + start_date
+        if entered_by is not None:
+            base_url = base_url + "&entered_by" + entered_by
+        if review_status is not None:
+            base_url = review_status + "&review_status" + review_status
+        if island is not None:
+            base_url = base_url + "&island" + island
+
 
         if page.has_next():
-            next_url = "{0}?q={1}&page={2}&limit={3}&format=json".format(url, query, page.next_page_number(), limit)
+            next_url = "{0}&page={1}".format(base_url, page.next_page_number())
         else:
             next_url = None
 
         if page.has_previous():
-            previous_url = "{0}?q={1}&page={2}&limit={3}&format=json".format(url, query, page.previous_page_number(), limit)
+            previous_url = "{0}&page={1}".format(base_url, page.previous_page_number())
         else:
             previous_url = None
         
-        if next_url is not None:
-            if start_date is not None:
-                next_url = next_url + "&start_date=" + start_date
-            if entered_by is not None:
-                next_url = next_url + "&entered_by" + entered_by
-            if review_status is not None:
-                next_url = review_status + "&review_status" + review_status
-            if island is not None:
-                next_url = next_url + "&island" + island
-
-        if previous_url is not None:
-            if start_date:
-                previous_url = previous_url + "&start_date=" + start_date
-            if entered_by is not None:
-                previous_url = previous_url + "&entered_by" + entered_by
-            if review_status is not None:
-                previous_url = previous_url + "&review_status" + review_status
-            if island is not None:
-                previous_url = previous_url + "&island" + island
+       
 
         meta = {
             "limit": limit,
             "next": next_url,
             "previous": previous_url,
-            "total_count": total
+            "total_count": total,
+            "pages": paginator.page_range,
+            "base_url": base_url,
+            "page": page.number
         }
 
         object_list = {

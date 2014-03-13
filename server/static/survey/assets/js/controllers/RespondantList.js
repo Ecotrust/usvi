@@ -32,6 +32,7 @@ angular.module('askApp')
             $scope.busy = false;
             $scope.filterChanged = {};
         };
+
         $scope.getReports = function(metaUrl, button) {
             var url;
 
@@ -75,7 +76,9 @@ angular.module('askApp')
             
 
         }
-
+        $scope.goToPage = function (page) {
+            $scope.getReports($scope.meta.base_url + '&page=' + page, true);
+        };
         $scope.search = function (searchTerm) {
             if (searchTerm) {
                 $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + searchTerm);

@@ -100,13 +100,31 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-4">
                                     <p>
                                         Showing {{ respondents.length }} of {{ meta.total_count }}
                                         <span ng-hide="total_surveys == meta.total_count">filtered from {{ total_surveys || 0}}</span>
                                     </p>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-8">
+                                    <div class="pull-right">
+                                        <div 
+                                            pagination total-items="meta.total_count"
+                                            page="meta.page" items-per-page="5" max-size="8"
+                                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+                                            on-select-page="goToPage(page)">
+                                        </div>
+                                    </div>
+                                <!-- <ul class="pagination pull-right">
+                                    <li><a href="#" ng-show="meta.page >= 10">&laquo;</a></li>
+                                    <li 
+                                        ng-repeat="page in pages"
+                                        ng-class="{ 'active': page == meta.page }">
+                                        <a ng-click="getReports(page.url, true)">{{page.page}}</a>
+                                    </li>
+                                  <li><a href="#">&raquo;</a></li>
+                                </ul> -->
+                                <!-- <ul class="pagination">
                                     <ul class="pager">
                                         <li class="previous" ng-class="{ 'disabled': !meta.next }">
                                             <a ng-disabled="! meta.next" ng-click="getReports(meta.next, true)">&larr; Previous</a>
@@ -115,7 +133,7 @@
                                             <a ng-disabled="! meta.previous" ng-click="getReports(meta.previous, true)">Next &rarr;</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
 
                             </div>
                         </div>

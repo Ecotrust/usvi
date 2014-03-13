@@ -1852,6 +1852,18 @@ angular.module('ui.bootstrap.pagination', [])
         });
       }
 
+      scope.$parent.$watch(function () { return scope.totalItems; }, function (value) {
+        console.log(value);
+        var totalItems = parseInt(value, 10);
+        if (totalItems > parseInt(maxSize, 10)) {
+          boundaryLinks = true;
+          directionLinks = true;
+        } else {
+          boundaryLinks = false;
+          directionLinks = false;
+        }
+        paginationCtrl.render();
+      });      
       // Create page object used in template
       function makePage(number, text, isActive, isDisabled) {
         return {
