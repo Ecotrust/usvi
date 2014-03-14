@@ -432,10 +432,28 @@ h1, h2, h3, h4 {
     border-color: #ebccd1 2px solid;
     margin-bottom: 10px;
 }
-.question .alert {
+.alert-danger {
+    margin: 10px 0;
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 14px;
+    color: white;
+    font-size: 16px;
+    background-color: #b94a48;
+    border-color: #b94a48;
+}
+.error-modal-header {
+    color: white;
+    font-size: 24px;
+    background-color: #b94a48;
+}
+.error-modal-header,
+.error-modal-footer,
+.modal-content {
+    border-radius: 0;
+}
+.modal-body {
+    font-size: 16px;
 }
 
 .question .input-prepend {

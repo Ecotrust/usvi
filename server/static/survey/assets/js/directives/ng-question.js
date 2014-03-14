@@ -1,4 +1,132 @@
 angular.module('askApp').directive('multiquestion', function() {
+
+    function _isBlank (q /* question */) {
+        if (q.type === 'single-select' || q.type === 'multi-select' || q.type === 'yes-no') {
+            var others = q.otherAnswers || {},
+                hasOthers = others.length && ( ! (others.length === 1 && 
+                                                  others[0] === "") ),
+                options = q.groupedOptions && q.groupedOptions.length ? 
+                            _.flatten(_.map(q.groupedOptions, function(option) {
+                                return option.options;
+                            })) :
+                            q.options,
+                someChecked = _.some(_.pluck(options, 'checked'));
+
+            return !hasOthers && !someChecked;
+        }
+        
+        if (q.type === 'map-multipoint') {
+            return ! _.isArray(q.markers) || q.markers.length < 1
+        }
+
+        if (_.isArray(q.answer)) {
+            return q.answer.length === 0 || 
+                        (q.answer.length === 1 && 
+                         q.answer[0].text && 
+                         q.answer[0].text === 'NO_ANSWER');
+        } 
+
+        if (!q.answer) { 
+            // The remaining question types should fit this case.
+            return true;
+        } 
+    }
+
+    function _isValid (q /* question */) {
+        // if the question has no content and is not required, it is good to go
+        if (! q.required) {
+            if (_.isArray(q.answer) && (q.answer.length === 0 || (q.answer.length === 1 && q.answer[0].text && q.answer[0].text === 'NO_ANSWER'))) {
+                return true;
+            } else if (!q.answer || q.type === 'single-select' || q.type === 'multi-select') { 
+                return true;
+            } // else: validate the answer that is provided.
+        }
+
+        if (q.type === 'zipcode') {
+            return (/^\d{5}(-\d{4})?$/).test(q.answer);
+        }
+
+        if (q.type === 'phone') {
+            /* first strip all valid special characters, then counts if there are at least 10 digits */
+            return (/^\d{10,}$/).test(q.answer.replace(/[\s()+\-\.]|ext/gi, ''));
+        }
+
+        if (q.type === 'url') {
+            var exp = /^(https?:\/\/)?([\da-zA-Z\.-]+)\.([\da-zA-Z]{2,6})(\:[\d]{1,5})?\/?.*$/;
+            return exp.test(q.answer);
+        }
+
+        if (q.type === 'integer' || q.type === 'number' || q.type === 'currency') {
+            if (q.type === 'currency') {
+                return /^\$?(([0-9]{1,3},([0-9]{3},)*)[0-9]{3}|[0-9]{1,3})(\.[0-9]{2})?$/.test(q.answer);
+            }                    
+            if (isNaN(q.answer)) {
+                return false;
+            }
+            if (q.integer_max && q.integer_max < q.answer) {
+                return false;
+            }
+            if (q.integer_min && q.integer_min > q.answer) {
+                return false;
+            }
+            if (q.type === 'integer' && _.string.include(q.answer, '.')) {
+                return false;
+            }
+        }
+
+        if (q.type === 'text' || q.type === 'textarea') {
+            if (! q.answer) {
+                return false;
+            }
+        }
+        var otherAnswers = q.otherAnswers && q.otherAnswers.length && ( ! (q.otherAnswers.length === 1 && q.otherAnswers[0] === "") );
+        if (q.type === 'single-select') {
+            if (q.groupedOptions && q.groupedOptions.length) {
+                var groupedOptions = _.flatten(_.map(q.groupedOptions, function(option) {
+                    return option.options;
+                }));
+                return _.some(_.pluck(groupedOptions, 'checked')) || otherAnswers;      
+            } else {
+                return _.some(_.pluck(q.options, 'checked')) || otherAnswers;      
+            }                    
+        } else if ( q.type === 'multi-select' || q.type === 'yes-no' ) {                
+            
+            var otherEntry = otherAnswers, 
+                standardEntry = false;
+            
+            if (otherEntry) {
+                return true;
+            } else {
+                if (q.groupedOptions && q.groupedOptions.length) {  
+                    return _.some(_.pluck(_.flatten(_.map(q.groupedOptions, function (group) { return group.options })), 'checked'));
+                } else {
+                    return _.some(_.pluck(q.options, 'checked')) || q.otherAnswers.length;        
+                }
+            }
+        }
+        
+        if (q.type === 'number-with-unit') {
+            if (! _.isNumber(q.answer) || ! q.unit) {
+                return false;    
+            }
+        }
+
+       if ((q.type === 'monthpicker' || q.type == 'datepicker' || q.type === 'timepicker')) {
+            if (! q.answer || (new Date(scope.q.answer)).add(1).day().clearTime() > (new Date()).clearTime()) {
+                return false;    
+            }
+        }
+
+        if (q.type === 'map-multipoint') {
+            if (! _.isArray(q.markers) || q.markers.length < 1) {
+                return false;
+            }
+        }
+
+        // default case
+        return true;
+    }
+
     return {
         templateUrl: app.viewPath + 'views/multiQuestionTypes.html',
         restrict: 'EA',
@@ -8,119 +136,49 @@ angular.module('askApp').directive('multiquestion', function() {
             question: '=question',
             pageorder: '=pageorder',
             answers: '=answers',
-            validity: '=validity'
+            syncedValidity: '=validity', // Updated as answer changes.
+            showErrors: '='
         },
         link: function postLink(scope, element, attrs) {
-            scope.validateQuestion = function (question) {
 
-                // if the question has no content and is not required, it is good to go
-                if (! question.required) {
-                    if (_.isArray(question.answer) && (question.answer.length === 0 || (question.answer.length === 1 && question.answer[0].text && question.answer[0].text === 'NO_ANSWER'))) {
-                        return true;
-                    } else if (!question.answer || question.type === 'single-select' || question.type === 'multi-select') { 
-                        return true;
-                    } // else: validate the answer that is provided.
-                }
 
-                if (question.type === 'zipcode') {
-                    return (/^\d{5}(-\d{4})?$/).test(question.answer);
-                }
+            var _isValid_prepared = true;  // Updated when showErrors changes.
+            var _isBlank_prepared = false; // Updated when showErrors changes.
 
-                if (question.type === 'phone') {
-                    /* first strip all valid special characters, then counts if there are at least 10 digits */
-                    return (/^\d{10,}$/).test(question.answer.replace(/[\s()+\-\.]|ext/gi, ''));
-                }
-
-                if (question.type === 'url') {
-                    var exp = /^(https?:\/\/)?([\da-zA-Z\.-]+)\.([\da-zA-Z]{2,6})(\:[\d]{1,5})?\/?.*$/;
-                    return exp.test(question.answer);
-                }
-
-                if (question.type === 'integer' || question.type === 'number' || question.type === 'currency') {
-                    if (question.type === 'currency') {
-                        return /^\$?(([0-9]{1,3},([0-9]{3},)*)[0-9]{3}|[0-9]{1,3})(\.[0-9]{2})?$/.test(question.answer);
-                    }                    
-                    if (isNaN(question.answer)) {
-                        return false;
-                    }
-                    if (question.integer_max && question.integer_max < question.answer) {
-                        return false;
-                    }
-                    if (question.integer_min && question.integer_min > question.answer) {
-                        return false;
-                    }
-                    if (question.type === 'integer' && _.string.include(question.answer, '.')) {
-                        return false;
-                    }
-                }
-
-                if (question.type === 'text' || question.type === 'textarea') {
-                    if (! question.answer) {
-                        return false;
-                    }
-                }
-                var otherAnswers = question.otherAnswers && question.otherAnswers.length && ( ! (question.otherAnswers.length === 1 && question.otherAnswers[0] === "") );
-                if (question.type === 'single-select') {
-                    if (question.groupedOptions && question.groupedOptions.length) {
-                        var groupedOptions = _.flatten(_.map(question.groupedOptions, function(option) {
-                            return option.options;
-                        }));
-                        return _.some(_.pluck(groupedOptions, 'checked')) || otherAnswers;      
-                    } else {
-                        return _.some(_.pluck(question.options, 'checked')) || otherAnswers;      
-                    }                    
-                } else if ( question.type === 'multi-select' || question.type === 'yes-no' ) {                
-                    
-                    var otherEntry = otherAnswers, 
-                        standardEntry = false;
-                    
-                    if (otherEntry) {
-                        return true;
-                    } else {
-                        if (question.groupedOptions && question.groupedOptions.length) {  
-                            return _.some(_.pluck(_.flatten(_.map(question.groupedOptions, function (group) { return group.options })), 'checked'));
-                        } else {
-                            return _.some(_.pluck(question.options, 'checked')) || question.otherAnswers.length;        
-                        }
-                    }
-
-                    // if ( question.allow_other && question.otherOption.checked && ! otherAnswers ) {
-                    //     return false;
-                    // }
-                    // if ( question.allow_other && ! question.otherAnswers ) {
-                    //     return false;                        
-                    // } else if (! question.otherOption.checked) {
-
-                    //     if (question.groupedOptions && question.groupedOptions.length) {  
-                    //         return _.some(_.pluck(_.flatten(_.map(question.groupedOptions, function (group) { return group.options })), 'checked'));
-                    //     } else {
-                    //         return _.some(_.pluck(question.options, 'checked')) || question.otherAnswers.length;        
-                    //     }
-                    // }
-                    
-                }
-                
-                if (question.type === 'number-with-unit') {
-                    if (! _.isNumber(question.answer) || ! question.unit) {
-                        return false;    
-                    }
-                }
-        
-               if ((question.type === 'monthpicker' || question.type == 'datepicker' || question.type === 'timepicker')) {
-                    if (! question.answer || (new Date(scope.question.answer)).add(1).day().clearTime() > (new Date()).clearTime()) {
-                        return false;    
-                    }
-                }
-
-                if (question.type === 'map-multipoint') {
-                    if (! _.isArray(question.markers) || question.markers.length < 1) {
-                        return false;
-                    }
-                }
-
-                // default case
-                return true;
+            scope.isValid = function () {
+                return _isValid_prepared;
             };
+
+            scope.isBlank = function () {
+                return _isBlank_prepared;
+            };
+
+            scope.isRequired = function () {
+                return scope.question.required;
+            };
+
+
+            // Update valid and blank indicators when showErrors changes. Used
+            // to determine whether errors are shown.
+            scope.$watch('showErrors', function () {
+                if (scope.showErrors) {
+                    _isValid_prepared = _isValid(scope.question);
+                    _isBlank_prepared = _isBlank(scope.question);
+                } else {
+                    // Default to everything being a-okay.
+                    _isValid_prepared = true;
+                    _isBlank_prepared = false;
+                }
+            });
+
+
+            // Keep a validity value (separate from above) synced every time the 
+            // answer changes. Used to update UI styles.
+            scope.$watch(function () {
+                return _isValid(scope.question);
+            }, function () {
+                scope.syncedValidity[scope.question.slug] = _isValid(scope.question);
+            });
 
 
             // get previously answered questions
@@ -410,15 +468,6 @@ angular.module('askApp').directive('multiquestion', function() {
                     return option.options;
                 })), 'checked'));
             }
-
-            scope.$watch(function () {
-                return scope.validateQuestion(scope.question);
-            }, function () {
-                scope.validity[scope.question.slug] = scope.validateQuestion(scope.question);
-            });
-            // scope.$watch('question', function () {
-            //     scope.validity[scope.question.slug] = scope.validateQuestion(scope.question);
-            // }, true);
 
             scope.$watch('question.otherAnswers', function (newVal, oldVal) {
                 if (scope.question.type == 'single-select' && scope.question.allow_other && scope.question.otherAnswers.length && scope.question.otherAnswers[0] !== "") {

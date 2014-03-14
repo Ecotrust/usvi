@@ -1,5 +1,5 @@
 angular.module('askApp')
-    .controller('SurveyDetailCtrl', function($scope, $routeParams, $http, $location, $dialog, $interpolate, $timeout, survey, storage) {
+    .controller('SurveyDetailCtrl', function($scope, $routeParams, $http, $location, $interpolate, $timeout, $modal, survey, storage) {
         // $('#wrap').css({ 'min-height': initialHeight -80});
         // $('#wrap').css({ 'min-height': initialHeight -80});
         // $(window).on('resize', function () {
@@ -169,14 +169,28 @@ angular.module('askApp')
 
     $scope.submitPage = function (page) {
 
+        $scope.showErrors = false;
+        if (! $scope.pageIsValid) {
+            $timeout(function () {
+                // Trigger questions to validate and display errors.
+                $scope.showErrors = true;
+                $scope.modalInstance = $modal.open({
+                    templateUrl: app.viewPath + 'views/errorsAlertModal.html',
+                    controller: function ($scope, $modalInstance) {
+                        $scope.ok = function () {
+                            $modalInstance.close();
+                        };
+                    }
+                });
+            }, 0);
+            return false;
+        }
+
         var firstNonProfilePage = 2;
         if (page.order === firstNonProfilePage) {
             _setProfileAnswers($scope.survey.slug, $routeParams.uuidSlug);
         }
 
-        if (! $scope.pageIsValid) {
-            return false;
-        }
         var answers = _.map(page.questions, function (question) {
             return $scope.getAnswerOnPage(question);
         });
@@ -463,7 +477,7 @@ angular.module('askApp')
                 text: question.otherAnswers[0],
                 other: true
             };
-        } else if (!question.required && question.type !== 'yes-no') {
+        } else if (!question.required) {
             // No answer given. Submit empty.
            answer = {
                 text: 'NO_ANSWER'

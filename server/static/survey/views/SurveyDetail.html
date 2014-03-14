@@ -41,12 +41,13 @@
                             </div>
                             <div ng-switch-default>
                                 <form ng-submit="$parent.submitPage(page)">
-                                    <div multiquestion question="question" answers="answers" validity="validity" pageorder="$index"></div>
+                                    <div multiquestion question="question" answers="answers" validity="validity" show-errors="showErrors" pageorder="$index"></div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div id="page-controls" class="clearfix">
                     <a class="btn btn-main btn-nav btn-primary pull-right" ng-class="{ 'valid': pageIsValid, 'invalid': !pageIsValid }" ng-click="submitPage(page)">Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></a>&nbsp;&nbsp;
