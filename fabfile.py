@@ -227,7 +227,8 @@ def vagrant(username='vagrant'):
     env.code_dir = '/vagrant/%s' % app
     env.venv = '/usr/local/venv/geosurvey'
     env.app_dir = '/vagrant/server'
-
+    env.settings = 'config.environments.development'
+    env.db_user = 'vagrant'
     try:
         env.host_string = '%s@127.0.0.1:%s' % (username, data['Port'])
     except KeyError:
@@ -244,8 +245,8 @@ def staging(connection):
     env.user, env.host = connection.split('@')
     env.port = 22
     env.host_string = '%s@%s:%s' % (env.user, env.host, env.port)
-
-
+    env.settings = 'config.environments.staging'
+    env.db_user = 'postgres'
 def upload_project_sudo(local_dir=None, remote_dir=""):
     """
     Copied from Fabric and updated to use sudo.
@@ -397,14 +398,14 @@ def backup_db():
 def restore_db(dump_name):
     env.warn_only = True
     put(dump_name, "/tmp/%s" % dump_name.split('/')[-1])
-    run("dropdb geosurvey")
+    run("dropdb geosurvey -U %s" % env.db_user)
     run("createdb -U postgres -T template0 -O postgres geosurvey")
     with cd(env.code_dir):
         with _virtualenv():
             #_manage_py('flush --noinput')
             # _manage_py('syncdb --noinput')
             run("pg_restore --create --no-acl --no-owner -U postgres -d geosurvey /tmp/%s" % dump_name.split('/')[-1])
-            _manage_py('migrate')
+            _manage_py('migrate --settings=%s' % env.settings)
     #run("cd %s && %s/bin/python manage.py migrate --settings=config.environments.staging" % (env.app_dir, env.venv))
 
 @task
