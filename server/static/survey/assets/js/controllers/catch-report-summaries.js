@@ -26,6 +26,9 @@ angular.module('askApp')
 			endDate: end_date.valueOf(),
 			area: "uscaribeez"
 		};
+		$scope.user = app.user;
+		
+		
 
 		$scope.geojson_layer = '/reports/distribution/all/area-fished*';
 		$scope.activePage = 'catch-report-summaries';

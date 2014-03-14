@@ -49,12 +49,14 @@ def survey_details(user):
     user_tags = [tag.name for tag in user.profile.tags.all()]
     surveys = Survey.objects.filter(tags__name__in=user_tags)
     all_respondents = Respondant.objects.filter(survey__in=surveys)
+    entered_by = [u['entered_by__username'] for u in all_respondents.exclude(entered_by=None).values('entered_by__username').distinct()]
     return {
         "total": all_respondents.count(),
         "needs_review": all_respondents.filter(review_status=REVIEW_STATE_NEEDED).count(),
         "flagged": all_respondents.filter(review_status=REVIEW_STATE_FLAGGED).count(),
         "reports_start": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest'],
-        "reports_end": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest']
+        "reports_end": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest'],
+        "entered_by": entered_by
     }
 
 
@@ -67,6 +69,7 @@ def get_survey_details(request):
 @staff_member_required
 def dash(request, template='survey/dash.html'):
     survey_data = survey_details(request.user)
+    survey_data['entered_by'] = json.dumps(survey_data['entered_by'])
     return render_to_response(template, RequestContext(request, {"meta": survey_data}))
 
 

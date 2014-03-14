@@ -1,7 +1,7 @@
 //'use strict';
 
 angular.module('askApp')
-    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history, $rootScope) {
+    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history, $rootScope, respondents) {
         var areaMapping = {
             stcroix: "St. Croix",
             stthomasstjohn: "St. Thomas & St. John",
@@ -25,6 +25,7 @@ angular.module('askApp')
         $scope.viewPath = app.server + '/static/survey/';
         $scope.activePage = 'survey-stats';
         $scope.total_surveys = app.survey_meta.total;
+        $scope.survey_meta = app.survey_meta;
         var loadReports = function(data, url) {
             $scope.respondents = data.objects;
             $scope.meta = data.meta;
@@ -34,6 +35,7 @@ angular.module('askApp')
         };
 
         $scope.getReports = function(metaUrl, button) {
+            console.log(metaUrl);
             var url;
 
             if (metaUrl) {
@@ -46,31 +48,10 @@ angular.module('askApp')
                     // clicking button, but url is null
                     return false;
                 }
-                // url = [
-                //     '/api/v1/dashrespondant/?format=json&limit=5',
-                //     '&ordering_date__gte=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
-                //     '&ordering_date__lte=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
-                // ].join('');
-                url = [
-                    '/api/v1/dashrespondant/search/?format=json&limit=5',
-                    '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd'),
-                    '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd')
-                ].join('');
-                if ($scope.filter.search) {
-                    url = url + '&q=' + $scope.filter.search;
-                }
-                if ($scope.area && $scope.area !== 'Region') {
-                    url = url + '&island=' + $scope.area;
-                }
-                if ($scope.filter.review_status) {
-                    url = url + '&review_status=' + $scope.filter.review_status;
-                }
-                if ($scope.filter.entered_by) {
-                    url = url + '&entered_by=' + $scope.filter.entered_by;
-                }
+               
             }
             $scope.busy = true;
-            $http.get(url).success(function (data) {
+            respondents.getReports(url, $scope.filter).success(function (data) {
                 loadReports(data, url) 
             });
             
@@ -118,7 +99,7 @@ angular.module('askApp')
             max: dateFromISO(app.survey_meta.reports_end).valueOf(),
             startDate: start_date.valueOf(),
             endDate: end_date.valueOf(),
-            area: "region",
+            area: "uscaribeez",
             review_status: "",
             entered_by: "",
             search: $location.search().q

@@ -18,6 +18,7 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 import datetime
+import json
 
 from survey.models import Survey, Question, Option, Respondant, Response, Page, Block, Dialect, DialectSpecies
 
@@ -227,7 +228,7 @@ class DashRespondantResource(ReportRespondantResource):
         try:
             page = paginator.page(page)
         except InvalidPage:
-            raise Http404("Sorry, no results on that page.")        
+            raise Http404("Sorry, no results on that page.")
 
         objects = []
 
@@ -249,7 +250,7 @@ class DashRespondantResource(ReportRespondantResource):
         if review_status is not None:
             base_url = review_status + "&review_status" + review_status
         if island is not None:
-            base_url = base_url + "&island" + island
+            base_url = base_url + "&island=" + island
 
 
         if page.has_next():
@@ -447,5 +448,5 @@ class SurveyReportResource(SurveyResource):
         bundle.data['meta'] = {
             "entered_by": [u['entered_by__username'] for u in bundle.obj.respondant_set.exclude(entered_by=None)
                     .values('entered_by__username').distinct()]
-        } 
+        }
         return bundle

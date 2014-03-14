@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="pull-right">
-                                        <div pagination total-items="meta.total_count" page="meta.page" items-per-page="5" max-size="8" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="goToPage(page)">
+                                        <div ng-show="meta.pages.length > 1" pagination total-items="meta.total_count" page="meta.page" items-per-page="5" max-size="8" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="goToPage(page)">
                                         </div>
                                     </div>
                                 </div>
