@@ -167,22 +167,39 @@ angular.module('askApp')
     }
 
 
+    $scope.showErrorAlert = function () {
+        // First, set showErrors to false in this digest cycle 
+        // to clear all error messages.
+        $scope.showErrors = false;
+        // Then set it to true in a separate digest cycle to trigger
+        // validation and showing of error messages.
+        $timeout(function () {
+            // Trigger questions to validate and display errors.
+            $scope.showErrors = true;
+            // Now show the alert.
+            $scope.modalInstance = $modal.open({
+                templateUrl: app.viewPath + 'views/errorsAlertModal.html',
+                controller: function ($scope, $modalInstance) {
+                    $scope.ok = function () {
+                        $modalInstance.close();
+                        // Scroll to top-most error.
+                        $('html, body').animate({
+                            scrollTop: $('.alert-danger')
+                                .filter(':visible')
+                                .first()
+                                .closest('.question-wrapper')
+                                .offset().top - 50
+                        }, 200);
+                    };
+                }
+            });
+        }, 0);        
+    };
+
     $scope.submitPage = function (page) {
 
-        $scope.showErrors = false;
         if (! $scope.pageIsValid) {
-            $timeout(function () {
-                // Trigger questions to validate and display errors.
-                $scope.showErrors = true;
-                $scope.modalInstance = $modal.open({
-                    templateUrl: app.viewPath + 'views/errorsAlertModal.html',
-                    controller: function ($scope, $modalInstance) {
-                        $scope.ok = function () {
-                            $modalInstance.close();
-                        };
-                    }
-                });
-            }, 0);
+            $scope.showErrorAlert();
             return false;
         }
 
