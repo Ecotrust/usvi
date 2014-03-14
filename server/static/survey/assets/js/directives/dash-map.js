@@ -101,12 +101,15 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                     geojsonLayer.addTo(map);
                 });
             })
-
+            var geojsonLayer;
             var getGeoJson = function (url) {
-    
-    
+                if (geojsonLayer) {
+                    map.removeLayer(geojsonLayer);
+                }
+                
                 $http.get(url).success(function(data) {
-                    var geojsonLayer = L.geoJson(data, { 
+                    locations.clearLayers()
+                    geojsonLayer = L.geoJson(data, { 
                         style: function(feature) {
                             return {
                                 "color": "#E6D845",
