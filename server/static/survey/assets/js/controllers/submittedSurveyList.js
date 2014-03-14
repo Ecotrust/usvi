@@ -36,7 +36,7 @@ angular.module('askApp')
                     start_date = firstDayOfCurrentMonth.toString('yyyy-MM-dd');
                     today = date.toString('yyyy-MM-dd');
 
-                $scope.surveyFilter = {start: start_date, end: today};
+                $scope.surveyFilter = {start: data.start_time, end: today};
                 $scope.getSubmittedSurveysList($scope.surveyFilter);
             }).error(function (err) {
                 console.log(JSON.stringify(err));
@@ -149,7 +149,6 @@ angular.module('askApp')
 
             return $http.get(url).error(function (err) {
                 console.log(JSON.stringify(err));
-                debugger;
             }).success(function (callback) { $scope.next20 = callback.meta.next; $scope.updateEnabled = false;  });  
         };
 
@@ -209,7 +208,6 @@ angular.module('askApp')
 
             return $http.get(url).error(function (err) {
                 console.log(JSON.stringify(err));
-                debugger;
             });
             
         };       

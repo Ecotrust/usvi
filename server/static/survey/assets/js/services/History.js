@@ -22,7 +22,6 @@ angular.module('askApp')
     }
 
     var getTitle = function(respondent) {
-        debugger;
         return _.findWhere(app.surveys, {slug: respondent.survey}).name;
     };
 
