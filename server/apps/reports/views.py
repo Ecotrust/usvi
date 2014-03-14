@@ -63,7 +63,7 @@ def get_distribution(request, survey_slug, question_slug):
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
         surveys = Survey.objects.filter(tags__name__in=user_tags)
     else:
-        surveys = Survey.objects.filter(slug=survey_slug, question_page__survey__in=surveys)
+        surveys = Survey.objects.filter(slug=survey_slug)
 
     if question_slug.find('*') == -1:
         question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey__in=surveys)

@@ -182,6 +182,7 @@ class DashRespondantResource(ReportRespondantResource):
 
     def get_object_list(self, request):
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
+        print user_tags
         surveys = Survey.objects.filter(tags__name__in=user_tags)
         return super(DashRespondantResource, self).get_object_list(request).filter(survey__in=surveys)
 
