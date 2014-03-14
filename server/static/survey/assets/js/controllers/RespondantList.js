@@ -80,8 +80,10 @@ angular.module('askApp')
             $scope.filter.endDate = $scope.filter.max;
             $scope.filter.review_status = "";
             $location.search({q: ""});
+            $scope.filter.area = 'uscaribeez';
             $scope.clearingFilters = false;
             $scope.getReports();
+
         };
  
         $scope.updateSurveyDetails = function () {
