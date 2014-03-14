@@ -208,10 +208,6 @@ def restart():
     with settings(warn_only=True):
         sudo('initctl restart app')
         sudo('/etc/init.d/nginx reload')
-@task
-def restore(file=None):
-    if file is not None:
-        run(" pg_restore --verbose --clean --no-acl --no-owner -d %s /vagrant/%s" % (project, file))
 
 @task
 def vagrant(username='vagrant'):
@@ -247,6 +243,7 @@ def staging(connection):
     env.host_string = '%s@%s:%s' % (env.user, env.host, env.port)
     env.settings = 'config.environments.staging'
     env.db_user = 'postgres'
+
 def upload_project_sudo(local_dir=None, remote_dir=""):
     """
     Copied from Fabric and updated to use sudo.

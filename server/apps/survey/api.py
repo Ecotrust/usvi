@@ -217,9 +217,12 @@ class DashRespondantResource(ReportRespondantResource):
         if island is not None:
             sqs = sqs.filter(island=island)
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-        if 'puerto-rico' not in user_tags and 'usvi' not in user_tags:
-            for tag in user_tags:
-                sqs = sqs.filter(survey_tags__contains=tag)
+
+        if 'puerto-rico' not in user_tags:
+            sqs = sqs.exclude(survey_tags__slug__exact='puerto-rico')
+
+        if 'usvi' not in user_tags:
+            sqs = sqs.exclude(survey_tags__slug__exact='usvi')
 
         sqs = sqs.order_by('-ordering_date')
 
