@@ -45,13 +45,19 @@ angular.module('askApp')
         };
 
 		$scope.$watchCollection('filter', function(newFilter) {
-			var weight_url = base_weight_url;
+			var weight_url = base_weight_url, geojson_url = base_geojson_layer;
 			$scope.totals = {};
 			$scope.max = 0;
 			$scope.busy = true;
+			$scope.area = respondents.getIsland($scope.filter.area)
 			weight_url = weight_url + '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd');
 			weight_url = weight_url + '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
-			$scope.geojson_layer = base_geojson_layer + '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd') + '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
+			geojson_url = geojson_url + '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd');
+			geojson_url = geojson_url + '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
+			if ($scope.filter.area !== 'uscaribeez') {
+				geojson_url = geojson_url + '&island=' + $scope.area.replace(/&/g, "|");
+			}
+			$scope.geojson_layer = geojson_url;
 
 			$scope.getReports(null, $scope.filter);
 			$http.get(weight_url).success(function(data) {				

@@ -28,6 +28,9 @@ angular.module('askApp').service('respondents', function($http) {
 			}
 			
 			return $http.get(url);
+		},
+		getIsland: function (area) {
+			return areaMapping[area];
 		}
 	}
 });

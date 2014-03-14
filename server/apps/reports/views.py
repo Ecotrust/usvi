@@ -86,12 +86,12 @@ def get_distribution(request, survey_slug, question_slug):
         filters = request.GET.get('filters', None)
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
+        island = request.GET.get('island', None)
 
     if filters is not None:
         filter_list = simplejson.loads(filters)
     else:
         filter_question = None
-    print "before", answers.count()
     if start_date is not None:
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d') - datetime.timedelta(days=1)
         answers = answers.filter(respondant__ordering_date__gte=start_date)
@@ -99,7 +99,10 @@ def get_distribution(request, survey_slug, question_slug):
     if end_date is not None:
         end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d') + datetime.timedelta(days=1)
         answers = answers.filter(respondant__ordering_date__lte=end_date)
-    print "after", answers.count()
+
+    if island is not None:
+        answers = answers.filter(respondant__island=island.replace('|', '&'))
+
     if question_type in ['map-multipoint']:
         locations = LocationAnswer.objects.filter(location__response__in=answers)
 
