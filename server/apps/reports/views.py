@@ -7,6 +7,7 @@ from djgeojson.views import GeoJSONLayerView
 from djgeojson.serializers import Serializer as GeoJSONSerializer
 
 import simplejson
+import datetime
 
 from apps.survey.models import (Survey, Question, Response, Respondant, Location,
                                 MultiAnswer, LocationAnswer, GridAnswer, REVIEW_STATE_ACCEPTED)
@@ -52,10 +53,9 @@ def get_geojson(request, survey_slug, question_slug):
                 'coordinates': [location.location.lng,location.location.lat]
             }
         }
-        geojson.append(d)
-
-    
+        geojson.append(d) 
     return HttpResponse(simplejson.dumps({'success': "true", 'geojson': geojson}))
+
 
 @login_required
 def get_distribution(request, survey_slug, question_slug):
@@ -84,12 +84,22 @@ def get_distribution(request, survey_slug, question_slug):
 
     if request.method == 'GET':
         filters = request.GET.get('filters', None)
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
 
     if filters is not None:
         filter_list = simplejson.loads(filters)
     else:
         filter_question = None
+    print "before", answers.count()
+    if start_date is not None:
+        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d') - datetime.timedelta(days=1)
+        answers = answers.filter(respondant__ordering_date__gte=start_date)
 
+    if end_date is not None:
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d') + datetime.timedelta(days=1)
+        answers = answers.filter(respondant__ordering_date__lte=end_date)
+    print "after", answers.count()
     if question_type in ['map-multipoint']:
         locations = LocationAnswer.objects.filter(location__response__in=answers)
 

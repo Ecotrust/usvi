@@ -123,10 +123,12 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                     geojsonLayer.addTo(map);
                 });
             }
-            if (scope.geojson) {
-                getGeoJson(scope.geojson);
-            }
             
+            scope.$watch('geojson', function () {
+                if (scope.geojson) {
+                    getGeoJson(scope.geojson);
+                }    
+            });
             var createAndAddLabel = function(layer) {
                 layer.feature.label = new L.Label( {
                     offset: [-22, -15],

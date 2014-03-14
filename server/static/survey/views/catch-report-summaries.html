@@ -43,6 +43,24 @@
                     </li>
                 </ol>
             </div>
+            <div class="row">
+                <h3>Matching Reports</h3>
+                <table class="table">
+                    <tr ng-repeat="respondent in respondents">
+                        <td>
+                            <a target="_blank" href="#/RespondantDetail/{{respondent.uuid}}">
+                                {{ respondent.survey_title }}
+                            </a>
+                        </td>
+                        <td>{{ respondent.user.username }}</td>
+                        <td>{{ respondent.ordering_date|date }}</td>
+                    </tr>
+                </table>
+                <div class="pull-right">
+                    <div ng-show="meta.pages.length > 1" pagination total-items="meta.total_count" page="meta.page" items-per-page="5" max-size="8" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="goToPage(page)">
+                    </div>
+                </div>
+            </div>
        	</div>
     </div>
 </div>

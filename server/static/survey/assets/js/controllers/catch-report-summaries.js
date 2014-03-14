@@ -1,7 +1,7 @@
 //'use strict';
 
 angular.module('askApp')
-	.controller('CatchReportSummariesCtrl', function($scope, $http, $routeParams, $location) {
+	.controller('CatchReportSummariesCtrl', function($scope, $http, $routeParams, $location, respondents) {
 
 		var dateFromISO = function(iso_str) {
 			// IE8 and lower can't parse ISO strings into dates. See this
@@ -27,23 +27,46 @@ angular.module('askApp')
 			area: "uscaribeez"
 		};
 		$scope.user = app.user;
-		
-		
 
-		$scope.geojson_layer = '/reports/distribution/all/area-fished*';
+
+		var base_weight_url = app.server + '/reports/distribution/all/weight-*?';
+		var base_geojson_layer = '/reports/distribution/all/area-fished*?';
 		$scope.activePage = 'catch-report-summaries';
-		$scope.totals = {};
-		$scope.max = 0;
-		$http.get(app.server + '/reports/distribution/all/weight-*?').success(function (data) {
-			$scope.weights = _.groupBy(data.results, 'species__family__name');
-			_.each($scope.weights, function (groups, k) {
-				var total = _.reduce(_.pluck(groups, 'total'),
-                    function (memo, num) { return memo + num; }, 0);
-				if (total > $scope.max) {
-					$scope.max = total;
-				}
-				$scope.totals[k] = total;
-			});
+		
 
-		})
+		$scope.getReports = function (url) {
+			respondents.getReports(url, $scope.filter).success(function (data) {
+			    $scope.respondents = data.objects;
+                $scope.meta = data.meta;
+			});
+		}
+		$scope.goToPage = function (page) {
+            $scope.getReports($scope.meta.base_url + '&page=' + page, true);
+        };
+
+		$scope.$watchCollection('filter', function(newFilter) {
+			var weight_url = base_weight_url;
+			$scope.totals = {};
+			$scope.max = 0;
+			$scope.busy = true;
+			weight_url = weight_url + '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd');
+			weight_url = weight_url + '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
+			$scope.geojson_layer = base_geojson_layer + '&start_date=' + new Date($scope.filter.startDate).toString('yyyy-MM-dd') + '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
+
+			$scope.getReports(null, $scope.filter);
+			$http.get(weight_url).success(function(data) {				
+				$scope.weights = _.groupBy(data.results, 'species__family__name');
+				_.each($scope.weights, function(groups, k) {
+					var total = _.reduce(_.pluck(groups, 'total'),
+						function(memo, num) {
+							return memo + num;
+						}, 0);
+					if (total > $scope.max) {
+						$scope.max = total;
+					}
+					$scope.totals[k] = total;
+				});
+				$scope.busy = false;
+			});
+		});
 	});
