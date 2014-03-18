@@ -16,7 +16,11 @@ angular.module('askApp').directive('multiquestion', function() {
         }
         
         if (q.type === 'map-multipoint') {
-            return ! _.isArray(q.markers) || q.markers.length < 1
+            return ! _.isArray(q.markers) || q.markers.length < 1;
+        }
+
+        if (q.type === 'map-multipolygon') {
+            return ! _.isArray(q.answer) || q.answer.length < 1;
         }
 
         if (_.isArray(q.answer)) {
@@ -119,6 +123,12 @@ angular.module('askApp').directive('multiquestion', function() {
 
         if (q.type === 'map-multipoint') {
             if (! _.isArray(q.markers) || q.markers.length < 1) {
+                return false;
+            }
+        }
+
+        if (q.type === 'map-multipolygon') {
+            if (! _.isArray(q.answer) || q.answer.length < 1) {
                 return false;
             }
         }
