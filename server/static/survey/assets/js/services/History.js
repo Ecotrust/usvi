@@ -105,9 +105,9 @@ angular.module('askApp')
                 } else {
                     return  0;
                 }
-            } else if (questionSlug === 'area-fished-line-or-reel') {
+            } else if (questionSlug === 'areas-fished-line-or-reel') {
                 var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
-                    areas = _.findWhere(respondent.responses, {question: 'area-fished-line-or-reel-'+island}).answer;
+                    areas = _.findWhere(respondent.responses, {question: 'areas-fished-line-or-reel-'+island}).answer;
                 var answer = areas.toString();
 
             // } else if (questionSlug === 'area-fished-lobster-traps') {
@@ -120,19 +120,19 @@ angular.module('askApp')
             //         areas = _.findWhere(respondent.responses, {question: 'area-fished-fish-traps-'+island}).answer;
             //     var answer = areas.toString();
 
-            } else if (questionSlug === 'area-fished-traps') {
+            } else if (questionSlug === 'areas-fished-traps') {
                 var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
-                    areas = _.findWhere(respondent.responses, {question: 'area-fished-traps-'+island}).answer;
+                    areas = _.findWhere(respondent.responses, {question: 'areas-fished-traps-'+island}).answer;
                 var answer = areas.toString();
 
-            } else if (questionSlug === 'area-fished-nets') {
+            } else if (questionSlug === 'areas-fished-nets') {
                 var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
-                    areas = _.findWhere(respondent.responses, {question: 'area-fished-nets-'+island}).answer;
+                    areas = _.findWhere(respondent.responses, {question: 'areas-fished-nets-'+island}).answer;
                 var answer = areas.toString();
 
-            } else if (questionSlug === 'area-fished-spear-or-by-hand') {
+            } else if (questionSlug === 'areas-fished-spear-or-by-hand') {
                 var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
-                    areas = _.findWhere(respondent.responses, {question: 'area-fished-spear-or-by-hand-'+island}).answer;
+                    areas = _.findWhere(respondent.responses, {question: 'areas-fished-spear-or-by-hand-'+island}).answer;
                 var answer = areas.toString();
 
             } else {

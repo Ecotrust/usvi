@@ -81,13 +81,17 @@
         </div>
         <div>
             <strong>Área de captura:</strong>
-            <span>{{ getAnswer('area-fished-puerto-rico') }}</span>
+            <span ng-repeat="area in getAnswer('area-fished-puerto-rico')">
+                {{ area }}<span ng-hide="$last">, </span>
+            </span>
         </div>
     </div>
     <div class="col-xs-12 col-sm-4 margin-top-10">
         <div>
-            <strong>Número de Permiso para HMS si aplica:</strong>
-            <span>{{ getAnswer('hms-species-permit-number-puerto-rico') }}</span>
+            <strong>Número de Permiso para HMS si aplica: </strong>
+            <span>
+                {{ getAnswer('hms-species-permit-number-puerto-rico') }}
+            </span>
         </div>
     </div>
 
