@@ -442,18 +442,35 @@ h1, h2, h3, h4 {
     background-color: #b94a48;
     border-color: #b94a48;
 }
+.error-modal .modal-dialog {
+    max-width: 430px;
+}
 .error-modal-header {
     color: white;
-    font-size: 24px;
+    font-size: 18px;
     background-color: #b94a48;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .error-modal-header,
 .error-modal-footer,
 .modal-content {
     border-radius: 0;
 }
-.modal-body {
+.error-modal-body {
     font-size: 16px;
+}
+.error-modal-body .btn-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+.error-modal-body .btn {
+    margin-bottom: 0;
+}
+.error-modal-body {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .question .input-prepend {

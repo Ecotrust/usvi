@@ -179,6 +179,7 @@ angular.module('askApp')
             // Now show the alert.
             $scope.modalInstance = $modal.open({
                 templateUrl: app.viewPath + 'views/errorsAlertModal.html',
+                windowClass: 'error-modal',
                 controller: function ($scope, $modalInstance) {
                     $scope.ok = function () {
                         $modalInstance.close();
