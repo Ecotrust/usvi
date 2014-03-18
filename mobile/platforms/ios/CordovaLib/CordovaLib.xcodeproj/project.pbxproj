@@ -380,14 +380,8 @@
 				ALTERNATE_GROUP = admin;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"ARCHS[sdk=iphoneos*]" = armv7;
-				"ARCHS[sdk=iphoneos6.*]" = (
-					armv7,
-					armv7s,
-				);
-				"ARCHS[sdk=iphoneos7.*]" = (
-					armv7,
-					armv7s,
-				);
+				"ARCHS[sdk=iphoneos6.*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphoneos7.*]" = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -415,14 +409,8 @@
 				ALTERNATE_GROUP = admin;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"ARCHS[sdk=iphoneos*]" = armv7;
-				"ARCHS[sdk=iphoneos6.*]" = (
-					armv7,
-					armv7s,
-				);
-				"ARCHS[sdk=iphoneos7.*]" = (
-					armv7,
-					armv7s,
-				);
+				"ARCHS[sdk=iphoneos6.*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphoneos7.*]" = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
@@ -435,6 +423,7 @@
 				INSTALL_GROUP = admin;
 				INSTALL_PATH = /usr/local/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos6.*]" = 5.1.1;
 				PRODUCT_NAME = Cordova;
 				PUBLIC_HEADERS_FOLDER_PATH = include/Cordova;
 				SKIP_INSTALL = YES;
