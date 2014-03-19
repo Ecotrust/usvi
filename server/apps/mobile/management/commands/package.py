@@ -58,14 +58,19 @@ class Command(BaseCommand):
             content = f.read()
             version = re.search('version="(\d+)\.(\d+)\.(\d+)"', content)
             old_name = re.search('widget id="(\S*)"', content).group(1)
-            
+            old_title = re.search('<name>(\S*)</name>')
             #update the app name
             content = content.replace("widget id=\"%s\"" % old_name, "widget id=\"%s\"" % ident)
+
             old_version =  ".".join([version.group(1), version.group(2), version.group(3)])
             if test is False:
                 new_version =  ".".join([version.group(1), version.group(2), str(int(version.group(3)) + 1)])
                 print "Updating to %s" % new_version
                 content = content.replace("version=\"%s\"" % old_version, "version=\"%s\"" % new_version)
+                if stage == 'dev':
+                    content = content.replace("<name>%s</name>" % old_name, "<name>Digital Deck %s</name>" % stage)
+                else:
+                    content = content.replace("<name>%s</name>" % old_name, "<name>Digital Deck</name>")
             else:
                 print "Not Updating Version Number"
 
