@@ -417,6 +417,7 @@ img.center {
 .navbar {
     background-color: rgb(25, 25, 25);
     border-bottom: 0;
+    position: absolute;
 }
 .navbar .container {
     height: 50px;
@@ -482,6 +483,7 @@ img.center {
     height: 20px;
     min-height: 20px;
     background-color: rgb(250, 189, 18);
+    position: absolute;
 }
 .main .navbar .container > * {
     display: none;
