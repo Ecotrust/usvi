@@ -58,7 +58,7 @@ class Command(BaseCommand):
             content = f.read()
             version = re.search('version="(\d+)\.(\d+)\.(\d+)"', content)
             old_name = re.search('widget id="(\S*)"', content).group(1)
-            old_title = re.search('<name>(\S*)</name>')
+            old_title = re.search('<name>(\S*)</name>', content)
             #update the app name
             content = content.replace("widget id=\"%s\"" % old_name, "widget id=\"%s\"" % ident)
 
