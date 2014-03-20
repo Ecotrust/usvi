@@ -113,6 +113,14 @@ if (window.browserNotSupported) {
             templateUrl: app.viewPath + 'views/ost/ost-history-completes.html',
             controller: 'completesSurveyListCtrl'
         })
+            .when('/completes/:surveySlug/:uuidSlug', {
+            templateUrl: app.viewPath + 'views/ost/ost-respondent-detail.html',
+            controller: 'RespondentDetailCtrl'
+        })
+            .when('/incompletes/:surveySlug/:uuidSlug', {
+            templateUrl: app.viewPath + 'views/ost/ost-respondent-detail.html',
+            controller: 'RespondentDetailCtrl'
+        })
 
             .when('/fisher-summary', {
             templateUrl: app.viewPath + 'views/fisher-summary.html',

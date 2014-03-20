@@ -1,0 +1,125 @@
+<div class="row">
+    <dl class="dl-horizontal">
+
+        <dt>Respondent:</dt>
+        <dd>{{getAnswer('user-info-first-name')}} {{getAnswer('user-info-last-name')}}</dd>
+    </dl>
+</div>
+
+
+<div class="row">
+    <dl class="dl-horizontal">
+        <dt>Organization</dt>
+        <dd>
+            {{getAnswer('org-name')}} ({{getAnswer('org-type')}})</br>
+            {{getAnswer('org-address-1')}}</br>
+            {{getAnswer('org-city')}}, {{getAnswer('org-state')}} {{getAnswer('org-zipcode')}}</br>
+            <a href="{{getAnswer('org-url')}}">{{getAnswer('org-url')}}</a></br>
+        </dd>
+    </dl>
+</div>
+
+
+<div answers-panel 
+    title="'Project / Funding Information'" 
+    html-content="viewPath + 'views/ost/answers/project.html'"
+    respondent="respondent"></div>
+
+
+<div answers-panel 
+    title="'Data Management / Collection Information'"
+    html-content="viewPath + 'views/ost/answers/data.html'"
+    respondent="respondent"></div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Rocky Intertidal Ecosystems')">
+    <div answers-panel 
+        title="'Rocky Intertidal Ecosystems'"
+        html-content="viewPath + 'views/ost/answers/ef-rockyintertidal.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Kelp and Shallow (0-30m) Rock')">
+    <div answers-panel 
+        title="'Kelp and Shallow (0-30m) Rock'"
+        html-content="viewPath + 'views/ost/answers/ef-kelp-and-shallow-rock.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Mid depth (30-100m) Rock Ecosystems')">
+    <div answers-panel 
+        title="'Mid depth (30-100m) Rock Ecosystems'"
+        html-content="viewPath + 'views/ost/answers/ef-middepthrock.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Estuarine and Wetland Ecosystems')">
+    <div answers-panel 
+        title="'Estuarine and Wetland Ecosystems'"
+        html-content="viewPath + 'views/ost/answers/ef-estuarine.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Soft-bottom Intertidal and Beach Ecosystems')">
+    <div answers-panel 
+        title="'Soft-bottom Intertidal and Beach Ecosystems'"
+        html-content="viewPath + 'views/ost/answers/ef-softbottomintertidal.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Soft bottom Subtidal (0-100m) Ecosystems')">
+    <div answers-panel 
+        title="'Soft bottom Subtidal (0-100m) Ecosystems'"
+        html-content="viewPath + 'views/ost/answers/ef-softbottomsubtidal.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Deep Ecosystems and Canyons (>100m)')">
+    <div answers-panel 
+        title="'Deep Ecosystems and Canyons (>100m)'"
+        html-content="viewPath + 'views/ost/answers/ef-deep.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Nearshore Pelagic Ecosystems')">
+    <div answers-panel 
+        title="'Nearshore Pelagic Ecosystems'"
+        html-content="viewPath + 'views/ost/answers/ef-nearshore.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Consumptive Uses')">
+    <div answers-panel 
+        title="'Consumptive Uses'"
+        html-content="viewPath + 'views/ost/answers/ef-consumptive.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div ng-show="answerContains('ecosystem-features', 'Non-consumptive Uses')">
+    <div answers-panel 
+        title="'Non-consumptive Uses'"
+        html-content="viewPath + 'views/ost/answers/ef-nonconsumptive.html'"
+        respondent="respondent"></div>
+</div>
+
+
+<div answers-panel 
+    title="'Contextual Data'"
+    html-content="viewPath + 'views/ost/answers/contextual-data.html'"
+    respondent="respondent"></div>
+
+
+<div answers-panel 
+    title="'Future Monitoring'"
+    html-content="viewPath + 'views/ost/answers/future.html'"
+    respondent="respondent"></div>
+

@@ -84,6 +84,9 @@ angular.module('askApp')
         //     $location.path('/respondents');
         // };
 
+        $scope.gotoRespondentDetail = function (respondent) {
+            $location.path(['/completes', respondent.survey_slug, respondent.uuid].join('/'));
+        };
 
         $scope.closeRespondents = function () {
             _.each($scope.respondentList, function(respondent, index) {

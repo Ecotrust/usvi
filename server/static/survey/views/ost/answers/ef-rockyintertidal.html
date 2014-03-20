@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+
+
+        <div class="answer answer-multi-select">
+            <strong>Species / habitats monitored: </strong></br>
+            <div ng-repeat="entry in getAnswer('ef-rockyintertidal-species')">
+                <div ng-show="entry.showGroupName">
+                    <div class="groupname" ng-bind-html-unsafe="entry.groupName"></div>
+                    <div class="entry" ng-bind-html-unsafe="entry.text"></div>
+                </div>
+                <div ng-hide="entry.showGroupName">
+                    <div class="entry" ng-bind-html-unsafe="entry.text"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="answer" ng-hide="'Add point markers' == getAnswer('ef-rockyintertidal-point-vs-grid')">
+            <strong>Mapped planning units:</strong>
+            <!-- <span>{{ getAnswer('ef-rockyinteridal-collection-areas') }}</span> -->
+        </div>
+        <div class="answer" ng-show="'Add point markers' == getAnswer('ef-rockyintertidal-point-vs-grid')">
+            <strong>Mapped points:</strong>
+            <!-- <span>{{ getAnswer('ef-rockyintertidal-collection-points') }}</span> -->
+        </div>
+
+
+    </div>
+</div>

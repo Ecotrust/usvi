@@ -670,6 +670,7 @@ p.sign-up {
     .signin .btn-main {
         font-size: 14px;
     }
+}
 @media (max-width: 400px) {
     .btn-container .btn-caption {
         margin: 0 15px; 
@@ -677,4 +678,21 @@ p.sign-up {
     .main h1.ost-title {
         font-size: 26px;
     }
+}
+
+
+.panel-answers .panel-body h4 {
+    padding-top: 10px;
+}
+.panel-answers .panel-body .answer {
+    margin-top: 10px;
+}
+
+.answer-multi-select .groupname {
+    font-weight: bold;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+.answer-multi-select .entry {
+    padding-left: 15px;
 }

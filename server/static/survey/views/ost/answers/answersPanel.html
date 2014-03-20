@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 panel panel-default panel-answers">
+        <div class="panel-heading" ng-click="open = !open" ng-class="{ 'open': open }">
+            <h4 class="panel-title">
+                {{title}}
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" ng-class="{ 'in': open }">
+            <div class="panel-body">
+
+                <div ng-include="htmlContent"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

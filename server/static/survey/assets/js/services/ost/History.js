@@ -1,7 +1,7 @@
 //'use strict';
 
 angular.module('askApp')
-  .factory('history', function ($http, $location) {
+  .factory('history', function ($http, $location, survey) {
 
     var getSurveyTitle = function(respondent) {
         var title = respondent.survey;
@@ -18,51 +18,105 @@ angular.module('askApp')
     };
 
     var getAnswer = function(questionSlug, respondent) {
-        var answer = '';
         try {
+            var question = _.findWhere(respondent.responses, {question: questionSlug}), 
+                answer = '',
+                tmp,
+                // We don't have access to the question types here 
+                // so we're sorting them out here.
+                singleSelects = 
+                            ['org-type',
+                             'proj-num-people', 
+                             'proj-data-years', 
+                             'proj-data-frequency', 
+                             'proj-financial-support-timeline',
+                             'ef-rockyintertidal-point-vs-grid',
+                             'ef-kelp-and-shallow-rock-point-vs-grid',
+                             'ef-middepthrock-point-vs-grid',
+                             'ef-estuarine-point-vs-grid',
+                             'ef-softbottomintertidal-point-vs-grid',
+                             'ef-softbottomsubtidal-point-vs-grid',
+                             'ef-deep-point-vs-grid',
+                             'ef-nearshore-point-vs-grid',
+                             'ef-consumptive-point-vs-grid',
+                             'ef-nonconsumptive-point-vs-grid',
+                             'cd-collection-locations',
+                             'future-monitoring-yes-no'],
+                
+                multiSelects = 
+                             ['proj-data-availability', 
+                              'proj-operational-capacity-if-funded', 
+                              'ecosystem-features', 
+                              'future-monitoring-ecosystems'],
+                
+                groupedMultiSelects = 
+                             ['org-funding',
+                              'ef-rockyintertidal-species',
+                              'ef-kelp-and-shallow-rock-species',
+                              'ef-middepthrock-species',
+                              'ef-estuarine-species',
+                              'ef-softbottomintertidal-species',
+                              'ef-softbottomsubtidal-species',
+                              'ef-deep-species',
+                              'ef-nearshore-species',
+                              'ef-consumptive-species',
+                              'ef-nonconsumptive-species'],
 
-            if (0 <= ['org-type', 'org-mpa-funded', 'proj-has-sufficient-funds', 'proj-data-availability'].indexOf(questionSlug)) {
-                // For single-select, yes-no
-                answer = _.findWhere(respondent.responses, {question: questionSlug}).answer.text;
+                mapPolys =  ['ef-rockyinteridal-collection-areas',
+                             'ef-kelp-and-shallow-rock-collection-areas',
+                             'ef-middepthrock-collection-areas',
+                             'ef-estuarine-collection-areas',
+                             'ef-softbottomintertidal-collection-areas',
+                             'ef-softbottomsubtidal-collection-areas',
+                             'ef-deep-collection-areas',
+                             'ef-nearshore-collection-areas',
+                             'ef-consumptive-collection-areas',
+                             'ef-nonconsumptive-collection-areas'],
+                
+                mapPoints = ['ef-rockyintertidal-collection-points',
+                             'ef-kelp-and-shallow-rock-collection-points',
+                             'ef-middepthrock-collection-points',
+                             'ef-estuarine-collection-points',
+                             'ef-softbottomintertidal-collection-points',
+                             'ef-softbottomsubtidal-collection-points',
+                             'ef-deep-collection-points',
+                             'ef-nearshore-collection-points',
+                             'ef-consumptive-collection-points',
+                             'ef-nonconsumptive-collection-points'];
 
-            } else if (0 <= ['org-funding', 'ecosystem-features'].indexOf(questionSlug)) {
-                // For multi-select
-                var objs = _.findWhere(respondent.responses, {question: questionSlug}).answer;
+            // Grab answer based on the type of question.
+            if (_.contains(singleSelects, questionSlug)) {
+                answer = question.answer.text;
+
+            } else if (_.contains(multiSelects, questionSlug)) {
+                var objs = question.answer;
                 _.each(objs, function(obj, index) {
                     answer += answer.length > 0 ? ", " + obj.text : obj.text;
                 });
 
-            } else if (0 <= ['org-funding'].indexOf(questionSlug)) {
-                // Grouped multi-select.
-                var island = _.findWhere(respondent.responses, {question: 'island'}).answer.label,
-                    islandSlug = (island === 'st-thomas' || island === 'st-john') ? 'st-thomas-st-john' : island;
-
-                answer = _.findWhere(respondent.responses, {question: questionSlug + '-' + islandSlug}).answer;
-
-                // TODO: currently no way of determining definitively whether answers are from a grouped multi-select or an ungrouped multi-select
-                // (no groupName may present because either just Others were selected, or no groups were present)
-                // seems like solution would be to ensure selections that were grouped under Other heading should be marked as such...                    
+            } else if (_.contains(groupedMultiSelects, questionSlug)) {
+                answer = question.answer;
                 _.each(answer, function(obj, index) {
                     if (index === 0 && obj.groupName) {
-                        obj.showGroupName = obj.groupName;
+                        obj.showGroupName = true;
                     } else if (obj.groupName && obj.groupName !== answer[index-1].groupName) {
-                        obj.showGroupName = obj.groupName;
+                        obj.showGroupName = true;
                     } else if (obj.other && answer[index-1].showGroupName !== 'Other') {
-                        obj.showGroupName = 'Other';
+                        obj.showGroupName = true;
+                        obj.groupName = 'Other';
                     } else {
-                        obj.showGroupName = undefined;
+                        obj.showGroupName = false;
                     }
                 });
 
             } else {
-                answer = _.findWhere(respondent.responses, {question: questionSlug}).answer;
-
+                answer = question.answer;
             }
             
         } catch(e) {
             answer = '';
         }
-        if (answer === 'NA') {
+        if (answer === 'NA' || answer === 'NO_ANSWER') {
             answer = '';
         }
         
@@ -70,6 +124,8 @@ angular.module('askApp')
     };
 
     
+
+
 
     // Public API here
     return {
