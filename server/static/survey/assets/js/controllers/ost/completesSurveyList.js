@@ -4,8 +4,6 @@ angular.module('askApp')
     .controller('completesSurveyListCtrl', function($scope, $http, $routeParams, $location, survey, history) {
         $http.defaults.headers.post['Content-Type'] = 'application/json';
 
-        // $scope.respondents = _.toArray(app.respondents);
-        // $scope.respondentIndex = app.respondents;
         if (app.user) {
             $scope.user = app.user;    
         } else {
@@ -15,18 +13,6 @@ angular.module('askApp')
 
         $scope.path = $location.path().slice(1,5);
         $scope.viewPath = app.viewPath;
-
-        // if ($routeParams.uuidSlug) {
-        //     $scope.respondent = $scope.respondentIndex[$routeParams.uuidSlug];
-
-        //     _.each($scope.respondent.responses, function (response) {
-        //         if (response.question.grid_cols) {
-        //             _.each(response.question.grid_cols, function (grid_col) {
-        //                 grid_col.label = grid_col.label.replace(/-/g, '');
-        //             });
-        //         }
-        //     });
-        // }      
 
         $http.get(app.server + '/reports/respondants_summary')
             .success( function (data) {
@@ -67,15 +53,6 @@ angular.module('askApp')
         $scope.getAnswer = function(questionSlug) {
             return history.getAnswer(questionSlug, $scope.respondent);
         };
-
-
-        // $scope.gearTypeIncludes = function(type) {
-        //     return history.gearTypeIncludes(type, $scope.respondent);
-        // };
-
-        // $scope.trapTypeIncludes = function(type) {
-        //     return history.trapTypeIncludes(type, $scope.respondent);
-        // };
 
 
         // $scope.deleteRespondent = function (respondent) {
@@ -258,7 +235,5 @@ angular.module('askApp')
                     debugger;
                 });    
         };
-
-        //$scope.getSubmittedSurveysList();
 
 });

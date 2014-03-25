@@ -1,0 +1,48 @@
+<div id="history-wrap" class="menu-page">
+    <div mobilemenu></div>
+    <!-- Begin page content -->
+    <div class="container">
+        
+        <div ng-show="showErrorMessage" class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <!-- <div class="error">Problem</div> -->
+                <div class="error">There was a problem loading your surveys.</div>
+                <div>Please sign in again.</div>
+                <a class="btn btn-default btn-lg btn-block panel-heading" href="#/signin">Sign In</a>
+            </div>
+        </div>
+        <div ng-show="showDeleteErrorMessage">
+            <div class="error">Delete Failed</div>
+            <div>There was a problem deleting the survey.</div>
+            <div>Please sign in again.</div>
+            <a class="btn btn-default btn-lg btn-block panel-heading" href="#/signin">Sign In</a>
+        </div>
+
+        <div ng-show="showContent">
+            <div class="row">
+                <h3>{{respondent.survey_title}}</h3>
+            </div>
+
+            <div class="row" ng-hide="respondent.complete"> 
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                    <a href="javascript:void(0)" ng-click="resumeSurvey(respondent); $event.stopPropagation();" class="btn btn-primary btn-main btn-resume">Resume</a>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                    <a href="javascript:void(0)" ng-click="deleteRespondent(respondent); $event.stopPropagation();" class="btn btn-primary btn-main btn-resume">Delete</a>
+                </div>
+            </div>
+
+            <div ng-include="viewPath + 'views/ost/answers/surveyAnswers.html'"></div>
+
+        </div>  
+
+    </div>
+
+    <div ng-hide="showContent || showErrorMessage" ng-include="viewPath + 'views/spinner.html'"></div>
+
+</div>
+
+
+<div id="history-footer">
+    <a class="btn pull-left" href="#/history"><span class="glyphicon glyphicon-chevron-left"></span></a>
+</div>

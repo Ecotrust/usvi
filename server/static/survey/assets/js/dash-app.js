@@ -49,10 +49,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/agency-dash.html',
         controller: 'AgencyDashCtrl'
     })
-    .when('/RespondantDetail/:surveySlug/:uuidSlug', {
-        templateUrl: '/static/survey/views/RespondantDetail.html',
-        controller: 'RespondantDetailCtrl'
-    })
 
     /* Survey authoring */
     .when('/admin', {
@@ -71,9 +67,13 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
     })
+    .when('/RespondantDetail/:surveySlug/:uuidSlug', {
+        templateUrl: '/static/survey/views/ost/dash-respondent-detail.html',
+        controller: 'RespondentDetailCtrl'
+    })
     .when('/responses/:surveySlug/:uuidSlug', {
-        templateUrl: '/static/survey/views/RespondantDetail.html',
-        controller: 'RespondantDetailCtrl',
+        templateUrl: '/static/survey/views/ost/dash-respondent-detail.html',
+        controller: 'RespondentDetailCtrl',
     })
     .when('/ecosystems/:surveySlug', {
         templateUrl: '/static/survey/views/ost/dash-ecosystems.html',

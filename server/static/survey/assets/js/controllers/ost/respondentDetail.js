@@ -47,6 +47,7 @@ angular.module('askApp')
         return history.getTitle($scope.respondent);
     };
 
+
     $scope.answerContains = function (questionSlug, val) {
         return $scope.getAnswer(questionSlug).indexOf(val) > -1;
     };
