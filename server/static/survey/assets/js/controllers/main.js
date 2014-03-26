@@ -240,7 +240,7 @@ angular.module('askApp')
     }
 
     
-    
-    
+    $('body').removeClass('map-question');
+   
 
   }]);
