@@ -6,3 +6,15 @@ body {
 .page-content {
 	background-color: #CCD3D7;
 }
+
+
+/* Change all uppercase text to normal */
+.btn-main,
+#history-wrap .panel-heading,
+.select-content, 
+.accordion-heading,
+.block-title,
+.question-title,
+.question .panel-heading {
+	text-transform: none;
+}
