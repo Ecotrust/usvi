@@ -1,5 +1,5 @@
 angular.module('askApp')
-    .directive('mapPoints', function($http, $compile) {
+    .directive('mapPoints', function($http, $compile, $timeout) {
 
         var MapUtils = {
 
@@ -69,7 +69,6 @@ angular.module('askApp')
                 answer: "=" // the value to set on each marker
             },
             link: function(scope, element) {
-
 
                 var map = MapUtils.initMap(element[0].children[0], scope.question);
                 scope.question.markers = [];
@@ -207,12 +206,21 @@ angular.module('askApp')
                 map.on('mousemove', scope.onMouseMove);
                 map.on('mouseout', scope.onMouseOut);
 
-                scope.windowHeight = window.innerHeight - 300 + 'px';
+                scope.updateMapSize = function () {
+                    scope.windowHeight = window.innerHeight - 300 + 'px';
+                    $timeout(function () {
+                        map.invalidateSize(false);
+                    });                   
+                };
+
+                scope.updateMapSize();
+
                 $(window).resize(function(event) {
                     scope.$apply(function () {
-                        scope.windowHeight = window.innerHeight - 300 + 'px';
+                        scope.updateMapSize();
                     });
                 });
+
 
             } /* end link function */
         }

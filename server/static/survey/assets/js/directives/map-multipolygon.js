@@ -1,5 +1,5 @@
 angular.module('askApp')
-    .directive('map', function($http) {
+    .directive('map', function($http, $timeout) {
         return {
             templateUrl: app.viewPath + 'views/questionMapPolygons.html',
             restrict: 'EA',
@@ -151,13 +151,20 @@ angular.module('askApp')
                 map.on('mousemove', scope.onMouseMove);
                 map.on('mouseout', scope.onMouseOut);
 
-                scope.windowHeight = window.innerHeight - 300 + 'px';
+                scope.updateMapSize = function () {
+                    scope.windowHeight = window.innerHeight - 300 + 'px';
+                    $timeout(function () {
+                        map.invalidateSize(false);
+                    });                   
+                };
+
+                scope.updateMapSize();
+
                 $(window).resize(function(event) {
                     scope.$apply(function () {
-                        scope.windowHeight = window.innerHeight - 300 + 'px';
+                        scope.updateMapSize();
                     });
                 });
-
             }
         }
     });
