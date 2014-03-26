@@ -536,6 +536,8 @@ angular.module('askApp')
 
 // gets called whenever new page is loaded...?
 $scope.loadSurvey = function(data) {
+        $('body').removeClass('map-question');
+
         $scope.survey = data.survey;
         $scope.survey.status = data.status;
         if (! $routeParams.action === 'edit' && data.status === 'complete' || data.status === 'terminate') {

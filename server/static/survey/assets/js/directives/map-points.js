@@ -207,6 +207,13 @@ angular.module('askApp')
                 map.on('mousemove', scope.onMouseMove);
                 map.on('mouseout', scope.onMouseOut);
 
+                scope.windowHeight = window.innerHeight - 300 + 'px';
+                $(window).resize(function(event) {
+                    scope.$apply(function () {
+                        scope.windowHeight = window.innerHeight - 300 + 'px';
+                    });
+                });
+
             } /* end link function */
         }
     });

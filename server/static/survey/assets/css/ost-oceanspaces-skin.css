@@ -135,8 +135,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 			border-radius: 2px;
 	-webkit-box-shadow: 0 0 3px 2px #6C7175;
 			box-shadow: 0 0 3px 2px #6C7175;
-	-webkit-box-shadow: 0 0 3px 2px rgba(0, 0, 0, .3);
-			box-shadow: 0 0 3px 2px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 0 3px 2px rgba(0, 0, 0, .15);
+			box-shadow: 0 0 3px 2px rgba(0, 0, 0, .15);
 }
 
 .form-control.ng-pristine, .unit-select.ng-pristine {
@@ -272,4 +272,26 @@ p.intro {
 .info .panel-heading h4, .question .panel-title {
 	color: white;
 	cursor: pointer;
+}
+
+
+
+/*
+ *
+ *  Increase page width for maps.
+ * 
+ */
+body.map-question .container {
+	margin: 0;
+	width: auto;
+}
+
+@media (min-width: 768px) {
+	body.map-question .container {
+		width: auto;
+	}
+}
+
+.map-question #page-controls {
+    padding-top: 20px;
 }
