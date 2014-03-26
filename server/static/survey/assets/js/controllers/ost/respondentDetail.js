@@ -52,6 +52,26 @@ angular.module('askApp')
         return $scope.getAnswer(questionSlug).indexOf(val) > -1;
     };
 
+
+    $scope.resumeSurvey = function (respondent) {
+        $http.get(app.server + '/api/v1/respondant/' + respondent.uuid + '/?format=json').success(function(data) {
+            survey.initializeSurvey(data.survey, data.survey.pages);
+            survey.resume(respondent);
+        });
+    };
+
+
+    $scope.deleteRespondent = function (respondent) {
+        $http.get(app.server + '/respond/delete-incomplete/' + respondent.uuid).success(function(data) {
+            var path = respondent.complete ? '/completes' : '/incompletes';
+            $location.path(path);
+            $scope.showDeleteErrorMessage = false;
+        }).error(function (data) {
+            $scope.showDeleteErrorMessage = true;
+        });
+    };
+
+
     // $scope.map = {
     //     center: {
     //         lat: 47,
@@ -64,6 +84,7 @@ angular.module('askApp')
     $scope.getRespondent($routeParams.uuidSlug, $routeParams.survey_slug, function (respondent) {
         $scope.respondent = respondent;
         $scope.parseResponses(respondent);
+        $scope.backPath = respondent.complete ? '/completes' : '/incompletes';
         $scope.showContent = true;
     });
 

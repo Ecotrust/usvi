@@ -274,7 +274,7 @@ angular.module('askApp')
 
         url = [
             '/survey',
-            respondent.survey,
+            respondent.survey_slug,
             page.order,
             respondent.uuid
         ].join('/');

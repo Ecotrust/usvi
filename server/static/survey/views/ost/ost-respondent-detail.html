@@ -20,7 +20,7 @@
 
         <div ng-show="showContent">
             <div class="row">
-                <h3>{{respondent.survey_title}}</h3>
+                <h3 ng-bind-html-unsafe="respondent.survey_title"></h3>
             </div>
 
             <div class="row" ng-hide="respondent.complete"> 
@@ -44,5 +44,5 @@
 
 
 <div id="history-footer">
-    <a class="btn pull-left" href="#/history"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="btn pull-left" href="respond#{{ backPath }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 </div>

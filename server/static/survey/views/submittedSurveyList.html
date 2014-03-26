@@ -28,8 +28,8 @@
             <div style="margin-top: 20px">
                 <div class="report-list panel panel-default" ng-repeat="respondent in respondentList | orderBy: 'ts':true">
                     <div class="panel-heading" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
-                        <h4 class="panel-title">
-                            {{respondent.survey_title}}
+                        <h4 class="panel-title" ng-bind-html-unsafe="respondent.survey_title">
+                            
                         </h4>
                     </div>
                     <div id="{{ respondent.survey_title }}" class="panel-collapse collapse" ng-class="{ 'in': respondent.open }">

@@ -63,7 +63,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
                 project_title = self.responses.filter(question__slug='proj-title')[0].answer
             except:
                 project_title = 'Unknown'
-            return '%s -- %s' % (org_name, project_title)
+            return '%s &ndash; %s' % (org_name, project_title)
         else:
             return self.survey.name
     
