@@ -1,53 +1,51 @@
-I<div id="wrap" class="main thin-page">
-    <!-- Fixed navbar -->
-    <!-- Begin page content -->
-    <div class="navbar navbar-default navbar-fixed-top"></div>        
-
+<div id="wrap" class="main thin-page">
 
     <div class="container">
-        <div class="page-header">
-            <img src="static/survey/assets/img/oceanspaces-logo-white.png" class="center oceanspaces-logo logo" />
-            <h1 class="ost-title">Ocean Monitoring Survey</h1>
-        </div>
-        <div class="loading-indicator" ng-show="working">
-            <div class="bar">
-                <i class="sphere"></i>
+        <div class="page-content">           
+            <div class="page-header">
+                <img src="static/survey/assets/img/oceanspaces-logo.png" class="center oceanspaces-logo logo" />
+                <h1 class="ost-title">Ocean Monitoring Survey</h1>
             </div>
-        </div>
-        <div ng-show="showTempUser">
-            <h2>No Connection</h2>
-            <p>Can't reach the server.  Do you want to continue offline?</p>
-            <button class="btn btn-main btn-default btn-block" ng-click="offline(newUser, 'signup')">Use Digital Deck Offline</button>
-            <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
-        </div>
-        <div class="new-user-form" ng-hide="working || showTempUser">
-            <h3>Create New Account</h3>
-            <form ng-submit="createUser(newUser)">
-                <fieldset>
-                    <h4 class="question-title">Username</h4>
-                    <input class="form-control" type="text" data-ng-model="newUser.username" autocapitalize="off" required>
-                    <h4 class="question-title">Email Address</h4>
-                    <input class="form-control" type="email" data-ng-model="newUser.emailaddress1" required>
-                    <h4 class="question-title">Confirm Email Address</h4>
-                    <input class="form-control" type="email" data-ng-model="newUser.emailaddress2" required>
-                    <h4 class="question-title">Password</h4>
-                    <password password-text="newUser.password"></password>
-                </fieldset>
-                <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">Create Account</button>
-                <a class="btn btn-main btn-default btn-block" href="/respond">Cancel</a>
-                <div class="alert alert-danger" ng-show="showError == 'duplicate-user'">
-                    That username is already registered. Please try another.
+            <div class="loading-indicator" ng-show="working">
+                <div class="bar">
+                    <i class="sphere"></i>
                 </div>
-                <div class="alert alert-danger" ng-show="showError == 'password-mismatch'">
-                    Passwords do not match. Please try again.
-                </div>
-                <div class="alert alert-danger" ng-show="showError == 'email-mismatch'">
-                    Email addresses do not match. Please try again.
-                </div>
-                <div class="alert alert-danger" ng-show="showError == 'invalid-email'">
-                    Invalid email address. Please try again.
-                </div>
-            </form>
+            </div>
+            <div ng-show="showTempUser">
+                <h2>No Connection</h2>
+                <p>Can't reach the server.  Do you want to continue offline?</p>
+                <button class="btn btn-main btn-default btn-block" ng-click="offline(newUser, 'signup')">Use Digital Deck Offline</button>
+                <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
+            </div>
+            <div class="new-user-form" ng-hide="working || showTempUser">
+                <h3>Create New Account</h3>
+                <form ng-submit="createUser(newUser)">
+                    <fieldset>
+                        <h4 class="question-title">Username</h4>
+                        <input class="form-control" type="text" data-ng-model="newUser.username" autocapitalize="off" required>
+                        <h4 class="question-title">Email Address</h4>
+                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress1" required>
+                        <h4 class="question-title">Confirm Email Address</h4>
+                        <input class="form-control" type="email" data-ng-model="newUser.emailaddress2" required>
+                        <h4 class="question-title">Password</h4>
+                        <password password-text="newUser.password"></password>
+                    </fieldset>
+                    <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">Create Account</button>
+                    <a class="btn btn-main btn-default btn-block" href="/respond">Cancel</a>
+                    <div class="alert alert-danger" ng-show="showError == 'duplicate-user'">
+                        That username is already registered. Please try another.
+                    </div>
+                    <div class="alert alert-danger" ng-show="showError == 'password-mismatch'">
+                        Passwords do not match. Please try again.
+                    </div>
+                    <div class="alert alert-danger" ng-show="showError == 'email-mismatch'">
+                        Email addresses do not match. Please try again.
+                    </div>
+                    <div class="alert alert-danger" ng-show="showError == 'invalid-email'">
+                        Invalid email address. Please try again.
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="footer">

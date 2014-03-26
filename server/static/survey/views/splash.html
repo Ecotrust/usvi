@@ -2,73 +2,74 @@
     <div class="navbar navbar-default navbar-fixed-top"></div>
 
     <div class="container">
-        <div class="page-header">
-            <img src="static/survey/assets/img/oceanspaces-logo-white.png" class="center oceanspaces-logo logo" />
-            <h1 class="ost-title">Ocean Monitoring Survey</h1>
-        </div>
-        <p class="intro">
-            Short blurb of survey mission and why someone might want to contribute.
-        </p>
-        <div class="btn-container">
-            <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Login with OceanSpaces.org Account</a>
-            <p class="btn-caption">Using an OceanSpaces.org account will give you the ability to compare your results with the agregate results of everyone else.</p>
-        </div>
+        <div class="page-content">   
+            <div class="page-header">
+                <img src="static/survey/assets/img/oceanspaces-logo-white.png" class="center oceanspaces-logo logo" />
+                <h1 class="ost-title">Ocean Monitoring Survey</h1>
+            </div>
+            <p class="intro">
+                Short blurb of survey mission and why someone might want to contribute.
+            </p>
+            <div class="btn-container">
+                <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Login with OceanSpaces.org Account</a>
+                <p class="btn-caption">Using an OceanSpaces.org account will give you the ability to compare your results with the agregate results of everyone else.</p>
+            </div>
 
-        <p class="seperator">OR</p>
+            <p class="seperator">OR</p>
 
-        <div class="new-user-form signin-form" ng-show="showForgotPassword">
-            <form ng-submit="forgotPassword(forgotUser)">
-                <fieldset ng-disabled="working">
-                    <h4 class="question-title">Enter your email address</h4>
-                    <input type="email" class="form-control username" ng-model="forgotUser.email" autocapitalize="off">
-                </fieldset>
-                <button class="btn btn-main btn-default btn-block" ng-disable="forgotUser.email">forgot password</button>
-                <a class="btn btn-main btn-default btn-block" ng-click="showForgotPassword = false">cancel</a>
-                <div class="error" ng-show="showError == 'user-not-found'">
-                    No user found for that email address.
+            <div class="new-user-form signin-form" ng-show="showForgotPassword">
+                <form ng-submit="forgotPassword(forgotUser)">
+                    <fieldset ng-disabled="working">
+                        <h4 class="question-title">Enter your email address</h4>
+                        <input type="email" class="form-control username" ng-model="forgotUser.email" autocapitalize="off">
+                    </fieldset>
+                    <button class="btn btn-main btn-default btn-block" ng-disable="forgotUser.email">forgot password</button>
+                    <a class="btn btn-main btn-default btn-block" ng-click="showForgotPassword = false">cancel</a>
+                    <div class="error" ng-show="showError == 'user-not-found'">
+                        No user found for that email address.
+                    </div>
+                    <div class="error" ng-show="showError == 'multiple-users-found'">
+                        Multiple users found with that email address. 
+                    </div>
+                </form>
+            </div>
+            <div class="new-user-form signin-form" ng-show="showForgotPasswordDone">
+                <h3>Link Sent</h3>
+                <p>Please check your email for a link to reset your password.</p>
+                <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">ok</a>
+            </div>
+
+            <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
+                <form ng-submit="authenticateUser(authUser)">
+                    <fieldset ng-disabled="working">
+                        <h4 class="question-title">Username</h4>
+                        <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
+                        <h4 class="question-title">Password</h4>
+                        <password password-text="authUser.password"></password>
+
+                        <a class="forgot-password pull-right" ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
+                    </fieldset>
+                    <button class="btn btn-main btn-block" ng-disabled="! (authUser.username &&  authUser.password)">Login</button>
+
+                    <p>Don't have an account? <a href="/respond#/signup">Sign up</a></p>
+
+                    <div class="error" ng-show="showError == 'auth-error'">
+                        There was a problem authenticating. Please try again.
+                    </div>
+
+                </form>
+            </div>
+
+
+            <div class="loading-indicator" ng-show="working">
+                <div class="bar">
+                    <i class="sphere"></i>
                 </div>
-                <div class="error" ng-show="showError == 'multiple-users-found'">
-                    Multiple users found with that email address. 
-                </div>
-            </form>
-        </div>
-        <div class="new-user-form signin-form" ng-show="showForgotPasswordDone">
-            <h3>Link Sent</h3>
-            <p>Please check your email for a link to reset your password.</p>
-            <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">ok</a>
-        </div>
+            </div>
 
-        <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
-            <form ng-submit="authenticateUser(authUser)">
-                <fieldset ng-disabled="working">
-                    <h4 class="question-title">Username</h4>
-                    <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
-                    <h4 class="question-title">Password</h4>
-                    <password password-text="authUser.password"></password>
-
-                    <a class="forgot-password pull-right" ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
-                </fieldset>
-                <button class="btn btn-main btn-block" ng-disabled="! (authUser.username &&  authUser.password)">Login</button>
-
-                <p>Don't have an account? <a href="/respond#/signup">Sign up</a></p>
-
-                <div class="error" ng-show="showError == 'auth-error'">
-                    There was a problem authenticating. Please try again.
-                </div>
-
-            </form>
-        </div>
-
-
-        <div class="loading-indicator" ng-show="working">
-            <div class="bar">
-                <i class="sphere"></i>
+            <div class="page-footer">
+                <img src="static/survey/assets/img/point_97_logo.svg" class="center logo point97" />
             </div>
         </div>
-
-        <div class="page-footer">
-            <img src="static/survey/assets/img/point_97_logo.svg" class="center logo point97" />
-        </div>
-
     </div>
 </div>

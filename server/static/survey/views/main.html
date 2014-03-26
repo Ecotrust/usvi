@@ -1,23 +1,29 @@
 <div id="wrap" class="main thin-page">
 
     <div class="container">
-        <div class="page-header">
-            <img src="static/survey/assets/img/oceanspaces-logo-white.png" class="center oceanspaces-logo logo" />
-            <h1 class="ost-title">Ocean Monitoring Survey</h1>
-        </div>
-        <div class="loading-indicator" ng-show="working">
-            <div class="bar">
-                <i class="sphere"></i>
+        <div class="page-content">
+            <div class="page-header">
+                <img src="static/survey/assets/img/oceanspaces-logo.png" class="center oceanspaces-logo logo" />
+                <h1 class="ost-title">Ocean Monitoring Survey</h1>
+            </div>
+            <div class="loading-indicator" ng-show="working">
+                <div class="bar">
+                    <i class="sphere"></i>
+                </div>
+            </div>
+            <div ng-hide="!user || working">
+                <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="newReportOnline('monitoring-project')">Take Survey</button>
+                <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/history">Revisit Survey</a>
+                <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="logout()">Logout</button>
             </div>
         </div>
-        <div ng-hide="!user || working">
-            <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="newReportOnline('monitoring-project')">Take Survey</button>
-            <a type="button" class="btn btn-main btn-default btn-lg btn-block" href="#/history">Revisit Survey</a>
-            <button type="button" class="btn btn-main btn-default btn-lg btn-block" ng-click="logout()">Logout</button>
-        </div>
+
         <!-- <p class="pull-right">{{stage}}/{{version}}</p> -->
     </div>
-
+    <div class="footer">
+        <p class="prepend-point97-logo">Courtesy of</p>
+        <img src="static/survey/assets/img/point_97_logo.png" class="center logo point97" />
+    </div>
     <div id="map" mobile-map ng-show="user"></div>
     <div class="alert-notice" ng-show="message">
         <div class="pull-left">{{ message }}</div>
@@ -29,11 +35,6 @@
             <button class="btn btn-default btn-outline-inverse" ng-tap="dismissMessage()">not now</button>
             <button class="btn btn-default btn-outline-inverse" ng-tap="updateApp()">update</button>
         </div>
-    </div>
-
-    <div class="footer">
-        <p class="prepend-point97-logo">Courtesy of</p>
-        <img src="static/survey/assets/img/point_97_logo.png" class="center logo point97" />
     </div>
 
 </div>

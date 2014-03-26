@@ -123,7 +123,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 
-/* White background container around page. */
+
+/*
+ *  White background container around page.
+ */ 
+
 .page-content {
 	background-color: white;
 	padding: 20px;
@@ -153,6 +157,7 @@ h1, h2, h3, h4, h5 {
 
 .info-content h3 {
 	margin-top: 0;
+	font-size: 22px;
 }
 .info-content p {
     font-size: 13px;
@@ -190,6 +195,37 @@ h1, h2, h3, h4, h5 {
 	background-color: #72AFB6 !important;
 }
 
+/* Sign in page */
+.main .oceanspaces-logo {
+	height: 50px;
+}
+
+.main h1.ost-title,
+.or-auth-separator,
+p.intro {
+    color: #005072;
+}
+
+.or-auth-separator {
+	background-color: white;
+	color: #474747;
+	top: -9px;
+}
+
+.sign-up a,
+.forgot-password {
+	color: #005A84;
+}
+.signin-form .forgot-password {
+	font-size: 14px;
+}
+
+.footer .prepend-point97-logo {
+	margin-top: 0;
+}
+.error {
+	font-size: 16px;
+}
 
 
 /* Multi / single select light blue & dark blue */
