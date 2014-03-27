@@ -139,6 +139,16 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 			box-shadow: 0 0 3px 2px rgba(0, 0, 0, .15);
 }
 
+
+.page-content.extra-padding {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+.page-content {
+    color: #474747;
+}
+
 .form-control.ng-pristine, .unit-select.ng-pristine {
     border: 1px solid #BBB;
     color: #555; 
