@@ -3,49 +3,51 @@
     
     <!-- Begin page content -->
     <div class="container">
-        <div ng-show="user" ng-hide="loading">
+        <div class="page-content">
 
-            <div class="forms">
-                <div class="new-user-form">
-                    
-                    <h4>Welcome! Please take a moment to complete your profile.</h4> 
+            <div ng-show="user" ng-hide="loading">
 
-                        <form ng-submit="updateProfile(profileQuestions)">
+                <div class="forms">
+                    <div class="new-user-form">
                         
-                        <div class="question-wrapper" ng-repeat="question in profileQuestions">
-                            <h4 class="question-title">{{ question.title }}</h4>
-                            <div ng-switch on="question.type">
-                                <div ng-switch-when="grid">
-                                    <form ng-submit="$parent.submitPage(page)">
-                                        <div gridquestion question="question" answers="answers" validity="validity" pageorder="$index"  viewpath="viewPath"></div>
-                                    </form>
-                                </div>
-                                <div ng-switch-default>
-                                    <div multiquestion question="question" answers="answers" validity="validity"></div>
+                        <h4>Welcome! Please take a moment to complete your profile.</h4> 
+
+                            <form ng-submit="updateProfile(profileQuestions)">
+                            
+                            <div class="question-wrapper" ng-repeat="question in profileQuestions">
+                                <h4 class="question-title">{{ question.title }}</h4>
+                                <div ng-switch on="question.type">
+                                    <div ng-switch-when="grid">
+                                        <form ng-submit="$parent.submitPage(page)">
+                                            <div gridquestion question="question" answers="answers" validity="validity" pageorder="$index"  viewpath="viewPath"></div>
+                                        </form>
+                                    </div>
+                                    <div ng-switch-default>
+                                        <div multiquestion question="question" answers="answers" validity="validity"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-<!-- 
-                        <input class="form-control" type="text" placeholder="enter your username..." data-ng-model="profileQuestions.username" autocapitalize="off" required>
+    <!-- 
+                            <input class="form-control" type="text" placeholder="enter your username..." data-ng-model="profileQuestions.username" autocapitalize="off" required>
 
-                        <input class="form-control" type="email" placeholder="enter your email address..." data-ng-model="profileQuestions.emailaddress" required>
- -->
-                        <button class="btn btn-main btn-default btn-block" ng-click="updateProfile(profileQuestions)">Save Profile and Continue</button>
-                                                
-                    </form>
+                            <input class="form-control" type="email" placeholder="enter your email address..." data-ng-model="profileQuestions.emailaddress" required>
+     -->
+                            <button class="btn btn-main btn-default btn-block" ng-click="updateProfile(profileQuestions)">Save Profile and Continue</button>
+                                                    
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="loading-indicator" ng-show="loading">
-            <h3>Loading...</h3>
-            <div class="bar">
-                <i class="sphere"></i>
+            <div class="loading-indicator" ng-show="loading">
+                <h3>Loading...</h3>
+                <div class="bar">
+                    <i class="sphere"></i>
+                </div>
+
             </div>
-
         </div>
-
     </div>
 
     <!-- <div class="alert-notice" ng-show="message">
