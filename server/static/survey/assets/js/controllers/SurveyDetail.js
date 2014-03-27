@@ -587,9 +587,9 @@ $scope.loadSurvey = function(data) {
         } else if (!$scope.question) {
             $scope.question = _.findWhere($scope.survey.questions, { slug: $routeParams.questionSlug });
         }
-        $scope.surveyProgress = ($scope.survey.pages.indexOf($scope.page)  /  $scope.survey.pages.length) * 100;
-
-
+        // Update progress bar.
+        var pageNum = _.indexOf($scope.survey.pages, $scope.page);
+        $scope.surveyProgress = (pageNum  /  $scope.survey.pages.length) * 100 + '%';
 
         _.each($scope.page.questions, function (question) {
             if (question.rows.length && ! question.options) {
@@ -766,6 +766,7 @@ $scope.loadSurvey = function(data) {
             }
             
         }, true);    
+
     };
     $scope.viewPath = app.viewPath;
 

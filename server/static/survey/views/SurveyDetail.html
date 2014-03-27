@@ -14,9 +14,9 @@
         <div class="respondant" ng-hide="loading || sendingFeedback">
             <div ng-show="page">
                 <div class="clearfix">
-                    <div class="progress-container" ng-show="surveyProgress > 0">
+                    <div class="progress-container" ng-show="surveyProgress">
                         <div class="progress pull-right">
-                            <div class=" progress-bar" style="width: {{ surveyProgress }}%;"></div>
+                            <div class=" progress-bar" ng-style="{width: surveyProgress}"></div>
                         </div>
                         <p class="small-label pull-right">Progress:</p>
                     </div>
