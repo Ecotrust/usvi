@@ -275,28 +275,11 @@ p.intro {
 }
 
 
-/*.select-content, .accordion-heading {
-	color: white !important;
-}*/
 /* Other */
 ::-webkit-input-placeholder {
 	color: white !important;
 }
-/*.single-select-other .with-text {
-	color: black !important;
-}
-*/
 
-/*.single-select-other ::-webkit-input-placeholder,
-.single-select-other :-moz-placeholder,
-.single-select-other ::-moz-placeholder,
-.single-select-other :-ms-input-placeholder {
-	color: white !important;
-}
-.single-select-other .with-text {
-	color: black !important;
-}
-*/
 
 /*
  *
