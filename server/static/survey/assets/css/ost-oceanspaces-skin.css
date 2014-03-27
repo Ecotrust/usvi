@@ -243,7 +243,6 @@ p.intro {
 .grouped-options .panel-title {
 	color: white !important;      	
 }
-	
 
 /* Light blue if selected */
 .multi-select .select-checked .select-content,
@@ -252,6 +251,7 @@ p.intro {
       .select .option-checked .select-checked .select-content .select-name {
 	background-color: #72AFB6 !important;
 }
+
 /* Grouped */
 .question .panel-heading {
     background-color: #005072 !important;
@@ -275,6 +275,28 @@ p.intro {
 }
 
 
+/*.select-content, .accordion-heading {
+	color: white !important;
+}*/
+/* Other */
+::-webkit-input-placeholder {
+	color: white !important;
+}
+/*.single-select-other .with-text {
+	color: black !important;
+}
+*/
+
+/*.single-select-other ::-webkit-input-placeholder,
+.single-select-other :-moz-placeholder,
+.single-select-other ::-moz-placeholder,
+.single-select-other :-ms-input-placeholder {
+	color: white !important;
+}
+.single-select-other .with-text {
+	color: black !important;
+}
+*/
 
 /*
  *
