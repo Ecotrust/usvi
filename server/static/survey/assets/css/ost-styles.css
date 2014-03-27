@@ -697,3 +697,9 @@ p.sign-up {
 .answer-multi-select .entry {
     padding-left: 15px;
 }
+
+
+.question.yes-no ul.option-unchecked,
+.question.yes-no ul.option-checked {
+    padding-left: 0;
+}
