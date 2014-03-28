@@ -188,6 +188,9 @@ h1, h2, h3, h4, h5 {
       .select .option-checked   .select-unchecked .select-content {
 	background-color: #AEB9BF !important;
 }
+.question .select .accordion-toggle {
+    color: white;
+}
 /* Blue if selected */
 .multi-select .select-checked .select-content,
 .multi-select .select-checked .select-content .select-name,
@@ -199,11 +202,15 @@ h1, h2, h3, h4, h5 {
 .question .panel-heading {
     background-color: #AEB9BF !important;
 }
-.select-content, .btn-main:active, .accordion-heading {
-	background-color: #AEB9BF;
+.select-content, .btn-main:active, .accordion-heading,
+.question .multi-select-grouped-other {
+	background-color: #AEB9BF !important;
 }
 .question .panel-body .select-checked .select-content {
 	background-color: #72AFB6 !important;
+}
+.multi-select-grouped-other {
+    background-color: #AEB9BF !important;
 }
 
 /* Sign in page */
