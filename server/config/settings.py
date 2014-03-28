@@ -21,6 +21,8 @@ ADMINS = (
 )
 
 SERVER_ADMIN = 'Tim Glaser <tim.glaser@pointnineseven.com>'
+PASSWORD_RESET_EMAIL_FROM = 'OceanSpaces.org <noreply@oceanspaces.org>'
+
 
 MANAGERS = ADMINS
 
