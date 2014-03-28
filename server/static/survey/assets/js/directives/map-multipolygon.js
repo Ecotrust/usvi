@@ -148,8 +148,24 @@ angular.module('askApp')
                     });
                 };
 
+                scope.onBaseLayerChange = function (e /*Leavelet LayersControlEvent*/) {
+                    var colors = [];
+                    colors['Nautical Charts'] = 'blue';//'#005072';
+                    colors['Satellite'] = '#E6D845';
+                    colors[e.name]
+
+                    var style = {
+                        "color": colors[e.name],
+                    }
+
+                    _.each(scope.allPloygons, function (layer) {
+                        layer.setStyle(style);
+                    });                    
+                };
+
                 map.on('mousemove', scope.onMouseMove);
                 map.on('mouseout', scope.onMouseOut);
+                map.on('baselayerchange', scope.onBaseLayerChange);
 
                 scope.updateMapSize = function () {
                     scope.windowHeight = window.innerHeight - 300 + 'px';

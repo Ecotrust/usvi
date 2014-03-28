@@ -151,7 +151,7 @@ angular.module('askApp')
                     marker.data = {
                         lat: latlng.lat.toString(),
                         lng: latlng.lng.toString(),
-                        answers: [{text: "dummyanswer", label: "dummylabel"}]
+                        answers: [{text: "not_set", label: "not_set"}]
                     };
 
                     popup += '<a href="javascript:void(0)" class="btn btn-danger pull-right" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a>';
