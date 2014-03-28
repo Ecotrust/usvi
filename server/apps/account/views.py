@@ -104,7 +104,7 @@ def forgotPassword(request):
             return HttpResponse("multiple-users-found", status=500)  
         form = PasswordResetForm({'email': email})
         setattr(form, 'users_cache', [user])
-        form.save(from_email=settings.SERVER_ADMIN, email_template_name='registration/password_reset_email.html')
+        form.save(from_email=settings.PASSWORD_RESET_EMAIL_FROM, email_template_name='registration/password_reset_email.html')
         return HttpResponse(simplejson.dumps({'success': True}))
     else:
         return HttpResponse("error", status=500)
