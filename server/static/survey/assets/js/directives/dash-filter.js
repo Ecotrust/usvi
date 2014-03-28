@@ -27,17 +27,22 @@ angular.module('askApp')
                     return noHtml;
                 };
 
-                var onFail = function () { debugger; };
+                var onFail = function (data) { 
+                    debugger; 
+                };
 
                 var onSuccess = function (data) {
                     // Grab the answer_text value for each item, sort 
                     // them all and remove duplicates.
                     var options = [],
                         vals = _.pluck(data.answer_domain, "answer_text");
+                    // Remove 'other' answers.
+                    vals = _.filter(vals, function(val){ return val.substring(0,7) !== '[Other]'; });
+                    // Sort, comparing by the value itself.
                     vals = _.sortBy(vals, function(item){
-                        // Compare by the value itself.
                         return item;
                     });
+                    // Remove duplicates.
                     vals = _.uniq(vals, true);
 
 

@@ -7,10 +7,12 @@ angular.module('askApp')
         var url = _distributionUrl(surveySlug, questionSlug, filters, false),
             csvUrl = _distributionUrl(surveySlug, questionSlug, filters, true);
         $http.get(url)
-            .error(onFail)
+            .error(function (data) {
+                onFail(data);
+            })
             .success(function (data) {
                 data.csvUrl = csvUrl;
-                onSuccess(data)
+                onSuccess(data);
             });
     };
 

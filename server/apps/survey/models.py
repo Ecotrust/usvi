@@ -526,13 +526,17 @@ class Response(caching.base.CachingMixin, models.Model):
                 else:
                     self.answer = None
             elif self.question.type in ['auto-single-select', 'single-select', 'yes-no']:
-
                 answer = simplejson.loads(self.answer_raw)
 
                 if answer.has_key('name'):
                     self.answer = answer['name'].strip()
                 elif answer.has_key('text'):
                     self.answer = answer['text'].strip()
+
+                if answer.has_key('other') and answer['other']:
+                    self.answer = "[Other]" + self.answer
+
+
             elif self.question.type in ['auto-multi-select', 'multi-select']:
                 answers = []
                 self.multianswer_set.all().delete()
@@ -541,12 +545,16 @@ class Response(caching.base.CachingMixin, models.Model):
                         answer_text = answer['name'].strip()
                     elif answer.has_key('text'):
                         answer_text = answer['text'].strip()
+
+                    if answer.has_key('other') and answer['other']:
+                        answer_text = "[Other]" + answer_text
+
                     answers.append(answer_text)
                     answer_label = answer.get('label', None)
                     multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label)
                     multi_answer.save()
             
-                self.answer = ", ".join(answers)
+                self.answer = "; ".join(answers)
             elif self.question.type in ['map-multipoint'] and self.id:
                 answers = []
                 self.location_set.all().delete()
