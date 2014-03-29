@@ -23,6 +23,9 @@
 
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/css/base-styles.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/css/ost-styles.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/css/ost-oceanspaces-skin.css">
+
+    <link rel="shortcut icon" href="{{ STATIC_URL }}/survey/assets/img/favicon.ico" />
 
     <!--[if lt IE 9]>
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/leaflet/dist/leaflet.ie.css">
@@ -85,20 +88,22 @@
 
     <div id="wrap" class="main signin thin-page">
         <div class="container">
-            <div class="page-header">
-                <img src="/static/survey/assets/img/oceanspaces-logo-white.png" class="center oceanspaces-logo logo" />
-                <h1 class="ost-title">Ocean Monitoring Survey</h1>
-            </div>
+            <div class="page-content">
+              <div class="page-header">
+                  <img src="/static/survey/assets/img/oceanspaces-logo.png" class="center oceanspaces-logo logo" />
+                  <h1 class="ost-title">Ocean Monitoring Survey</h1>
+              </div>
 
-            <div class="login-container">
+              <div class="login-container">
 
-              <!-- <div class="new-user-form signin-form"> -->
+                <!-- <div class="new-user-form signin-form"> -->
 
-                {% block hapifis_content %}
-                {% endblock %}
+                  {% block hapifis_content %}
+                  {% endblock %}
 
-              <!-- </div> -->
+                <!-- </div> -->
 
+              </div>
             </div>
         </div>
         <div class="footer">

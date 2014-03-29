@@ -179,6 +179,7 @@ h1, h2, h3, h4, h5 {
 	line-height: 24px;
 }
 
+
 /* Multi / single select grey & blue */
 
 /* Grey if not selected */
@@ -234,6 +235,12 @@ p.intro {
 .forgot-password {
 	color: #005A84;
 }
+
+.page-content a.dark {
+    color: #005A84;
+    font-size: 16px;
+}
+
 .signin-form .forgot-password {
 	font-size: 14px;
 }
