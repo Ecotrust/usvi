@@ -20,7 +20,8 @@
 
         <div class="page-content extra-padding" ng-show="showContent">
             <div class="row">
-                <h3 ng-bind-html-unsafe="respondent.survey_title"></h3>
+                <h3 ng-show="respondent.complete">Completed Response</h3>
+                <h3 ng-hide="respondent.complete">Incomplete Response</h3>
             </div>
 
             <div class="row" ng-hide="respondent.complete"> 
