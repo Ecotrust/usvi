@@ -62,12 +62,21 @@ angular.module('askApp')
                 }
             }
 
+            // Add last logged in user if present
+            if(app.lastUser){
+                $scope.lastUser = app.lastUser;
+                $scope.authUser = app.lastUser;
+            } else {
+                $scope.lastUser = false;
+            }
+
             if (app.user && app.user.resumePath) {
                 if (!_.has(app.respondents && _.last(app.user.resumePath.split('/')))) {
                     delete $scope.user.resumePath;
                 }
             }
 
+            // Not sure what this does
             if ($location.path() === '/signup' && $scope.user.status === 'signup') {
                 $scope.newUser = app.offlineUser;
             } else if ($location.path() === '/signin' && $scope.user.status === 'signin') {
@@ -100,6 +109,7 @@ angular.module('askApp')
             }
 
             $scope.logout = function() {
+                app.lastUser = app.user; // Save last user so we can remeber account info fpr login screen
                 app.user = false;
                 storage.saveState(app);
                 $location.path('/');
@@ -164,6 +174,8 @@ angular.module('askApp')
             $scope.showError = false;
             $scope.showInfo = false;
             $scope.working = false;
+
+
             $scope.authenticateUser = function(user) {
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
