@@ -1,3 +1,6 @@
+/**
+    Edit this file to style the mobile app 
+*/
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -133,6 +136,11 @@ a {
     border-color: rgb(250, 189, 18);
 }
 
+
+/**********************************************************************
+Splash Screen and Login/Logout 
+**********************************************************************/
+
 .splash {
     width: 100%;
     height: 100%;
@@ -203,11 +211,23 @@ a {
     margin-bottom: 10px;
 }
 
+.last-user .panel-heading h4, .last-user p {
+    color: #333;
+    text-align:center;
+}
+
+/**********************************************************************
+End Splash Screen and Login/Logout 
+**********************************************************************/
+
+
 input.datepicker {
     -webkit-appearance: textfield;
     padding-top: 5px;
 
 }
+
+
 
 .table, .table td {
     border-top: 0!important;
