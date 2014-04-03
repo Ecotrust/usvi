@@ -1,47 +1,50 @@
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
-
-from tastypie.authentication import SessionAuthentication, ApiKeyAuthentication, MultiAuthentication, Authentication
-
-from tastypie.authorization import Authorization
+from tastypie.authentication import (SessionAuthentication,
+                                     ApiKeyAuthentication, MultiAuthentication,
+                                     Authentication)
+from tastypie.exceptions import Unauthorized
+from tastypie.authorization import Authorization, DjangoAuthorization
+from tastypie.utils import trailing_slash
 
 from django.conf.urls import url
-from django.db.models import Avg, Max, Min, Count
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
 from django.core.urlresolvers import reverse
 
 from haystack.query import SearchQuerySet
-from haystack.query import SQ
-
-from tastypie.resources import ModelResource
-from tastypie.utils import trailing_slash
 
 import datetime
-import json
 
-from survey.models import Survey, Question, Option, Respondant, Response, Page, Block, Dialect, DialectSpecies
+from survey.models import (Survey, Question, Option, Respondant, Response,
+                           Page, Block, Dialect, DialectSpecies)
 
 
 class SurveyModelResource(ModelResource):
+
     def obj_update(self, bundle, request=None, **kwargs):
         bundle = super(SurveyModelResource, self).obj_update(bundle, **kwargs)
         for field_name in self.fields:
             field = self.fields[field_name]
-            if type(field) is fields.ToOneField and field.null and bundle.data.get(field_name, None) is None:
+            if (type(field) is fields.ToOneField and field.null and
+               bundle.data.get(field_name, None) is None):
                 setattr(bundle.obj, field_name, None)
         bundle.obj.save()
 
         return bundle
 
+
 class StaffUserOnlyAuthorization(Authorization):
 
-    # def create_list(self, object_list, bundle):
-    #     # Assuming their auto-assigned to ``user``.
-    #     return bundle.request.user.is_staff
+    def read_list(self, object_list, bundle):
+        # Is the requested object owned by the user?
+        if bundle.request.user.is_staff:
+            return object_list
+        return object_list.filter(user=bundle.request.user)
 
-    # def create_detail(self, object_list, bundle):
-    #     return bundle.request.user.is_staff
+    def read_detail(self, object_list, bundle):
+        # Is the requested object owned by the user?
+        return bundle.obj.user == bundle.request.user
 
     def update_list(self, object_list, bundle):
         return bundle.request.user.is_staff
@@ -56,7 +59,9 @@ class StaffUserOnlyAuthorization(Authorization):
     def delete_detail(self, object_list, bundle):
         return bundle.request.user.is_staff
 
+
 class UserObjectsOnlyAuthorization(Authorization):
+
     def read_list(self, object_list, bundle):
         # This assumes a ``QuerySet`` from ``ModelResource``.
         return object_list.filter(user=bundle.request.user)
@@ -70,16 +75,14 @@ class UserObjectsOnlyAuthorization(Authorization):
         return object_list
 
     def create_detail(self, object_list, bundle):
-        return bundle.obj.user == bundle.request.user
+        return True
 
     def update_list(self, object_list, bundle):
         allowed = []
-
         # Since they may not all be saved, iterate over them.
         for obj in object_list:
             if obj.user == bundle.request.user:
                 allowed.append(obj)
-
         return allowed
 
     def update_detail(self, object_list, bundle):
@@ -92,13 +95,17 @@ class UserObjectsOnlyAuthorization(Authorization):
     def delete_detail(self, object_list, bundle):
         raise Unauthorized("Sorry, no deletes.")
 
+
 class ResponseResource(SurveyModelResource):
-    question = fields.ToOneField('apps.survey.api.QuestionResource', 'question', full=True)
-    respondant = fields.ToOneField('apps.survey.api.RespondantResource', 'respondant', full=False)
+    question = fields.ToOneField(
+        'apps.survey.api.QuestionResource', 'question', full=True)
+    respondant = fields.ToOneField(
+        'apps.survey.api.RespondantResource', 'respondant', full=False)
     answer_count = fields.IntegerField(readonly=True)
 
     class Meta:
-        queryset = Response.objects.all().order_by('question__question_page__order')
+        queryset = Response.objects.all().order_by(
+            'question__question_page__order')
         filtering = {
             'answer': ALL,
             'question': ALL_WITH_RELATIONS,
@@ -108,35 +115,45 @@ class ResponseResource(SurveyModelResource):
 
 
 class OfflineResponseResource(SurveyModelResource):
-    question = fields.ToOneField('apps.survey.api.QuestionResource', 'question', null=True, blank=True)
-    respondant = fields.ToOneField('apps.survey.api.OfflineRespondantResource', 'respondant')
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True)
-    
+    question = fields.ToOneField(
+        'apps.survey.api.QuestionResource', 'question', null=True, blank=True)
+    respondant = fields.ToOneField(
+        'apps.survey.api.OfflineRespondantResource', 'respondant')
+    user = fields.ToOneField(
+        'apps.account.api.UserResource', 'user', null=True, blank=True)
+
     class Meta:
-        queryset = Response.objects.all().order_by('question__question_page__order')
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
-    
+        queryset = Response.objects.all().order_by(
+            'question__question_page__order')
+        authorization = UserObjectsOnlyAuthorization()
+        authentication = MultiAuthentication(
+            ApiKeyAuthentication(), SessionAuthentication())
+
     def obj_create(self, bundle, **kwargs):
-        return super(OfflineResponseResource, self).obj_create(bundle, user=bundle.request.user)
+        return super(OfflineResponseResource,
+                     self).obj_create(bundle, user=bundle.request.user)
 
 
 class OfflineRespondantResource(SurveyModelResource):
-    responses = fields.ToManyField('apps.survey.api.OfflineResponseResource', 'response_set', null=True, blank=True)
-    survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True)
-    # user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, readonly=True)
+    responses = fields.ToManyField(
+        'apps.survey.api.OfflineResponseResource', 'response_set',
+        null=True, blank=True)
+    survey = fields.ToOneField(
+        'apps.survey.api.SurveyResource', 'survey', null=True, blank=True)
 
     class Meta:
         always_return_data = True
         queryset = Respondant.objects.all()
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authorization = UserObjectsOnlyAuthorization()
+        authentication = MultiAuthentication(
+            ApiKeyAuthentication(), SessionAuthentication())
         ordering = ['-ts']
-    
+
     def obj_create(self, bundle, **kwargs):
         if not bundle.request.user.is_authenticated():
             return None
-        return super(OfflineRespondantResource, self).obj_create(bundle, user=bundle.request.user)
+        return super(OfflineRespondantResource,
+                     self).obj_create(bundle, user=bundle.request.user)
 
     def save_related(self, bundle):
         resource_uri = self.get_resource_uri(bundle.obj)
@@ -145,10 +162,16 @@ class OfflineRespondantResource(SurveyModelResource):
             response['respondant'] = resource_uri
             response['user'] = user_uri
 
+
 class ReportRespondantResource(SurveyModelResource):
-    responses = fields.ToManyField(ResponseResource, 'response_set', full=False, null=True, blank=True)
-    survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, readonly=True)
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=False, readonly=True)
+    responses = fields.ToManyField(
+        ResponseResource, 'response_set', full=False, null=True, blank=True)
+    survey = fields.ToOneField(
+        'apps.survey.api.SurveyResource', 'survey',
+        null=True, blank=True, readonly=True)
+    user = fields.ToOneField('apps.account.api.UserResource',
+                             'user', null=True, blank=True,
+                             full=False, readonly=True)
     survey_title = fields.CharField(attribute='survey_title', readonly=True)
     survey_slug = fields.CharField(attribute='survey_slug', readonly=True)
 
@@ -165,19 +188,23 @@ class ReportRespondantResource(SurveyModelResource):
             'island': ALL
 
         }
-        #ordering = ['-ordering_date']
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authorization = UserObjectsOnlyAuthorization()
+        authentication = MultiAuthentication(
+            ApiKeyAuthentication(), SessionAuthentication())
 
 
 class DashRespondantResource(ReportRespondantResource):
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
-    survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, full=False, readonly=True)
-    entered_by = fields.ToOneField('apps.account.api.UserResource', 'entered_by', null=True, blank=True, full=True, readonly=True)
+    user = fields.ToOneField('apps.account.api.UserResource',
+                             'user', null=True, blank=True, full=True, readonly=True)
+    survey = fields.ToOneField('apps.survey.api.SurveyResource',
+                               'survey', null=True, blank=True, full=False, readonly=True)
+    entered_by = fields.ToOneField('apps.account.api.UserResource',
+                                   'entered_by', null=True, blank=True, full=True, readonly=True)
 
     def prepend_urls(self):
             return [
-                url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_search'), name="api_get_search"),
+                url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('get_search'), name="api_get_search"),
             ]
 
     def get_object_list(self, request):
@@ -206,9 +233,11 @@ class DashRespondantResource(ReportRespondantResource):
             sqs = sqs.auto_query(query)
 
         if start_date is not None:
-            sqs = sqs.filter(ordering_date__gte=datetime.datetime.strptime(start_date + " 00:00", '%Y-%m-%d %H:%M'))
+            sqs = sqs.filter(ordering_date__gte=datetime.datetime.strptime(
+                start_date + " 00:00", '%Y-%m-%d %H:%M'))
         if end_date is not None:
-            sqs = sqs.filter(ordering_date__lte=datetime.datetime.strptime(end_date, '%Y-%m-%d') + datetime.timedelta(days=1))
+            sqs = sqs.filter(ordering_date__lte=datetime.datetime.strptime(
+                end_date, '%Y-%m-%d') + datetime.timedelta(days=1))
 
         if review_status is not None:
             sqs = sqs.filter(review_status=review_status)
@@ -242,10 +271,11 @@ class DashRespondantResource(ReportRespondantResource):
                 bundle = self.full_dehydrate(bundle)
                 objects.append(bundle)
 
-          
-        base_url = reverse('api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
+        base_url = reverse(
+            'api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
 
-        base_url = base_url + "?limit={0}&q={1}&format=json".format(limit, query)
+        base_url = base_url + \
+            "?limit={0}&q={1}&format=json".format(limit, query)
 
         if start_date is not None:
             base_url = base_url + "&start_date=" + start_date
@@ -256,18 +286,16 @@ class DashRespondantResource(ReportRespondantResource):
         if island is not None:
             base_url = base_url + "&island=" + island
 
-
         if page.has_next():
             next_url = "{0}&page={1}".format(base_url, page.next_page_number())
         else:
             next_url = None
 
         if page.has_previous():
-            previous_url = "{0}&page={1}".format(base_url, page.previous_page_number())
+            previous_url = "{0}&page={1}".format(
+                base_url, page.previous_page_number())
         else:
             previous_url = None
-        
-       
 
         meta = {
             "limit": limit,
@@ -287,20 +315,28 @@ class DashRespondantResource(ReportRespondantResource):
         self.log_throttled_access(request)
         return self.create_response(request, object_list)
 
+
 class DashRespondantDetailsResource(ReportRespondantResource):
-    responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
+    responses = fields.ToManyField(
+        ResponseResource, 'response_set', full=True, null=True, blank=True)
+    user = fields.ToOneField('apps.account.api.UserResource',
+                             'user', null=True, blank=True, full=True, readonly=True)
 
 
 class ReportRespondantDetailsResource(ReportRespondantResource):
-    responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
-    
+    responses = fields.ToManyField(
+        ResponseResource, 'response_set', full=True, null=True, blank=True)
+    user = fields.ToOneField('apps.account.api.UserResource',
+                             'user', null=True, blank=True, full=True, readonly=True)
+
 
 class RespondantResource(SurveyModelResource):
-    responses = fields.ToManyField(ResponseResource, 'response_set', full=True, null=True, blank=True)
-    survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, full=True, readonly=True)
-    user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
+    responses = fields.ToManyField(
+        ResponseResource, 'response_set', full=True, null=True, blank=True)
+    survey = fields.ToOneField('apps.survey.api.SurveyResource',
+                               'survey', null=True, blank=True, full=True, readonly=True)
+    user = fields.ToOneField('apps.account.api.UserResource',
+                             'user', null=True, blank=True, full=True, readonly=True)
 
     class Meta:
         queryset = Respondant.objects.all().order_by('-ts')
@@ -311,31 +347,35 @@ class RespondantResource(SurveyModelResource):
             'ts': ['gte', 'lte']
         }
         ordering = ['-ts']
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authorization = UserObjectsOnlyAuthorization()
+        authentication = MultiAuthentication(
+            ApiKeyAuthentication(), SessionAuthentication())
 
 
 class OptionResource(SurveyModelResource):
+
     class Meta:
         always_return_data = True
         queryset = Option.objects.all().order_by('order')
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
-
-
-    # save_m2m = main_save_m2m
+        authorization = DjangoAuthorization()
+        authentication = Authentication()
 
 
 class PageResource(SurveyModelResource):
-    questions = fields.ToManyField('apps.survey.api.QuestionResource', 'questions', full=True, null=True, blank=True)
-    blocks = fields.ToManyField('apps.survey.api.BlockResource', 'blocks', full=True, null=True, blank=True)
-    survey = fields.ForeignKey('apps.survey.api.SurveyResource', 'survey', related_name='survey', null=True, blank=True)
+    questions = fields.ToManyField('apps.survey.api.QuestionResource',
+                                   'questions', full=True, null=True,
+                                   blank=True)
+    blocks = fields.ToManyField('apps.survey.api.BlockResource', 'blocks',
+                                full=True, null=True, blank=True)
+    survey = fields.ForeignKey('apps.survey.api.SurveyResource',
+                               'survey', related_name='survey', null=True,
+                               blank=True)
 
     class Meta:
         queryset = Page.objects.all().order_by('order')
         always_return_data = True
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authorization = DjangoAuthorization()
+        authentication = Authentication()
         filtering = {
             'survey': ALL_WITH_RELATIONS
         }
@@ -344,17 +384,20 @@ class PageResource(SurveyModelResource):
 
 
 class PageDashResource(PageResource):
-    questions = fields.ToManyField('apps.survey.api.QuestionResource', 'questions', full=False, null=True, blank=True)
+    questions = fields.ToManyField('apps.survey.api.QuestionResource',
+                                   'questions', full=False, null=True,
+                                   blank=True)
 
 
 class BlockResource(SurveyModelResource):
-    skip_question = fields.ToOneField('apps.survey.api.QuestionResource', 'skip_question', null=True, blank=True)
+    skip_question = fields.ToOneField('apps.survey.api.QuestionResource',
+                                      'skip_question', null=True, blank=True)
 
     class Meta:
         queryset = Block.objects.all()
         always_return_data = True
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authentication = Authentication()
+        authorization = DjangoAuthorization()
 
 
 class DialectSpeciesResource(SurveyModelResource):
@@ -364,23 +407,34 @@ class DialectSpeciesResource(SurveyModelResource):
 
 
 class QuestionResource(SurveyModelResource):
-    options = fields.ToManyField(OptionResource, 'options', full=True, null=True, blank=True)
-    grid_cols = fields.ToManyField(OptionResource, 'grid_cols', full=True, null=True, blank=True)
-    modalQuestion = fields.ToOneField('self', 'modalQuestion', full=True, null=True, blank=True)
-    hoist_answers = fields.ToOneField('self', 'hoist_answers', full=True, null=True, blank=True)
-    foreach_question = fields.ToOneField('self', 'foreach_question', full=True, null=True, blank=True)
-    question_types = fields.DictField(attribute='question_types', readonly=True)
+    options = fields.ToManyField(
+        OptionResource, 'options', full=True, null=True, blank=True)
+    grid_cols = fields.ToManyField(
+        OptionResource, 'grid_cols', full=True, null=True, blank=True)
+    modalQuestion = fields.ToOneField(
+        'self', 'modalQuestion', full=True, null=True, blank=True)
+    hoist_answers = fields.ToOneField(
+        'self', 'hoist_answers', full=True, null=True, blank=True)
+    foreach_question = fields.ToOneField(
+        'self', 'foreach_question', full=True, null=True, blank=True)
+    question_types = fields.DictField(
+        attribute='question_types', readonly=True)
     report_types = fields.DictField(attribute='report_types', readonly=True)
-    answer_domain = fields.ListField(attribute='answer_domain', readonly=True, null=True)
-    filter_questions = fields.ToManyField('self', 'filter_questions', null=True, blank=True)
-    skip_question = fields.ToOneField('self', 'skip_question', null=True, blank=True)
-    blocks = fields.ToManyField('apps.survey.api.BlockResource', 'blocks', null=True, blank=True, full=True)
+    answer_domain = fields.ListField(
+        attribute='answer_domain', readonly=True, null=True)
+    filter_questions = fields.ToManyField(
+        'self', 'filter_questions', null=True, blank=True)
+    skip_question = fields.ToOneField(
+        'self', 'skip_question', null=True, blank=True)
+    blocks = fields.ToManyField(
+        'apps.survey.api.BlockResource', 'blocks',
+        null=True, blank=True, full=True)
 
     class Meta:
         queryset = Question.objects.all()
         always_return_data = True
-        authorization = Authorization()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authorization = DjangoAuthorization()
+        authentication = Authentication()
         filtering = {
             'slug': ALL,
             'surveys': ALL_WITH_RELATIONS
@@ -388,23 +442,25 @@ class QuestionResource(SurveyModelResource):
 
 
 class DialectResource(SurveyModelResource):
+
     class Meta:
         queryset = Dialect.objects.all()
 
+
 class SurveyResource(SurveyModelResource):
-    # questions = fields.ToManyField(QuestionResource, 'questions', full=True, null=True, blank=True)
-    #question = fields.ToOneField(QuestionResource, 'question', full=True, null=True, blank=True)
-    pages = fields.ToManyField(PageResource, 'page_set', full=True, null=True, blank=True)
+    pages = fields.ToManyField(
+        PageResource, 'page_set', full=True, null=True, blank=True)
 
     def get_object_list(self, request):
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-        return super(SurveyResource, self).get_object_list(request).filter(tags__name__in=user_tags)
- 
+        obj_list = super(SurveyResource, self).get_object_list(request)
+        return obj_list.filter(tags__name__in=user_tags)
+
     class Meta:
         detail_uri_name = 'slug'
         queryset = Survey.objects.all()
         always_return_data = True
-        authorization = Authorization()
+        authorization = DjangoAuthorization()
         authentication = Authentication()
         filtering = {
             'slug': ['exact'],
@@ -416,7 +472,9 @@ class SurveyResource(SurveyModelResource):
     #     pass
 
 class SurveyDashResource(SurveyResource):
-    dialect = fields.ToOneField('apps.survey.api.DialectResource', 'dialect', full=True, null=True, blank=True)
+    dialect = fields.ToOneField(
+        'apps.survey.api.DialectResource', 'dialect', full=True,
+        null=True, blank=True)
 
     def alter_detail_data_to_serialize(self, request, bundle):
         if 'meta' not in bundle.data:
@@ -436,13 +494,19 @@ class SurveyDashResource(SurveyResource):
 
 
 class SurveyReportResource(SurveyResource):
-    pages = fields.ToManyField(PageResource, 'pages', null=True, blank=True, full=False)
+    pages = fields.ToManyField(
+        PageResource, 'pages', null=True, blank=True, full=False)
     completes = fields.IntegerField(attribute='completes', readonly=True)
-    survey_responses = fields.IntegerField(attribute='survey_responses', readonly=True)
-    activity_points = fields.IntegerField(attribute='activity_points', readonly=True)
-    response_date_start = fields.DateField(attribute='response_date_start', readonly=True, null=True, blank=True)
-    response_date_end = fields.DateField(attribute='response_date_end', readonly=True, null=True, blank=True)
-    reviews_needed = fields.IntegerField(attribute='reviews_needed', readonly=True)
+    survey_responses = fields.IntegerField(
+        attribute='survey_responses', readonly=True)
+    activity_points = fields.IntegerField(
+        attribute='activity_points', readonly=True)
+    response_date_start = fields.DateField(
+        attribute='response_date_start', readonly=True, null=True, blank=True)
+    response_date_end = fields.DateField(
+        attribute='response_date_end', readonly=True, null=True, blank=True)
+    reviews_needed = fields.IntegerField(
+        attribute='reviews_needed', readonly=True)
     flagged = fields.IntegerField(attribute='flagged', readonly=True)
 
     def alter_detail_data_to_serialize(self, request, bundle):
@@ -451,6 +515,6 @@ class SurveyReportResource(SurveyResource):
 
         bundle.data['meta'] = {
             "entered_by": [u['entered_by__username'] for u in bundle.obj.respondant_set.exclude(entered_by=None)
-                    .values('entered_by__username').distinct()]
+                           .values('entered_by__username').distinct()]
         }
         return bundle
