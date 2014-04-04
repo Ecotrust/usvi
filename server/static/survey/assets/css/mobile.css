@@ -85,17 +85,17 @@ a {
     min-height: 100%;
 }
 
-.settings .panel-default {
+.panel-default {
     background-color: rgb(77,136,153);
     border-color: rgb(24, 75, 83);
     color: rgb(244,244,244);
 }
-.settings .panel-default > .panel-heading {
+.panel-default > .panel-heading {
     background-color: rgb(24, 75, 83);
     border-color: rgb(24, 75, 83);
     color: rgb(250, 189, 18);
 }
-.settings .panel {
+.panel {
     margin-top: 20px;
 }
 .btn-main {
@@ -250,7 +250,6 @@ Splash Screen and Login/Logout
 }
 
 .last-user .panel-heading h4, .last-user p {
-    color: #333;
     text-align:center;
 }
 
