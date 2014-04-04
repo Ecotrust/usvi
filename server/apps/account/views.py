@@ -28,7 +28,7 @@ def authenticateUser(request):
     print param
     # user = User.objects.get(username=param.get('username', None))
     user = authenticate(username=param.get(
-        'username', None), password=param.get('password'))
+        'username', None), password=param.get('password')) 
     try:
         login(request, user)
     except:
@@ -89,7 +89,7 @@ def createUser(request):
 
 
         if dash is False:
-            user = authenticate(username=user.username, password=str(param.get('password')))
+            user = authenticate(username=user.username, password=param.get('password'))
             login(request, user)
         api_key, created = ApiKey.objects.get_or_create(user=user)
         api_key.key = api_key.generate_key()
@@ -195,7 +195,7 @@ def updatePassword(request):
         else:
             passwords = param.get('passwords', None)
             if passwords:
-                password_old = passwords.get('old')
+                password_old = passwords.get('old') 
                 password_new1 = passwords.get('new1')
                 password_new2 = passwords.get('new2')
                 if password_new1 == password_new2:
