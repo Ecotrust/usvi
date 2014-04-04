@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import SetPasswordForm
 
 from account.models import UserProfile
 
@@ -73,5 +74,27 @@ class SignupForm(forms.Form):
         UserProfile.objects.get_or_create(user=user)
 
         return user
+
+
+
+class DDSetPasswordForm(SetPasswordForm):
+    """
+    This form enforces 4-digit passwords for non-staff users (i.e. fishers)
+    """
+
+    def clean_new_password2(self):
+
+        password2 = super(DDSetPasswordForm, self).clean_new_password2()
+        if not self.user.is_staff:
+            if not len(password2) == 4: 
+                raise forms.ValidationError(_('Password must be 4 digits long'))
+            try:
+                int(password2)
+            except ValueError:
+                raise forms.ValidationError(_('Password can only contain numbers'))
+
+        return password2
+
+
 
 
