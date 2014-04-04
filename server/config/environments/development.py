@@ -39,3 +39,5 @@ try:
     from local import *
 except ImportError:
     pass
+    
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
