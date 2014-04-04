@@ -12,7 +12,9 @@ DATABASES = {
     }
 }
 
-DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS = ['*']
 
 CACHES = {
     'default': {
