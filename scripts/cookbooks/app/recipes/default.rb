@@ -31,7 +31,7 @@ else
         source "timezone"
         mode 0644
     end
-    execute "reconfigure tz"
+    execute "reconfigure tz" do
         command "dpkg-reconfigure -f noninteractive tzdata"
     end
     execute "restart cton" do
