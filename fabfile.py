@@ -346,6 +346,8 @@ def package_ios_test():
 def package_ios_dev():
         run("cd %s && %s/bin/python manage.py package http://usvi-dev.pointnineseven.com '../mobile/www' --stage=dev --id='com.pointnineseven.digitaldeck-dev'" % (env.app_dir, env.venv))
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
+        local("xcrun -sdk iphoneos PackageApplication -v mobile/platforms/ios/build/DigitalDeck.app -o /tmp/DigialDeck-dev.ipa")
+        local("s3cmd put /tmp/DigialDeck-dev.ipa s3://p97-deck/usvi-dev/DigitalDeck-dev.ipa")
 
 @task
 def package_ios_dev_nodeploy():
