@@ -27,6 +27,18 @@ else
         mode 0644
     end
 
+    cookbook_file "/etc/timezone" do
+        source "timezone"
+        mode 0644
+    end
+    execute "reconfigure tz"
+        command "dpkg-reconfigure -f noninteractive tzdata"
+    end
+    execute "restart cton" do
+        command "service cron restart"
+    end
+
+
 
     node[:users].each do |u|
         user u[:name] do
