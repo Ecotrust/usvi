@@ -39,8 +39,12 @@
             </form>
         </div>
         <div class="new-user-form signin-form" ng-show="showForgotPasswordDone">
-            <h3>Link Sent</h3>
-            <p>Please check your email for a link to reset your password.</p>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4 class="panel-title">Link Sent</h4></div>
+                <div class="panel-body">
+                    <p>Please check your email for a link to reset your password.</p>
+                </div>
+            </div>
             <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">ok</a>
         </div>
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">

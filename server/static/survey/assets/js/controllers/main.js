@@ -171,7 +171,7 @@ angular.module('askApp')
 
             };
 
-            $scope.showForgotPassword = false;
+            $scope.show = false;
             $scope.showError = false;
             $scope.showInfo = false;
             $scope.working = false;
