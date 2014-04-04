@@ -1,17 +1,25 @@
+
+import simplejson
+import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
-from account.models import UserProfile, Feedback
 from django.db import IntegrityError
 from django.conf import settings
 from django.core.validators import email_re
 from django.core.exceptions import MultipleObjectsReturned
+
+
 from tastypie.models import ApiKey
-import simplejson
-import datetime
+
+from account.models import UserProfile, Feedback
+from account.forms import SignupForm
+
+
 
 @csrf_exempt
 def authenticateUser(request):
@@ -20,7 +28,7 @@ def authenticateUser(request):
     print param
     # user = User.objects.get(username=param.get('username', None))
     user = authenticate(username=param.get(
-        'username', None), password=param.get('password'))
+        'username', None), password=param.get('password')) 
     try:
         login(request, user)
     except:
@@ -42,63 +50,76 @@ def authenticateUser(request):
         }))
     else:
         return HttpResponse(simplejson.dumps({'success': False}))
-    
+  
 
 @csrf_exempt
 def createUser(request):
+    """
+    Creates a new user and a profile
+
+    Params:
+    - emailaddress1
+    - emailaddress2
+    - username
+    - password1
+    - password2
+    - dash
+    - type
+
+    Returns a user_dict on success, 500 with message on error.
+    """
     
     param = simplejson.loads(request.body)
-    email = param.get('emailaddress1', None)
-    if email != param.get('emailaddress2', None):
-        return HttpResponse("email-mismatch", status=500)
     dash = param.get('dash', False)
     user_type = param.get('type', 'fishers')
-    dash_can_create = request.user.is_staff and request.user.profile.is_intern is False
-    if email is not None:
-        email = email.replace(' ', '+')
-        if email_re.match(email) is None:
-            if email.find('+') == -1:
-                return HttpResponse("invalid-email", status=500)
-    else:
-        return HttpResponse("invalid-email", status=500)
-    try:
-        user, created = User.objects.get_or_create(
-            username=param.get('username', None), email=email)
-    except IntegrityError:
-        return HttpResponse("duplicate-user", status=500)
-    if created:
+
+    form = SignupForm(param)
+
+    if form.is_valid():
+        user = form.save()
         if user_type in ['staff', 'intern'] and dash_can_create:
             user.is_staff = True
-        user.set_password(param.get('password'))
-        user.save()
+            user.save()
 
-        profile, created = UserProfile.objects.get_or_create(user=user)
-        profile.registration = '{}'
-        profile.tags.add('usvi')
+        user.profile.registration = '{}'
+        user.profile.tags.add('usvi')
         if user_type in ['intern'] and dash_can_create:
-            profile.is_intern = True
-        profile.save()
-        user.save()
+            user.profile.is_intern = True
+        user.profile.save()
+
+
         if dash is False:
-            user = authenticate(
-                username=user.username, password=param.get('password'))
+            user = authenticate(username=user.username, password=param.get('password'))
             login(request, user)
         api_key, created = ApiKey.objects.get_or_create(user=user)
         api_key.key = api_key.generate_key()
         api_key.save()
-
+        
         user_dict = {
             'username': user.username,
             'name': ' '.join([user.first_name, user.last_name]),
             'email': user.email,
             'is_staff': user.is_staff,
-            'registration': profile.registration,
-            'is_intern': profile.is_intern,
+            'registration': user.profile.registration,
+            'is_intern': user.profile.is_intern,
             'api_key': user.api_key.key
         }
         return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
     else:
-        return HttpResponse("duplicate-user", status=500)
+        # Something is went wrong
+        if 'username' in form.errors:
+            return HttpResponse("duplicate-user", status=500)
+        
+        if 'emailaddress1' in form.errors:
+            return HttpResponse("invalid-email", status=500)
+        
+        if 'emailaddress1' in form.errors:
+            return HttpResponse("duplicate-email", status=500)
+        if 'password1' in form.errors:
+            return HttpResponse("invalid-password", status=500)
+        else:
+            return HttpResponse("unknown-error", status=500)
+
 
 @csrf_exempt
 def forgotPassword(request):
@@ -174,7 +195,7 @@ def updatePassword(request):
         else:
             passwords = param.get('passwords', None)
             if passwords:
-                password_old = passwords.get('old')
+                password_old = passwords.get('old') 
                 password_new1 = passwords.get('new1')
                 password_new2 = passwords.get('new2')
                 if password_new1 == password_new2:

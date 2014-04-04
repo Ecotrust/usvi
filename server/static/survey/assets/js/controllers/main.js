@@ -141,6 +141,7 @@ angular.module('askApp')
                 if (user.emailaddress1 === user.emailaddress2) {
                     $scope.working = true;
                     $scope.showError = false;
+                    storage.cleanUserObject(user);
                     $http.post(url, user)
                         .success(function(data) {
                             if (app.respondents) {
@@ -179,6 +180,7 @@ angular.module('askApp')
             $scope.authenticateUser = function(user) {
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
+                user = storage.cleanUserObject(user);
                 $http({
                     method: 'POST',
                     url: url,
@@ -217,7 +219,7 @@ angular.module('askApp')
 
             $scope.forgotPassword = function(user) {
                 var url = app.server + "/account/forgotPassword";
-
+                user = storage.cleanUserObject(user);
                 $http.post(url, user)
                     .success(function() {
                         $scope.showForgotPassword = false;
@@ -251,7 +253,7 @@ angular.module('askApp')
             $scope.dismissMessage = function() {
                 $scope.message = false;
                 storage.saveState(app);
-            }
+            };
 
             if (app.message) {
                 $scope.message = app.message;
@@ -263,5 +265,8 @@ angular.module('askApp')
                 $(':active').blur();
             });
 
+
         }
-    ]);
+
+  
+]);

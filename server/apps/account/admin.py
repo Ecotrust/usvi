@@ -24,9 +24,26 @@ from django.contrib.auth.models import User
 # admin.site.register(User, YourUserAdmin)
 
 
+
+def set_password_1234(modeladmin, request, queryset):
+    """
+    Resets password on selected account to "1234".
+    """
+    for profile in queryset:
+        profile.user.set_password("1234")
+        profile.user.save()
+
+set_password_1234.short_description = 'Reset passwords on selected accounts to "1234"'
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    actions = [set_password_1234]
+
+
+
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'message', 'ts')
 
 
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Feedback, FeedbackAdmin)

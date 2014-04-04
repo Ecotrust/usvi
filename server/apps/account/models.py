@@ -12,6 +12,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return "%s" % (self.user.username)
 
+
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
 

@@ -40,17 +40,17 @@
             <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">ok</a>
         </div>
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
-            <form ng-submit="authenticateUser(authUser)">
-                
+            
+            <div class="last-user panel panel-default" ng-show="lastUser">
+                <div class="panel-heading"><h4>Welcome {{lastUser.username}}</h4></div>
+                <div class="panel-body">
+                    <p ng-show="lastUser.first-name && lastUser.last-name">{{ lastUser.first-name}} {{lastUser.last-name}}</p>
+                    <p>{{lastUser.email}}</p>
+                </div>
+            </div>
 
+            <form ng-submit="authenticateUser(authUser)">
                 <fieldset ng-disabled="working">
-                    <div class="last-user panel panel-default" ng-show="lastUser">
-                        <div class="panel-heading"><h4>Welcome {{lastUser.username}}</h4></div>
-                        <div class="panel-body">
-                            <p ng-show="lastUser.first-name && lastUser.last-name">{{ lastUser.first-name}} {{lastUser.last-name}}</p>
-                            <p>{{lastUser.email}}</p>
-                        </div>
-                    </div>
                     <div ng-show="!lastUser">
                         <input type="text" class="form-control username" placeholder="enter your username..." ng-model="authUser.username" autocapitalize="off" required>
                     </div>
