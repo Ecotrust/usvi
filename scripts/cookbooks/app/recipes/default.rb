@@ -21,6 +21,13 @@ if node[:user] == "vagrant"
         owner "vagrant"
     end
 else
+
+    cookbook_file "/etc/cron.d/geosurvey" do
+        source "crontab"
+        mode 0644
+    end
+
+
     node[:users].each do |u|
         user u[:name] do
             username u[:name]

@@ -36,7 +36,8 @@ angular.module('askApp')
             .success(function (data) {
                 $scope.passwords = null;
                 $scope.changingPassword = false;
-                flashMessage("Your password has been changed")
+                flashMessage("Your password has been changed");
+                storage.saveState(app);
             })
             .error(function (data) {
               $scope.showError = data;

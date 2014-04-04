@@ -20,11 +20,11 @@
             <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
         </div>
         <div class="new-user-form signin-form" ng-show="showForgotPassword">
-            <form ng-submit="forgotPassword(forgotUser)">
+            <form ng-submit="forgotPassword(forgotUser)" name="forgotPasswordForm">
                 <fieldset ng-disabled="working">
-                    <input type="email" class="form-control username" placeholder="enter your email..." ng-model="forgotUser.email" autocapitalize="off">
+                    <input type="email" class="form-control username" name="email" placeholder="enter your email..." ng-model="forgotUser.email" autocapitalize="off" required>
                 </fieldset>
-                <button class="btn btn-main btn-default btn-block" ng-disable="forgotUser.email">forgot password</button>
+                <button class="btn btn-main btn-default btn-block" ng-disabled="forgotPasswordForm.$invalid">forgot password</button>
                 <a class="btn btn-main btn-default btn-block" ng-click="showForgotPassword = false">cancel</a>
                 <div class="error" ng-show="showError == 'user-not-found'">
                     No user found for that email address.
@@ -32,17 +32,26 @@
                 <div class="error" ng-show="showError == 'multiple-users-found'">
                     Multiple users found with that email address.
                 </div>
+                <div class="error" ng-show="forgotPasswordForm.email.$dirty && forgotPasswordForm.email.$error.email">
+                    You must enter a valid email address.
+                </div>
+
             </form>
         </div>
         <div class="new-user-form signin-form" ng-show="showForgotPasswordDone">
-            <h3>Link Sent</h3>
-            <p>Please check your email for a link to reset your password.</p>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4 class="panel-title">Link Sent</h4></div>
+                <div class="panel-body">
+                    <p>Please check your email for a link to reset your password.</p>
+                </div>
+            </div>
+            
             <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">ok</a>
         </div>
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
             
             <div class="last-user panel panel-default" ng-show="lastUser">
-                <div class="panel-heading"><h4>Welcome {{lastUser.username}}</h4></div>
+                <div class="panel-heading"><h4 class="panel-title">Welcome {{lastUser.username}}</h4></div>
                 <div class="panel-body">
                     <p ng-show="lastUser.first-name && lastUser.last-name">{{ lastUser.first-name}} {{lastUser.last-name}}</p>
                     <p>{{lastUser.email}}</p>
@@ -60,13 +69,17 @@
             
                 <button class="btn btn-main btn-block" ng-disabled="! (authUser.username &&  authUser.password)">login</button>
                 <a class="btn btn-main btn-default btn-block" ng-class="{'active': showForm == 'new-user'}" href="#/">cancel</a>
-                <a class="btn btn-main btn-default btn-block" ng-class="{'active': showForm == 'new-user'}" href ng-click="lastUser=false; authUser=false;">Change account</a>
                 <div class="error" ng-show="showError == 'auth-error'">
                     There was a problem authenticating. Please try again.
                 </div>
 
             </form>
             <div class="pull-right">
+                <a class="" ng-class="{'active': showForm == 'new-user'}" href ng-click="lastUser=false; authUser=false;">Login as different fisher</a>
+            </div>
+            <div class="clearfix"></div>
+
+             <div class="pull-right">
                 <a class="forgot-password pull-right" ng-click="showForgotPassword = true">Forgot Password</a>
             </div>
             <div class="clearfix"></div>

@@ -37,6 +37,7 @@ set_password_1234.short_description = 'Reset passwords on selected accounts to "
 
 
 class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'email']
     actions = [set_password_1234]
 
 

@@ -123,7 +123,7 @@ def createUser(request):
 
 @csrf_exempt
 def forgotPassword(request):
-    if request.POST:
+    if request.method == 'POST':
         param = simplejson.loads(request.body)
         email = param.get('email', None)
         try:
