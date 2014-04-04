@@ -21,9 +21,9 @@ CACHES = {
     },
 }
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-
+ALLOWED_HOSTS = ['*']
 # settings/local.py is ignored to allow for easy settings
 # overrides without affecting others
 try:
