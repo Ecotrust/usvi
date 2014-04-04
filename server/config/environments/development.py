@@ -12,7 +12,7 @@ DATABASES = {
     }
 }
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 

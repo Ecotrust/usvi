@@ -17,6 +17,7 @@ import caching.base
 import re
 import json
 import dateutil.parser
+import datetime
 
 def make_uuid():
     return str(uuid.uuid4())
@@ -60,6 +61,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     user = models.ForeignKey(User, null=True, blank=True)
     entered_by = models.ForeignKey(User, null=True, blank=True, related_name='entered_by')
+    updated_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     objects = caching.base.CachingManager()
 
@@ -70,6 +72,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
             self.ordering_date = self.ts
         if self.survey.slug.find('puerto-rico') != -1:
             self.island = "Puerto Rico"
+        self.updated_at = datetime.datetime.now()
         super(Respondant, self).save(*args, **kwargs)
 
     @property

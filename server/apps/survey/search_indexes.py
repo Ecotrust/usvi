@@ -10,6 +10,10 @@ class RespondentIndex(indexes.SearchIndex, indexes.Indexable):
     review_status = indexes.CharField(model_attr='review_status')
     text = indexes.CharField(document=True, use_template=True)
     ordering_date = indexes.DateTimeField(model_attr='ordering_date')
+    updated_at = indexes.DateTimeField(model_attr='updated_at')
+
+    def get_updated_field(self):
+        return 'updated_at'
 
     def get_model(self):
         return Respondant
