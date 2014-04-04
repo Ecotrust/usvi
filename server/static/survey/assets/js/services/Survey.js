@@ -252,7 +252,7 @@ angular.module('askApp')
         initializeSurvey(survey, null, answers);
         respondent.responses = cleanSurvey(respondent);
         return sendRespondent(respondent);
-    }
+    };
 
 
     var resume = function(respondent) {
@@ -280,6 +280,6 @@ angular.module('askApp')
       'cleanSurvey': cleanSurvey,
       'getQuestionUriFromSlug': getQuestionUriFromSlug,
       'submitSurvey': submitSurvey,
-      'resume': resume
+      'resume': resume,
     };
   });

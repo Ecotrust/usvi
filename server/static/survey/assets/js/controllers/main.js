@@ -141,7 +141,7 @@ angular.module('askApp')
                 if (user.emailaddress1 === user.emailaddress2) {
                     $scope.working = true;
                     $scope.showError = false;
-                    cleanUserObject(user);
+                    storage.cleanUserObject(user);
                     $http.post(url, user)
                         .success(function(data) {
                             if (app.respondents) {
@@ -180,7 +180,7 @@ angular.module('askApp')
             $scope.authenticateUser = function(user) {
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
-                user = cleanUserObject(user);
+                user = storage.cleanUserObject(user);
                 $http({
                     method: 'POST',
                     url: url,
@@ -219,7 +219,7 @@ angular.module('askApp')
 
             $scope.forgotPassword = function(user) {
                 var url = app.server + "/account/forgotPassword";
-                user = cleanUserObject(user);
+                user = storage.cleanUserObject(user);
                 $http.post(url, user)
                     .success(function() {
                         $scope.showForgotPassword = false;
@@ -265,12 +265,6 @@ angular.module('askApp')
                 $(':active').blur();
             });
 
-            $scope.cleanUserObject = function(user){
-            // Mainly used to parse the password to a string before sending to the server
-                password = user.password;
-                user.password = ''+password;
-                return user;
-            };
 
         }
 
