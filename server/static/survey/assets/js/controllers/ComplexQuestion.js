@@ -700,6 +700,7 @@ angular.module('askApp')
     };
 
 $scope.loadSurvey = function(data) {
+        
         $scope.survey = data.survey;
         $scope.survey.status = data.status;
         if (! $routeParams.action === 'edit' && data.status === 'complete' || data.status === 'terminate') {
@@ -1465,6 +1466,7 @@ $scope.loadSurvey = function(data) {
 
         if ($scope.question && $scope.question.type === 'datepicker') {
             $scope.now =  $scope.answer || (new Date()).toString("yyyy-MM-dd");
+            $scope.datepickerMin = Date.parse("t - 60 d").toString("yyyy-MM-dd");
 
         }
         if ($scope.question && $scope.question.type === 'timepicker') {

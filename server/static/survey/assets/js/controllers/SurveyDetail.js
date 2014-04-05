@@ -36,7 +36,7 @@ angular.module('askApp')
     //         return _.findWhere(page.questions, {slug: questionSlug});
     //     });
     // };
-
+    
     $scope.getResumeQuestionPath = function(lastQuestion) {
         
         var resumeQuestion = $scope.survey.questions[_.indexOf($scope.survey.questions, _.findWhere($scope.survey.questions, {
