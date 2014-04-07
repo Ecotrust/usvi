@@ -26,11 +26,18 @@ angular.module('askApp')
     $scope.updatePassword = function (passwords) {
         var url = app.server + "/account/updatePassword";
         $scope.showError = false;
+
+        //clean passwords
+        _.each(passwords, function(val, key){
+            passwords[key] = ''+val;
+        });
+
         $http.post(url, {username: app.user.username, passwords: passwords})
             .success(function (data) {
                 $scope.passwords = null;
                 $scope.changingPassword = false;
-                flashMessage("Your password has been changed")
+                flashMessage("Your password has been changed");
+                storage.saveState(app);
             })
             .error(function (data) {
               $scope.showError = data;

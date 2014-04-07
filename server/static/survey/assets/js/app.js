@@ -134,7 +134,11 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
         });
     });
 
-
+$(document).on('blur', 'input, textarea', function() {
+    setTimeout(function() {
+        window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
+    }, 0);
+});
 // $(document).ready(function() {
 //     var flag = false;
 //     $(document).on('focusin touchend', '.question input, .question select', function(e) {

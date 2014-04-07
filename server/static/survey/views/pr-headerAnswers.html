@@ -21,13 +21,7 @@
         <div>
             <div>
                 <strong>Municipio de Desembarco: </strong>
-                <span>{{ getAnswer('trip-landing-town-puerto-rico')['text'] }}</span>
-            </div>
-        </div>
-        <div>
-            <div>
-                <strong>Centro de Desembarco: </strong>
-                <span>{{ getAnswer('trip-landing-center-puerto-rico')['text'] }}</span>
+                <span>{{ getAnswer('trip-landing-site-puerto-rico')['text'] }}</span>
             </div>
         </div>
     </div>
@@ -42,6 +36,27 @@
             <span>{{ getAnswer('license-number-puerto-rico') }}</span>
         </div>
     </div>
+
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Número de teléfono:</strong>
+            <span>{{ getAnswer('telephone-puerto-rico') }}</span>
+        </div>
+        <div>
+            <strong>Registro de embarcacion:</strong>
+            <span>{{ getAnswer('vessel-number-puerto-rico') }}</span>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        <div>
+            <strong>Número de Permiso para HMS si aplica: </strong>
+            <span>
+                {{ getAnswer('hms-species-permit-number-puerto-rico') }}
+            </span>
+        </div>
+    </div>
+
     <div class="col-xs-12 col-sm-4 margin-top-10" ng-show="getAnswer('license-number-partner-1-puerto-rico')">
         <div>
             <strong>Nombre del pescador (2):</strong>
@@ -65,17 +80,6 @@
 
     <div class="col-xs-12 col-sm-4 margin-top-10">
         <div>
-            <strong>Número de teléfono:</strong>
-            <span>{{ getAnswer('telephone-puerto-rico') }}</span>
-        </div>
-        <div>
-            <strong>Registro de embarcacion:</strong>
-            <span>{{ getAnswer('license-number-puerto-rico') }}</span>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-4 margin-top-10">
-        <div>
             <strong>Profundidad donde occurrio la ayor captura:</strong>
             <span>{{ getAnswer('bottom-depth-puerto-rico') }} (brasas)</span>
         </div>
@@ -83,14 +87,6 @@
             <strong>Área de captura:</strong>
             <span ng-repeat="area in getAnswer('area-fished-puerto-rico')">
                 {{ area }}<span ng-hide="$last">, </span>
-            </span>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-4 margin-top-10">
-        <div>
-            <strong>Número de Permiso para HMS si aplica: </strong>
-            <span>
-                {{ getAnswer('hms-species-permit-number-puerto-rico') }}
             </span>
         </div>
     </div>

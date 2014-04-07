@@ -9,6 +9,7 @@ import urllib
 import simplejson
 import path
 import shutil
+from subprocess import call
 
 def copy_dir(src, dst):
     full_src = settings.PROJECT_ROOT / src

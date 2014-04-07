@@ -1,21 +1,26 @@
-from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from tastypie import fields, utils
+from tastypie.resources import ModelResource, ALL
+from tastypie import fields
 
-from tastypie.authentication import SessionAuthentication, Authentication
-from tastypie.authorization import DjangoAuthorization, Authorization
+from tastypie.authentication import (SessionAuthentication,
+                                     ApiKeyAuthentication,
+                                     MultiAuthentication)
+from tastypie.authorization import DjangoAuthorization
 from django.contrib.auth.models import User
 from account.models import UserProfile
+
 
 class UserProfileResource(ModelResource):
     class Meta:
         queryset = UserProfile.objects.all()
-        authentication = Authentication()
-        authorization = Authorization()
+        authorization = DjangoAuthorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(),
+                                             SessionAuthentication())
         resource_name = 'profile'
 
-class UserResource(ModelResource):
-    profile = fields.ToOneField(UserProfileResource, 'profile', readonly=True, full=True)
 
+class UserResource(ModelResource):
+    profile = fields.ToOneField(UserProfileResource, 'profile',
+                                readonly=True, full=True)
 
     class Meta:
         queryset = User.objects.all().order_by('username')
@@ -26,6 +31,7 @@ class UserResource(ModelResource):
             'is_active': ALL
         }
         ordering = ['username']
-        authentication = Authentication()
-        authorization = Authorization()
+        authorization = DjangoAuthorization()
+        authentication = MultiAuthentication(ApiKeyAuthentication(),
+                                             SessionAuthentication())
         always_return_data = True

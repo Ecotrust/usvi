@@ -1,4 +1,4 @@
-import os
+import os, sys
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
@@ -324,8 +324,15 @@ def prepare():
 
 @task
 def emulate_ios_vagrant():
+    
+    # phonegap_path = "/usr/local/share/npm"
+    # if not os.path.isdir(phonegap_path):
+    #     phonegap_path = "/usr/local/lib/node_modules/"
+    
+    sys.path.append(["/usr/local/share/npm","/usr/local/lib/node_modules/"])
+    
     run("cd %s && %s/bin/python manage.py package http://localhost:8000 '../mobile/www' --stage=vagrant --test-run" % (env.app_dir, env.venv))
-    local("cd mobile && /usr/local/share/npm/bin/phonegap run -V ios")
+    local("cd mobile && phonegap run -V ios")
 
 @task
 def emulate_ios_dev():
@@ -346,6 +353,8 @@ def package_ios_test():
 def package_ios_dev():
         run("cd %s && %s/bin/python manage.py package http://usvi-dev.pointnineseven.com '../mobile/www' --stage=dev --id='com.pointnineseven.digitaldeck-dev'" % (env.app_dir, env.venv))
         local("cd mobile && /usr/local/share/npm/bin/phonegap build -V ios")
+        # local("xcrun -sdk iphoneos PackageApplication -v mobile/platforms/ios/build/DigitalDeck.app -o /tmp/DigialDeck-dev.ipa")
+        # local("s3cmd put /tmp/DigialDeck-dev.ipa s3://p97-deck/usvi-dev/DigitalDeck-dev.ipa")
 
 @task
 def package_ios_dev_nodeploy():

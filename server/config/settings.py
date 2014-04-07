@@ -22,6 +22,8 @@ ADMINS = (
 
 SERVER_ADMIN = 'edwin@pointnineseven.com'
 
+DEFAULT_FROM_EMAIL = 'P97 Developers <devlopers@pointnineseven.com>'
+
 MANAGERS = ADMINS
 
 # Local time zone for this installation. Choices can be found here:
@@ -230,4 +232,3 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

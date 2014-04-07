@@ -1,3 +1,6 @@
+/**
+    Edit this file to style the mobile app 
+*/
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -82,17 +85,17 @@ a {
     min-height: 100%;
 }
 
-.settings .panel-default {
+.panel-default {
     background-color: rgb(77,136,153);
     border-color: rgb(24, 75, 83);
     color: rgb(244,244,244);
 }
-.settings .panel-default > .panel-heading {
+.panel-default > .panel-heading {
     background-color: rgb(24, 75, 83);
     border-color: rgb(24, 75, 83);
     color: rgb(250, 189, 18);
 }
-.settings .panel {
+.panel {
     margin-top: 20px;
 }
 .btn-main {
@@ -132,6 +135,49 @@ a {
     color: rgb(248, 203, 77);
     border-color: rgb(250, 189, 18);
 }
+
+.error {
+
+}
+
+/**********************************************************************
+Surgical Clases
+**********************************************************************/
+
+.margin-bottom{
+    margin-bottom:15px;
+}
+
+
+
+/**********************************************************************
+End Surgical Clases
+**********************************************************************/
+
+
+
+
+/**********************************************************************
+Form Clases
+**********************************************************************/
+
+
+
+form input.ng-invalid{
+    border:2px solid red;
+}
+
+
+
+/**********************************************************************
+End Form Clases
+**********************************************************************/
+
+
+
+/**********************************************************************
+Splash Screen and Login/Logout 
+**********************************************************************/
 
 .splash {
     width: 100%;
@@ -203,11 +249,22 @@ a {
     margin-bottom: 10px;
 }
 
+.last-user .panel-heading h4, .last-user p {
+    text-align:center;
+}
+
+/**********************************************************************
+End Splash Screen and Login/Logout 
+**********************************************************************/
+
+
 input.datepicker {
     -webkit-appearance: textfield;
     padding-top: 5px;
 
 }
+
+
 
 .table, .table td {
     border-top: 0!important;

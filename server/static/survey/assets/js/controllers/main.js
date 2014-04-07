@@ -62,12 +62,21 @@ angular.module('askApp')
                 }
             }
 
+            // Add last logged in user if present
+            if(app.lastUser){
+                $scope.lastUser = app.lastUser;
+                $scope.authUser = app.lastUser;
+            } else {
+                $scope.lastUser = false;
+            }
+
             if (app.user && app.user.resumePath) {
                 if (!_.has(app.respondents && _.last(app.user.resumePath.split('/')))) {
                     delete $scope.user.resumePath;
                 }
             }
 
+            // Not sure what this does
             if ($location.path() === '/signup' && $scope.user.status === 'signup') {
                 $scope.newUser = app.offlineUser;
             } else if ($location.path() === '/signin' && $scope.user.status === 'signin') {
@@ -100,6 +109,7 @@ angular.module('askApp')
             }
 
             $scope.logout = function() {
+                app.lastUser = app.user; // Save last user so we can remeber account info fpr login screen
                 app.user = false;
                 storage.saveState(app);
                 $location.path('/');
@@ -131,6 +141,7 @@ angular.module('askApp')
                 if (user.emailaddress1 === user.emailaddress2) {
                     $scope.working = true;
                     $scope.showError = false;
+                    storage.cleanUserObject(user);
                     $http.post(url, user)
                         .success(function(data) {
                             if (app.respondents) {
@@ -160,13 +171,16 @@ angular.module('askApp')
 
             };
 
-            $scope.showForgotPassword = false;
+            $scope.show = false;
             $scope.showError = false;
             $scope.showInfo = false;
             $scope.working = false;
+
+
             $scope.authenticateUser = function(user) {
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
+                user = storage.cleanUserObject(user);
                 $http({
                     method: 'POST',
                     url: url,
@@ -205,7 +219,7 @@ angular.module('askApp')
 
             $scope.forgotPassword = function(user) {
                 var url = app.server + "/account/forgotPassword";
-
+                user = storage.cleanUserObject(user);
                 $http.post(url, user)
                     .success(function() {
                         $scope.showForgotPassword = false;
@@ -239,7 +253,7 @@ angular.module('askApp')
             $scope.dismissMessage = function() {
                 $scope.message = false;
                 storage.saveState(app);
-            }
+            };
 
             if (app.message) {
                 $scope.message = app.message;
@@ -251,5 +265,8 @@ angular.module('askApp')
                 $(':active').blur();
             });
 
+
         }
-    ]);
+
+  
+]);
