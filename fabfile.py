@@ -1,4 +1,4 @@
-import os
+import os, sys
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
@@ -324,8 +324,15 @@ def prepare():
 
 @task
 def emulate_ios_vagrant():
+    
+    # phonegap_path = "/usr/local/share/npm"
+    # if not os.path.isdir(phonegap_path):
+    #     phonegap_path = "/usr/local/lib/node_modules/"
+    
+    sys.path.append(["/usr/local/share/npm","/usr/local/lib/node_modules/"])
+    
     run("cd %s && %s/bin/python manage.py package http://localhost:8000 '../mobile/www' --stage=vagrant --test-run" % (env.app_dir, env.venv))
-    local("cd mobile && /usr/local/share/npm/bin/phonegap run -V ios")
+    local("cd mobile && phonegap run -V ios")
 
 @task
 def emulate_ios_dev():
