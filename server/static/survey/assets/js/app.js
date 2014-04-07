@@ -72,7 +72,7 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
             templateUrl: app.viewPath + 'views/complete.html',
             controller: 'CompleteCtrl'
         })
-        .when('/survey/:surveySlug/complete/:uuidSlug/:action/:questionSlug', {
+        .when('/survey/:surveySlug/complete/:uuidSlug/:action', {
             templateUrl: app.viewPath + 'views/complete.html',
             controller: 'CompleteCtrl'
         })

@@ -22,7 +22,6 @@ angular.module('askApp')
         state: 'loading'
     };
     $scope.dash = app.dash;
-    console.log('loading');
 
     $scope.answers = {};
 
@@ -203,7 +202,12 @@ angular.module('askApp')
         if (nextPage) {
             $location.path(['survey', $scope.survey.slug, nextPage.order, $routeParams.uuidSlug].join('/'));
         } else {
-            $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug, $routeParams.action].join('/'));
+            if (app.data.meta.is_impersonated) {
+                $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug, 'done-impersonating'].join('/'));
+            } else {
+                $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug, $routeParams.action].join('/'));
+            }
+            
         }
 
     };

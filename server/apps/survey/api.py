@@ -342,6 +342,13 @@ class RespondantResource(SurveyModelResource):
     user = fields.ToOneField('apps.account.api.UserResource',
                              'user', null=True, blank=True, full=True, readonly=True)
 
+    def alter_detail_data_to_serialize(self, request, bundle):
+        if 'meta' not in bundle.data:
+            bundle.data['meta'] = {}
+        print request.user, bundle.obj.user
+        bundle.data['meta']['is_impersonated'] = bundle.obj.user != request.user
+        return bundle
+
     class Meta:
         queryset = Respondant.objects.all().order_by('-ts')
         filtering = {
