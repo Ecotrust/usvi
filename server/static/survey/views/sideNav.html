@@ -31,6 +31,10 @@
              <li>
                 <a ng-class="{'active': activePage == 'add-reports'}" href="#/add-catch-report">Add Catch Report</a>
             </li>
+
+            <li ng-show="user.is_staff" >
+                <a ng-class="{'active': activePage == 'add-reports'}" target="_blank" href="/admin/">Admin Backend</a>
+            </li>
         </ul>
     </div>
     <!-- <form class="form-inline" role="form" ng-submit="search()">

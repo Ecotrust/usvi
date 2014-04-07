@@ -24,12 +24,12 @@
                         <h4 class="question-title" ng-bind-html="question.title | to_trusted"></h4>
                         <div ng-switch on="question.type">
                             <div ng-switch-when="grid">
-                                <form ng-submit="$parent.submitPage(page)">
+                                <form ng-submit="$parent.submitPage(page)" name="pageForm">
                                     <div gridquestion question="question" answers="answers" validity="validity" pageorder="$index"  viewpath="viewPath"></div>
                                 </form>
                             </div>
                             <div ng-switch-default>
-                                <form ng-submit="$parent.submitPage(page)">
+                                <form ng-submit="$parent.submitPage(page)" name"pageForm">
                                     <div multiquestion question="question" answers="answers" validity="validity" pageorder="$index"></div>
                                 </form>
                             </div>

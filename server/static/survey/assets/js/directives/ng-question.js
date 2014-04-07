@@ -84,9 +84,15 @@ angular.module('askApp').directive('multiquestion', function() {
                 }
         
                if ((question.type === 'monthpicker' || question.type == 'datepicker' || question.type === 'timepicker')) {
-                    if (! question.answer || (new Date(scope.question.answer)).add(1).day().clearTime() > (new Date()).clearTime()) {
+                    if (! question.answer 
+
+                        || (new Date(scope.question.answer)).add(1).day().clearTime() > scope.datepickerMax.clearTime() 
+                        || (new Date(scope.question.answer)) < scope.datepickerMin.clearTime() )
+
+                    {        
                         return false;    
                     }
+
                 }
 
 
@@ -224,6 +230,8 @@ angular.module('askApp').directive('multiquestion', function() {
             // get simple answers
 
             scope.question.answer = scope.getAnswer(scope.question.slug);
+            scope.datepickerMin = Date.parse("t - 60 d");
+            scope.datepickerMax = Date.parse("t + 0 d");
 
             // set up rows for selects
             if (scope.question.rows) {

@@ -64,8 +64,8 @@
     </div>
     <div ng-switch-when="datepicker">
         <div class="question">
-                <input class="form-control datepicker" type="date" placeholder="{{ question.label }}" ng-model="question.answer"/> 
-                <label class="control-label" ng-hide="validity[question.slug] || ! question.answer">Date is not valid or in the future.</label>
+                <input class="form-control datepicker" name="datepicker" type="date" min="{{datepickerMin | date : 'yyyy-MM-dd'}}" max="{{datepickerMax  | date : 'yyyy-MM-dd'}}" placeholder="{{ question.label }}" ng-model="question.answer" required /> 
+                <label class="error control-label" ng-hide="validity[question.slug] || ! question.answer">Date is not valid.</label>
         </div>
     </div>
     <div ng-switch-when="timepicker">
