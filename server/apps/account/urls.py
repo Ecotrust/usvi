@@ -3,8 +3,10 @@ from views import *
 
 from account.forms import DDSetPasswordForm
 
+
 urlpatterns = patterns('',
-	(r'^authenticateUser', authenticateUser),
+	url(r'^login', login, name="login"),
+    (r'^authenticateUser', authenticateUser),
 	(r'^createUser', createUser),
 	(r'^updateUser', updateUser),
 	(r'^updatePassword', updatePassword),

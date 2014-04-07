@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import login as login_view
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from django.db import IntegrityError
@@ -50,7 +51,13 @@ def authenticateUser(request):
         }))
     else:
         return HttpResponse(simplejson.dumps({'success': False}))
-  
+
+def login(request):
+    import pdb; pdb.set_trace()
+    return login_view(request)
+
+
+
 
 @csrf_exempt
 def createUser(request):

@@ -56,6 +56,11 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/agency-dash.html',
         controller: 'AgencyDashCtrl'
     })
+        .when('/fisher-dash', {
+        templateUrl: '/static/survey/views/fisher-dash.html',
+        controller: 'FisherDashCtrl'
+    })
+
         .when('/RespondantDetail/:uuidSlug', {
         templateUrl: '/static/survey/views/RespondantDetail.html',
         controller: 'RespondantDetailCtrl'
@@ -73,6 +78,8 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         controller: 'AnnualCatchLimitProgressCtrl',
         reloadOnSearch: false
     })
+
+
         .when('/admin', {
         templateUrl: '/static/survey/views/survey-list.html',
         controller: 'SurveyListMenuCtrl'

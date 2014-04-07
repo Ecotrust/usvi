@@ -66,7 +66,7 @@ def get_survey_details(request):
     return HttpResponse(json.dumps({"meta": survey_data}, cls=DjangoJSONEncoder))
 
 
-@staff_member_required
+@login_required
 def dash(request, template='survey/dash.html'):
     survey_data = survey_details(request.user)
     survey_data['entered_by'] = json.dumps(survey_data['entered_by'])

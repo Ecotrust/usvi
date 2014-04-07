@@ -124,6 +124,7 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/main.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/menu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/agency-dash.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/fisher-dash.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyList.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyListMenu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyDetail.js"></script>
@@ -167,6 +168,8 @@
     var isAuthenticated = true;
     app.user = {
       username: "{{user.username}}",
+      first_name: "{{user.first_name}}",
+      last_name: "{{user.last_name}}",
       is_intern: "{{ user.profile.is_intern }}" === "True",
       tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}",
       is_staff :"{{ user.is_staff}}" === "True",

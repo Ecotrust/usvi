@@ -49,6 +49,10 @@ USE_L10N = False
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+
+LOGIN_URL = "/admin/login"
+LOGIN_REDIRECT_URL = "/dash/"
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = PROJECT_ROOT / 'public/media'

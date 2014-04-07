@@ -1,0 +1,16 @@
+<div class="container acl-progress" ng-cloak style="min-height: 600px;">
+    <div class="row">
+        
+        <div ng-include="'/static/survey/views/sideNav.html'"></div>
+        
+        <div class="col-md-9">
+            <h3 ng-show="user.first_name">Welcome {{user.first_name}} {{user.last_name}}</h3>
+            <div ng-hide="user.first_name">
+                <h3>>Welcome {{user.username}}</h3>
+                <p>Please login into the mobule app add your first and last name in Profile.</p>
+            </div>
+
+            <p>Use the menu on the left to add a Catch Report or view past catch reports.</p>
+        </div>
+    </div>
+</div>

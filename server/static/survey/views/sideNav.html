@@ -1,5 +1,5 @@
 <div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants" ng-controller="SideBarCtrl">
-    <div class="stats">
+    <div class="stats" ng-show="user.is_staff" >
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
                 <h1>{{survey_meta.total || 0}}</h1>
@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+    
     <div id="sidebar_nav">
         <ul class="nav">
             <li>
