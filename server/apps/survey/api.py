@@ -68,6 +68,8 @@ class UserObjectsOnlyAuthorization(Authorization):
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
+        if bundle.request.user.is_staff:
+            return True
         return bundle.obj.user == bundle.request.user
 
     def create_list(self, object_list, bundle):
@@ -86,6 +88,8 @@ class UserObjectsOnlyAuthorization(Authorization):
         return allowed
 
     def update_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff:
+            return True
         return bundle.obj.user == bundle.request.user
 
     def delete_list(self, object_list, bundle):
