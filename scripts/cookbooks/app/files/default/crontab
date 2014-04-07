@@ -1,5 +1,5 @@
 MAILTO=edwin@pointnineseven.com
 
-* * * * *     www-data /usr/local/venv/geosurvey/bin/python /usr/local/apps/geosurvey/server/manage.py update_index --remove --start="`date --date='-1 minutes'`" --settings=config.environments.staging >> /tmp/cronlog
+* * * * *     www-data /usr/local/venv/geosurvey/bin/python /usr/local/apps/geosurvey/server/manage.py update_index --remove --start="`date --date='-1 minutes'`" --settings=config.environments.staging &>> /tmp/cronlog
 
-1 */2 * * *     www-data /usr/local/venv/geosurvey/bin/python /usr/local/apps/geosurvey/server/manage.py update_index --remove --settings=config.environments.staging >> /tmp/cronlog
+1 */2 * * *     www-data /usr/local/venv/geosurvey/bin/python /usr/local/apps/geosurvey/server/manage.py update_index --remove --settings=config.environments.staging &>> /tmp/cronlog
