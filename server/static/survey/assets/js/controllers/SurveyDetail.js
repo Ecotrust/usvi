@@ -202,7 +202,7 @@ angular.module('askApp')
         if (nextPage) {
             $location.path(['survey', $scope.survey.slug, nextPage.order, $routeParams.uuidSlug].join('/'));
         } else {
-            if (app.data.meta.is_impersonated) {
+            if (app.data && app.data.meta.is_impersonated) {
                 $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug, 'done-impersonating'].join('/'));
             } else {
                 $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug, $routeParams.action].join('/'));
