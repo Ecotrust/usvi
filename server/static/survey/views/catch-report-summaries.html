@@ -45,7 +45,7 @@
             </div>
             <div class="row">
                 <h3>Matching Reports</h3>
-                <table class="table">
+                <table id="report-table" class="table">
                     <tr ng-repeat="respondent in respondents">
                         <td>
                             <a target="_blank" href="#/RespondantDetail/{{respondent.uuid}}">
@@ -54,6 +54,13 @@
                         </td>
                         <td>{{ respondent.user.username }}</td>
                         <td>{{ respondent.ordering_date|date }}</td>
+
+                        <td>
+                            <span class="label" ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
+                                {{ respondent.review_status }}
+                            </span>
+
+                        </td>
                     </tr>
                 </table>
                 <div class="pull-right">

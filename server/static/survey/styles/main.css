@@ -123,6 +123,11 @@ End Surgucal Classes
     font-size: 4em;
     margin-top: 10px;
 }
+
+
+#report-table td .label{
+  font-size: 1.0em;
+}
 .stats .row .box{
   padding-bottom: 10px;
 }

@@ -49,7 +49,11 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
 def survey_details(user):
     user_tags = [tag.name for tag in user.profile.tags.all()]
     surveys = Survey.objects.filter(tags__name__in=user_tags)
-    all_respondents = Respondant.objects.filter(survey__in=surveys)
+    if user.is_staff:
+        all_respondents = Respondant.objects.filter(survey__in=surveys)
+    else:
+        all_respondents = Respondant.objects.filter(survey__in=surveys, user=user)
+    
     entered_by = [u['entered_by__username'] for u in all_respondents.exclude(entered_by=None).values('entered_by__username').distinct()]
     return {
         "total": all_respondents.count(),
