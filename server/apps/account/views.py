@@ -53,7 +53,9 @@ def authenticateUser(request):
         return HttpResponse(simplejson.dumps({'success': False}))
 
 def login(request):
-    import pdb; pdb.set_trace()
+    """
+    Main login view for dashboard. Uses built in django login view.
+    """
     return login_view(request)
 
 

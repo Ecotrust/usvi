@@ -50,7 +50,7 @@ USE_L10N = False
 USE_TZ = True
 
 
-LOGIN_URL = "/admin/login"
+LOGIN_URL = "/account/login"
 LOGIN_REDIRECT_URL = "/dash/"
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.

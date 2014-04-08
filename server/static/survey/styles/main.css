@@ -1,4 +1,22 @@
 /* Will be compiled down to a single stylesheet with your sass files */
+
+
+/***********************************************
+General Styles
+************************************************/
+.errorlist {
+  padding-left:0;
+}
+
+.errorlist li {
+    color:red;
+    list-style: none;
+}
+/***********************************************
+End General Styles
+************************************************/
+
+
 .dashboard h1 {
   margin-top: 0;
 }

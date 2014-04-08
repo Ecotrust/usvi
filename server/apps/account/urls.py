@@ -1,4 +1,6 @@
 from django.conf.urls import *
+from django.contrib.auth.views import login
+
 from views import *
 
 from account.forms import DDSetPasswordForm
