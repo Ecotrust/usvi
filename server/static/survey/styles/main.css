@@ -12,9 +12,40 @@ General Styles
     color:red;
     list-style: none;
 }
+
+.error, .errornote {
+    color:red;
+    margin:0;
+}
 /***********************************************
 End General Styles
 ************************************************/
+
+/***********************************************
+Surgucal Classes
+************************************************/
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.no-margin{
+  margin:0;
+}
+
+.right {
+  float:right;
+}
+
+.left {
+  float:left;
+}
+
+
+/***********************************************
+End Surgucal Classes
+************************************************/
+
 
 
 .dashboard h1 {

@@ -2,28 +2,19 @@
 {% load i18n admin_static %}
 {% block hapifis_content %}
 <!-- <h1>ADMINISTRATIVE DASHBOARD</h1> -->
-{% if form.errors and not form.non_field_errors and not form.this_is_the_login_form.errors %}
-  <p class="errornote">
-  {% blocktrans count counter=form.errors.items|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
-  </p>
-{% endif %}
 
 
-{% if form.non_field_errors or form.this_is_the_login_form.errors %}
-  {% for error in form.non_field_errors|add:form.this_is_the_login_form.errors %}
-  <p class="errornote">
-      {{ error }}
-  </p>
-  {% endfor %}
-{% endif %}
-{{form.non_field_errors}}
 <form action="{% url 'login' %}" method="post" id="login-form">{% csrf_token %}
-    <div class="form-group">
-      {{ form.username.errors }}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger margin-top"><p>{{ error }}</p></div>
+    {% endfor %}    
+
+    <div class="form-group {% if form.username.errors %}has-error{% endif %}">
+      {% for error in form.username.errors %}<p class="label label-danger right no-margin">{{ error }}</p>{% endfor %}
       {{ form.username }}
     </div>
-    <div class="form-group">
-      {{ form.password.errors }}
+    <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+      {% for error in form.password.errors %}<p class="label label-danger right no-margin">{{ error }}</p>{% endfor %}
       {{ form.password }}
       <input type="hidden" name="this_is_the_login_form" value="1" />
       <!-- <input type="hidden" name="next" id="next_url" /> -->
