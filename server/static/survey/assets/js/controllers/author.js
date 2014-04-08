@@ -21,15 +21,15 @@ angular.module('askApp')
         if ($routeParams.surveySlug) {    
             $http.get('/api/v1/surveydash/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
                 _.extend($scope.survey, data);
-                if ($scope.survey.questions.length === 0) {
-                    $scope.survey.questions = [];
-                    $scope.newQuestion();
-                }
-                if ($location.search().question && $location.search().question !== 'null') {
-                    $scope.startEditingQuestion(_.findWhere($scope.survey.questions, {slug: $location.search().question}))
-                } else {
-                    $scope.startEditingQuestion($scope.survey.questions[0]);
-                }
+                // if ($scope.survey.questions.length === 0) {
+                //     $scope.survey.questions = [];
+                //     $scope.newQuestion();
+                // }
+                // if ($location.search().question && $location.search().question !== 'null') {
+                //     $scope.startEditingQuestion(_.findWhere($scope.survey.questions, {slug: $location.search().question}))
+                // } else {
+                //     $scope.startEditingQuestion($scope.survey.questions[0]);
+                // }
 
             });
    
