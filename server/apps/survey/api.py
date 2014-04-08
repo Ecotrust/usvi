@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 from haystack.query import SearchQuerySet
 
 import datetime
+import json
 
 from survey.models import (Survey, Question, Option, Respondant, Response,
                            Page, Block, Dialect, DialectSpecies)
@@ -346,7 +347,12 @@ class RespondantResource(SurveyModelResource):
         if 'meta' not in bundle.data:
             bundle.data['meta'] = {}
         print request.user, bundle.obj.user
-        bundle.data['meta']['is_impersonated'] = bundle.obj.user != request.user
+        is_impersonated = bundle.obj.user != request.user
+        if is_impersonated:
+            bundle.data['meta']['profile'] = json.loads(bundle.obj.user.profile.registration)
+        else:
+            bundle.data['meta']['profile'] = json.loads(request.user.profile.registration)
+        bundle.data['meta']['is_impersonated'] = is_impersonated
         return bundle
 
     class Meta:

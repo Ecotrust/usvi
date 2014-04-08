@@ -567,33 +567,33 @@ class Response(caching.base.CachingMixin, models.Model):
                     profile.save()
             self.save()
 
-        if self.question.slug == 'landed-date' or self.question.slug == 'trip-landing-date-puerto-rico':
-            if respondent is not None:
-                try:
-                    respondent.ordering_date = dateutil.parser.parse(self.answer)
-                except:
-                    pass
-                respondent.save()
-        
-        if self.question.slug == 'did-not-fish-for-month-of':
-            if respondent is not None:
-                self.answer = self.answer.replace('"', '')
-                from datetime import datetime
-                dnf_date = None
-                try:
-                    if self.answer.find('-') != -1:
-                        dnf_date = datetime.strptime(self.answer, '%Y-%m')
-                    elif self.answer.find('/') != -1:
-                        dnf_date = datetime.strptime(self.answer, '%Y/%m')
-                except ValueError:
-                    pass
-                try:
-                    dnf_date = dateutil.parser.parse(self.answer)
-                except:
-                    pass
-                if dnf_date is not None:
-                    respondent.ordering_date = dnf_date
+            if self.question.slug == 'landed-date' or self.question.slug == 'trip-landing-date-puerto-rico':
+                if respondent is not None:
+                    try:
+                        respondent.ordering_date = dateutil.parser.parse(self.answer)
+                    except:
+                        pass
                     respondent.save()
+            
+            if self.question.slug == 'did-not-fish-for-month-of':
+                if respondent is not None:
+                    self.answer = self.answer.replace('"', '')
+                    from datetime import datetime
+                    dnf_date = None
+                    try:
+                        if self.answer.find('-') != -1:
+                            dnf_date = datetime.strptime(self.answer, '%Y-%m')
+                        elif self.answer.find('/') != -1:
+                            dnf_date = datetime.strptime(self.answer, '%Y/%m')
+                    except ValueError:
+                        pass
+                    try:
+                        dnf_date = dateutil.parser.parse(self.answer)
+                    except:
+                        pass
+                    if dnf_date is not None:
+                        respondent.ordering_date = dnf_date
+                        respondent.save()
 
 
 def save_related(sender, instance, created, **kwargs):
