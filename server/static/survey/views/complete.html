@@ -1,7 +1,11 @@
 <div id="history-wrap" class="menu-page">
     <!-- Fixed navbar -->
-    <div mobilemenu></div>
-	<div class="container">
+    <div class="container" ng-show="done_impersonating">
+        <h4>You have completed the catch report for this user.</h4>
+        <button class="btn btn-block btn-primary" ng-click="closeWindow()">Close</button>
+    </div>
+    <div ng-if="! done_impersonating">mobilemenu></div>
+	<div class="container" ng-if="! done_impersonating">
         <div class="info respondant" ng-hide="working || user.offline" style="padding-top: 0px">
 	        <h4>You have completed the catch report.</h4>
 
@@ -34,6 +38,6 @@
 	</div>
 </div>
 
-<div id="footer" ng-hide="sendingFeedback">
+<!-- <div id="footer" ng-hide="sendingFeedback">
     <a class="btn pull-left" ng-click="skipBack()"><span class="glyphicon glyphicon-arrow-left"></span></a>
-</div>
+</div> -->
