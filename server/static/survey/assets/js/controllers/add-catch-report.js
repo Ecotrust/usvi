@@ -3,6 +3,7 @@
 angular.module('askApp')
 	.controller('AddCatchReportCtrl', function($scope, $http, $routeParams, $location) {
 		$scope.activePage = 'add-reports';
+		$scope.user = app.user;
 		$scope.getUsers = function (metaUrl, button) {
 			var url;
 			if (metaUrl) {

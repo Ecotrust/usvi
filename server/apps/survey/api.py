@@ -213,8 +213,8 @@ class DashRespondantResource(ReportRespondantResource):
 
     def get_object_list(self, request):
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-        print user_tags
         surveys = Survey.objects.filter(tags__name__in=user_tags)
+
         return super(DashRespondantResource, self).get_object_list(request).filter(survey__in=surveys)
 
     def get_search(self, request, **kwargs):
@@ -233,9 +233,13 @@ class DashRespondantResource(ReportRespondantResource):
         island = request.GET.get('island', None)
 
         sqs = SearchQuerySet().models(Respondant).load_all()
+        
         if query != '':
             sqs = sqs.auto_query(query)
 
+        if not request.user.is_staff:
+            sqs = sqs.filter(username = request.user.username)
+        
         if start_date is not None:
             sqs = sqs.filter(ordering_date__gte=datetime.datetime.strptime(
                 start_date + " 00:00", '%Y-%m-%d %H:%M'))
@@ -245,6 +249,7 @@ class DashRespondantResource(ReportRespondantResource):
 
         if review_status is not None:
             sqs = sqs.filter(review_status=review_status)
+        
         if entered_by is not None:
             sqs = sqs.filter(entered_by=entered_by)
         if island is not None:

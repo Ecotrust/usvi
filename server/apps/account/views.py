@@ -6,7 +6,6 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import login as login_view
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from django.db import IntegrityError
@@ -24,13 +23,13 @@ from account.forms import SignupForm
 
 @csrf_exempt
 def authenticateUser(request):
-
     param = simplejson.loads(request.body)
     print param
     # user = User.objects.get(username=param.get('username', None))
     user = authenticate(username=param.get(
         'username', None), password=param.get('password')) 
     try:
+        import pdb; pdb.set_trace()
         login(request, user)
     except:
         return HttpResponse("auth-error", status=500)
@@ -51,13 +50,6 @@ def authenticateUser(request):
         }))
     else:
         return HttpResponse(simplejson.dumps({'success': False}))
-
-def login(request):
-    """
-    Main login view for dashboard. Uses built in django login view.
-    """
-    return login_view(request)
-
 
 
 

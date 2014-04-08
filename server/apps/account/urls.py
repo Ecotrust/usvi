@@ -1,5 +1,5 @@
 from django.conf.urls import *
-from django.contrib.auth.views import login
+from django.contrib.auth.views import login as login_view
 
 from views import *
 
@@ -7,7 +7,7 @@ from account.forms import DDSetPasswordForm
 
 
 urlpatterns = patterns('',
-	url(r'^login', login, name="login"),
+	url(r'^login', login_view, name="login"),
     (r'^authenticateUser', authenticateUser),
 	(r'^createUser', createUser),
 	(r'^updateUser', updateUser),

@@ -35,8 +35,9 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
             if survey_user is not None:
                 user = get_object_or_404(User, username=survey_user)
                 respondant = Respondant(survey=survey, user=user, entered_by=request.user)
-        else:
-            respondant = Respondant(survey=survey)
+        else: 
+            # Create a repsondant with logged in user.
+            respondant = Respondant(survey=survey, user=request.user, entered_by=request.user)
         respondant.save()
         if request.GET.get('get-uid', None) is not None:
             return HttpResponse(json.dumps({'success': "true", "uuid": respondant.uuid}))

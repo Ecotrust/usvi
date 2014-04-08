@@ -16,10 +16,26 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     
+
+    // Initial Landing page and controller is determined by user type
+    var landingTemplate, landingController;
+    if (app.user.is_staff){
+        landingTemplate = '/static/survey/views/acl-progress.html';
+        landingController = 'AnnualCatchLimitProgressCtrl';
+    } else {
+        landingTemplate ='/static/survey/views/catch-report-summaries.html';
+        landingController = 'CatchReportSummariesCtrl';
+    }
+
+
     $routeProvider.when('/author/:surveySlug', {
         templateUrl: '/static/survey/views/author.html',
         controller: 'AuthorCtrl',
         reloadOnSearch: false
+    })
+        .when('/', {
+        templateUrl: landingTemplate,
+        controller: landingController
     })
         .when('/author', {
         templateUrl: '/static/survey/views/author.html',
@@ -50,7 +66,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
-
     })
         .when('/agency-dash/:surveySlug', {
         templateUrl: '/static/survey/views/agency-dash.html',
@@ -60,12 +75,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/fisher-dash.html',
         controller: 'FisherDashCtrl'
     })
-
-        .when('/', {
-        templateUrl: '/static/survey/views/landing-dash.html',
-        controller: 'LandingDashCtrl'
-    })
-
         .when('/RespondantDetail/:uuidSlug', {
         templateUrl: '/static/survey/views/RespondantDetail.html',
         controller: 'RespondantDetailCtrl'
@@ -83,8 +92,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         controller: 'AnnualCatchLimitProgressCtrl',
         reloadOnSearch: false
     })
-
-
         .when('/admin', {
         templateUrl: '/static/survey/views/survey-list.html',
         controller: 'SurveyListMenuCtrl'

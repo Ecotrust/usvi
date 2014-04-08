@@ -14,11 +14,14 @@ from apps.survey.models import (Survey, Question, Response, Respondant, Location
 from apps.places.models import Area
 from apps.reports.models import QuestionReport
 
+
 def get_respondants_summary(request):
+    """
+    """
     start_time = Respondant.objects.filter(user=request.user).aggregate(lowest=Min('ts'))['lowest']
     return HttpResponse(simplejson.dumps( { 'start_time': start_time.strftime('%Y-%m-%d') } ) )
 
-@staff_member_required
+@login_required
 def get_geojson(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
     question = get_object_or_404(QuestionReport, slug=question_slug, survey=survey)
@@ -59,6 +62,18 @@ def get_geojson(request, survey_slug, question_slug):
 
 @login_required
 def get_distribution(request, survey_slug, question_slug):
+    """
+
+    Request Params:
+    - start_date [String] - ISO 8601 date stamp yyyy-mm-dd
+    - end_date [String] - ISO 8601 date stamp yyyy-mm-dd
+    - fisher [String] - if present only returns the logged in users data 
+    - accepted - if present filters respondants on REVIEW_STATE_ACCEPTED
+
+    Returns a list JSON dict with keywords 'success' and 'results'. If the user is not staff or
+    the 'fisher' param is present only returns data for the logged in user. 
+
+    """
     if survey_slug == 'all':
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
         surveys = Survey.objects.filter(tags__name__in=user_tags)
@@ -75,8 +90,10 @@ def get_distribution(request, survey_slug, question_slug):
             return HttpResponse(simplejson.dumps({'success': "true", "results": []}))
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
-    if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
-        answers = answers.filter(user=request.user)
+    
+
+    if request.user.is_staff is False or request.GET.get('fisher', None) is not None:
+        answers = answers.filter(user=request.user)      
     elif request.GET.get('accepted', None) is not None:
         answers = answers.filter(respondant__review_status=REVIEW_STATE_ACCEPTED)
 

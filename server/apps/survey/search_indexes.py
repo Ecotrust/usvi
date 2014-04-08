@@ -6,6 +6,7 @@ from .models import Respondant
 class RespondentIndex(indexes.SearchIndex, indexes.Indexable):
     survey_tags = indexes.CharField()
     entered_by = indexes.CharField()
+    username = indexes.CharField()
     island = indexes.CharField(model_attr="island", null=True)
     review_status = indexes.CharField(model_attr='review_status')
     text = indexes.CharField(document=True, use_template=True)
@@ -31,3 +32,10 @@ class RespondentIndex(indexes.SearchIndex, indexes.Indexable):
             return obj.entered_by.username
         else:
             return None
+    
+    def prepare_username(self, obj):
+        if obj.user:
+            return obj.user.username
+        else:
+            return None
+
