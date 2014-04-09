@@ -43,6 +43,10 @@ I<div id="wrap" class="main">
                             Invalid email address. Please try again.
                         </div>
 
+                        <div class="error" ng-show="(showError === 'duplicate-email')">
+                            This email address is already in use.
+                        </div>
+
                         <div class="error" ng-show="( showError == 'invalid-password') || (signupform.pwd.$dirty && signupform.pwd.$invalid)">
                             Invalid password. Passwords must be 4 digits and can only contain numbers. Please try again.
                         </div>

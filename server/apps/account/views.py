@@ -111,11 +111,12 @@ def createUser(request):
         if 'username' in form.errors:
             return HttpResponse("duplicate-user", status=500)
         
-        if 'emailaddress1' in form.errors:
-            return HttpResponse("invalid-email", status=500)
+        # if 'emailaddress1' in form.errors:
+        #     return HttpResponse("invalid-email", status=500)
         
         if 'emailaddress1' in form.errors:
             return HttpResponse("duplicate-email", status=500)
+        
         if 'password1' in form.errors:
             return HttpResponse("invalid-password", status=500)
         else:
