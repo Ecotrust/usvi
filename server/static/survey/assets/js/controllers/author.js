@@ -9,48 +9,48 @@ angular.module('askApp')
 
         $scope.questionBeingEdited = null;
         $scope.pageBeingEdited = null;
-        
+
         $scope.questionsToBeUpdated = [];
         $scope.updatedQuestionQueue = [];
 
         $scope.pagesToBeUpdated = [];
         $scope.updatedpagesQueue = [];
 
-      
 
-        if ($routeParams.surveySlug) {    
+
+        if ($routeParams.surveySlug) {
             $http.get('/api/v1/surveydash/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
                 _.extend($scope.survey, data);
-                if ($scope.survey.questions.length === 0) {
-                    $scope.survey.questions = [];
-                    $scope.newQuestion();
-                }
-                if ($location.search().question && $location.search().question !== 'null') {
-                    $scope.startEditingQuestion(_.findWhere($scope.survey.questions, {slug: $location.search().question}))
-                } else {
-                    $scope.startEditingQuestion($scope.survey.questions[0]);
-                }
+                // if ($scope.survey.questions.length === 0) {
+                //     $scope.survey.questions = [];
+                //     $scope.newQuestion();
+                // }
+                // if ($location.search().question && $location.search().question !== 'null') {
+                //     $scope.startEditingQuestion(_.findWhere($scope.survey.questions, {slug: $location.search().question}))
+                // } else {
+                //     $scope.startEditingQuestion($scope.survey.questions[0]);
+                // }
 
             });
-   
 
-            
+
+
             $scope.$watch('survey.pages', function (newValue) {
                 if (newValue){// && ! $scope.questionsToBeUpdated.length && ! $scope.updatedQuestionQueue.length) {
                    $scope.checkPageOrder(newValue);
                 }
             }, true);
 
-            
+
 
             $scope.$watch('activeQuestion.grid_cols', function (newValue) {
                 if (newValue) {
                     _.each(newValue, function (option, i) {
                         if (option.order !== i)
                             option.order = i;
-                    }); 
+                    });
                 }
-                
+
             }, true);
 
         } else {
@@ -78,7 +78,7 @@ angular.module('askApp')
                             page.updating = true;
                             $scope.saveQuestion(question).success(function () {
                                 page.updating = false;
-                            });     
+                            });
                         }
                     });
                     if (page.order !== index + 1) {
@@ -103,9 +103,9 @@ angular.module('askApp')
             if ($scope.questionsToBeUpdated.length) {
                 $scope.updatedQuestionQueue = [];
                 $scope.updateCounter = $scope.updateTotal = $scope.questionsToBeUpdated.length;
-                $scope.updateQuestions($scope.questionsToBeUpdated);    
+                $scope.updateQuestions($scope.questionsToBeUpdated);
             }
-            
+
         };
 
         $scope.updateQuestionList = function (questions) {
@@ -124,7 +124,7 @@ angular.module('askApp')
             $scope.saveQuestion(questionToBeUpdated, true, true).success(function (newQuestion, status){
                 $scope.updatedQuestionQueue.push(newQuestion);
                 if (rest.length) {
-                    $scope.updateQuestions(rest);    
+                    $scope.updateQuestions(rest);
                     $scope.questionsToBeUpdated = rest;
                     $scope.updateCounter = $scope.updateCounter - 1;
                 } else {
@@ -132,7 +132,7 @@ angular.module('askApp')
                     $scope.updatedQuestionQueue = [];
                     $scope.questionsToBeUpdated = [];
 
-                }                
+                }
             })
         }
 
@@ -142,7 +142,7 @@ angular.module('askApp')
             $scope.savePage(pageToBeUpdated, true).success(function (newPage, status){
                 $scope.updatedPageQueue.push(newPage);
                 if (rest.length) {
-                    $scope.updatePages(rest);    
+                    $scope.updatePages(rest);
                     $scope.pagesToBeUpdated = rest;
                     $scope.updateCounter = $scope.updateCounter - 1;
                 } else {
@@ -150,7 +150,7 @@ angular.module('askApp')
                     $scope.updatePageQueue = [];
                     $scope.pagesToBeUpdated = [];
 
-                }                
+                }
             })
         }
 
@@ -199,9 +199,9 @@ angular.module('askApp')
             question.blocks.push(block);
             $scope.newBlock = false;
             // $scope.saveQuestion(question).success(function () {
-            //     $scope.newBlock = false;    
+            //     $scope.newBlock = false;
             // });
-            
+
         };
 
 
@@ -250,7 +250,7 @@ angular.module('askApp')
                 return;
             }
             if (question.grid_cols && question.grid_cols.length) {
-                question.grid_cols.sort(function(a, b) {return a.order - b.order});    
+                question.grid_cols.sort(function(a, b) {return a.order - b.order});
             }
             $scope.newBlock = false;
             $scope.confirmDelete = false;
@@ -279,7 +279,7 @@ angular.module('askApp')
         $scope.savePage = function (page, question) {
             var url = page.resource_uri,
                 method = 'PUT',
-                data = { 
+                data = {
                     order: page.order,
                     questions: _.map(page.questions, function (question) {
                         return question.resource_uri;
@@ -298,7 +298,7 @@ angular.module('askApp')
                 data: data
             }).success(function (result, status) {
                page.updating = false;
-            });  
+            });
         };
 
 
@@ -338,8 +338,8 @@ angular.module('askApp')
                         angular.copy(result, $scope.questionBeingEdited);
                         $scope.stopWatchingQuestions = false;
                     }
-                    
-                } else if (status === 201) {                
+
+                } else if (status === 201) {
                     $scope.activePage.questions.push(result);
                     $scope.questionBeingEdited = result;
                     $scope.savePage($scope.activePage, result);
