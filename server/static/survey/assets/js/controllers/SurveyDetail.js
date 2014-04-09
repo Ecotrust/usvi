@@ -160,6 +160,28 @@
                 var answers = _.map(page.questions, function(question) {
                     return $scope.getAnswerOnPage(question);
                 });
+
+
+                $('#footer').attr('style', null);
+                if (app.offline) {
+                    _.each(answers, function(answer) {
+                        $scope.answerOffline(answer);
+                    });
+                    $scope.gotoNextPage();
+                } else {
+                    
+                    survey.sendResponses(answers);
+                }
+
+            };
+
+            $scope.OLDsubmitPage = function(page) {
+                if (!$scope.pageIsValid) {
+                    return false;
+                }
+                var answers = _.map(page.questions, function(question) {
+                    return $scope.getAnswerOnPage(question);
+                });
                 $('#footer').attr('style', null);
                 if (app.offline) {
                     _.each(answers, function(answer) {
@@ -204,6 +226,7 @@
                 }
 
             };
+
 
             $scope.gotoNextPage = function() {
 
