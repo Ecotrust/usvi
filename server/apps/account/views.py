@@ -24,12 +24,10 @@ from account.forms import SignupForm
 @csrf_exempt
 def authenticateUser(request):
     param = simplejson.loads(request.body)
-    print param
     # user = User.objects.get(username=param.get('username', None))
     user = authenticate(username=param.get(
         'username', None), password=param.get('password')) 
     try:
-        import pdb; pdb.set_trace()
         login(request, user)
     except:
         return HttpResponse("auth-error", status=500)
