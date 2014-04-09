@@ -112,10 +112,15 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
             response.ts = datetime.datetime.now()
             if request.user.is_authenticated():
                 response.user = request.user
-            response.save_related()
-
+            
             if created:
                 respondant.response_set.add(response)
+                respondant.save()
+            response.save()
+
+            response.save_related()
+
+            
 
         if request.user.is_authenticated() and not respondant.user:
             respondant.user = request.user

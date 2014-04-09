@@ -1,6 +1,7 @@
 <div class="container">
-    <div class="row" ng-cloak>
-        <div class="col-md-12">
+    <div ng-include="'/static/survey/views/sideNav.html'"></div>
+    <div class="col-md-9">
+        <div class="row" ng-cloak>
             <h2>Details</h2>
             <dl>
                 <dt>user</dt>
@@ -11,9 +12,7 @@
                 <dd>{{ respondent.ts  |date: 'MM-dd-yyyy HH:mm' }}</dd>
             </dl>
         </div>
-    </div>    
-    <div class="row" ng-cloak>
-        <div class="col-md-12">
+        <div class="row" ng-cloak>
             <h2>Responses</h2>
             <table class="table">
                 <tbody ng-repeat="response in respondent.responses">
@@ -48,9 +47,9 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div><!-- end second row -->
         <div class="span6">
             <!--<div leaflet multimarkers="mapResponse" center="map.center" zoom="map.zoom" popupfield="'answers'"></div>-->
-        </div>
-    </div>
+        </div> 
+    </div><!-- end col-md-9 -->
 </div>
