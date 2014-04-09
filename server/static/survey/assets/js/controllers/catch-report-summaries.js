@@ -36,6 +36,7 @@ angular.module('askApp')
 
         $scope.getReports = function (url) {
             respondents.getReports(url, $scope.filter).success(function (data) {
+                debugger;
                 $scope.respondents = data.objects;
                 $scope.meta = data.meta;
             });
@@ -58,8 +59,8 @@ angular.module('askApp')
             geojson_url = geojson_url + '&end_date=' + new Date($scope.filter.endDate).add(1).day().toString('yyyy-MM-dd');
             if ($scope.filter.area !== 'uscaribeez') {
                 geojson_url = geojson_url + '&island=' + $scope.area.replace(/&/g, "|");
+                weight_url = weight_url + '&island=' + $scope.area.replace(/&/g, "|");
             }
-
 
             // Triggers an AJAX requestion on the dash-map directive.
             $scope.geojson_layer = geojson_url;

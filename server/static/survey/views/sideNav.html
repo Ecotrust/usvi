@@ -37,7 +37,7 @@
             <!-- This is the fisher case. This should just jump into the survey screen to fill out
             a survey in the request.user's name -->
             <li ng-hide="user.is_staff || user.is_intern">
-                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report?user={{user.username}}">Add Catch Report</a>
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report?user={{user.username}}" target="blank">Add Catch Report</a>
             </li>
 
 
@@ -54,7 +54,7 @@
             </span>
         </div>
     </form> -->
-    <form class="form-inline" role="form" ng-submit="search(searchTerm)">
+    <form class="form-inline" role="form" ng-submit="search(searchTerm)" ng-show="user.is_staff || user.is_intern">
         <div class="input-group">
             <input type="search" class="form-control" placeholder="Search" ng-model="searchTerm">
             <span class="input-group-btn">
