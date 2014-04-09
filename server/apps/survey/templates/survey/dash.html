@@ -135,7 +135,7 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/user-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/add-catch-report.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/catch-report-summaries.js"></script>
-\    <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/sidebarmenu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantDetail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/complete.js"></script>
@@ -162,23 +162,9 @@
      <!-- <script src="http://d3js.org/colorbrewer.v1.min.js"></script>-->
     <!-- endbuild -->
 
-    <script>
-    var token = "{{csrf_token}}";
+    {% include "survey/load_user_object.html" %}
     {% if user.is_authenticated %}
-    var isAuthenticated = true;
-    app.user = {
-      username: "{{user.username}}",
-      first_name: "{{user.first_name}}",
-      last_name: "{{user.last_name}}",
-      is_intern: "{{ user.profile.is_intern }}" === "True",
-      tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}",
-      is_staff :"{{ user.is_staff}}" === "True",
-      is_superuser :"{{user.is_superuser}}" === "True",
-    };
-
-    app.user.isUsvi = _.string.contains(app.user.tags, "usvi");
-    app.user.isPuertoRico = _.string.contains(app.user.tags, "puerto-rico");
-
+    <script>
     app.survey_meta = {
         total: {{ meta.total }},
         flagged: {{ meta.flagged }},
@@ -187,11 +173,8 @@
         reports_end: '{{ meta.reports_end|date:"Y-m-d\TH:i:sO" }}',
         entered_by: {{meta.entered_by|safe}}
       };
-
-    {% else %}
-    var isAuthenticated = false;
-    {% endif %}
     </script>
+    {% endif %}
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

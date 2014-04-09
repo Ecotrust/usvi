@@ -71,6 +71,8 @@ urlpatterns = patterns('',
     url(r'^dash.+', 'apps.survey.views.dash'),
     # url(r'^dash', 'apps.survey.views.dash'),
     
+    # url(r'^api-tool/?$', DirectTemplateView.as_view(template_name= 'api_tool.html', 
+    #         extra_context = {}), name="api-tool" ),
 
     # Redirect / to /dash
     url(r'^$', lambda r: HttpResponseRedirect('/dash')),

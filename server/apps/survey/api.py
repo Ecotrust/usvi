@@ -133,6 +133,7 @@ class OfflineResponseResource(SurveyModelResource):
         authorization = UserObjectsOnlyAuthorization()
         authentication = MultiAuthentication(
             ApiKeyAuthentication(), SessionAuthentication())
+        always_return_data = True
 
     def obj_create(self, bundle, **kwargs):
         return super(OfflineResponseResource,

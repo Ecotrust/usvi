@@ -4,7 +4,7 @@
     'use strict';
 
     angular.module('askApp')
-        .factory('survey', function($http, $location) {
+        .factory('survey', function($http, $location, $q) {
             var survey,
                 page,
                 answers,
@@ -265,10 +265,9 @@
 
             };
 
-            var sendResponses = function(answers) {
+            var sendResponses = function(answers, respondent_uuid) {
 
-
-                var url = app.server + _.string.sprintf('/api/v1/offlinerespondse/?username=%s&api_key=%s',
+                var url = app.server + _.string.sprintf('/api/v1/offlineresponse/?username=%s&api_key=%s',
                     app.user.username, app.user.api_key);
                 
                 var responses = [];
@@ -282,19 +281,20 @@
                 _.each(responses, function(response) {
                     // var question_uri = response.question.resource_uri;
                     var question_uri = getQuestionUriFromSlug(response.question);
+                    response.respondent = '/api/v1/offlinerespondant/'+respondent_uuid+'/';
                     response.question = question_uri;
                     response.answer_raw = JSON.stringify(response.answer);
                 });
-                // var newRespondent = {
-                //     ts: respondent.ts,
-                //     uuid: respondent.uuid.replace(':', '_'),
-                //     responses: responses,
-                //     status: respondent.status,
-                //     complete: respondent.complete,
-                //     survey: '/api/v1/survey/' + respondent.survey + '/'
-                // };
-                debugger;
-                return $http.put(url, responses);
+                return $q.all(_.map(responses, function(response){
+                    if (response.resource_uri){
+                        return $http.put(response.resource_uri, response);
+                    }else {
+                        return $http.post(url, response);
+                    }
+                    
+                }));
+                // debugger;
+                // return $http.post(url, responses[0]);
             };
 
             var submitSurvey = function(respondent, survey) {
@@ -336,6 +336,7 @@
                 'getQuestionUriFromSlug': getQuestionUriFromSlug,
                 'submitSurvey': submitSurvey,
                 'resume': resume,
+                'sendResponses' : sendResponses
             };
         });
 

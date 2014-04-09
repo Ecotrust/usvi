@@ -1,0 +1,21 @@
+<script>
+    var token = "{{csrf_token}}";
+    {% if user.is_authenticated %}
+    var isAuthenticated = true;
+    app.user = {
+      username: "{{user.username}}",
+      first_name: "{{user.first_name}}",
+      last_name: "{{user.last_name}}",
+      is_intern: "{{ user.profile.is_intern }}" === "True",
+      tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}",
+      is_staff :"{{ user.is_staff}}" === "True",
+      is_superuser :"{{user.is_superuser}}" === "True",
+      api_key : "{{user.api_key.key}}"
+    };
+
+    app.user.isUsvi = _.string.contains(app.user.tags, "usvi");
+    app.user.isPuertoRico = _.string.contains(app.user.tags, "puerto-rico");
+    {% else %}
+    var isAuthenticated = false;
+    {% endif %}
+</script>

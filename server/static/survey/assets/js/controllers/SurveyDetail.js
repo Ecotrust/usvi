@@ -169,8 +169,11 @@
                     });
                     $scope.gotoNextPage();
                 } else {
-                    
-                    survey.sendResponses(answers);
+                    survey.sendResponses(answers, $routeParams.uuidSlug)
+                        .then(function(response) {
+                            debugger;
+                            $scope.gotoNextPage();
+                        });
                 }
 
             };
