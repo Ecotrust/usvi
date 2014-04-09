@@ -474,9 +474,12 @@ class SurveyResource(SurveyModelResource):
         PageResource, 'page_set', full=True, null=True, blank=True)
 
     def get_object_list(self, request):
-        user_tags = [tag.name for tag in request.user.profile.tags.all()]
         obj_list = super(SurveyResource, self).get_object_list(request)
-        return obj_list.filter(tags__name__in=user_tags)
+        if not request.user.is_anonymous():
+            user_tags = [tag.name for tag in request.user.profile.tags.all()]
+            return obj_list.filter(tags__name__in=user_tags)
+        else:
+            return obj_list
 
     class Meta:
         detail_uri_name = 'slug'

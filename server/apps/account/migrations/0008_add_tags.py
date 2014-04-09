@@ -12,20 +12,23 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName".
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
-        ct = orm['contenttypes.contenttype'].objects.get(
-            app_label='account',
-            model='userprofile'
-        )
-        for profile in orm.UserProfile.objects.all():
-
-            tag, created = orm['taggit.tag'].objects.get_or_create(
-                name='usvi', slug='usvi')
-
-            tagged_item, created = orm['taggit.taggeditem'].objects.get_or_create(
-                tag=tag,
-                content_type=ct,
-                object_id=profile.id
+        try:
+            ct = orm['contenttypes.contenttype'].objects.get(
+                app_label='account',
+                model='userprofile'
             )
+            for profile in orm.UserProfile.objects.all():
+
+                tag, created = orm['taggit.tag'].objects.get_or_create(
+                    name='usvi', slug='usvi')
+
+                tagged_item, created = orm['taggit.taggeditem'].objects.get_or_create(
+                    tag=tag,
+                    content_type=ct,
+                    object_id=profile.id
+                )
+        except:
+            pass
 
     def backwards(self, orm):
         "Write your backwards methods here."
