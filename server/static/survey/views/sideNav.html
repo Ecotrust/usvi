@@ -54,7 +54,7 @@
             </span>
         </div>
     </form> -->
-    <form class="form-inline" role="form" ng-submit="search(searchTerm)">
+    <form class="form-inline" role="form" ng-submit="search(searchTerm)" ng-show="user.is_staff || user.is_intern">
         <div class="input-group">
             <input type="search" class="form-control" placeholder="Search" ng-model="searchTerm">
             <span class="input-group-btn">

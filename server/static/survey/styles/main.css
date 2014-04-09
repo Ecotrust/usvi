@@ -127,6 +127,7 @@ End Surgucal Classes
 
 #report-table td .label{
   font-size: 1.0em;
+  cursor: 
 }
 .stats .row .box{
   padding-bottom: 10px;
@@ -368,10 +369,18 @@ padding: 7px 9px;
     height: 40px;
 }
 
+.select-wrapper {
+  border: none;
+}
+
+.select-wrapper .glyphicon {
+  display:none;
+}
+
 .question .unit-select {
-  height: 59px;
-  font-weight: bold;
+  height: 30px;
   font-size: 20px;
+  width:100%;
 }
 
 .pull-right + .pull-right {
@@ -691,6 +700,10 @@ table {
 .summary .map {
   height: 250px !important;
 }
+
+/************************************************************
+Question Options Styles
+*************************************************************/
 .select-content {
     background-color: rgb(246, 235, 194);
     font-size: 24px;
@@ -709,6 +722,12 @@ table {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.select-content:hover {
+  cursor: pointer;
+  background-color: #5b9aa9;
+}
+
 .option .checkbox, .select-unchecked .other-checkbox  {
     display: none;
     width: 15px;
@@ -720,3 +739,31 @@ table {
 .select-checked .checkbox {
     display: block;
 }
+
+.multi-select-other {
+  width:100%;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.grid .row {
+    padding: 0.5em;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.grid .row .cell {
+    float: left;
+}
+
+.grid .row .cell.head {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.grid input, .grid select {
+    width: 75%;
+}
+/************************************************************
+End Question Options Styles
+*************************************************************/

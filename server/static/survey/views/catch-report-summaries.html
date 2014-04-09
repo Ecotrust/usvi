@@ -46,15 +46,27 @@
             <div class="row">
                 <h3>Matching Reports</h3>
                 <table id="report-table" class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th ng-show="user.is_staff || user.is_intern">User</th>
+                        <th ng-hide="user.is_staff || user.is_intern">Island</th>
+                        <th>Landed Date</th>
+                        <th># of Answers</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <tr ng-repeat="respondent in respondents">
                         <td>
                             <a target="_blank" href="#/RespondantDetail/{{respondent.uuid}}">
                                 {{ respondent.survey_title }}
                             </a>
                         </td>
-                        <td>{{ respondent.user.username }}</td>
+                        <td ng-show="user.is_staff || user.is_intern">{{ respondent.user.username }}</td>
+                        <td ng-hide="user.is_staff || user.is_intern">{{ respondent.island }}</td>
                         <td>{{ respondent.ordering_date|date }}</td>
-
+                        <td>{{ respondent.responses.length }}</td>
                         <td>
                             <span class="label" ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
                                 {{ respondent.review_status }}
@@ -62,6 +74,7 @@
 
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 <div class="pull-right">
                     <div ng-show="meta.pages.length > 1" pagination total-items="meta.total_count" page="meta.page" items-per-page="5" max-size="8" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="goToPage(page)">
