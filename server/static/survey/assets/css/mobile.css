@@ -184,6 +184,9 @@ Splash Screen and Login/Logout
     width: 100%;
     height: 100%;
 }
+    .splash.splash-update {
+        top: 40%;
+    }
     .splash .branding {
         position: absolute;
         top: 40%;
@@ -228,6 +231,14 @@ Splash Screen and Login/Logout
         bottom: 20px;
         width: 120px;
         font-size: 24px;
+    }
+    .splash-update .update-box {
+        margin-top: 50%;
+        margin-left: 20%;
+    }
+    .splash-update .cancel {
+        font-size: 18px;
+        margin-left: -10px;
     }
   /*  .splash {
         position: relative;

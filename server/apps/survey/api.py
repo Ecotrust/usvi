@@ -89,6 +89,7 @@ class UserObjectsOnlyAuthorization(Authorization):
         return allowed
 
     def update_detail(self, object_list, bundle):
+        print "update detail"
         if bundle.request.user.is_staff:
             return True
         return bundle.obj.user == bundle.request.user

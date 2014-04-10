@@ -1,8 +1,11 @@
 from tastypie.test import ResourceTestCase
+
 from django.contrib.auth.models import User
 from ..api import SurveyResource
-from ..models import Respondant, Response, Survey, Page
+from ..models import Respondant, Response, Survey, Page, Response
 import json
+import datetime
+from tastypie.models import ApiKey
 
 class SurveyResourceTest(ResourceTestCase):
     # Use ``fixtures`` & ``urls`` as normal. See Django's ``TestCase``
@@ -19,6 +22,9 @@ class SurveyResourceTest(ResourceTestCase):
         self.user.is_staff = True
         self.user.profile.tags.add('usvi')
         self.user.save()
+        api_key, created = ApiKey.objects.get_or_create(user=self.user)
+        api_key.key = api_key.generate_key()
+        api_key.save()
 
 
     def test_get_survey(self):
@@ -33,6 +39,29 @@ class SurveyResourceTest(ResourceTestCase):
         result = self.api_client.client.login(username='fisher',
                                               password='secret')
         return result
+
+    def test_patch_response(self):
+        survey = Survey.objects.get(slug='catch-report')
+        question = survey.questions.get(slug='island')
+        respondant = Respondant(survey=survey,
+                                ts=datetime.datetime.now(),
+                                user=self.user)
+        response = Response(question=question,
+                            respondant=respondant,
+                            answer_raw=json.dumps({'text': 'St. John'}))
+        respondant.save()
+        response.save()
+        url = '/api/v1/response/{0}/?username={1}&api_key={2}'.format(response.id, self.user.username, self.user.api_key)
+        self.assertEqual(response.question, question)
+        self.assertEqual(respondant.user, self.user)
+        data = {
+            "answer_raw": {'text': 'St. Thomas'}
+        }
+        res = self.api_client.patch(url, 
+            format='json', data=data, authentication=self.get_credentials())
+        self.assertHttpAccepted(res)
+
+
 
     # def test_order_pages(self):
     #     result = self.api_client.client.login(username='fisher', password='secret')
