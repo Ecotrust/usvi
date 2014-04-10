@@ -110,8 +110,6 @@
 
                         var respondent = data;
                         respondent.survey = respondent.survey_slug;
-                        // $scope.respondent = respondent;
-
                         _.each(respondent.responses, function(response, index) {
                             var questionSlug = response.question.slug, answer_raw;
                             try {
@@ -123,11 +121,10 @@
                             response.question = questionSlug;
                             response.answer = answer_raw;
                         });
-                        $scope.respondent.responses = data.responses;
+                        $scope.respondent.responses = respondent.responses;
                         $scope.respondent.open = true;
                     }).error(function(err) {
                         console.log(JSON.stringify(err));
-                        debugger;
                     });
             };
 
