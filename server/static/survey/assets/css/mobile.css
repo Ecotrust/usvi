@@ -421,6 +421,7 @@ input.datepicker {
     margin: 75px auto -60px;
     height: 50px;
     background-color: rgba(25, 25, 25, .5);
+    z-index: 100;
 }
 #header-bar .btn {
     color: rgb(100,100,100);
