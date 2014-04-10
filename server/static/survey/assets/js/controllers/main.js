@@ -89,31 +89,26 @@ angular.module('askApp')
             $scope.update = false;
             $http({
                 method: 'GET',
-                url: app.server + "/mobile/getVersion"
+                url: app.server + '/mobile/getVersion'
             })
                 .success(function(data) {
                     $scope.newVersion = data.version;
+                    console.log(data);
                     if (versionCompare($scope.version, $scope.newVersion) < 0) {
-                        $scope.update = "An update is available for Digital Deck."
+                        window.open(app.server + data.path, '_blank', 'location=yes');
                         app.refreshSurveys = true;
                         storage.saveState(app);
                     } else {
                         $scope.update = false;
                     }
-                })
-                .error(function(data) {});
-
-
-            $scope.updateApp = function() {
-                var ref = window.open(app.server + '/downloads/update.html', '_blank', 'location=yes');
-            }
+                });
 
             $scope.logout = function() {
                 app.lastUser = app.user; // Save last user so we can remeber account info fpr login screen
                 app.user = false;
                 storage.saveState(app);
                 $location.path('/');
-            }
+            };
 
             // $scope.saveState = function () {
             //     localStorage.setItem('hapifish', JSON.stringify(app));
@@ -178,6 +173,9 @@ angular.module('askApp')
 
 
             $scope.authenticateUser = function(user) {
+                if (! user.password) {
+                    return false;
+                }
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
                 user = storage.cleanUserObject(user);

@@ -55,6 +55,10 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
             templateUrl: app.viewPath + 'views/signin.html',
             controller: 'MainCtrl'
         })
+        .when('/update', {
+            templateUrl: app.viewPath + 'views/update.html',
+            controller: 'UpdateCtrl'
+        })
         .when('/main', {
             templateUrl: app.viewPath + 'views/main.html',
             controller: 'MainCtrl',
