@@ -93,7 +93,10 @@ a {
 .panel-default > .panel-heading {
     background-color: rgb(24, 75, 83);
     border-color: rgb(24, 75, 83);
-    color: rgb(250, 189, 18);
+    /*color: rgb(250, 189, 18);*/
+}
+.panel-default .date {
+    margin-left: 10px;
 }
 
 .btn-main {
@@ -370,6 +373,8 @@ input.datepicker {
 #wrap .panel-default {
     margin-bottom: 10px;
     border-width: 0;
+}
+#wrap.history .panel-default {
     background-color: rgb(244, 244, 244);
 }
 #wrap .form-control {
@@ -670,7 +675,6 @@ img.center {
 
 .menu-page .progress, .wide-menu-page .progress {
     margin-bottom: 0;
-    
     border-radius: 0;
     background-color: rgb(50, 50, 50);
     height: 5px;
@@ -888,9 +892,9 @@ input.multi-select-other:-ms-input-placeholder {
 
 }
 
-.select-wrapper.form-control .unit-select {
+/*.select-wrapper.form-control .unit-select {
     color: rgb(244,244,244);
-}
+}*/
 .select-wrapper .down {
     position: absolute;
     top: 10px;

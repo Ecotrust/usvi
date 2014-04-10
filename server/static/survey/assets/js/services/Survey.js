@@ -234,9 +234,9 @@
                     keep = keep && keepQuestion(op, answer, testCriteria);
                 });
                 console.log('skipping page' + !keep);
-                if (!keep) {
-                    clearResponses(survey, nextPage)
-                }
+                // if (!keep) {
+                //     clearResponses(survey, nextPage)
+                // }
                 return !keep;
             };
 
