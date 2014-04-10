@@ -175,15 +175,26 @@
                                 app.data.responses = [];
                             }
 
-                            if (rs[0].data && (rs[0].status === '201' || rs[0].status === '200') ) {
-                                responses = rs.data.object;
+                            _.each(rs, function(obj){
 
-                            }
-                            
-                            // app.data.responses.push({
-                            //     answer: answer.answer,
-                            //     question: question.slug
-                            // });
+                                var response = obj.data;
+                                // Update in memory answers 
+                                var question = $scope.getQuestionBySlug(response.question.slug);
+                                $scope.answers[response.question.slug] = response.answer; // Update answer
+
+                                // update user profile with first and last name,
+                                if ((question.attach_to_profile || question.persistent) && app.offline) {
+                                    app.user.registration[response.question.slug] = response.answer;
+                                }
+
+                                // Create responses array if it doesn't exist.
+                                if (!app.data.responses) {
+                                    app.data.responses = [];
+                                }
+
+                                // finally update app.data.repsonses                            
+                                survey.updateResponse(response);
+                            });
 
                             $scope.gotoNextPage();
                         });

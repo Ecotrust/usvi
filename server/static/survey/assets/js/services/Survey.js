@@ -56,15 +56,16 @@
             };
 
             var getResponseFromQuestion = function(questionObj) {
-//                var page = getPageFromQuestion(questionObj.slug);
-                // var question = _.findWhere(page.questions, {
-                //     slug: questionObj.slug
-                // });
-
                 return _.find(app.data.responses, function(rs) {
                     return rs.question.slug === questionObj.slug;
                 });
             };
+
+            var getResponseIndexFromQuestion = function(questionObj) {
+                var response = getResponseFromQuestion(questionObj);
+                return _.indexOf(app.data.responses, response);
+            };
+
 
             var getNextPageWithSkip = function(numPsToSkips) {
 
@@ -313,6 +314,19 @@
                 }));
             };
 
+            var updateResponse = function(response){
+                // Updates or creates a response in the local app.data object. 
+                // Primarily used after submitting a page. 
+                var index = getResponseIndexFromQuestion(response.question);
+                if (index > -1){
+                    app.data.responses[index] = response;
+                } else {
+                    app.data.responses.push(response);
+                }
+
+            };
+
+
             var submitSurvey = function(respondent, survey) {
                 //verify report (delete any necessary questions)
                 // call function within survey service...
@@ -365,7 +379,8 @@
                 'getQuestionUriFromSlug': getQuestionUriFromSlug,
                 'submitSurvey': submitSurvey,
                 'resume': resume,
-                'sendResponses' : sendResponses
+                'sendResponses' : sendResponses,
+                'updateResponse' : updateResponse
             };
         });
 
