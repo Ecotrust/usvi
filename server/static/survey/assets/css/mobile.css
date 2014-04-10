@@ -274,10 +274,10 @@ Splash Screen and Login/Logout
 }
     .last-user .panel-heading h4 {
         color: rgb(0,0,0);
-        text-align: left;
+        text-align: right;
     }
     .last-user p {
-        text-align:left;
+        text-align: right;
         color: rgb(244,244,244);
     }
     .last-user h5 {

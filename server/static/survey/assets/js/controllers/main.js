@@ -93,7 +93,6 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     $scope.newVersion = data.version;
-                    console.log(data);
                     if (versionCompare($scope.version, $scope.newVersion) < 0) {
                         window.open(app.server + data.path, '_blank', 'location=yes');
                         app.refreshSurveys = true;
