@@ -11,5 +11,5 @@ def getVersion(request):
     return HttpResponse(simplejson.dumps({
         'success': True,
         'version': version,
-        'path': '/downloads/update.html'
+        'path': '/static/survey/mobile.html#/update'
     }))

@@ -103,7 +103,6 @@ angular.module('askApp')
                     }
                 });
 
-            window.open('/static/survey/mobile.html#/update', '_blank', 'location=yes');
             $scope.logout = function() {
                 app.lastUser = app.user; // Save last user so we can remeber account info fpr login screen
                 app.user = false;
