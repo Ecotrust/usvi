@@ -370,6 +370,7 @@ input.datepicker {
 #history-wrap .panel-default {
     margin-bottom: 10px;
     border-width: 0;
+    background-color: rgb(244, 244, 244);
 }
 #history-wrap .form-control {
     background-color: white;
