@@ -265,6 +265,38 @@
 
             };
 
+            var sendResponses = function(answers) {
+
+
+                var url = app.server + _.string.sprintf('/api/v1/offlinerespondse/?username=%s&api_key=%s',
+                    app.user.username, app.user.api_key);
+                
+                var responses = [];
+                _.each(answers, function(answer){
+                    responses.push({
+                        answer: answer.answer,
+                        question: answer.question.slug
+                    });
+                });
+
+                _.each(responses, function(response) {
+                    // var question_uri = response.question.resource_uri;
+                    var question_uri = getQuestionUriFromSlug(response.question);
+                    response.question = question_uri;
+                    response.answer_raw = JSON.stringify(response.answer);
+                });
+                // var newRespondent = {
+                //     ts: respondent.ts,
+                //     uuid: respondent.uuid.replace(':', '_'),
+                //     responses: responses,
+                //     status: respondent.status,
+                //     complete: respondent.complete,
+                //     survey: '/api/v1/survey/' + respondent.survey + '/'
+                // };
+                debugger;
+                return $http.put(url, responses);
+            };
+
             var submitSurvey = function(respondent, survey) {
                 //verify report (delete any necessary questions)
                 // call function within survey service...

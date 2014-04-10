@@ -55,14 +55,26 @@ def survey_details(user):
         all_respondents = Respondant.objects.filter(survey__in=surveys, user=user)
     
     entered_by = [u['entered_by__username'] for u in all_respondents.exclude(entered_by=None).values('entered_by__username').distinct()]
-    return {
+    
+    
+    # If there are no respondents default to the last 30 days
+    if (all_respondents):
+        reports_start = all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest']
+        reports_end =all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest']
+    else:
+        now = datetime.datetime.now()
+        reports_start = now - datetime.timedelta(days=-30)
+        reports_end = now
+
+    out = {
         "total": all_respondents.count(),
         "needs_review": all_respondents.filter(review_status=REVIEW_STATE_NEEDED).count(),
         "flagged": all_respondents.filter(review_status=REVIEW_STATE_FLAGGED).count(),
-        "reports_start": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest'],
-        "reports_end": all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['highest'],
+        "reports_start": reports_start,
+        "reports_end": reports_end,
         "entered_by": entered_by
     }
+    return out
 
 
 @staff_member_required
