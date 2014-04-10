@@ -101,7 +101,6 @@
                     for (var i = 0; i < app.respondents[uuidSlug].responses.length; i += 1) {
                         if (app.respondents[uuidSlug].responses[i].question === questionSlug) {
                             index = i;
-                            //debugger;
                             break;
                         }
                     }
@@ -138,12 +137,12 @@
             };
 
             $scope.getPageBlockTitle = function() {
-                var title = "";
+                var title = '';
                 if (!$scope.page) {
                     return title;
                 }
                 _.each($scope.page.blocks, function(block, i) {
-                    if (title === "") {
+                    if (title === '') {
                         title = block.name;
                     } else {
                         title = title + " - " + block.name;
@@ -170,8 +169,22 @@
                     $scope.gotoNextPage();
                 } else {
                     survey.sendResponses(answers, $routeParams.uuidSlug)
-                        .then(function(response) {
-                            debugger;
+                        .then(function(rs) {
+                            // Update app.data with reposnes, if these are new, this is where the resource_uri is add
+                            if (!app.data.responses) {
+                                app.data.responses = [];
+                            }
+
+                            if (rs[0].data && (rs[0].status === '201' || rs[0].status === '200') ) {
+                                responses = rs.data.object;
+
+                            }
+                            
+                            // app.data.responses.push({
+                            //     answer: answer.answer,
+                            //     question: question.slug
+                            // });
+
                             $scope.gotoNextPage();
                         });
                 }
@@ -291,7 +304,6 @@
                     var completed = $scope.validateGridQuestion(question);
                     if (completed || !question.required) {
                         answer = question.answer;
-                        //debugger;
                     } else {
                         return false;
                     }

@@ -36,7 +36,6 @@ angular.module('askApp')
 
         $scope.getReports = function (url) {
             respondents.getReports(url, $scope.filter).success(function (data) {
-                debugger;
                 $scope.respondents = data.objects;
                 $scope.meta = data.meta;
             });

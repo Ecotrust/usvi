@@ -10,6 +10,9 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
         // $('#app_shell').height($('body').height()).backstretch('assets/img/splash.png');
         // $('html').backstretch('assets/img/splash.png');
 
+        
+
+
         if (localStorage.getItem('hapifis') && window.location.pathname !== '/respond') {
             app.username = JSON.parse(localStorage.getItem('hapifis')).currentUser;
             app.key = localStorage.getItem('hapifis-' + app.username);
@@ -43,6 +46,8 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
         }
         app.dash = false;
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
+        $httpProvider.defaults.headers.patch = { 'Content-Type': 'application/json;charset=utf-8' };
+        
         $routeProvider.when('/', {
             templateUrl: app.viewPath + 'views/splash.html',
             controller: 'SplashCtrl'

@@ -31,7 +31,6 @@ class SurveyModelResource(ModelResource):
                bundle.data.get(field_name, None) is None):
                 setattr(bundle.obj, field_name, None)
         bundle.obj.save()
-
         return bundle
 
 
@@ -89,6 +88,7 @@ class UserObjectsOnlyAuthorization(Authorization):
         return allowed
 
     def update_detail(self, object_list, bundle):
+        import pdb; pdb.set_trace()
         if bundle.request.user.is_staff:
             return True
         return bundle.obj.user == bundle.request.user
@@ -102,11 +102,33 @@ class UserObjectsOnlyAuthorization(Authorization):
 
 
 class ResponseResource(SurveyModelResource):
+    """
+    The web app uses this to craete and update answers
+
+    """
     question = fields.ToOneField(
         'apps.survey.api.QuestionResource', 'question', full=True)
     respondant = fields.ToOneField(
         'apps.survey.api.RespondantResource', 'respondant', full=False)
     answer_count = fields.IntegerField(readonly=True)
+    user = fields.ToOneField(
+        'apps.account.api.UserResource', 'user', null=True, blank=True)
+        
+
+    def obj_create(self, bundle, **kwargs):
+        # Determine user that this response belongs to
+        
+        if bundle.request.user.is_staff:
+            respondant = self.get_via_uri(bundle.data['respondant'])
+            user = respondant.user
+            respondant.entered_by = bundle.request.user
+            respondant.save()
+        else:
+            user = bundle.request.user
+
+        return super(ResponseResource,
+                     self).obj_create(bundle, user=bundle.request.user)
+
 
     class Meta:
         queryset = Response.objects.all().order_by(
@@ -117,13 +139,19 @@ class ResponseResource(SurveyModelResource):
             'respondant': ALL_WITH_RELATIONS
         }
         ordering = ('question__question_page__order',)
+        detail_allowed_methods = ['get', 'post', 'put', 'patch']
+        authorization = UserObjectsOnlyAuthorization()
+        authentication = Authentication()
+        # authentication = MultiAuthentication(
+        #     ApiKeyAuthentication(), SessionAuthentication())
+        always_return_data = True
 
 
 class OfflineResponseResource(SurveyModelResource):
     question = fields.ToOneField(
-        'apps.survey.api.QuestionResource', 'question', null=True, blank=True)
+        'apps.survey.api.QuestionResource', 'question', null=True, blank=True, full=True)
     respondant = fields.ToOneField(
-        'apps.survey.api.OfflineRespondantResource', 'respondant')
+        'apps.survey.api.OfflineRespondantResource', 'respondant', null=True, blank=True, full=True)
     user = fields.ToOneField(
         'apps.account.api.UserResource', 'user', null=True, blank=True)
 
@@ -134,6 +162,7 @@ class OfflineResponseResource(SurveyModelResource):
         authentication = MultiAuthentication(
             ApiKeyAuthentication(), SessionAuthentication())
         always_return_data = True
+        
 
     def obj_create(self, bundle, **kwargs):
         return super(OfflineResponseResource,
@@ -544,3 +573,38 @@ class SurveyReportResource(SurveyResource):
                            .values('entered_by__username').distinct()]
         }
         return bundle
+
+
+
+
+# Based off of ``piston.utils.coerce_put_post``. Similarly BSD-licensed.
+# And no, the irony is not lost on me.
+def convert_post_to_VERB(request, verb):
+    """
+    Force Django to process the VERB.
+    """
+    if request.method == verb:
+        if hasattr(request, '_post'):
+            del(request._post)
+            del(request._files)
+
+        try:
+            request.method = "POST"
+            request._load_post_and_files()
+            request.method = verb
+        except AttributeError:
+            request.META['REQUEST_METHOD'] = 'POST'
+            request._load_post_and_files()
+            request.META['REQUEST_METHOD'] = verb
+        setattr(request, verb, request.POST)
+
+    return request
+
+def convert_post_to_put(request):
+    return convert_post_to_VERB(request, verb='PUT')
+
+
+def convert_post_to_patch(request):
+    print "Converting post to patch"
+    return convert_post_to_VERB(request, verb='PATCH')
+

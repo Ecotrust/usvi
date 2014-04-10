@@ -6,6 +6,7 @@
       username: "{{user.username}}",
       first_name: "{{user.first_name}}",
       last_name: "{{user.last_name}}",
+      user_resource_uri : "/api/v1/user/{{user.id}}/",
       is_intern: "{{ user.profile.is_intern }}" === "True",
       tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}",
       is_staff :"{{ user.is_staff}}" === "True",

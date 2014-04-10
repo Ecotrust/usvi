@@ -10,7 +10,7 @@ class RespondantAdmin(admin.ModelAdmin):
 
 
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'ts',)
+    list_display = ('__unicode__', 'answer', 'ts',)
 
 
 
