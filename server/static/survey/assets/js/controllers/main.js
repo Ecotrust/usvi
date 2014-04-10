@@ -178,6 +178,9 @@ angular.module('askApp')
 
 
             $scope.authenticateUser = function(user) {
+                if (! user.password) {
+                    return false;
+                }
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
                 user = storage.cleanUserObject(user);

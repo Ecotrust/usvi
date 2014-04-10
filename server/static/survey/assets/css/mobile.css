@@ -250,10 +250,33 @@ Splash Screen and Login/Logout
     margin-bottom: 10px;
 }
 
-.last-user .panel-heading h4, .last-user p {
-    text-align:center;
+#wrap .last-user .panel-heading {
+    background-color: rgb(250, 189, 18);
+
 }
 
+#wrap .last-user .panel-body {
+    margin-bottom: 10px;
+}
+#wrap .last-user .panel-body, #wrap .last-user {
+    background-color: rgba(25, 25, 25, 0.5);
+}
+    .last-user .panel-heading h4 {
+        color: rgb(0,0,0);
+        text-align: left;
+    }
+    .last-user p {
+        text-align:left;
+        color: rgb(244,244,244);
+    }
+    .last-user h5 {
+        font-size: 24px;
+        color: rgb(244,244,244);
+    }
+    .last-user .glyphicon {
+        font-size: 64px;
+        color: rgb(244,244,244);
+    }
 /**********************************************************************
 End Splash Screen and Login/Logout 
 **********************************************************************/
