@@ -1,7 +1,9 @@
-<div id="history-wrap" class="menu-page">
+<div id="wrap" class="wide-menu-page history">
     <div mobilemenu></div>
+    <div id="header-bar">
+        <a class="btn pull-left back" href="#/history"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    </div>
     <!-- Begin page content -->
-    
     <div class="container">
         <div ng-show="showErrorMessage">
             <div class="error">Problem</div>
@@ -15,7 +17,6 @@
             <a class="btn btn-main btn-default btn-block" ng-show="hasReportsToSubmit" ng-click="confirmSubmit = true">submit all reports</a>
             <div ng-hide="confirmSubmit || showSubmitDone">
                 <div ng-hide="respondents.length">This device has no un-submitted reports.</div>
-                
             </div>
             <div ng-show="showSubmitDone">
                 <p>All completed reports have been submitted.</p>
@@ -31,7 +32,7 @@
                                 incomplete
                             </span>
                         </h3>
-                        <span>
+                        <span class="date">
                             {{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }}
                         </span>
                     </div>
@@ -65,6 +66,3 @@
 </div>
 
 
-<div id="history-footer">
-    <a class="btn pull-left" href="#/history"><span class="glyphicon glyphicon-chevron-left"></span></a>
-</div>

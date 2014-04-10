@@ -51,23 +51,27 @@
         <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
             
             <div class="last-user panel panel-default" ng-show="lastUser">
-                <div class="panel-heading"><h4 class="panel-title">Welcome {{lastUser.username}}</h4></div>
+                <div class="panel-heading"><h4 class="panel-title">Welcome, {{lastUser.username}}</h4></div>
                 <div class="panel-body">
-                    <p ng-show="lastUser.first-name && lastUser.last-name">{{ lastUser.first-name}} {{lastUser.last-name}}</p>
-                    <p>{{lastUser.email}}</p>
+                    <span class="glyphicon glyphicon-user"></span>
+                    <div class="pull-right">
+                        <h5>Edwin Knuth</h5>
+                        <p ng-show="lastUser.first-name && lastUser.last-name">{{ lastUser.first-name}} {{lastUser.last-name}}</p>
+                        <p>{{lastUser.email}}</p>
+                    </div>
                 </div>
             </div>
 
-            <form ng-submit="authenticateUser(authUser)">
+            <form ng-submit="authenticateUser(authUser)" autofocus>
                 <fieldset ng-disabled="working">
                     <div ng-show="!lastUser">
-                        <input type="text" class="form-control username" placeholder="enter your username..." ng-model="authUser.username" autocapitalize="off" required>
+                        <input type="text" class="form-control username" placeholder="enter your username..." ng-model="authUser.username" autocapitalize="off">
                     </div>
 
                     <password password-text="authUser.password"></password>
                 </fieldset>
             
-                <button class="btn btn-main btn-block" ng-disabled="! (authUser.username &&  authUser.password)">login</button>
+                <button class="btn btn-main btn-block">login</button>
                 <a class="btn btn-main btn-default btn-block" ng-class="{'active': showForm == 'new-user'}" href="#/">cancel</a>
                 <div class="error" ng-show="showError == 'auth-error'">
                     There was a problem authenticating. Please try again.

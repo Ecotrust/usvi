@@ -93,11 +93,12 @@ a {
 .panel-default > .panel-heading {
     background-color: rgb(24, 75, 83);
     border-color: rgb(24, 75, 83);
-    color: rgb(250, 189, 18);
+    /*color: rgb(250, 189, 18);*/
 }
-.panel {
-    margin-top: 20px;
+.panel-default .date {
+    margin-left: 10px;
 }
+
 .btn-main {
     font-size: 20px;
     color: rgb(248, 203, 77);
@@ -183,6 +184,9 @@ Splash Screen and Login/Logout
     width: 100%;
     height: 100%;
 }
+    .splash.splash-update {
+        top: 40%;
+    }
     .splash .branding {
         position: absolute;
         top: 40%;
@@ -228,6 +232,14 @@ Splash Screen and Login/Logout
         width: 120px;
         font-size: 24px;
     }
+    .splash-update .update-box {
+        margin-top: 50%;
+        margin-left: 20%;
+    }
+    .splash-update .cancel {
+        font-size: 18px;
+        margin-left: -10px;
+    }
   /*  .splash {
         position: relative;
     }*/
@@ -249,10 +261,33 @@ Splash Screen and Login/Logout
     margin-bottom: 10px;
 }
 
-.last-user .panel-heading h4, .last-user p {
-    text-align:center;
+#wrap .last-user .panel-heading {
+    background-color: rgb(250, 189, 18);
+
 }
 
+#wrap .last-user .panel-body {
+    margin-bottom: 10px;
+}
+#wrap .last-user .panel-body, #wrap .last-user {
+    background-color: rgba(25, 25, 25, 0.5);
+}
+    .last-user .panel-heading h4 {
+        color: rgb(0,0,0);
+        text-align: left;
+    }
+    .last-user p {
+        text-align:left;
+        color: rgb(244,244,244);
+    }
+    .last-user h5 {
+        font-size: 24px;
+        color: rgb(244,244,244);
+    }
+    .last-user .glyphicon {
+        font-size: 64px;
+        color: rgb(244,244,244);
+    }
 /**********************************************************************
 End Splash Screen and Login/Logout 
 **********************************************************************/
@@ -310,7 +345,7 @@ input.datepicker {
     padding: 0 5px;
 }
 
-#history-wrap {
+#wrap {
     min-height: 100%;
     height: auto !important;
     height: 100%;
@@ -320,10 +355,10 @@ input.datepicker {
     padding-top: 80px;
     background-color: rgb(231, 232, 234, 0);
 }
-#history-wrap .paper-report{
+#wrap .paper-report{
     color: rgb(0,0,0);
 }
-#history-wrap .panel-heading {
+#wrap .panel-heading {
     background-color: rgb(251, 169, 152);
     border-color: rgb(251, 169, 152);
     border-radius: 3px;
@@ -334,10 +369,10 @@ input.datepicker {
     font-weight: bold;
     padding: 5px 5px;
 }
-#history-wrap .panel-heading i {
+#wrap .panel-heading i {
     color: rgb(0,0,0);
 }
-#history-wrap .panel-heading.darkSalmonBackground {
+#wrap .panel-heading.darkSalmonBackground {
     background-color: rgb(239, 94, 70);
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
@@ -345,10 +380,12 @@ input.datepicker {
     border-bottom-left-radius: 0px;
 }
 
-#history-wrap .report-list > .panel-collapse > .panel-body {
+#wrap .report-list > .panel-collapse > .panel-body {
     padding: 0;
 }
-
+#wrap .well {
+    background-color: rgb(221, 218, 218);
+}
 
 .report-list .button-row {
     padding: 10px;
@@ -367,14 +404,17 @@ input.datepicker {
         margin: 0 auto;
     }
 
-#history-wrap .panel-default {
+#wrap .panel-default {
     margin-bottom: 10px;
     border-width: 0;
 }
-#history-wrap .form-control {
+#wrap.history .panel-default {
+    background-color: rgb(244, 244, 244);
+}
+#wrap .form-control {
     background-color: white;
 }
-#history-footer {
+#footer {
     position: fixed;
     width: 100%;
     margin: 0 auto -60px;
@@ -382,19 +422,19 @@ input.datepicker {
     background-color: rgb(64, 64, 66);
     bottom: 60px;
 }
-#history-footer a {
+#footer a {
     margin-top: 5px;
 }
 
-#history-wrap > .container {
+#wrap > .container {
     padding: 20px 20px 50px;
     background-color: rgb(231, 232, 234, 0);
     color: rgb(244,244,244);
 }
-#history-wrap > .container .respondant > .panel-body {
+#wrap > .container .respondant > .panel-body {
     padding: 0;
 }
-#history-wrap > .container .respondant > .panel-body .paper-report {
+#wrap > .container .respondant > .panel-body .paper-report {
     padding: 0 10px 10px;
 }
 /* Wrapper for page content to push down footer */
@@ -415,6 +455,7 @@ input.datepicker {
     margin: 75px auto -60px;
     height: 50px;
     background-color: rgba(25, 25, 25, .5);
+    z-index: 100;
 }
 #header-bar .btn {
     color: rgb(100,100,100);
@@ -443,7 +484,7 @@ input.datepicker {
     padding: 40px 40px 20px;
 }
 #wrap.menu-page > .container {
-    padding: 140px 40px 100px;
+    padding: 90px 40px 100px;
 }
 #wrap.wide-menu-page > .container {
     padding: 140px 15px 100px !important;
@@ -667,9 +708,8 @@ img.center {
     width: 75%;
 }
 
-.menu-page .progress {
+.menu-page .progress, .wide-menu-page .progress {
     margin-bottom: 0;
-    
     border-radius: 0;
     background-color: rgb(50, 50, 50);
     height: 5px;
@@ -887,9 +927,9 @@ input.multi-select-other:-ms-input-placeholder {
 
 }
 
-.select-wrapper.form-control .unit-select {
+/*.select-wrapper.form-control .unit-select {
     color: rgb(244,244,244);
-}
+}*/
 .select-wrapper .down {
     position: absolute;
     top: 10px;

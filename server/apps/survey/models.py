@@ -420,7 +420,6 @@ class Response(caching.base.CachingMixin, models.Model):
 
     def save_related(self):
         species = None
-        print "save related!!"
         if self.answer_raw:
             self.answer = simplejson.loads(self.answer_raw)
             if self.question.type in ['auto-single-select', 'single-select', 'yes-no']:
