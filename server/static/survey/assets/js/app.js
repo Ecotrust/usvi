@@ -1,7 +1,7 @@
 //'use strict';
 var app = {};
 
-angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch'])
+angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch', 'chieffancypants.loadingBar', 'ngAnimate'])
     .config(function($routeProvider, $httpProvider) {
 
         // var initialHeight = $(window).height();

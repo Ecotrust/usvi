@@ -43,7 +43,7 @@
                                 </table>
                             </span>
                         </td>
-                        <td><a target="_blank" href="/respond#/survey/{{surveySlug}}/{{response.question.slug}}/{{ uuid }}/edit" class="btn btn-default">edit</a></td>
+                        <td><a target="_blank" ng-show="user.is_staff || user.is_intern" href="/respond#/survey/{{surveySlug}}/{{response.question.slug}}/{{ uuid }}/edit" class="btn btn-default">edit</a></td>
                     </tr>
                 </tbody>
             </table>
