@@ -141,8 +141,9 @@ class ResponseResource(SurveyModelResource):
         detail_allowed_methods = ['get', 'post', 'put', 'patch']
         authorization = UserObjectsOnlyAuthorization()
         authentication = Authentication()
-        # authentication = MultiAuthentication(
-        #     ApiKeyAuthentication(), SessionAuthentication())
+        # If this is enabled it will fail with a 401
+        #authentication = MultiAuthentication(
+        #    ApiKeyAuthentication(), SessionAuthentication())
         always_return_data = True
 
 
