@@ -101,7 +101,6 @@
                     for (var i = 0; i < app.respondents[uuidSlug].responses.length; i += 1) {
                         if (app.respondents[uuidSlug].responses[i].question === questionSlug) {
                             index = i;
-                            //debugger;
                             break;
                         }
                     }
@@ -138,12 +137,12 @@
             };
 
             $scope.getPageBlockTitle = function() {
-                var title = "";
+                var title = '';
                 if (!$scope.page) {
                     return title;
                 }
                 _.each($scope.page.blocks, function(block, i) {
-                    if (title === "") {
+                    if (title === '') {
                         title = block.name;
                     } else {
                         title = title + " - " + block.name;
@@ -170,8 +169,33 @@
                     $scope.gotoNextPage();
                 } else {
                     survey.sendResponses(answers, $routeParams.uuidSlug)
-                        .then(function(response) {
-                            debugger;
+                        .then(function(rs) {
+                            // Update app.data with reposnes, if these are new, this is where the resource_uri is add
+                            if (!app.data.responses) {
+                                app.data.responses = [];
+                            }
+
+                            _.each(rs, function(obj){
+
+                                var response = obj.data;
+                                // Update in memory answers 
+                                var question = $scope.getQuestionBySlug(response.question.slug);
+                                $scope.answers[response.question.slug] = response.answer; // Update answer
+
+                                // update user profile with first and last name,
+                                if ((question.attach_to_profile || question.persistent) && app.offline) {
+                                    app.user.registration[response.question.slug] = response.answer;
+                                }
+
+                                // Create responses array if it doesn't exist.
+                                if (!app.data.responses) {
+                                    app.data.responses = [];
+                                }
+
+                                // finally update app.data.repsonses                            
+                                survey.updateResponse(response);
+                            });
+
                             $scope.gotoNextPage();
                         });
                 }
@@ -291,7 +315,6 @@
                     var completed = $scope.validateGridQuestion(question);
                     if (completed || !question.required) {
                         answer = question.answer;
-                        //debugger;
                     } else {
                         return false;
                     }

@@ -5,6 +5,8 @@
 
     angular.module('askApp')
         .factory('survey', function($http, $location, $q) {
+            
+
             var survey,
                 page,
                 answers,
@@ -20,6 +22,7 @@
                 }
 
             };
+
 
             var getPageFromQuestion = function(questionSlug) {
                 return _.find(survey.pages, function(page) {
@@ -52,15 +55,17 @@
                 }).resource_uri;
             };
 
+            var getResponseFromQuestion = function(questionObj) {
+                return _.find(app.data.responses, function(rs) {
+                    return rs.question.slug === questionObj.slug;
+                });
+            };
 
-            // var getNextPagePath = function(numQsToSkips) {
-            //     console.log('getNextPagePath');
-            //     var start = new Date().getTime();
-            //     var returnValue = ['survey', $scope.survey.slug, $scope.getNextPage().order, $routeParams.uuidSlug].join('/');
-            //     console.log(new Date().getTime() - start);
-            //     return returnValue;
-            //     // return ['survey', $scope.survey.slug, $scope.getNextPage().order, $routeParams.uuidSlug].join('/');
-            // };
+            var getResponseIndexFromQuestion = function(questionObj) {
+                var response = getResponseFromQuestion(questionObj);
+                return _.indexOf(app.data.responses, response);
+            };
+
 
             var getNextPageWithSkip = function(numPsToSkips) {
 
@@ -253,6 +258,8 @@
                     response.question = question_uri;
                     response.answer_raw = JSON.stringify(response.answer);
                 });
+
+
                 var newRespondent = {
                     ts: respondent.ts,
                     uuid: respondent.uuid.replace(':', '_'),
@@ -267,35 +274,58 @@
 
             var sendResponses = function(answers, respondent_uuid) {
 
-                var url = app.server + _.string.sprintf('/api/v1/offlineresponse/?username=%s&api_key=%s',
+                var url = app.server + _.string.sprintf('/api/v1/response/?username=%s&api_key=%s',
                     app.user.username, app.user.api_key);
                 
+
+                // Prepare responses, depends on wether the response was new or not. 
                 var responses = [];
                 _.each(answers, function(answer){
-                    responses.push({
+                    var previous_response = getResponseFromQuestion(answer.question);
+                    var question_uri = getQuestionUriFromSlug(answer.question.slug);
+                    
+                    // Put answer in response
+                    var response = {
                         answer: answer.answer,
-                        question: answer.question.slug
-                    });
+                        answer_raw:JSON.stringify(answer.answer)
+                    };
+
+                    // Add extra info for new responses
+                    if (previous_response) {
+                        response.resource_uri = previous_response.resource_uri;
+
+                    } else {
+                        response.question = answer.question.slug;
+                        response.respondant = '/api/v1/offlinerespondant/'+respondent_uuid+'/';
+                        response.question = question_uri;
+                    }
+                    responses.push(response);
                 });
 
-                _.each(responses, function(response) {
-                    // var question_uri = response.question.resource_uri;
-                    var question_uri = getQuestionUriFromSlug(response.question);
-                    response.respondent = '/api/v1/offlinerespondant/'+respondent_uuid+'/';
-                    response.question = question_uri;
-                    response.answer_raw = JSON.stringify(response.answer);
-                });
                 return $q.all(_.map(responses, function(response){
                     if (response.resource_uri){
-                        return $http.put(response.resource_uri, response);
+                        var uri = response.resource_uri;
+                        delete(response.resource_uri);
+                        return patchCall(uri, response);
                     }else {
                         return $http.post(url, response);
                     }
                     
                 }));
-                // debugger;
-                // return $http.post(url, responses[0]);
             };
+
+            var updateResponse = function(response){
+                // Updates or creates a response in the local app.data object. 
+                // Primarily used after submitting a page. 
+                var index = getResponseIndexFromQuestion(response.question);
+                if (index > -1){
+                    app.data.responses[index] = response;
+                } else {
+                    app.data.responses.push(response);
+                }
+
+            };
+
 
             var submitSurvey = function(respondent, survey) {
                 //verify report (delete any necessary questions)
@@ -326,6 +356,19 @@
                 $location.path(url);
             };
 
+
+            var patchCall = function(url, data){
+                return $http({
+                    url: url,
+                    data:data,
+                    method: 'PATCH'
+                }).success(function(data){
+                    console.log('SUCCESS');
+                }).error(function() {
+                    console.log('FAIL');
+                });
+            };
+
             // Public API here
             return {
                 'getNextPage': getNextPage,
@@ -336,7 +379,8 @@
                 'getQuestionUriFromSlug': getQuestionUriFromSlug,
                 'submitSurvey': submitSurvey,
                 'resume': resume,
-                'sendResponses' : sendResponses
+                'sendResponses' : sendResponses,
+                'updateResponse' : updateResponse
             };
         });
 
