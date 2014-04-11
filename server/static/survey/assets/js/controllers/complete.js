@@ -23,9 +23,10 @@
         } else {
             if (app.surveys) {
                 $scope.surveys = app.surveys;
+                $scope.survey = _.findWhere($scope.surveys, { slug: $routeParams.surveySlug});
+                survey.initializeSurvey($scope.survey);
             }
-            $scope.survey = _.findWhere($scope.surveys, { slug: $routeParams.surveySlug});
-            survey.initializeSurvey($scope.survey);
+            
 
             if (app.offline) {
                 app.respondents[$routeParams.uuidSlug].complete = true;
@@ -36,7 +37,9 @@
                 storage.saveState(app);
             } else {
                 $http.post(url).success(function () {
-                    app.data.state = $routeParams.action;
+                    if (app.data){
+                        app.data.state = $routeParams.action;
+                    }
                 });
             }
 

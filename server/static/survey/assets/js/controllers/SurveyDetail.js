@@ -159,7 +159,7 @@
                 var answers = _.map(page.questions, function(question) {
                     return $scope.getAnswerOnPage(question);
                 });
-
+                console.log(answers)
 
                 $('#footer').attr('style', null);
                 if (app.offline) {
@@ -233,6 +233,7 @@
                     }).success(function(response, status, getHeaders, request) {
                         _.each(request.data.answers, function(answer) {
                             var question = $scope.getQuestionBySlug(answer.slug);
+                            
                             $scope.answers[answer.slug] = answer.answer;
 
                             // update user profile
@@ -278,7 +279,6 @@
 
             $scope.getAnswerOnPage = function(question) {
                 var answer = question.answer;
-
 
                 //var url = ['/respond/answer', survey.slug, $routeParams.questionSlug, $routeParams.uuidSlug].join('/');
                 if (question.type === 'timepicker' || question.type === 'datepicker' || question.type === 'monthpicker') {

@@ -60,7 +60,7 @@
                     <tr ng-repeat="respondent in respondents">
                         <td>
                             <a target="_blank" href="#/RespondantDetail/{{respondent.uuid}}">
-                                {{ respondent.survey_title }}
+                                {{ respondent.survey_title }} - {{respondent.uuid}}
                             </a>
                         </td>
                         <td ng-show="user.is_staff || user.is_intern">{{ respondent.user.username }}</td>

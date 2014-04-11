@@ -151,12 +151,14 @@
                         // keep the question if equal (not not equal)
                         return answer === testCriteria;
                     } else if (_.str.include(testCriteria, '|')) { // if condition is a list
+
                         // keep if intersection of condition list and answer list is populated
                         return _.intersection(testCriteria.split('|'), answer).length > 0;
                     } else { // otherwise, condition is a string, keep if condition string is contained in the answer
                         trimmedAnswer = _.map(answer, function(item) {
                             return item.trim();
                         });
+
                         trimmedCriteria = testCriteria.trim();
                         return _.contains(trimmedAnswer, trimmedCriteria);
                         // return _.contains(answer, testCriteria);
@@ -202,7 +204,8 @@
                 var keep = true,
                     blocks;
 
-                //console.log(nextPage);
+                console.log("nextPage: ");
+                console.log(nextPage);
                 if (nextPage.blocks && nextPage.blocks.length) {
                     blocks = nextPage.blocks;
                     if (_.contains(_.pluck(blocks, 'name'), 'Placeholder')) {
@@ -213,9 +216,9 @@
                 } else {
                     blocks = []; //(return false)
                 }
-
                 _.each(blocks, function(block) {
-                    //console.log(block);
+                    console.log("block");
+                    console.log(block);
                     var questionSlug = _.findWhere(survey.questions, {
                         resource_uri: block.skip_question
                     }).slug,
@@ -224,6 +227,7 @@
                         op = condition[0],
                         testCriteria = condition.slice(1);
 
+                    console.log("Answer: "+answer)
                     if (_.isObject(answer)) {
                         if (_.isNumber(answer.answer)) {
                             answer = answer.answer;
@@ -238,7 +242,7 @@
 
                     keep = keep && keepQuestion(op, answer, testCriteria);
                 });
-                console.log('skipping page' + !keep);
+                console.log('skipping page ' + !keep);
                 // if (!keep) {
                 //     clearResponses(survey, nextPage)
                 // }

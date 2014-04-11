@@ -140,6 +140,10 @@ class ResponseResource(SurveyModelResource):
             return respondant
         return super(ResponseResource, self).get_via_uri(uri)
 
+    def dehydrate_answer(self, bundle):
+        return json.loads(bundle.obj.answer_raw)
+
+
     class Meta:
         queryset = Response.objects.all().order_by(
             'question__question_page__order')
