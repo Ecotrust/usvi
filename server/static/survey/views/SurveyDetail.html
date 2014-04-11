@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-block" id="dash-button" ng-click="submitPage(page)">continue</button>
+                    <button class="btn btn-primary btn-block" id="dash-button" ng-disabled="!pageIsValid" ng-click="submitPage(page)">continue</button>
                 </div>
             </div>
         </div>
