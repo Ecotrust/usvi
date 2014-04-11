@@ -1,6 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from taggit.managers import TaggableManager
+
+
+
+
+@receiver(post_save, sender=User)
+def create_user_api_key(sender, **kwargs):
+    """
+    Auto-create ApiKey objects using Tastypie's create_api_key    
+    """
+    from tastypie.models import ApiKey
+    user = kwargs['instance']
+
+
+    ApiKey.objects.get_or_create(user=user)
+
+    tags = user.profile.tags.all()
+    if not tags:
+        user.profile.tags.add("usvi")
+        user.save()
 
 
 class UserProfile(models.Model):
