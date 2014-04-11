@@ -118,7 +118,9 @@ class ResponseResource(SurveyModelResource):
         # Determine user that this response belongs to
         
         if bundle.request.user.is_staff:
+            
             respondant = self.get_via_uri(bundle.data['respondant'])
+            
             user = respondant.user
             respondant.entered_by = bundle.request.user
             respondant.save()
@@ -128,6 +130,15 @@ class ResponseResource(SurveyModelResource):
         return super(ResponseResource,
                      self).obj_create(bundle, user=bundle.request.user)
 
+
+    def get_via_uri(self, uri):
+        # overriding to make it not look for offlinerespondant
+        peices = uri.split("offlinerespondant/")
+        if len(peices) > 1:
+            uuid = peices[1].split("/")[0]
+            respondant = Respondant.objects.get(pk=uuid)
+            return respondant
+        return super(ResponseResource, self).get_via_uri(uri)
 
     class Meta:
         queryset = Response.objects.all().order_by(
@@ -180,9 +191,10 @@ class OfflineRespondantResource(SurveyModelResource):
         always_return_data = True
         queryset = Respondant.objects.all()
         authorization = UserObjectsOnlyAuthorization()
-        authentication = MultiAuthentication(
-            ApiKeyAuthentication(), SessionAuthentication())
-        ordering = ['-ts']
+        authentication = Authentication()
+        # authentication = MultiAuthentication(
+        #     ApiKeyAuthentication(), SessionAuthentication())
+        # ordering = ['-ts']
 
     def obj_create(self, bundle, **kwargs):
         if not bundle.request.user.is_authenticated():
