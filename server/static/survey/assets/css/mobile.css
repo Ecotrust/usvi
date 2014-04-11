@@ -123,6 +123,12 @@ a {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.respondant .map .leaflet-control-scale {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
 .btn-main.btn-block {
     text-align: left;
 }
