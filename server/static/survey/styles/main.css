@@ -728,6 +728,30 @@ Question Options Styles
   background-color: #5b9aa9;
 }
 
+.styled-select {
+  background-color: rgb(246, 235, 194);
+   width: 100%;
+   overflow: hidden;
+   border: 1px solid #ccc;
+}
+
+.styled-select:hover, .styled-select select:hover {
+  background-color: #5b9aa9;
+  cursor:pointer;
+}
+
+.styled-select select {
+   background: transparent;
+   padding: 5px;
+   font-size: 1.0em;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+}
+
+
 .option .checkbox, .select-unchecked .other-checkbox  {
     display: none;
     width: 15px;
@@ -740,7 +764,7 @@ Question Options Styles
     display: block;
 }
 
-.multi-select-other {
+.multi-select-other, .single-select-other {
   width:100%;
   font-size: 1.3em;
   font-weight: 500;

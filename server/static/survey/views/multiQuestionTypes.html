@@ -15,10 +15,12 @@
             <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="{{ question.label }}" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
             <div class="select-wrapper form-control" ng-class="{ 'unit-selected': question.unit }">
                 {{ question.unit.text }}
-                <select ng-model="question.unit" class="unit-select" placeholder="{{ question.label }}">
-                    <option value="">Select Units</option>
-                    <option ng-repeat="option in question.options">{{ option.text }}</option>
-                </select>
+                <div class="styled-select">
+                    <select ng-model="question.unit" class="unit-select" placeholder="{{ question.label }}">
+                        <option value="">Select Units</option>
+                        <option ng-repeat="option in question.options">{{ option.text }}</option>
+                    </select>
+                </div>
                 <span class="down glyphicon glyphicon-chevron-down"></span>
             </div>
         </div>
