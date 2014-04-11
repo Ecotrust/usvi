@@ -95,13 +95,16 @@ angular.module('askApp')
                     $scope.newVersion = data.version;
                     console.log(data);
                     if (versionCompare($scope.version, $scope.newVersion) < 0) {
-                        window.open(app.server + data.path, '_blank', 'location=yes');
+                        $scope.update = "An update is available for Digital Deck.";
                         app.refreshSurveys = true;
                         storage.saveState(app);
                     } else {
                         $scope.update = false;
                     }
                 });
+            $scope.updateApp = function() {
+                window.open(app.server + '/static/survey/mobile.html#/update', '_blank', 'location=yes');
+            };
 
             $scope.logout = function() {
                 app.lastUser = app.user; // Save last user so we can remeber account info fpr login screen

@@ -123,6 +123,12 @@ a {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.respondant .map .leaflet-control-scale {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
 .btn-main.btn-block {
     text-align: left;
 }
@@ -234,7 +240,7 @@ Splash Screen and Login/Logout
     }
     .splash-update .update-box {
         margin-top: 50%;
-        margin-left: 20%;
+        margin-left: 15%;
     }
     .splash-update .cancel {
         font-size: 18px;
@@ -277,7 +283,7 @@ Splash Screen and Login/Logout
         text-align: left;
     }
     .last-user p {
-        text-align:left;
+        text-align: right;
         color: rgb(244,244,244);
     }
     .last-user h5 {
