@@ -1,5 +1,3 @@
-<!-- Is this used anymore? Wil Black 4/7/2014 -->
-
 <div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants">
     <div id="sidebar_nav">
         <ul class="nav">
@@ -15,6 +13,10 @@
             <li>
                 <a ng-class="{'active': activePage == 'add-reports'}" href="#/">Add Catch Report</a>
             </li>
+            <li ng-show="user.is_superuser" >
+                <a target="_blank" href="/admin/">Admin Backend</a>
+            </li>
+
         </ul>
     </div>
 </div>

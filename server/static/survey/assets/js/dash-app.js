@@ -37,6 +37,10 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: landingTemplate,
         controller: landingController
     })
+        .when('/accounts/:username', {
+        templateUrl: '/static/survey/views/account/account-detail.html',
+        controller: 'AccountsCtrl'
+    })
         .when('/author', {
         templateUrl: '/static/survey/views/author.html',
         controller: 'AuthorCtrl',
