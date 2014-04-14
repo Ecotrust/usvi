@@ -1,10 +1,8 @@
-<!-- Is this used anymore? Wil Black 4/7/2014 -->
-
-<div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants">
-    <div id="sidebar_nav">
+<div id="sidenav_respondants">
+    <div id="sidebar_nav" class="margin-bottom">
         <ul class="nav">
             <li>
-                <a ng-class="{'active': activePage == 'users'}" href="#/users">Users</a>
+                <a ng-class="{'active': activePage == 'users'}" href="#/accounts">Users</a>
             </li>
             <li>
                 <a href="#/acl">Manage Annual Catch Limits</a>
@@ -15,6 +13,10 @@
             <li>
                 <a ng-class="{'active': activePage == 'add-reports'}" href="#/">Add Catch Report</a>
             </li>
+            <li ng-show="user.is_superuser" >
+                <a target="_blank" href="/admin/">Admin Backend</a>
+            </li>
+
         </ul>
     </div>
 </div>

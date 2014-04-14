@@ -101,9 +101,13 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/survey-list.html',
         controller: 'SurveyListMenuCtrl'
     })
-        .when('/users', {
-        templateUrl: '/static/survey/views/user-list.html',
+        .when('/accounts', {
+        templateUrl: '/static/survey/views/account/user-list.html',
         controller: 'UserListCtrl'
+    })
+        .when('/accounts/:username', {
+        templateUrl: '/static/survey/views/account/account-detail.html',
+        controller: 'AccountsCtrl'
     })
         .when('/add-catch-report', {
         templateUrl: '/static/survey/views/add-catch-report.html',

@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row" ng-cloak>
+        <div class="col-md-3 col-sm-3 print-hide" ng-include="'/static/survey/views/admin-dash-menu.html'"></div>
+        <div class="col-md-9 col-sm-9">
+            <!-- <i ng-hide="loaded" class="icon-spinner icon-spin"></i> -->
+            <h1 class="page-title">User Profile</h1>
+            <div class="row margin-bottom">
+                <div class="col-md-2">
+                    <p class="faux-label">
+                        name:
+                    </p>
+                </div>
+                <div ng-show="account.first_name || account.last_name" class="col-md-10">
+                    <h2 class="no-margin">{{account.first_name}} {{account.last_name}}</h2>
+                </div>
+                
+                <div ng-hide="account.first_name || account.last_name" class="col-md-10">
+                    <p>No name has been provided for this account</p>
+                </div>
+            </div>
+            
+            <div class="row margin-bottom">
+                <div class="col-md-2">
+                    <p class="faux-label">
+                        username:
+                    </p>
+                </div>
+                <div class="col-md-10">
+                    <p>{{account.username}}</p>
+                </div>
+            </div>
+            
+            <div class="row margin-bottom">
+                <div class="col-md-2">
+                    <p class="faux-label">
+                        email:
+                    </p>
+                </div>
+                <div class="col-md-10">
+                    <p><a href="mailto:{{account.email}}">{{account.email}}</a></p>
+                </div>
+            </div>
+
+            <div class="row margin-bottom">
+                <div class="col-md-2">
+                    <p class="faux-label">
+                        last login:
+                    </p>
+                </div>
+                <div class="col-md-10">
+                    <p>{{ account.last_login | date:'short' }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
