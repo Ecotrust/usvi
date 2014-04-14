@@ -3,7 +3,7 @@
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9">
             <div class="row">
-                <h1>Catch Report Summaries<span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
+                <h1 class="page-title">Catch Report Summaries<span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
                     <i ng-show="busy" class="icon-spinner icon-spin"></i>
                 </h1>
                 <div>
