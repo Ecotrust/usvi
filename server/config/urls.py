@@ -74,6 +74,8 @@ urlpatterns = patterns('',
     # url(r'^api-tool/?$', DirectTemplateView.as_view(template_name= 'api_tool.html', 
     #         extra_context = {}), name="api-tool" ),
 
+    url(r'^tracekit/', include('tracekit.urls')),
+
     # Redirect / to /dash
     url(r'^$', lambda r: HttpResponseRedirect('/dash')),
     # (r'^register', survey_urls.register),

@@ -7,7 +7,7 @@ app.viewPath = app.server + '/static/survey/';
 
 angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.helpers.dimensions',
     'mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal", "ui.bootstrap.pagination"]) //'ui', 'ui.bootstrap',
-    .config(function($routeProvider, $httpProvider) {
+    .config(function($routeProvider, $httpProvider, $provide) {
 
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
     $httpProvider.defaults.headers.patch = {
@@ -16,7 +16,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     
-
     // Initial Landing page and controller is determined by user type
     var landingTemplate, landingController;
     if (app.user.is_staff){
@@ -27,6 +26,12 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         landingController = 'CatchReportSummariesCtrl';
     }
 
+    $provide.decorator("$exceptionHandler", function($delegate) {
+        return function(exception, cause) {
+            TraceKit.report(exception);
+            $delegate(exception, cause);
+        };
+    });
 
     $routeProvider.when('/author/:surveySlug', {
         templateUrl: '/static/survey/views/author.html',
@@ -116,3 +121,17 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         redirectTo: '/'
     });
 });
+
+TraceKit.report.subscribe(function yourLogger(errorReport) {
+    'use strict';
+    var msg = 'msg: ' + errorReport.message + '\n\n';
+    msg += '::::STACKTRACE::::\n';
+    for(var i = 0; i < errorReport.stack.length; i++) {
+        msg += 'stack[' + i + '] ' + errorReport.stack[i].url + ':' + errorReport.stack[i].line + '\n';
+    }
+    $.post(app.server + '/tracekit/error/', {
+        stackinfo: JSON.stringify({'message': msg})
+    });
+
+});
+//TraceKit.report({message: 'error'});

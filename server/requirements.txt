@@ -16,6 +16,7 @@ django-storages==1.1.8
 django-taggit==0.11.2
 -e git+https://github.com/point97/django-tastypie.git@v0.11.0-patch#egg=django_tastypie
 -e git+https://github.com/point97/django-geojson.git@2.3.0-path#egg=django-geojson
+-e git+https://github.com/mandx/django-tracekit.git#egg=django-tracekit
 gunicorn==0.17.4
 hiredis==0.1.1
 mimeparse==0.1.3
@@ -34,3 +35,4 @@ django-csvimport==1.0
 django-registration==1.0
 django-haystack==2.1.0
 pyelasticsearch==0.6.1
+
