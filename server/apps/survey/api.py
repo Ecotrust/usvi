@@ -17,6 +17,13 @@ from haystack.query import SearchQuerySet
 import datetime
 import json
 
+# Get an instance of a logger
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+
 from survey.models import (Survey, Question, Option, Respondant, Response,
                            Page, Block, Dialect, DialectSpecies)
 
@@ -112,15 +119,13 @@ class ResponseResource(SurveyModelResource):
     answer_count = fields.IntegerField(readonly=True)
     user = fields.ToOneField(
         'apps.account.api.UserResource', 'user', null=True, blank=True)
-        
+
 
     def obj_create(self, bundle, **kwargs):
         # Determine user that this response belongs to
-        
+        logger.debug('obj create for response')
         if bundle.request.user.is_staff:
-            
             respondant = self.get_via_uri(bundle.data['respondant'])
-            
             user = respondant.user
             respondant.entered_by = bundle.request.user
             respondant.save()
@@ -177,7 +182,7 @@ class OfflineResponseResource(SurveyModelResource):
         authentication = MultiAuthentication(
             ApiKeyAuthentication(), SessionAuthentication())
         always_return_data = True
-        
+
 
     def obj_create(self, bundle, **kwargs):
         return super(OfflineResponseResource,
@@ -280,13 +285,13 @@ class DashRespondantResource(ReportRespondantResource):
         island = request.GET.get('island', None)
 
         sqs = SearchQuerySet().models(Respondant).load_all()
-        
+
         if query != '':
             sqs = sqs.auto_query(query)
 
         if not request.user.is_staff:
             sqs = sqs.filter(username = request.user.username)
-        
+
         if start_date is not None:
             sqs = sqs.filter(ordering_date__gte=datetime.datetime.strptime(
                 start_date + " 00:00", '%Y-%m-%d %H:%M'))
@@ -296,7 +301,7 @@ class DashRespondantResource(ReportRespondantResource):
 
         if review_status is not None:
             sqs = sqs.filter(review_status=review_status)
-        
+
         if entered_by is not None:
             sqs = sqs.filter(entered_by=entered_by)
         if island is not None:

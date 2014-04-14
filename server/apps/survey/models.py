@@ -19,6 +19,12 @@ import json
 import dateutil.parser
 import datetime
 
+# Get an instance of a logger
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 def make_uuid():
     return str(uuid.uuid4())
 
@@ -419,6 +425,7 @@ class Response(caching.base.CachingMixin, models.Model):
         ordering = ['-ts']
 
     def save_related(self):
+        logger.debug('starting save related for {0}'.format(self))
         species = None
         if self.answer_raw:
             self.answer = simplejson.loads(self.answer_raw)
@@ -595,6 +602,7 @@ class Response(caching.base.CachingMixin, models.Model):
                         respondent.ordering_date = dnf_date
                         respondent.save()
 
+            logger.debug('finshed save related for {0}'.format(self))
 
 def save_related(sender, instance, created, **kwargs):
     # save the related objects on initial creation
