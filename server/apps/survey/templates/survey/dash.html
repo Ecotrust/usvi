@@ -76,7 +76,7 @@
         <div class="navbar-right">
           <a href="{% url 'auth_logout' %}" class="navbar-btn navbar-right btn btn-default">Sign Out</a>
           <p class="navbar-text navbar-right">Signed in as {{user.username}}
-          {% if user.profile.is_intern == False and user.is_staff == True %}(<a href="#/users">admin</a>){% endif %}
+          {% if user.profile.is_intern == False and user.is_staff == True %}(<a href="#/accounts">admin</a>){% endif %}
           </p>
         </div>
       </div>
@@ -133,7 +133,6 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantList.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-detail.js"></script>
-    <script src="{{ STATIC_URL }}survey/assets/js/controllers/user-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/add-catch-report.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/catch-report-summaries.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script>

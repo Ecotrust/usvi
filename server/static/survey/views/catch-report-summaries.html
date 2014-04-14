@@ -63,7 +63,7 @@
                                 {{ respondent.survey_title }} - {{respondent.uuid}}
                             </a>
                         </td>
-                        <td ng-show="user.is_staff || user.is_intern">{{ respondent.user.username }}</td>
+                        <td ng-show="user.is_staff || user.is_intern"><a href="#/accounts/{{respondent.user.username}}/">{{ respondent.user.username }}</a></td>
                         <td ng-hide="user.is_staff || user.is_intern">{{ respondent.island }}</td>
                         <td>{{ respondent.ordering_date|date }}</td>
                         <td>{{ respondent.responses.length }}</td>
