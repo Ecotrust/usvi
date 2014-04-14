@@ -141,7 +141,8 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
 
             response.save_related()
 
-
+        # refresh the respondant in case it was updated in save_related
+        respondant = Respondant.objects.get(uuid=respondant.uuid)
 
         if request.user.is_authenticated() and not respondant.user:
             respondant.user = request.user
