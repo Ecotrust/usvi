@@ -162,7 +162,9 @@ TraceKit.report.subscribe(function yourLogger(errorReport) {
     for(var i = 0; i < errorReport.stack.length; i++) {
         msg += 'stack[' + i + '] ' + errorReport.stack[i].url + ':' + errorReport.stack[i].line + '\n';
     }
-    $.post(app.server + '/tracekit/error/', {
+    msg += 'user: ' + app.user.username;
+    msg += 'version: ' + app.version;
+    return $.post(app.server + '/tracekit/error/', {
         stackinfo: JSON.stringify({'message': msg})
     });
 
