@@ -221,7 +221,7 @@ LOGGING = {
         'py.warnings': {
             'handlers': ['null', ],
         },
-        '': {
+        'apps': {
             'handlers': ['console', 'production_file', 'debug_file'],
             'level': "DEBUG",
         },
