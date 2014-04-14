@@ -27,7 +27,7 @@ class SpeciesFamilyResource(SurveyModelResource):
 
 
 class AnnualCatchLimitResource(SurveyModelResource):
-    by_species = fields.BooleanField(readonly=True)
+    by_species = fields.BooleanField(readonly=True, attribute="by_species")
     species = GenericForeignKeyField({
         Species: SpeciesResource,
         SpeciesFamily: SpeciesFamilyResource

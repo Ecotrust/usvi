@@ -2,13 +2,19 @@
 var app = {};
 
 angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch', 'chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function($routeProvider, $httpProvider) {
+    .config(function($routeProvider, $httpProvider, $provide) {
 
         // var initialHeight = $(window).height();
         // $('html').css({ 'min-height': initialHeight});
         // $('body').css({ 'min-height': initialHeight});
         // $('#app_shell').height($('body').height()).backstretch('assets/img/splash.png');
         // $('html').backstretch('assets/img/splash.png');
+        $provide.decorator("$exceptionHandler", function($delegate) {
+            return function(exception, cause) {
+                TraceKit.report(exception);
+                $delegate(exception, cause);
+            };
+        });
 
         
 
@@ -148,39 +154,18 @@ $(document).on('blur', 'input, textarea', function() {
         window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
     }, 0);
 });
-// $(document).ready(function() {
-//     var flag = false;
-//     $(document).on('focusin touchend', '.question input, .question select', function(e) {
-//         if (!flag) {
-//             flag = true;
-//             setTimeout(function() {
-//                 flag = false;
-//             }, 300);
-//             var $this = $(this),
-//                 $wrapper = $this.closest('.question-wrapper');
 
-//             if ($this.closest('.menu-page').hasClass('profile')) {
-//                 return true;
-//             }
-//             if ($wrapper.length) {
-//                 if (!$wrapper.hasClass('non-focus-question')) {
-//                     $('body').addClass("keyboard-open");
-//                     $wrapper.addClass('active');
-//                     if (e.type === 'touchstart') {
-//                         $this.focus();
-//                     }
-//                 } else {
-//                     $('body').addClass("grid-keyboard-open");
-//                 }
-//             }
-//         }
+TraceKit.report.subscribe(function yourLogger(errorReport) {
+    'use strict';
+    var msg = 'msg: ' + errorReport.message + '\n\n';
+    msg += '::::STACKTRACE::::\n';
+    for(var i = 0; i < errorReport.stack.length; i++) {
+        msg += 'stack[' + i + '] ' + errorReport.stack[i].url + ':' + errorReport.stack[i].line + '\n';
+    }
+    msg += 'user: ' + app.user.username;
+    msg += 'version: ' + app.version;
+    return $.post(app.server + '/tracekit/error/', {
+        stackinfo: JSON.stringify({'message': msg})
+    });
 
-//     });
-
-//     $(document).on('blur', '.question input, .question select', function(e) {
-//         var $this = $(this);
-//         $('body').removeClass("keyboard-open");
-//         $('body').removeClass("grid-keyboard-open");
-//         $this.closest('.question-wrapper').removeClass('active');
-//     });
-// });
+});
