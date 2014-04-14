@@ -21,7 +21,7 @@ angular.module('askApp')
             }
             $http.get(url)
                 .success(function (data) {
-
+                    console.log('getting ' + url)
                     $scope.summary = data.results.length ? data.results : false;
                     if ($scope.summary) {
                         $scope.byFamily = _.groupBy($scope.summary, 'species__family__name');
@@ -167,10 +167,10 @@ angular.module('askApp')
             $scope.acls = data.objects;
             getAclReport();
 
-            $scope.$watch('filter', function (newFilter) {
-                $location.search($scope.filter);
+            $scope.$watchCollection('filter', function (newFilter) {
+                // $location.search($scope.filter);
                 $scope.area = $scope.areaMapping[$scope.filter.area];
                 getAclReport();
-            }, true);
+            });
         });
     });

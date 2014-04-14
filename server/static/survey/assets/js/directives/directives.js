@@ -379,7 +379,6 @@ angular.module('askApp')
                                         } else {
                                             color = colorPop();
                                         }
-                                        console.log(d.data.term + color)
                                         return color;
                                      })
                                     .each(function(d) { this._current = d; })

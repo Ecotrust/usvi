@@ -168,6 +168,11 @@ angular.module('askApp').directive('map', function($http) {
                 geojsonLayer.addTo(map);
             });
 
+            $http.get(app.viewPath + 'data/carib_3nmi_buffer.json').success(function (data) {
+                var line = L.geoJson(data);
+                line.addTo(map);
+            });
+
             scope.validateQuestion = function (question) {
                 var overallValidity = question.answer && question.answer.length;
                 return overallValidity;
