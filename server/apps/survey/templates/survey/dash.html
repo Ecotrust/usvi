@@ -109,6 +109,7 @@
     <script src="{{ STATIC_URL }}survey/lib/js/leaflet.awesome-markers.min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/jQDateRangeSlider-min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/date.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/tracekit.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet.label.js"></script>
 
     <!--<script src="{{ STATIC_URL }}survey/lib/js/heatmap.js"></script>
@@ -173,6 +174,9 @@
         reports_end: '{{ meta.reports_end|date:"Y-m-d\TH:i:sO" }}',
         entered_by: {{meta.entered_by|safe}}
       };
+
+      
+
     </script>
     {% endif %}
 

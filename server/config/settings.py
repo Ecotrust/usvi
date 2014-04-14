@@ -153,7 +153,8 @@ INSTALLED_APPS = (
     'apps.places',
     'apps.survey',
     'apps.reports',
-    'apps.acl'
+    'apps.acl',
+    'tracekit',
 )
 
 
@@ -222,6 +223,10 @@ LOGGING = {
             'handlers': ['null', ],
         },
         'apps': {
+            'handlers': ['console', 'production_file', 'debug_file'],
+            'level': "DEBUG",
+        },
+        'tracekit': {
             'handlers': ['console', 'production_file', 'debug_file'],
             'level': "DEBUG",
         },
