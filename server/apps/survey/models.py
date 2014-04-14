@@ -79,7 +79,6 @@ class Respondant(caching.base.CachingMixin, models.Model):
         if self.survey.slug.find('puerto-rico') != -1:
             self.island = "Puerto Rico"
         self.updated_at = datetime.datetime.now()
-        logger.debug('respondant island is {0} for {1}'.format(self.island, self.uuid))
         super(Respondant, self).save(*args, **kwargs)
 
     @property
@@ -426,7 +425,6 @@ class Response(caching.base.CachingMixin, models.Model):
         ordering = ['-ts']
 
     def save_related(self):
-        logger.debug('starting save related for {0}'.format(self))
         species = None
         if self.answer_raw:
             self.answer = simplejson.loads(self.answer_raw)
@@ -559,7 +557,6 @@ class Response(caching.base.CachingMixin, models.Model):
 
             if hasattr(respondent, self.question.slug):
                 setattr(respondent, self.question.slug, self.answer)
-                logger.debug('in save related for {0}, saving {1}:{2}'.format(respondent.uuid, self.question.slug, self.answer))
                 respondent.save()
 
             if respondent is not None and respondent.user is not None:
