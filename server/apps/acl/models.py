@@ -8,6 +8,8 @@ from django.core.exceptions import ValidationError
 import re
 from datetime import datetime    
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Island(caching.base.CachingMixin, models.Model):
     code = models.CharField(max_length=48, unique=True)
