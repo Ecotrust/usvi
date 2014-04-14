@@ -49,6 +49,13 @@ Surgical Classes
   float:left;
 }
 
+.bigger {
+  font-size: 1.2em;
+}
+
+.toUpper {
+  text-transform:uppercase;
+}
 
 /***********************************************
 End Surgucal Classes
@@ -89,6 +96,10 @@ End Surgucal Classes
   margin-top: 10px;
 }
 
+/***********************************************
+Top Navigation / Header Classes
+************************************************/
+
 #topnav {
     height: 90px;
     color: white;
@@ -118,6 +129,31 @@ End Surgucal Classes
 #topnav .btn {
   color: rgb(24,24,24);
 }
+
+
+#topnav .dropdown:hover {
+    color:#333;
+    background-color: #EEEEEE;
+}
+
+#topnav .dropdown.open{
+    color:#333;
+    background-color: #EEEEEE;
+}
+
+#topnav .dropdown-menu {
+  border:0;
+  color:#333;
+  background-color: #EEEEEE;
+}
+
+#topnav .dropdown-menu a:hover {
+    background-color:#8BC9D2
+}
+
+/***********************************************
+Top Navigation / Header Classes
+***********************************************/
 
 #sidenav_respondants {
     color: white;
