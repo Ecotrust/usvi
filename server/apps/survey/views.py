@@ -121,9 +121,9 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
         if respondant.complete is True and not request.user.is_staff:
             return HttpResponse(json.dumps({'success': False, 'complete': True}))
 
-        answers = json.loads(request.body)
+        params = json.loads(request.body)
 
-        for answerDict in answers.get('answers', []):
+        for answerDict in params.get('answers', []):
             answer = answerDict['answer']
             question_slug = answerDict['slug']
 
@@ -150,6 +150,10 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
             respondant.user = request.user
 
         respondant.last_question = question_slug
+
+        stale_questions = params.get('stale_questions', [])
+        logger.debug('deleting', stale_questions)
+        respondant.response_set.filter(question__slug__in=stale_questions).delete()
         respondant.save()
 
         return HttpResponse(json.dumps({'success': True }))

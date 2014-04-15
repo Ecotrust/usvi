@@ -55,7 +55,7 @@
             $scope.showFeedback = true;
             $scope.sendingFeedback = false;
             $scope.submitFeedback = function(feedback) {
-                var url = app.server + "/account/sendFeedback";
+                var url = app.server + '/account/sendFeedback';
                 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
                 $http({
@@ -209,7 +209,12 @@
                 var answers = _.map(page.questions, function(question) {
                     return $scope.getAnswerOnPage(question);
                 });
-                $('#footer').attr('style', null);
+
+                var stale_questions = survey.getStaleResponses($scope.answers);
+                _.each(stale_questions, function (q) {
+                    delete $scope.answers[q];
+                })
+
                 if (app.offline) {
                     _.each(answers, function(answer) {
                         $scope.answerOffline(answer);
@@ -224,8 +229,9 @@
                                 return {
                                     slug: answer.question.slug,
                                     answer: answer.answer
-                                }
-                            })
+                                };
+                            }),
+                            'stale_questions': stale_questions
                         },
                         headers: {
                             'Content-Type': 'application/json'
@@ -233,7 +239,6 @@
                     }).success(function(response, status, getHeaders, request) {
                         _.each(request.data.answers, function(answer) {
                             var question = $scope.getQuestionBySlug(answer.slug);
-                            
                             $scope.answers[answer.slug] = answer.answer;
 
                             // update user profile

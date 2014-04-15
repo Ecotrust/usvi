@@ -5,7 +5,6 @@
 
     angular.module('askApp')
         .factory('survey', function($http, $location, $q) {
-            
 
             var survey,
                 page,
@@ -47,6 +46,19 @@
 
                 return respondent.responses;
             };
+
+            var getStaleResponses = function(answers) {
+                var badResponses = [];
+                _.each(answers, function(response, q) {
+                    var page = getPageFromQuestion(q);
+                    if (skipPageIf(page)) {
+                        badResponses.push(q);
+                    }
+                });
+
+                return badResponses;
+            };
+
 
             var getQuestionUriFromSlug = function(slug) {
                 var page = getPageFromQuestion(slug);
@@ -204,8 +216,6 @@
                 var keep = true,
                     blocks;
 
-                console.log("nextPage: ");
-                console.log(nextPage);
                 if (nextPage.blocks && nextPage.blocks.length) {
                     blocks = nextPage.blocks;
                     if (_.contains(_.pluck(blocks, 'name'), 'Placeholder')) {
@@ -217,8 +227,6 @@
                     blocks = []; //(return false)
                 }
                 _.each(blocks, function(block) {
-                    console.log("block");
-                    console.log(block);
                     var questionSlug = _.findWhere(survey.questions, {
                         resource_uri: block.skip_question
                     }).slug,
@@ -227,7 +235,6 @@
                         op = condition[0],
                         testCriteria = condition.slice(1);
 
-                    console.log("Answer: "+answer)
                     if (_.isObject(answer)) {
                         if (_.isNumber(answer.answer)) {
                             answer = answer.answer;
@@ -242,10 +249,7 @@
 
                     keep = keep && keepQuestion(op, answer, testCriteria);
                 });
-                console.log('skipping page ' + !keep);
-                // if (!keep) {
-                //     clearResponses(survey, nextPage)
-                // }
+
                 return !keep;
             };
 
@@ -384,7 +388,8 @@
                 'submitSurvey': submitSurvey,
                 'resume': resume,
                 'sendResponses' : sendResponses,
-                'updateResponse' : updateResponse
+                'updateResponse' : updateResponse,
+                'getStaleResponses': getStaleResponses
             };
         });
 
