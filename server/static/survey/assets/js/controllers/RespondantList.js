@@ -227,7 +227,6 @@ angular.module('askApp')
                     //     $scope.saveRespondent(respondent, { notify: true });
                     // });
                 });
-
             }
             // respondent.open = !respondent.open;
         };

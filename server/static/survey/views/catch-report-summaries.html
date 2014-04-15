@@ -48,6 +48,7 @@
                     <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Digital Deck ID</th>
                         <th ng-show="user.is_staff || user.is_intern">User</th>
                         <th ng-hide="user.is_staff || user.is_intern">Island</th>
                         <th>Landed Date</th>
@@ -62,6 +63,7 @@
                                 {{ respondent.survey_title }} - {{respondent.uuid}}
                             </a>
                         </td>
+                        <td>{{ $index + 1000}}</td>
                         <td ng-show="user.is_staff || user.is_intern"><a href="#/accounts/{{respondent.user.username}}/">{{ respondent.user.username }}</a></td>
                         <td ng-hide="user.is_staff || user.is_intern">{{ respondent.island }}</td>
                         <td>{{ respondent.ordering_date|date }}</td>

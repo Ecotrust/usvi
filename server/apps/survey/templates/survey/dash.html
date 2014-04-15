@@ -84,9 +84,11 @@
                                 <li><a href="#/accounts" class="toUpper">admin</a></li>
                                 {% endif %}
 
-                                {% if user.profile.is_intern == False and user.is_staff == True %}
-                                <li ng-show="user.is_superuser" class="toUpper"><a target="_blank" href="/admin/">Django Admin</a></li>
+                                {% if user.is_superuser == True %}
+                                <li class="toUpper"><a target="_blank" href="/admin/">Django Admin</a></li>
+                                <li class="toUpper"><a target="_blank" href="/static/survey/mobile.html">Mobile App</a></li>
                                 {% endif %}
+
 
                             </ul>
                         </li>
