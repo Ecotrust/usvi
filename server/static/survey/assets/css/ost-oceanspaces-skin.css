@@ -294,9 +294,12 @@ p.intro {
 	color: #000;	
 }
 /* Grouped multi-select needs this extra bit */
-.info .panel-heading h4, .question .panel-title {
+.info .panel-heading h4, .question .panel-title,
+.info .panel-heading h4:hover, .question .panel-title:hover,
+.panel-title > a {
 	color: white;
 	cursor: pointer;
+    font-size: 18px;
 }
 
 
