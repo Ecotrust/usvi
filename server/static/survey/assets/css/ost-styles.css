@@ -558,6 +558,7 @@ h1, h2, h3, h4 {
 
 .navbar .home-btn {
     z-index: 10;
+    color: white;
 }
 
 .main h1.ost-title {
@@ -643,7 +644,7 @@ p.sign-up {
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #FFF;
     position: relative;
-    margin: 50px 0;
+    margin: 45px 0 30px 0;
 }
 
 .or-auth-separator {

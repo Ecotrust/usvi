@@ -68,6 +68,10 @@ if (window.browserNotSupported) {
                 controller: 'MainCtrl',
                 reloadOnSearch: false
             })
+        .when('/about', {
+            templateUrl: app.viewPath + 'views/ost/ost-about.html',
+            controller: 'AboutCtrl'
+        })
             .when('/author/:surveySlug', {
             templateUrl: app.viewPath + 'views/author.html',
             controller: 'AuthorCtrl'

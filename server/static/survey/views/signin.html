@@ -1,5 +1,5 @@
 <div id="wrap" class="main signin thin-page">
-    <div class="container">
+    <div class="container" style="max-width: 600px;">
         <div class="page-content">
             <div class="page-header">
                 <img src="static/survey/assets/img/oceanspaces-logo.png" class="center oceanspaces-logo logo" />
@@ -9,11 +9,14 @@
                 Short blurb of survey mission and why someone might want to contribute.
             </p> -->
 
+            <p style="margin: 0 20px 40px 20px; max-width: 500px;">Welcome! We are conducting a survey of Central California ocean monitoring efforts. This survey is being conducted to help inform regional ocean planning. Results will be posted to OceanSpaces.org. Please login or create an account below to take the survey. <a class="signin-link" href="/respond#/about">Learn more&nbsp;&raquo;</a></p>
+
+
             <div class="login-container">
 
                 <div class="btn-container">
                     <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Login with OceanSpaces.org Account</a>
-                    <p class="btn-caption">Using an OceanSpaces.org account will give you the ability to compare your results with the aggregate results of everyone else.</p>
+                    <p class="btn-caption">Using an OceanSpaces.org account will give you the ability to view the results of this survey effort.</p>
                 </div>
 
                 <div class="auth-separator">
@@ -59,11 +62,19 @@
                             <i class="icon-exclamation-sign"></i> There was a problem authenticating. Please try again.
                         </div>
 
-                        <p class="sign-up">Don't have an account? <a href="/respond#/signup">Sign up</a></p>
-                        <a class="forgot-password" ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
+                        <p>Don't have an account? <a href="/respond#/signup">Sign up</a></p>
+                        <a ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
                     </form>
                 </div>
 
+<!--                 <div class="auth-separator" style="margin-top: 25px; margin-bottom: 25px;">
+                </div>
+
+                <div class="btn-container">
+                    <p class="btn-caption" style="margin-bottom: 15px;">This survey is being conducted to help inform ocean planning in the Central California region. Results will be posted to OceanSpaces.org.</p>
+                    <a class="btn btn-main btn-default" href="/respond#/about">Learn more</a>
+                </div>
+ -->
                 <div class="loading-indicator" ng-show="working">
                     <div class="bar">
                         <i class="sphere"></i>

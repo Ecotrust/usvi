@@ -17,8 +17,14 @@ html, body, #app_shell, #app_shell > div, #wrap, .splash {
 }
 
 a {
-    color: rgb(244,244,244);
-    font-size: 18px;
+    color: #188DC4;
+    /*color: rgb(244,244,244);*/
+    /*font-size: 18px;*/
+}
+a:hover {
+    /*color: rgb(244,244,244);*/
+    color: #005A84;
+    /*font-size: 18px;*/
 }
 
 ::-webkit-input-placeholder {
