@@ -166,6 +166,18 @@ angular.module('askApp')
         });
     }
 
+    $scope.showHelp = function () {
+        $scope.modalInstance = $modal.open({
+            templateUrl: app.viewPath + 'views/ost/helpModal.html',
+            windowClass: 'help-modal',
+            controller: function ($scope, $modalInstance) {
+                $scope.ok = function () {
+                    $modalInstance.close();
+                };
+            }
+        });
+    };
+
 
     $scope.showErrorAlert = function () {
         // First, set showErrors to false in this digest cycle 
