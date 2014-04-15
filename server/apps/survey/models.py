@@ -59,7 +59,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
     notify_seen_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(null=True, blank=True)
     last_question = models.CharField(max_length=240, null=True, blank=True)
-
+    agency_id = models.CharField(max_length=30, null=True, blank=True, help_text="An alpha-numeric angency specific ID for the catch report")
     island = models.CharField(max_length=240, null=True, blank=True)
     locations = models.IntegerField(null=True, blank=True)
 
@@ -81,6 +81,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
         if self.survey.slug.find('puerto-rico') != -1:
             self.island = "Puerto Rico"
         #self.updated_at = datetime.datetime.now()
+
         super(Respondant, self).save(*args, **kwargs)
 
     @property

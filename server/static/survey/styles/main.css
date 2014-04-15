@@ -189,6 +189,10 @@ Top Navigation / Header Classes
   padding-bottom: 10px;
 }
 
+.stats-minor .box {
+  min-height: 115px;
+}
+
 .respondent-table th {
     background-color: #c7d8db;
 }

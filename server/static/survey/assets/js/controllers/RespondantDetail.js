@@ -2,11 +2,11 @@
 
 angular.module('askApp')
     .controller('RespondantDetailCtrl', function($scope, $routeParams, $http) {
-
+    $scope.user = app.user;
     $http.get('/api/v1/dashrespondant/'  + $routeParams.uuidSlug + '/?format=json').success(function(data) {
-
         $scope.respondent = data;
         $scope.surveySlug = data.survey_slug
+        
         $http.get('/api/v1/response?format=json&limit=0&respondant__uuid=' + $routeParams.uuidSlug).success(function (data) {
             var responses = data.objects;
             _.each(responses, function (response) {

@@ -227,7 +227,6 @@ angular.module('askApp')
                     respondent.spin = false;
                     respondent.updated_at = false;
                 });
-
             }
             // respondent.open = !respondent.open;
         };
