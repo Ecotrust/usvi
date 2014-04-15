@@ -39,10 +39,16 @@
                     <div class="panel-heading" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
                         <h3 class="panel-title">
                             <i ng-class="{ 'icon-caret-right': ! respondent.open,'icon-caret-down': respondent.open }"></i>
-                            {{ respondent.survey_title }}
-                            <span ng-hide="respondent.complete" class="badge pull-right">
-                                incomplete
-                            </span>
+                            {{ respondent.survey_title }}  <i class="icon-spin icon-spinner" ng-show="respondent.spin"></i> 
+                            <div class="pull-right">
+                                <span class="label pull-right" ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
+                                    {{ respondent.review_status }}
+                                </span>
+                                <br/>
+                                <span class="label label-danger pull-right" ng-show="respondent.notify && respondent.comment">
+                                    agency comment
+                                </span>
+                            </div>
                         </h3>
                         <span class="date">
                             {{ respondent.ts | date: 'MM/dd/yyyy HH:mm' }}

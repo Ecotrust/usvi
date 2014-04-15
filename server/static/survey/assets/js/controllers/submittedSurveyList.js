@@ -27,7 +27,6 @@
                     }
                 });
             }
-
             $http.get(app.server + '/reports/respondants_summary')
                 .success(function(data) {
                     var date = new Date(),
@@ -52,6 +51,25 @@
 
             $scope.showSurveyList = false;
 
+
+            $scope.ackNotification = function (respondent) {
+                respondent.spin = true;
+
+                return $http({
+                    url: respondent.resource_uri.replace('reportrespondant', 'offlinerespondant'),
+                    data: { 'notify_seen_at': new Date() },
+                    method: 'PATCH'
+                })
+                    .success(function(data) {
+                        respondent.spin = false;
+                        respondent.notify_seen_at = data.notify_seen_at;
+                    })
+                    .error(function(err) {
+                        // TraceKit.report({message: err});
+                        console.log('error');
+                    });
+            };
+
             $scope.updateSurveyList = function() {
                 $scope.updateEnabled = false;
 
@@ -63,7 +81,6 @@
             };
 
             $scope.getAnswer = function(questionSlug) {
-                console.log($scope.respondent);
                 return history.getAnswer(questionSlug, $scope.respondent);
             };
 

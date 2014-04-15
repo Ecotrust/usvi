@@ -56,6 +56,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
     review_status = models.CharField(max_length=20, choices=REVIEW_STATE_CHOICES, default=REVIEW_STATE_NEEDED)
     comment = models.TextField(null=True, blank=True)
     notify = models.BooleanField(default=False)
+    notify_seen_at = models.DateTimeField(null=True, blank=True)
+    updated_at = models.DateTimeField(null=True, blank=True)
     last_question = models.CharField(max_length=240, null=True, blank=True)
 
     island = models.CharField(max_length=240, null=True, blank=True)
@@ -67,7 +69,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     user = models.ForeignKey(User, null=True, blank=True)
     entered_by = models.ForeignKey(User, null=True, blank=True, related_name='entered_by')
-    updated_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    # updated_at = models.DateTimeField(auto_now_add=True)
 
     objects = caching.base.CachingManager()
 
@@ -78,7 +80,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
             self.ordering_date = self.ts
         if self.survey.slug.find('puerto-rico') != -1:
             self.island = "Puerto Rico"
-        self.updated_at = datetime.datetime.now()
+        #self.updated_at = datetime.datetime.now()
         super(Respondant, self).save(*args, **kwargs)
 
     @property

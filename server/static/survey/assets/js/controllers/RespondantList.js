@@ -134,7 +134,7 @@ angular.module('askApp')
 
         $scope.saveRespondent = function(respondent, data) {
             respondent.spin = true;
-            delete respondent.updated_at;
+
             return $http({
                 url: respondent.resource_uri,
                 data: data,
@@ -142,22 +142,24 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     respondent.spin = false;
-
+                    //delete respondent.updated_at;
                 })
                 .error(function(err) {
-                    alert(err.message);
+                    // TraceKit.report({message: err});
+                    console.log('error');
                 });
         };
         $scope.saveComment = function(respondent, comment, notify) {
 
             $scope.saveRespondent(respondent, {
                 comment: comment,
-                notify: notify
+                notify: notify,
+                updated_at: new Date()
             }).success(function (data) {
                 respondent.updated_at = new Date();
-                $timeout(function () {
-                    delete respondent.updated_at;
-                }, 3000);
+                // $timeout(function () {
+                //     delete respondent.updated_at;
+                // }, 3000);
             });
         };
         $scope.setStatus = function(respondent, status) {
@@ -223,9 +225,7 @@ angular.module('askApp')
                 $scope.getRespondent(respondent).then(function() {
                     respondent.open = true;
                     respondent.spin = false;
-                    // $scope.$watch(function () { return respondent.notify }, function () {
-                    //     $scope.saveRespondent(respondent, { notify: true });
-                    // });
+                    respondent.updated_at = false;
                 });
 
             }
