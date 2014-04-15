@@ -8,24 +8,22 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting field 'Respondant.updated_at'
-        db.delete_column(u'survey_respondant', 'updated_at')
-
         # Adding field 'Respondant.notify_seen_at'
         db.add_column(u'survey_respondant', 'notify_seen_at',
                       self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True),
                       keep_default=False)
 
 
-    def backwards(self, orm):
-        # Adding field 'Respondant.updated_at'
-        db.add_column(u'survey_respondant', 'updated_at',
-                      self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True),
-                      keep_default=False)
+        # Changing field 'Respondant.updated_at'
+        db.alter_column(u'survey_respondant', 'updated_at', self.gf('django.db.models.fields.DateTimeField')(null=True))
 
+    def backwards(self, orm):
         # Deleting field 'Respondant.notify_seen_at'
         db.delete_column(u'survey_respondant', 'notify_seen_at')
 
+
+        # Changing field 'Respondant.updated_at'
+        db.alter_column(u'survey_respondant', 'updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True))
 
     models = {
         u'acl.annualcatchlimit': {
@@ -209,6 +207,7 @@ class Migration(SchemaMigration):
         },
         u'survey.respondant': {
             'Meta': {'object_name': 'Respondant'},
+            'agency_id': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'}),
             'comment': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'complete': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'email': ('django.db.models.fields.EmailField', [], {'default': 'None', 'max_length': '254', 'null': 'True', 'blank': 'True'}),
@@ -223,8 +222,9 @@ class Migration(SchemaMigration):
             'status': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'survey': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['survey.Survey']"}),
             'ts': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
-            'uuid': ('django.db.models.fields.CharField', [], {'default': "'aa51d7ef-f9fe-4d8f-abb9-1dfa4a0871fd'", 'max_length': '36', 'primary_key': 'True'})
+            'uuid': ('django.db.models.fields.CharField', [], {'default': "'e12837ac-e6a7-4549-84e7-6508cbb00911'", 'max_length': '36', 'primary_key': 'True'})
         },
         u'survey.response': {
             'Meta': {'ordering': "['-ts']", 'object_name': 'Response'},
