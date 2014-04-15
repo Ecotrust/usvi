@@ -1,11 +1,20 @@
-<div id="wrap" class="menu-page">
+<div id="wrap" class="menu-page complete-page">
     <!-- Fixed navbar -->
     <div mobilemenu></div>
     <div class="container">
             
         <div class="page-content">    
             <div class="info-content">
-                <h3>You have completed the survey.</h3>
+                <h3>Thank you for completing the survey!</h3>
+                
+                <p>If you have more monitoring projects to contribute, please complete the survey again for each project. You can also revisit your unfinished and completed surveys.</p>
+
+                <div class="btn-container">
+                    <button class="btn btn-main btn-default btn-block" ng-click="newReportOnline('monitoring-project')">Take survey for another project</button>
+                    <a type="button" class="btn btn-main btn-default btn-block" href="#/history">Revisit Survey</a>
+                </div>                    
+
+
 
                 <!-- <div class="panel-body">
                     <div ng-controller="RespondentDetailCtrl"

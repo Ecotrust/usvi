@@ -93,5 +93,19 @@ angular.module('askApp')
         storage.saveState(app);
         $location.path('/main');
     }   
+
+    $scope.newReportOnline = function (surveySlug) {
+        var url = app.server + "/respond/" + surveySlug + "?get-uid=true";
+
+        $http.get(url)
+            .success(function (data) {
+                var surveyUrl = "/survey/" + surveySlug + "/2/" + data.uuid;
+                $location.path(surveyUrl);
+
+            })
+            .error(function (err, status) {
+                $scope.showError = err;
+            });
+    };    
     
   });

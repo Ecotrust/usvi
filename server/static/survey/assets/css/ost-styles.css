@@ -715,3 +715,12 @@ p.sign-up {
 .question.yes-no ul.option-checked {
     padding-left: 0;
 }
+
+.complete-page .btn-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 350px;
+}
+.complete-page .btn-container .btn {
+    font-size: 18px;
+}
