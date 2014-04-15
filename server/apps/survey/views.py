@@ -15,8 +15,17 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 import datetime
 import json
-
 from apps.survey.models import *
+
+# Get an instance of a logger
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+
+
+
 
 @staff_member_required
 def delete_responses(request, uuid, template='survey/delete.html'):
@@ -35,7 +44,7 @@ def survey(request, survey_slug=None, template='survey/survey.html'):
             if survey_user is not None:
                 user = get_object_or_404(User, username=survey_user)
                 respondant = Respondant(survey=survey, user=user, entered_by=request.user)
-        else: 
+        else:
             # Create a repsondant with logged in user.
             respondant = Respondant(survey=survey, user=request.user, entered_by=request.user)
         respondant.save()
@@ -53,10 +62,10 @@ def survey_details(user):
         all_respondents = Respondant.objects.filter(survey__in=surveys)
     else:
         all_respondents = Respondant.objects.filter(survey__in=surveys, user=user)
-    
+
     entered_by = [u['entered_by__username'] for u in all_respondents.exclude(entered_by=None).values('entered_by__username').distinct()]
-    
-    
+
+
     # If there are no respondents default to the last 30 days
     if (all_respondents):
         reports_start = all_respondents.aggregate(lowest=Min('ordering_date'), highest=Max('ordering_date'))['lowest']
@@ -101,14 +110,14 @@ def fisher(request, uuid=None, template='survey/fisher-dash.html'):
         respondent = Respondant.objects.get(uuid=uuid)
         template='survey/fisher-detail.html'
         return render_to_response(template, RequestContext(request, {'respondent': respondent}))
-    
+
 
 
 def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid):
     if request.method == 'POST':
         survey = get_object_or_404(Survey, slug=survey_slug)
         respondant = get_object_or_404(Respondant, uuid=uuid)
-        
+
         if respondant.complete is True and not request.user.is_staff:
             return HttpResponse(json.dumps({'success': False, 'complete': True}))
 
@@ -117,14 +126,14 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
         for answerDict in answers.get('answers', []):
             answer = answerDict['answer']
             question_slug = answerDict['slug']
-            
+
             question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
             response, created = Response.objects.get_or_create(question=question,respondant=respondant)
             response.answer_raw = json.dumps(answer)
             response.ts = datetime.datetime.now()
             if request.user.is_authenticated():
                 response.user = request.user
-            
+
             if created:
                 respondant.response_set.add(response)
                 respondant.save()
@@ -132,7 +141,8 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
 
             response.save_related()
 
-            
+        # refresh the respondant in case it was updated in save_related
+        respondant = Respondant.objects.get(uuid=respondant.uuid)
 
         if request.user.is_authenticated() and not respondant.user:
             respondant.user = request.user
@@ -192,7 +202,7 @@ def send_email(email, uuid):
     from django.contrib.sites.models import Site
 
     current_site = Site.objects.get_current()
-    
+
     plaintext = get_template('survey/email.txt')
     htmly = get_template('survey/email.html')
 

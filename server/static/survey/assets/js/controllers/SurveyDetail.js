@@ -152,7 +152,7 @@
                 return title;
             };
 
-            $scope.submitPage = function(page) {
+            $scope.submitPageNew = function(page) {
                 if (!$scope.pageIsValid) {
                     return false;
                 }
@@ -202,7 +202,7 @@
 
             };
 
-            $scope.OLDsubmitPage = function(page) {
+            $scope.submitPage = function(page) {
                 if (!$scope.pageIsValid) {
                     return false;
                 }
