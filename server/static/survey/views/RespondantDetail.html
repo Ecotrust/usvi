@@ -1,6 +1,6 @@
 <div class="container">
     <div ng-include="'/static/survey/views/sideNav.html'"></div>
-    <div class="col-md-9">
+    <div class="col-md-9 col-sm-9">
         <div class="row" ng-cloak>
             <h2>Details</h2>
             <dl>
@@ -13,7 +13,7 @@
             </dl>
         </div>
         <div class="row" ng-cloak>
-            <h2>Responses</h2>
+            <h2>Responses</h2>{{user}}
             <table class="table">
                 <tbody ng-repeat="response in respondent.responses">
                     <tr>

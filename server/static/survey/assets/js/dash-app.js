@@ -122,6 +122,9 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     });
 });
 
+
+
+
 TraceKit.report.subscribe(function yourLogger(errorReport) {
     'use strict';
     var msg = 'msg: ' + errorReport.message + '\n\n';

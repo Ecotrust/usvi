@@ -46,10 +46,10 @@
                                 <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
                                 <div class="panel-heading respondent-header" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
                                     <h4 class="panel-title">
-                                        {{ respondent.survey_title }}
-                                        <strong><a href="#/accounts/{{respondent.user.username}}">{{ respondent.user.username }}</a></strong>
+                                        {{ respondent.survey_title }} -
+                                        <strong> {{ respondent.user.username }}</strong>
                                         <span ng-show="respondent.complete">({{ respondent.ordering_date | date: 'MM/dd/yyyy' }})</span>
-                                        <span ng-show="respondent.entered_by">entered by: <a href="#/accounts/{{ respondent.entered_by.username }}">{{ respondent.entered_by.username }}</a> ({{respondent.responses.length}} responses)</span>
+                                        <span ng-show="respondent.entered_by">entered by: {{ respondent.entered_by.username }}</span>
 
                                         <i ng-show="respondent.spin" class="icon-spinner icon-spin"></i>
                                         <div class="pull-right">
@@ -63,6 +63,9 @@
                                 <div id="{{ respondent.survey_title }}" class="panel-collapse collapse" ng-class="{ 'in': respondent.open }">
                                     <div class="panel-body">
                                         <div class="row report-controls">
+                                            <div class="col-md-12 col-sm-12">
+                                                <h4>Report Summary for <a href="#/accounts/{{respondent.user.username}}" target="_blank"> {{respondent.user.username}}</a></h4>
+                                            </div>
                                             <div class="col-md-6" ng-if="respondent.open">
                                                 <div dash-map islands="[$parent.activeRespondent.island]" locations="$parent.activeRespondent.areas_fished"></div>
                                             </div>
