@@ -46,6 +46,7 @@
                                 <!-- track by $index is present to prevent 'Duplicates in repeater' error -->
                                 <div class="panel-heading respondent-header" ng-click="openRespondent(respondent)" ng-class="{ 'darkSalmonBackground': respondent.open }">
                                     <h4 class="panel-title">
+                                        {{ respondent.survey_title }}
                                         <strong><a href="#/accounts/{{respondent.user.username}}">{{ respondent.user.username }}</a></strong>
                                         <span ng-show="respondent.complete">({{ respondent.ordering_date | date: 'MM/dd/yyyy' }})</span>
                                         <span ng-show="respondent.entered_by">entered by: <a href="#/accounts/{{ respondent.entered_by.username }}">{{ respondent.entered_by.username }}</a></span>

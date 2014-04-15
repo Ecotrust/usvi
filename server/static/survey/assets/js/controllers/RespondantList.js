@@ -39,7 +39,7 @@ angular.module('askApp')
             var url;
 
             if (metaUrl) {
-                url = metaUrl; 
+                url = metaUrl;
             } else {
                 if ($scope.clearingFilters) {
                     return false;
@@ -48,29 +48,27 @@ angular.module('askApp')
                     // clicking button, but url is null
                     return false;
                 }
-               
             }
             $scope.busy = true;
             respondents.getReports(url, $scope.filter).success(function (data) {
-                loadReports(data, url) 
+                loadReports(data, url)
             });
-            
+        };
 
-        }
         $scope.goToPage = function (page) {
             $scope.getReports($scope.meta.base_url + '&page=' + page, true);
         };
+
         $scope.search = function (searchTerm) {
             if (searchTerm) {
                 $scope.getReports('/api/v1/dashrespondant/search/?format=json&limit=5&q=' + searchTerm);
-                
             } else {
                 $scope.getReports();
             }
             // $scope.searchTerm = $location.search().q;
         };
 
-    
+
         $scope.filterChanged = {};
 
         $scope.clearFilters = function () {
@@ -85,7 +83,7 @@ angular.module('askApp')
             $scope.getReports();
 
         };
- 
+
         $scope.updateSurveyDetails = function () {
             $rootScope.$broadcast('update-survey-stats');
         };
@@ -111,8 +109,8 @@ angular.module('askApp')
             return $location.search().q;
         }, function (newSearch) {
             $scope.filter.search = newSearch;
-        });    
-        
+        });
+
         $scope.$watchCollection('filter', function (newFilter) {
             if (newFilter.area) {
                 $scope.area = areaMapping[newFilter.area];
@@ -144,7 +142,7 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     respondent.spin = false;
-                    
+
                 })
                 .error(function(err) {
                     alert(err.message);
@@ -214,7 +212,7 @@ angular.module('askApp')
 
 
 
-     
+
         $scope.openRespondent = function(respondent) {
             if (respondent.open) {
                 respondent.open = false;
@@ -225,9 +223,9 @@ angular.module('askApp')
                 $scope.getRespondent(respondent).then(function() {
                     respondent.open = true;
                     respondent.spin = false;
-                    $scope.$watch(function () { return respondent.notify }, function () {
-                        $scope.saveRespondent(respondent, { notify: true });
-                    });
+                    // $scope.$watch(function () { return respondent.notify }, function () {
+                    //     $scope.saveRespondent(respondent, { notify: true });
+                    // });
                 });
 
             }

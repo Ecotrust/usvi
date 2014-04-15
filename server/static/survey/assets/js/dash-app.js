@@ -1,4 +1,4 @@
-//'use strict';
+7//'use strict';
 
 var app = {};
 
@@ -132,6 +132,5 @@ TraceKit.report.subscribe(function yourLogger(errorReport) {
     $.post(app.server + '/tracekit/error/', {
         stackinfo: JSON.stringify({'message': msg})
     });
-
 });
 //TraceKit.report({message: 'error'});

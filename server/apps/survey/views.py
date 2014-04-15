@@ -127,7 +127,8 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
             answer = answerDict['answer']
             question_slug = answerDict['slug']
 
-            question = get_object_or_404(Question, slug=question_slug, question_page__survey=survey)
+            question = get_object_or_404(Question, slug=question_slug,
+                                         question_page__survey=survey)
             response, created = Response.objects.get_or_create(question=question,respondant=respondant)
             response.answer_raw = json.dumps(answer)
             response.ts = datetime.datetime.now()

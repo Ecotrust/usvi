@@ -71,7 +71,10 @@ class UserObjectsOnlyAuthorization(Authorization):
 
     def read_list(self, object_list, bundle):
         # This assumes a ``QuerySet`` from ``ModelResource``.
-        return object_list.filter(user=bundle.request.user)
+        if bundle.request.user.is_staff:
+            return object_list
+        else:
+            return object_list.filter(user=bundle.request.user)
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
