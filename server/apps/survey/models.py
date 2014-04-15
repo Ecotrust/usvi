@@ -309,6 +309,7 @@ class Question(caching.base.CachingMixin, models.Model):
     options_from_previous_answer = models.CharField(max_length=254, null=True, blank=True)
     allow_other = models.BooleanField(default=False)
     required = models.BooleanField(default=True)
+    public = models.BooleanField(default=True)
     modalQuestion = models.ForeignKey('self', null=True, blank=True, related_name="modal_question")
     hoist_answers = models.ForeignKey('self', null=True, blank=True, related_name="hoisted")
     foreach_question = models.ForeignKey('self', null=True, blank=True, related_name="foreach")

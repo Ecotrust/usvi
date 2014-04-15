@@ -832,6 +832,4 @@ $scope.loadSurvey = function(data) {
             $scope.survey.status = 'invalid';
         });    
     }
-
-
 });

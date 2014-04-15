@@ -497,6 +497,9 @@ angular.module('askApp').directive('multiquestion', function() {
                 scope.infoView = scope.question.info;
                 scope.question.answer = "INFO_ANSWER"; // Dummy answer that allows the page to be submitted.
             }
+
+
+            $('.not-public-icon').tooltip();
         }
     };
 });
