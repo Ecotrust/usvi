@@ -1,7 +1,8 @@
 <div class="container acl-progress" ng-cloak style="min-height: 600px;">
     <div class="row">
-        <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9">
+        <div ng-include="'/static/survey/views/sideNav.html'" ></div>
+        <h1 class="page-title">ACL Progress</h1>
+        <div class="col-md-9 col-sm-9">
             <div class="row">
                 <div class="col-md-12">
                     <div ng-include="'/static/survey/views/areaButtons.html'"></div>
@@ -21,7 +22,7 @@
                 <div class="carousel-inner">
                     <div class="item" ng-class="{ 'active': slideIndex == $index }" ng-repeat="slide in slides">
                         <div class="row">
-                            <div class="col-md-4" ng-repeat="family in slide">
+                            <div class="col-md-4 col-sm-4" ng-repeat="family in slide">
                                 <h3 class="family-title">{{family.name}}</h3>
                                 <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart"></div>
                             </div>
@@ -43,10 +44,10 @@
                     <ol class="list-unstyled" class="acl-results">
                         <li ng-repeat="acl in aclResults" class="acl-result" >
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-3">
                                     {{ acl.acl.species.name }}
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 col-sm-8">
                                     <div class="progress">
                                       <div class="progress-bar" role="progressbar" aria-valuenow="{{ acl.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ acl.percent }}%;">
                                         <span class="sr-only">{{ acl.percent }}% Complete</span>
