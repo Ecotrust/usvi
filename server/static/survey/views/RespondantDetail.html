@@ -2,18 +2,28 @@
     <div ng-include="'/static/survey/views/sideNav.html'"></div>
     <div class="col-md-9 col-sm-9">
         <div class="row" ng-cloak>
-            <h2>Details</h2>
-            <dl>
-                <dt>user</dt>
-                <dd>{{ respondent.user.username }}</dd>
-                <dt>identity</dt>
-                <dd>{{ respondent.email || respondent.uuid}}</dd>
-                <dt>timestamp</dt>
-                <dd>{{ respondent.ts  |date: 'MM-dd-yyyy HH:mm' }}</dd>
-            </dl>
+            <div class="col-md-6 col-sm-6">
+                <h2>Details</h2>
+                <dl>
+                    <dt>user</dt>
+                    <dd>{{ respondent.user.username }}</dd>
+                    <dt>identity</dt>
+                    <dd>{{ respondent.email || respondent.uuid}}</dd>
+                    <dt>timestamp</dt>
+                    <dd>{{ respondent.ts  |date: 'MM-dd-yyyy HH:mm' }}</dd>
+                </dl>
+            </div>
+            <div class="col-md-6 col-sm-6" ng-show="respondent.notify">
+                <div class="well">
+                    <h3>Agency Comment <i class="icon-spin icon-spinner" ng-show="respondent.spin"></i> </h3>
+                    <p>{{respondent.comment}}</p>
+                    <button class="btn pull-right ok-button" ng-click="ackNotification(respondent)" ng-hide="respondent.notify_seen_at > respondent.updated_at || respondent.hide_button ||user.is_staff">ok</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
         </div>
         <div class="row" ng-cloak>
-            <h2>Responses</h2>{{user}}
+            <h2>Responses</h2>
             <table class="table">
                 <tbody ng-repeat="response in respondent.responses">
                     <tr>
