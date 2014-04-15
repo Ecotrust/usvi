@@ -48,7 +48,8 @@
                                     <h4 class="panel-title">
                                         <strong><a href="#/accounts/{{respondent.user.username}}">{{ respondent.user.username }}</a></strong>
                                         <span ng-show="respondent.complete">({{ respondent.ordering_date | date: 'MM/dd/yyyy' }})</span>
-                                        <span ng-show="respondent.entered_by">entered by: <a href="#/accounts/{{ respondent.entered_by.username }}">{{ respondent.entered_by.username }}</a></span>
+                                        <span ng-show="respondent.entered_by">entered by: <a href="#/accounts/{{ respondent.entered_by.username }}">{{ respondent.entered_by.username }}</a> ({{respondent.responses.length}} responses)</span>
+
                                         <i ng-show="respondent.spin" class="icon-spinner icon-spin"></i>
                                         <div class="pull-right">
                                             <span class="label" ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
