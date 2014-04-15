@@ -192,7 +192,7 @@
                                     app.data.responses = [];
                                 }
 
-                                // finally update app.data.repsonses                            
+                                // finally update app.data.repsonses
                                 survey.updateResponse(response);
                             });
 
@@ -213,7 +213,7 @@
                 var stale_questions = survey.getStaleResponses($scope.answers);
                 _.each(stale_questions, function (q) {
                     delete $scope.answers[q];
-                })
+                });
 
                 if (app.offline) {
                     _.each(answers, function(answer) {

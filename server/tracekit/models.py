@@ -6,7 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 
 class ErrorEntry(models.Model):
     message = models.TextField(db_index=True, verbose_name=_('message'))
-    timestamp = models.DateTimeField(default=datetime.now, db_index=True, verbose_name=_('timestamp'))
+    timestamp = models.DateTimeField(default=datetime.now, db_index=True,
+                                     verbose_name=_('timestamp'))
     stack_info = models.TextField(verbose_name=_('stack information'))
 
     class Meta:

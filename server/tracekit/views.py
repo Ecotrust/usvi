@@ -12,6 +12,14 @@ import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 
 @csrf_exempt
 def error(request):
@@ -22,8 +30,10 @@ def error(request):
     stackinfo = request.POST['stackinfo']
     stackinfo_json = json.loads(request.POST['stackinfo'])
     message = stackinfo_json['message']
-
-    ErrorEntry.objects.create(message=message, timestamp=timestamp, stack_info=stackinfo)
-    tracekit_error.send(ErrorEntry, message=message, timestamp=timestamp, stackinfo=stackinfo_json)
+    message = "{0}\n{1}".format(message, get_client_ip(request))
+    ErrorEntry.objects.create(message=message,
+                              timestamp=timestamp, stack_info=stackinfo)
+    tracekit_error.send(ErrorEntry, message=message, timestamp=timestamp,
+                        stackinfo=stackinfo_json)
     logger.error(message)
     return HttpResponse('OK; timestamp: {timestamp}'.format(timestamp=timestamp), content_type='text/html')
