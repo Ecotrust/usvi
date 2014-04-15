@@ -3,6 +3,8 @@
 
     angular.module('askApp')
         .controller('AccountsCtrl', function($scope, $routeParams, $http, api) {
+            
+            $scope.activePage = "users";
             if ($routeParams.username && $routeParams.username.length > 0){
                 var username = $routeParams.username;
                 api.fetch("user", {username:username})

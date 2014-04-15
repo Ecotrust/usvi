@@ -83,6 +83,11 @@
                                 {% if user.profile.is_intern == False and user.is_staff == True %}
                                 <li><a href="#/accounts" class="toUpper">admin</a></li>
                                 {% endif %}
+
+                                {% if user.profile.is_intern == False and user.is_staff == True %}
+                                <li ng-show="user.is_superuser" class="toUpper"><a target="_blank" href="/admin/">Django Admin</a></li>
+                                {% endif %}
+
                             </ul>
                         </li>
                     </ul>

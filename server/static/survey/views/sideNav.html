@@ -39,11 +39,6 @@
             <li ng-hide="user.is_staff || user.is_intern">
                 <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report?user={{user.username}}" target="blank">Add Catch Report</a>
             </li>
-
-
-            <li ng-show="user.is_superuser" >
-                <a target="_blank" href="/admin/">Admin Backend</a>
-            </li>
         </ul>
     </div>
     <!-- <form class="form-inline" role="form" ng-submit="search()">

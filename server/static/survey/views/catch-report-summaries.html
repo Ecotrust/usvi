@@ -1,18 +1,17 @@
-<div class="container summary">
-    <div class="row" ng-cloak>
+<div class="summary" ng-cloak>
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9">
+        <div class="col-md-9 col-sm-9">
             <div class="row">
                 <h1 class="page-title">Catch Report Summaries<span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
                     <i ng-show="busy" class="icon-spinner icon-spin"></i>
                 </h1>
                 <div>
                     <div class="row filter-box">
-                        <div class="col-md-7">
+                        <div class="col-md-7 col-sm-6">
                             <div ng-include="'/static/survey/views/areaButtons.html'"></div>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-sm-6">
                             <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
                         </div>
                     </div>
@@ -25,18 +24,18 @@
                 <ol class="list-unstyled" class="acl-results catch-report-summaries" style="margin-top: 20px;">
                     <li ng-repeat="(k, total) in totals" class="acl-result" >
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3">
                                 <span ng-hide="k== 'null'">{{ k }}</span>
                                 <span ng-hide="k != 'null'">Not Matched</span>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-7 col-sm-7">
                                 <div class="progress">
                                   <div class="progress-bar" role="progressbar" aria-valuenow="{{ total/max }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ total/max*100 }}%;">
                                     <span class="sr-only">{{ total/max }}% Complete</span>
                                   </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-2">
                                 <span class="info-percent">{{ total|number:1 }} lbs</span>
                             </div>
                         </div>
@@ -82,5 +81,4 @@
                 </div>
             </div>
        	</div>
-    </div>
 </div>

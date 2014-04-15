@@ -9,6 +9,7 @@ angular.module('askApp')
         };
         $scope.user = app.user;
 
+
         $scope.activePage = 'overview';
         var getAclReport = function () {
             var url = app.server + '/reports/distribution/all/weight-*?';
