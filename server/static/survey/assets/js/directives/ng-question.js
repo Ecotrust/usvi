@@ -246,7 +246,22 @@ angular.module('askApp').directive('multiquestion', function($modal) {
             // scope.question.otherAnswers = [];
             // handle clicked multiselects
             scope.onMultiSelectClicked = function(option, question) {
-                option.checked = !option.checked;
+                /* Hacking this for the ecosystem-features question in OST to 
+                   allow one of the options to clear all others. */
+                if (question.slug == 'ecosystem-features') {
+                    if (option.text === 'Contextual Data Only (No Ecological Monitoring)') {
+                        // Unselect all except the one clicked.
+                        scope.onSingleSelectClicked(option, question);
+                    } else {
+                        option.checked = !option.checked;
+                        // Unselect the contextual data option.
+                        question.options[question.options.length-1].checked = false;
+                    }
+                } else {
+                    // Business as usual.
+                    option.checked = !option.checked;
+                }
+                
                 // if (!option.checked && option.other) {
                 //     // $scope.question.otherAnswer1 = null;
                 //     // $scope.question.otherAnswer2 = null;                    
