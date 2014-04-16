@@ -2,7 +2,13 @@
 <div class="panel panel-default">
 
     <div class="panel-body paper-report">
+        <div ng-show="respondent.notify">
+            <button class="btn pull-right ok-button" ng-click="ackNotification(respondent)" ng-hide="respondent.notify_seen_at > respondent.updated_at">ok</button>
+            
+            <strong>Agency Comment:</strong>
+            <p>{{ respondent.comment }}</p>
 
+        </div>
         <!-- DID NOT FISH Report -->
         <div ng-show="respondent.survey == 'did-not-fish' || respondent.survey_slug == 'did-not-fish'" ng-include="viewPath + 'views/didNotFishAnswers.html'"></div>
 

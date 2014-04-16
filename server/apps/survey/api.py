@@ -57,6 +57,7 @@ class StaffUserOnlyAuthorization(Authorization):
         return bundle.request.user.is_staff
 
     def update_detail(self, object_list, bundle):
+        logger.debug('update_detail StaffUserOnlyAuthorization')
         return bundle.request.user.is_staff
 
     def delete_list(self, object_list, bundle):
@@ -98,6 +99,7 @@ class UserObjectsOnlyAuthorization(Authorization):
         return allowed
 
     def update_detail(self, object_list, bundle):
+        logger.debug('update_detail UserObjectsOnlyAuthorization')
         if bundle.request.user.is_staff:
             return True
         return bundle.obj.user == bundle.request.user
@@ -139,14 +141,15 @@ class ResponseResource(SurveyModelResource):
                      self).obj_create(bundle, user=bundle.request.user)
 
 
-    def get_via_uri(self, uri):
-        # overriding to make it not look for offlinerespondant
-        peices = uri.split("offlinerespondant/")
-        if len(peices) > 1:
-            uuid = peices[1].split("/")[0]
-            respondant = Respondant.objects.get(pk=uuid)
-            return respondant
-        return super(ResponseResource, self).get_via_uri(uri)
+    # def get_via_uri(self, uri):
+    #     # overriding to make it not look for offlinerespondant
+    #     logger.debug('get_view_uri override')
+    #     peices = uri.split("offlinerespondant/")
+    #     if len(peices) > 1:
+    #         uuid = peices[1].split("/")[0]
+    #         respondant = Respondant.objects.get(pk=uuid)
+    #         return respondant
+    #     return super(ResponseResource, self).get_via_uri(uri)
 
     def dehydrate_answer(self, bundle):
         return json.loads(bundle.obj.answer_raw)
@@ -215,11 +218,13 @@ class OfflineRespondantResource(SurveyModelResource):
                      self).obj_create(bundle, user=bundle.request.user)
 
     def save_related(self, bundle):
+        logger.debug('save related offline respondant')
         resource_uri = self.get_resource_uri(bundle.obj)
         user_uri = self.get_resource_uri(bundle.request.user)
         for response in bundle.data.get('responses'):
-            response['respondant'] = resource_uri
-            response['user'] = user_uri
+            if isinstance(response, dict):
+                response['respondant'] = resource_uri
+                response['user'] = user_uri
 
 
 class ReportRespondantResource(SurveyModelResource):

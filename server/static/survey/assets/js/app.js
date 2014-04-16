@@ -1,7 +1,16 @@
-//'use strict';
+7//'use strict';
 var app = {};
+if (_.string.startsWith(window.location.protocol, "http")) {
+    app.server = window.location.protocol + "//" + window.location.host;
+} else {
+    app.server = "APP_SERVER";
+}
 
-angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch', 'chieffancypants.loadingBar', 'ngAnimate'])
+app.version = "APP_VERSION";
+
+app.stage = "APP_STAGE";
+
+angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch', 'ngAnimate'])
     .config(function($routeProvider, $httpProvider, $provide) {
 
         // var initialHeight = $(window).height();
@@ -16,9 +25,6 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch', 
             };
         });
 
-        
-
-
         if (localStorage.getItem('hapifis') && window.location.pathname !== '/respond') {
             app.username = JSON.parse(localStorage.getItem('hapifis')).currentUser;
             app.key = localStorage.getItem('hapifis-' + app.username);
@@ -28,16 +34,7 @@ angular.module('askApp', ['ui', 'ui.bootstrap', 'ngGrid', 'ngRoute', 'ngTouch', 
         } else {
 
         }
-
-        if (_.string.startsWith(window.location.protocol, "http")) {
-            app.server = window.location.protocol + "//" + window.location.host;
-        } else {
-            app.server = "APP_SERVER";
-        }
-
-        app.version = "APP_VERSION";
-
-        app.stage = "APP_STAGE";
+        
 
         if (window.location.pathname === '/respond') {
             app.viewPath = app.server + '/static/survey/';
@@ -162,7 +159,10 @@ TraceKit.report.subscribe(function yourLogger(errorReport) {
     for(var i = 0; i < errorReport.stack.length; i++) {
         msg += 'stack[' + i + '] ' + errorReport.stack[i].url + ':' + errorReport.stack[i].line + '\n';
     }
-    msg += 'user: ' + app.user.username;
+    if (app.user) {
+        msg += 'user: ' + app.user.username + '\n';
+    }
+
     msg += 'version: ' + app.version + '\n';
     return $.post(app.server + '/tracekit/error/', {
         stackinfo: JSON.stringify({'message': msg})

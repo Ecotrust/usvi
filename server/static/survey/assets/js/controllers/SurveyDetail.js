@@ -210,10 +210,7 @@
                     return $scope.getAnswerOnPage(question);
                 });
 
-                var stale_questions = survey.getStaleResponses($scope.answers);
-                _.each(stale_questions, function (q) {
-                    delete $scope.answers[q];
-                });
+                var stale_questions;
 
                 if (app.offline) {
                     _.each(answers, function(answer) {
@@ -221,6 +218,10 @@
                     });
                     $scope.gotoNextPage();
                 } else {
+                    stale_questions = survey.getStaleResponses($scope.answers);
+                    _.each(stale_questions, function (q) {
+                        delete $scope.answers[q];
+                    });
                     $http({
                         url: ['/respond/submitPage', $scope.survey.slug, $routeParams.uuidSlug].join('/'),
                         method: 'POST',

@@ -34,6 +34,25 @@ angular.module('askApp')
         zoom: 7
     };
 
+    $scope.ackNotification = function (respondent) {
+        respondent.spin = true;
+
+        return $http({
+            url: respondent.resource_uri.replace('reportrespondant', 'offlinerespondant'),
+            data: { 'notify_seen_at': new Date() },
+            method: 'PATCH'
+        })
+            .success(function(data) {
+                respondent.spin = false;
+                respondent.notify_seen_at = data.notify_seen_at;
+                respondent.hide_button = true;
+            })
+            .error(function(err) {
+                // TraceKit.report({message: err});
+                console.log('error');
+            });
+    };
+
     $scope.getResponseBySlug = function(slug) {
         var question = _.filter($scope.response.responses, function(item) {
             return item.question.slug === slug;
