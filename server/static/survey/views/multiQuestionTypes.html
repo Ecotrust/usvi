@@ -259,7 +259,7 @@
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
-                                            Other (additional species and/or contextual data)
+                                            Other
                                         </a>
                                     </h4>
 
@@ -274,23 +274,23 @@
 
                         <div ng-show="question.allow_other && question.otherOption.checked" ng-class="{'other-input-selected': question.otherAnswers[0], 'select-checked': question.otherAnswers[0], 'select-unchecked': ! question.otherAnswers[0] }">
                             <div class="other-checkbox"></div>
-                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[0]}" placeholder="Other" ng-model="question.otherAnswers[0]" />
+                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[0]}" placeholder="Enter description" ng-model="question.otherAnswers[0]" />
                         </div>
                         <div ng-show="question.allow_other && question.otherOption.checked && question.otherAnswers[0]" ng-class="{'other-input-selected': question.otherAnswers[1], 'select-checked': question.otherAnswers[1], 'select-unchecked': ! question.otherAnswers[1] }">
                             <div class="other-checkbox"></div>
-                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[1]}" placeholder="Other" ng-model="question.otherAnswers[1]" />
+                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[1]}" placeholder="Add another" ng-model="question.otherAnswers[1]" />
                         </div>
                         <div ng-show="question.allow_other && question.otherOption.checked && question.otherAnswers[1]" ng-class="{'other-input-selected': question.otherAnswers[2], 'select-checked': question.otherAnswers[2], 'select-unchecked': ! question.otherAnswers[2] }">
                             <div class="other-checkbox"></div>
-                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[2]}" placeholder="Other" ng-model="question.otherAnswers[2]" />
+                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[2]}" placeholder="Add another" ng-model="question.otherAnswers[2]" />
                         </div>
                         <div ng-show="question.allow_other && question.otherOption.checked && question.otherAnswers[2]" ng-class="{'other-input-selected': question.otherAnswers[3], 'select-checked': question.otherAnswers[3], 'select-unchecked': ! question.otherAnswers[3] }">
                             <div class="other-checkbox"></div>
-                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[3]}" placeholder="Other" ng-model="question.otherAnswers[3]" />
+                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[3]}" placeholder="Add another" ng-model="question.otherAnswers[3]" />
                         </div>
                         <div ng-show="question.allow_other && question.otherOption.checked && question.otherAnswers[3]" ng-class="{'other-input-selected': question.otherAnswers[4], 'select-checked': question.otherAnswers[4], 'select-unchecked': ! question.otherAnswers[4] }">
                             <div class="other-checkbox"></div>
-                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[4]}" placeholder="Other" ng-model="question.otherAnswers[4]" />
+                            <input class="select-content multi-select-grouped-other" type="text" ng-class="{'with-text': question.otherAnswers[4]}" placeholder="Add another" ng-model="question.otherAnswers[4]" />
                         </div>
 
 
