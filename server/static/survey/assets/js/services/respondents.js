@@ -31,6 +31,18 @@ angular.module('askApp').service('respondents', function($http) {
         },
         getIsland: function (area) {
             return areaMapping[area];
+        },
+
+        dateFromISO : function(iso_str) {
+            // IE9 and lower can't parse ISO strings into dates. See this
+            // Stack Overflow question: http://stackoverflow.com/a/17593482
+            if (parseInt($.browser.version) < 10) {
+                var s = iso_str.split(/\D/);
+                out = new Date(Date.UTC(s[0], --s[1] || '', s[2] || '', s[3] || '', s[4] || '', s[5] || '', s[6] || ''));
+            } else {
+                out = new Date(iso_str);
+            }
+            return out;
         }
     }
 });
