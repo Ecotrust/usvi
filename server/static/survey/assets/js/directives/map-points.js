@@ -146,6 +146,7 @@ angular.module('askApp')
                         scope.activeMarker.closePopup();
                     }
 
+                    latlng['draggable'] = true;
                     marker = MapUtils.createMarker(latlng);
 
                     marker.data = {
@@ -165,6 +166,10 @@ angular.module('askApp')
                         $compile(angular.element(map._popup._contentNode))(scope);
                         scope.$digest();
                     });
+
+                    marker.on('dragend', function(e) {
+                        scope.updateMarker(marker);
+                    });
                 
                     scope.question.markers.push(marker);
                     scope.addMarkerToMap(marker);
@@ -178,6 +183,13 @@ angular.module('askApp')
                     map.addLayer(marker);
                 };
 
+                scope.updateMarker = function (marker /* Leaflet Marker */) {
+                    /* Keep the latlng contained in the data used for the 
+                       answer updated with the marker's actual latlng. */
+                    var ll = marker.getLatLng();
+                    marker.data.lat = ll.lat;
+                    marker.data.lng = ll.lng;
+                };
 
                 scope.removeMarker = function(marker) {
                     // Remove from answer.
