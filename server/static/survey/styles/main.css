@@ -41,6 +41,10 @@ Surgical Classes
   margin:0;
 }
 
+.no-padding {
+  padding:0;
+}
+
 .right {
   float:right;
 }
@@ -690,18 +694,43 @@ table {
   font-weight: bold;
 }
 
+
+/*****************************************************
+Carousel Styles
+******************************************************/
 .acl-progress .carousel .chart {
-  height: 350px;
+  /*height: 350px;*/
   margin: 0;
   padding: 10px;
   overflow: hidden;
 }
+
+@media (max-width: 991px){
+  .acl-progress .carousel-inner {
+    height:350px;
+  }
+  .acl-progress .carousel .carousel-control {
+    font-size: 30px;
+  }
+
+}
+
+@media (min-width: 992px){
+  .acl-progress .carousel-inner {
+    height:400px;
+  }
+
+  .acl-progress .carousel .carousel-control {
+    font-size: 48px;
+  }
+}
+
+
 .acl-progress .carousel .carousel-control {
   /*opacity: 0;*/
   background-image: none;
-  font-size: 48px;
   color: black;
-  top: 55%;
+  top: 70%;
 }
 .acl-progress .family-title {
   text-align: left;
@@ -727,6 +756,9 @@ table {
   height: 400px;
   overflow: auto;
 }
+
+
+
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
   right: 10px;
   top: 43%;
@@ -736,7 +768,7 @@ table {
   top: 43%;
 }
 .carousel-indicators {
-  bottom: 5px;
+  bottom: 5%;
 }
 .carousel-indicators li {
   background-color: rgb(64,63,65);
@@ -744,6 +776,23 @@ table {
 .carousel-indicators li.active {
   background-color: rgb(241,92,73);
 }
+
+.family-legend {
+    position: absolute;
+    top: 70%;
+    font-size: 0.8em;
+    width:100%;
+    padding:0;
+}
+
+.legend-item {
+  margin-bottom:1em;  
+}
+
+/*****************************************************
+End Carousel Styles
+******************************************************/
+
 #header-bar {
   display: none;
 }

@@ -14,10 +14,6 @@
                 </div>
             </div>
             <div class="carousel slide" ng-show="aclResults">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li ng-click="slideTo($index)" ng-repeat="slide in slides" ng-class="{ 'active': slideIndex == $index }"></li>
-                </ol>
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item" ng-class="{ 'active': slideIndex == $index }" ng-repeat="slide in slides">
@@ -25,19 +21,42 @@
                             <div class="col-md-4 col-sm-4" ng-repeat="family in slide">
                                 <h3 class="family-title">{{family.name}}</h3>
                                 <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart"></div>
+                                <div class="family-legend">
+                                    <div ng-repeat="item in family.data.terms">
+                                            <div class="col-md-9 col-sm-9 no-padding legend-item">
+                                            {{item.term}}
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 no-padding legend-item">
+                                             {{item.count}}
+                                            </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
-                        <div class="carousel-caption">
-                        </div>
+                        
                     </div>
-                    <!-- Controls -->
+
+
+                </div><!-- end carousel-inner -->
+                
+                <!-- Controls -->
+                <div>
                     <a class="left carousel-control" ng-click="slidePrev()">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </a>
+
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li ng-click="slideTo($index)" ng-repeat="slide in slides" ng-class="{ 'active': slideIndex == $index }"></li>
+                    </ol>
+
                     <a class="right carousel-control" ng-click="slideNext()">
                         <span class="glyphicon glyphicon-chevron-right"></span>
                     </a>
+
                 </div>
+
             </div>
             <div class="row" ng-show="aclResults">
                 <div class="col-md-12">
