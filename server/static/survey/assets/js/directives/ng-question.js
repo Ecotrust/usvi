@@ -499,7 +499,7 @@ angular.module('askApp').directive('multiquestion', function($modal) {
             }
 
 
-            $('.not-public-icon').tooltip();
+            $('.not-public-icon, .required-indicator').tooltip();
 
 
             scope.showEcosysFeatDescs = function () {

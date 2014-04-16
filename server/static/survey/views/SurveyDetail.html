@@ -33,12 +33,16 @@
                     <div class="block-title"> {{ getPageBlockTitle() }} </div>
                     <div class="question-wrapper" ng-class="{ 'grid-question': question.type == 'grid', 'non-focus-question': question.type == 'grid' || question.type=='number-with-unit' }" ng-repeat="question in page.questions">
                         <h4 class="question-title" ng-hide="{{question.type == 'info'}}">
-                            <span class="required-indicator" ng-show="{{question.required}}">*</span>
-                                <i class="icon icon-eye-close not-public-icon"
-                                   ng-show="{{!question.public}}"
-                                   data-toggle="tooltip" 
-                                   title="Will not be made public">
-                                </i>
+                            <span class="required-indicator" 
+                                  ng-show="{{question.required}}"
+                                  data-toggle="tooltip"
+                                  title="Required">*
+                            </span>
+                            <i class="icon icon-eye-close not-public-icon"
+                               ng-show="{{!question.public}}"
+                               data-toggle="tooltip" 
+                               title="Will not be made public">
+                            </i>
                             <span ng-bind-html-unsafe="question.title"></span> 
                         </h4>
                         <div ng-switch on="question.type">
