@@ -14,7 +14,7 @@ angular.module('askApp')
             var url = app.server + '/reports/distribution/all/weight-*?';
 
             if ($scope.filter.area) {
-                url = url + "filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area].replace(/&/, '|')});
+                url = url + "island=" + $scope.areaMapping[$scope.filter.area].replace(/&/, '|');
             }
             if ($scope.filter.accepted) {
                 url = url + "&accepted=true";
@@ -32,11 +32,14 @@ angular.module('askApp')
                         $scope.familyNames = _.keys($scope.byFamily).sort();
                         $scope.totalIndex = {};
                         $scope.aclResults = [];
+                        console.log($scope.bySpeciesCode);
+                        console.log($scope.byFamilyCode);
                          _.each(_.filter($scope.acls, function (acl) {
                                 return acl.area === $scope.filter.area
                             }),
                         function (acl) {
                             var groups, total;
+                            console.log(acl.species.code);
                             if (acl.by_species) {
                                 groups = $scope.bySpeciesCode[acl.species.code];
                             } else {
@@ -54,7 +57,6 @@ angular.module('askApp')
 
 
                         });
-
                         $scope.aclResults = $scope.aclResults.sort(function (a,b) {
                             return b.percent - a.percent;
                         });

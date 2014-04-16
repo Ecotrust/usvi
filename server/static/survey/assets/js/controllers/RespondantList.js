@@ -1,7 +1,7 @@
 //'use strict';
 
 angular.module('askApp')
-    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history, $rootScope, respondents) {
+    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, $timeout, history, $rootScope, respondents, history) {
         var areaMapping = {
             stcroix: "St. Croix",
             stthomasstjohn: "St. Thomas & St. John",
@@ -191,8 +191,19 @@ angular.module('askApp')
                             if (response.question.slug === 'island') {
                                 $scope.respondent.island = response.answer;
                             }
+
                             response.question = questionSlug;
                             response.answer = answer_raw;
+                        });
+                    }
+                    if ($scope.respondent.survey.match(/puerto-rico/)) {
+                        $scope.groups = _.groupBy($scope.getAnswer('fish-species-puerto-rico'), 'groupName');
+                        $scope.fw = _.indexBy($scope.getAnswer('fish-weight-price-puerto-rico'), 'text');
+                        $scope.arte = _.indexBy($scope.getAnswer('gear-type-puerto-rico'), 'text');
+                        $scope.hours = _.indexBy($scope.getAnswer('hours-fished-puerto-rico'), 'text');
+                        $scope.gear_size = _.indexBy($scope.getAnswer('gear-size-puerto-rico'), 'text');
+                        _.each($scope.fw, function (fw) {
+                            fw.peso = fw.libras * fw.precioporlibra;
                         });
                     }
                     $scope.respondent.survey = $scope.respondent.survey_slug;

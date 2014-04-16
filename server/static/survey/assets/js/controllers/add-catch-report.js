@@ -24,7 +24,7 @@
 		.controller('AddCatchReportCtrl', function($scope, $http, $routeParams, $location, $modal, $window) {
 			$scope.activePage = 'add-reports';
 			$scope.user = app.user;
-			$scope.addCatchReport = function() {
+			$scope.addCatchReport = function(user) {
 				var modalInstance = $modal.open({
 					templateUrl: '/static/survey/views/survey-list-modal.html',
 					controller: 'SurveyListModalCtrl',
@@ -33,7 +33,7 @@
 					}
 				});
 				modalInstance.result.then(function(survey) {
-					var url = '/respond/' + survey.slug + '?user=' + $scope.user.username;
+					var url = '/respond/' + survey.slug + '?user=' + user.username;
 					$window.open(url, '_blank');
 
 				});

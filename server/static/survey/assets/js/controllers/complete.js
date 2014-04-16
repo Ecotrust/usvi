@@ -7,6 +7,11 @@
         $http.defaults.headers.post['Content-Type'] = 'application/json';
 
 
+        $scope.getAnswer = function(questionSlug) {
+            return history.getAnswer(questionSlug, $scope.respondent);
+        };
+
+
         if (app.user) {
             $scope.user = app.user;
         } else {
@@ -53,7 +58,12 @@
             if ($scope.respondent.survey.match(/puerto-rico/)) {
                 $scope.groups = _.groupBy($scope.getAnswer('fish-species-puerto-rico'), 'groupName');
                 $scope.fw = _.indexBy($scope.getAnswer('fish-weight-price-puerto-rico'), 'text');
-                console.log($scope.fw);
+                $scope.arte = _.indexBy($scope.getAnswer('gear-type-puerto-rico'), 'text');
+                $scope.hours = _.indexBy($scope.getAnswer('hours-fished-puerto-rico'), 'text');
+                $scope.gear_size = _.indexBy($scope.getAnswer('gear-size-puerto-rico'), 'text');
+                _.each($scope.fw, function (fw) {
+                    fw.peso = fw.libras * fw.precioporlibra;
+                });
             }
 
         }
@@ -74,10 +84,7 @@
             return history.getTitle($scope.respondent);
         };
 
-        $scope.getAnswer = function(questionSlug) {
-            return history.getAnswer(questionSlug, $scope.respondent);
-        };
-
+ 
         $scope.gearTypeIncludes = function(type) {
             return history.gearTypeIncludes(type, $scope.respondent);
         };

@@ -349,9 +349,14 @@ input.datepicker {
 
 .paper-report {
     padding: 0 5px;
+    background-color: rgb(244,244,244);
 }
 .paper-report .ok-button {
     margin: 5px;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 1px;
+    font-size: 10px;
 }
 #wrap {
     min-height: 100%;
@@ -366,7 +371,7 @@ input.datepicker {
 #wrap .paper-report{
     color: rgb(0,0,0);
 }
-#wrap .panel-heading {
+.history .panel-heading {
     background-color: rgb(251, 169, 152);
     border-color: rgb(251, 169, 152);
     border-radius: 3px;
@@ -377,10 +382,10 @@ input.datepicker {
     font-weight: bold;
     padding: 5px 5px;
 }
-#wrap .panel-heading i {
+.history .panel-heading i {
     color: rgb(0,0,0);
 }
-#wrap .panel-heading.darkSalmonBackground {
+.history .panel-heading.darkSalmonBackground {
     background-color: rgb(239, 94, 70);
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
@@ -388,10 +393,10 @@ input.datepicker {
     border-bottom-left-radius: 0px;
 }
 
-#wrap .report-list > .panel-collapse > .panel-body {
+.history .report-list > .panel-collapse > .panel-body {
     padding: 0;
 }
-#wrap .well {
+.history .well {
     background-color: rgb(221, 218, 218);
 }
 

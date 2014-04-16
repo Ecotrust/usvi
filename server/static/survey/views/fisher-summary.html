@@ -12,13 +12,10 @@
             <li ng-repeat="fish in summary" ng-show="fish.total">
                 <progress value="fish.total" max="max"></progress>
                 <h5>
-                    {{fish.species__name}}
+                    {{fish.species__name || 'Unmatched'}}
                     <p class="pull-right">{{fish.total}} lbs</p>
                 </h5>
             </li>
         </ul>
     </div>
-</div>
-<div id="history-footer">
-    <a class="btn pull-left" href="#/history"><span class="glyphicon glyphicon-chevron-left"></span></a>
 </div>
