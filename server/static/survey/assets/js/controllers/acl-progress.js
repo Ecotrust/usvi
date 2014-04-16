@@ -8,8 +8,7 @@ angular.module('askApp')
             uscaribeez: "Region"
         };
         $scope.user = app.user;
-
-
+        $scope.labelcolors = {};
         $scope.activePage = 'overview';
         var getAclReport = function () {
             var url = app.server + '/reports/distribution/all/weight-*?';

@@ -227,7 +227,8 @@ angular.module('askApp')
                 colorMap: '=',
                 onClick: '=',
                 bind: '=',
-                duration: '@'
+                duration: '@',
+                labelcolors: '='
             },
 
             link: function(scope, element, attrs) {
@@ -379,6 +380,7 @@ angular.module('askApp')
                                         } else {
                                             color = colorPop();
                                         }
+                                        scope.labelcolors[d.data.term] = color;
                                         return color;
                                      })
                                     .each(function(d) { this._current = d; })

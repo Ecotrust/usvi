@@ -18,19 +18,21 @@
                 <div class="carousel-inner">
                     <div class="item" ng-class="{ 'active': slideIndex == $index }" ng-repeat="slide in slides">
                         <div class="row">
-                            <div class="col-md-4 col-sm-4" ng-repeat="family in slide">
+                            <div class="col-md-4 col-sm-4 no-padding" ng-repeat="family in slide">
                                 <h3 class="family-title">{{family.name}}</h3>
-                                <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart"></div>
+                                <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart" labelcolors="labelcolors"></div>
+                                
                                 <div class="family-legend">
                                     <div ng-repeat="item in family.data.terms">
-                                            <div class="col-md-9 col-sm-9 no-padding legend-item">
-                                            {{item.term}}
+                                            <div class="col-md-9 col-sm-9 legend-item">
+                                                <span style="color:{{labelcolors[item.term]}};"> {{item.term}}</span>
                                             </div>
-                                            <div class="col-md-3 col-sm-3 no-padding legend-item">
-                                             {{item.count}}
+                                            <div class="col-md-3 col-sm-3 legend-item text-right">
+                                                <span style="color:{{labelcolors[item.term]}};">{{item.count}}</span>
                                             </div>
                                     </div>
                                 </div>
+                            
                             </div>
 
                         </div>

@@ -48,6 +48,9 @@ Surgical Classes
 .right {
   float:right;
 }
+.text-right {
+  text-align: right;
+}
 
 .left {
   float:left;
@@ -713,6 +716,10 @@ Carousel Styles
     font-size: 30px;
   }
 
+  .family-legend {
+    top: 70%;
+  }
+
 }
 
 @media (min-width: 992px){
@@ -723,7 +730,12 @@ Carousel Styles
   .acl-progress .carousel .carousel-control {
     font-size: 48px;
   }
+
+  .family-legend {
+    top: 90%;
+  }
 }
+
 
 
 .acl-progress .carousel .carousel-control {
@@ -732,6 +744,11 @@ Carousel Styles
   color: black;
   top: 70%;
 }
+
+.carousel-inner .row>div:first {
+  padding-left:20px;
+}
+
 .acl-progress .family-title {
   text-align: left;
   font-size: 18px;
@@ -779,7 +796,6 @@ Carousel Styles
 
 .family-legend {
     position: absolute;
-    top: 70%;
     font-size: 0.8em;
     width:100%;
     padding:0;
