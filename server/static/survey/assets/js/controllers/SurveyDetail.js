@@ -178,7 +178,6 @@ angular.module('askApp')
         });
     };
 
-
     $scope.showErrorAlert = function () {
         // First, set showErrors to false in this digest cycle 
         // to clear all error messages.

@@ -300,6 +300,9 @@
 
             <!-- show if groupedOptions are NOT present -->
             <div ng-show="question.groupedOptions.length == 0">
+                <div style="padding-left: 15px;" ng-show="{{question.slug == 'ecosystem-features'}}">
+                    <a href="javascript:void(0)" class="btn btn-default" ng-click="showEcosysFeatDescs()"><i class="icon icon-info-sign" style="color: black; font-size: 20px;"></i>&nbsp;Click here to view descriptions</a>
+                </div>
                 <h3 ng-show="question.hoisted_options.length > 0">Other Activities</h3>
                 <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
                     <li class="option" ng-click="$parent.onMultiSelectClicked(option, $parent.question)" ng-repeat="option in question.options" ng-class="{'select-checked': option.checked, 'select-unchecked': ! option.checked  }">

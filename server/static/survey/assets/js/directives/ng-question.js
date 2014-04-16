@@ -1,4 +1,4 @@
-angular.module('askApp').directive('multiquestion', function() {
+angular.module('askApp').directive('multiquestion', function($modal) {
 
     function _isBlank (q /* question */) {
         if (q.type === 'single-select' || q.type === 'multi-select' || q.type === 'yes-no') {
@@ -500,6 +500,27 @@ angular.module('askApp').directive('multiquestion', function() {
 
 
             $('.not-public-icon').tooltip();
+
+
+            scope.showEcosysFeatDescs = function () {
+                scope.modalInstance = $modal.open({
+                    templateUrl: app.viewPath + 'views/ost/ecosystem-desriptions-modal.html',
+                    windowClass: 'help-modal ef-descriptions-modal',
+                    controller: function ($scope, $modalInstance) {
+                        $scope.ok = function () {
+                            $modalInstance.close();
+                        };
+
+                        $scope.scrollToDef = function (elemId) {
+                            var container = $('.def-container'),
+                                scrollTo = $(elemId);
+                            container.animate({
+                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - 5
+                            }, 200);
+                        };                        
+                    }
+                });
+            };
         }
     };
 });

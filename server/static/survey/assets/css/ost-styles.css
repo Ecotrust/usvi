@@ -447,6 +447,22 @@ h1, h2, h3, h4 {
 .help-modal .modal-dialog {
     max-width: 430px;
 }
+.ef-descriptions-modal .modal-dialog {
+    max-width: 800px;
+}
+.ef-descriptions-modal .def-container {
+    height: 200px;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 10px;
+    border: 1px solid #ddd;
+    -webkit-box-shadow: inset 1px 1px 3px 0px rgba(50, 50, 50, 0.3);
+    -moz-box-shadow:    inset 1px 1px 3px 0px rgba(50, 50, 50, 0.3);
+    box-shadow:         inset 1px 1px 3px 0px rgba(50, 50, 50, 0.3);
+}
+.ef-descriptions-modal .def-container dt {
+    margin-top: 15px;
+}
 .error-modal-header,
 .help-modal-header {
     color: white;

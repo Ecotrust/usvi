@@ -39,7 +39,7 @@
                                    data-toggle="tooltip" 
                                    title="Will not be made public">
                                 </i>
-                            {{ question.title }} 
+                            <span ng-bind-html-unsafe="question.title"></span> 
                         </h4>
                         <div ng-switch on="question.type">
                             <div ng-switch-when="grid">
