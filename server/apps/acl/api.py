@@ -51,8 +51,6 @@ class AnnualCatchLimitResource(SurveyModelResource):
 
     def get_object_list(self, request):
         objects = super(AnnualCatchLimitResource, self).get_object_list(request)
-        if request.user.is_superuser:
-            return objects
 
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
         if 'puerto-rico' not in user_tags:
