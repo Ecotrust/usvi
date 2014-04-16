@@ -121,28 +121,40 @@
 
             $scope.getRespondent = function(respondent) {
                 var url = app.server + '/api/v1/reportrespondantdetails/' + respondent.uuid + '/?format=json';
+                if (respondent.getting) {
+                    return;
+                } else {
+                    respondent.getting = true;
+                }
+                if (_.isObject(respondent.responses[0])) {
+                    $scope.respondent.open = true;
+                    $scope.respondent.getting = false;
+                    return true;
+                } else {
+                    return $http.get(url)
+                        .success(function(data) {
 
-                return $http.get(url)
-                    .success(function(data) {
-
-                        var respondent = data;
-                        respondent.survey = respondent.survey_slug;
-                        _.each(respondent.responses, function(response, index) {
-                            var questionSlug = response.question.slug, answer_raw;
-                            try {
-                                answer_raw = JSON.parse(response.answer_raw);
-                            } catch (e) {
-                                console.log('failed to parse answer_raw');
-                                answer_raw = response.answer;
-                            }
-                            response.question = questionSlug;
-                            response.answer = answer_raw;
+                            var respondent = data;
+                            respondent.survey = respondent.survey_slug;
+                            console.log('getting responses')
+                            _.each(respondent.responses, function(response, index) {
+                                var questionSlug = response.question.slug, answer_raw;
+                                try {
+                                    answer_raw = JSON.parse(response.answer_raw);
+                                } catch (e) {
+                                    console.log('failed to parse answer_raw');
+                                    answer_raw = response.answer;
+                                }
+                                response.question = questionSlug;
+                                response.answer = answer_raw;
+                            });
+                            $scope.respondent.responses = respondent.responses;
+                            $scope.respondent.open = true;
+                            $scope.respondent.getting = false;
+                        }).error(function(err) {
+                            console.log(JSON.stringify(err));
                         });
-                        $scope.respondent.responses = respondent.responses;
-                        $scope.respondent.open = true;
-                    }).error(function(err) {
-                        console.log(JSON.stringify(err));
-                    });
+                }
             };
 
             $scope.getSubmittedSurveysListFromServer = function(surveyFilter) {

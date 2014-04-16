@@ -349,9 +349,14 @@ input.datepicker {
 
 .paper-report {
     padding: 0 5px;
+    background-color: rgb(244,244,244);
 }
 .paper-report .ok-button {
     margin: 5px;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 1px;
+    font-size: 10px;
 }
 #wrap {
     min-height: 100%;

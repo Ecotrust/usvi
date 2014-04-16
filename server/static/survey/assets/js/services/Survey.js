@@ -51,7 +51,7 @@
                 var badResponses = [];
                 _.each(answers, function(response, q) {
                     var page = getPageFromQuestion(q);
-                    if (skipPageIf(page)) {
+                    if (page && skipPageIf(page)) {
                         badResponses.push(q);
                     }
                 });
