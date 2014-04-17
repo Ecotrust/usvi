@@ -68,7 +68,7 @@ urlpatterns = patterns('',
     url(r'^fisher', 'apps.survey.views.fisher', name="fisher-dash"),
 
     url(r'^dash/survey_details$', 'apps.survey.views.get_survey_details'),
-    url(r'^dash.+', 'apps.survey.views.dash'),
+    url(r'^dash.+', 'apps.survey.views.dash', name="dashboard"),
     # url(r'^dash', 'apps.survey.views.dash'),
     
     # url(r'^api-tool/?$', DirectTemplateView.as_view(template_name= 'api_tool.html', 
