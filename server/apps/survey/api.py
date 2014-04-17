@@ -11,6 +11,7 @@ from django.conf.urls import url
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.db.models import Sum
 
 from haystack.query import SearchQuerySet
 
@@ -267,6 +268,7 @@ class DashRespondantResource(ReportRespondantResource):
                                'survey', null=True, blank=True, full=False, readonly=True)
     entered_by = fields.ToOneField('apps.account.api.UserResource',
                                    'entered_by', null=True, blank=True, full=True, readonly=True)
+    total_weight = fields.FloatField(null=True, blank=True)
 
     def prepend_urls(self):
             return [
@@ -386,6 +388,9 @@ class DashRespondantResource(ReportRespondantResource):
 
         self.log_throttled_access(request)
         return self.create_response(request, object_list)
+
+    def dehydrate_total_weight(self, bundle):
+        return bundle.obj.total_weight
 
 
 class DashRespondantDetailsResource(ReportRespondantResource):
