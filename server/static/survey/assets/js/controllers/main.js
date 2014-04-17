@@ -103,7 +103,8 @@ angular.module('askApp')
                     }
                 });
             $scope.updateApp = function() {
-                window.open(app.server + '/static/survey/mobile.html#/update', '_blank', 'location=yes');
+                // window.open(app.server + '/static/survey/mobile.html#/update', '_blank', 'location=yes');
+                window.open(app.server + '/downloads/update.html', '_blank', 'location=yes');
             };
 
             $scope.logout = function() {
