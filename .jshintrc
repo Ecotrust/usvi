@@ -39,6 +39,7 @@
     "input": false,
     "_": false,
     "app": false,
-    "isAuthenticated": false
+    "isAuthenticated": false,
+    "L": false
   }
 }
