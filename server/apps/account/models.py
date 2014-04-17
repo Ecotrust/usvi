@@ -27,7 +27,7 @@ def create_user_api_key(sender, **kwargs):
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
-    registration = models.TextField(null=True, blank=True, default=None)
+    registration = models.TextField(null=True, blank=True, default="{}")
     is_intern = models.BooleanField(default=False)
     tags = TaggableManager()
     
