@@ -14,7 +14,7 @@ def getMessages(request):
         'version': version,
         'path': '/static/survey/mobile.html#/update'
     }
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not request.user.is_anonymous:
         respondants = request.user.respondant_set.filter(notify=True)
         flagged_count = respondants.filter(review_status='flagged').count()
         query = Q(notify_seen_at__isnull=True) | Q(updated_at__gt=F('notify_seen_at'))
