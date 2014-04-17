@@ -83,7 +83,7 @@ angular.module('askApp')
                 $scope.authUser = app.offlineUser;
             }
 
-            $scope.version = app.version;
+            $scope.version = version;
             $scope.stage = app.stage;
 
             $scope.update = false;
