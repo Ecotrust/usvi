@@ -17,8 +17,9 @@
         } else {
             $scope.user = false;
         }
+        $scope.user.offline = app.offline;
         $scope.path = false;
-
+        $scope.viewPath = app.viewPath;
 
         if ($routeParams.action === 'terminate' && $routeParams.questionSlug) {
             url = [url, 'terminate', $routeParams.questionSlug].join('/');
@@ -48,14 +49,15 @@
                 });
             }
 
-            $scope.respondent = app.respondents[$routeParams.uuidSlug];
-
-
             if (app.data) {
                 $scope.responses =app.data.responses;
                 app.data.responses = [];
             }
-            if ($scope.respondent.survey.match(/puerto-rico/)) {
+
+            if (app.respondents ){
+                $scope.respondent = app.respondents[$routeParams.uuidSlug];
+            }
+            if ($scope.respondents && $scope.respondent.survey.match(/puerto-rico/)) {
                 $scope.groups = _.groupBy($scope.getAnswer('fish-species-puerto-rico'), 'groupName');
                 $scope.fw = _.indexBy($scope.getAnswer('fish-weight-price-puerto-rico'), 'text');
                 $scope.arte = _.indexBy($scope.getAnswer('gear-type-puerto-rico'), 'text');
