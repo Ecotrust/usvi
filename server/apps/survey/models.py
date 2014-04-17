@@ -111,6 +111,21 @@ class Respondant(caching.base.CachingMixin, models.Model):
     def survey_slug(self):
         return self.survey.slug
 
+    @property
+    def total_weight(self):
+        total_weight = 0.0
+        # Puerto Rico format
+        rs = self.response_set.filter(question__slug__contains="total-weight-caught")
+        if rs:
+            total_weight = float(rs[0].answer)
+        
+        # USVI Format
+        rs = self.response_set.filter(question__slug__contains="total-trip-whole-pounds")   
+        if rs:
+            total_weight = total_weight + float(rs[0].answer)
+
+        return total_weight
+
     def __unicode__(self):
         if self.email:
             return "%s" % self.email

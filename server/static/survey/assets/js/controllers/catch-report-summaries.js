@@ -3,8 +3,6 @@
 angular.module('askApp')
     .controller('CatchReportSummariesCtrl', function($scope, $http, $routeParams, $location, respondents) {
 
-        
-
 
         var start_date = $location.search().ts__gte ?
             new Date(parseInt($location.search().ts__gte, 10)) :
@@ -31,6 +29,7 @@ angular.module('askApp')
             respondents.getReports(url, $scope.filter).success(function (data) {
                 $scope.respondents = data.objects;
                 $scope.meta = data.meta;
+
             });
         }
         $scope.goToPage = function (page) {

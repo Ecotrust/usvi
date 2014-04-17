@@ -5,7 +5,7 @@ from survey.models import *
 
 class RespondantAdmin(admin.ModelAdmin):
     readonly_fields=('uuid', )
-    list_display = ('user', 'uuid', 'ordering_date', 'island', )
+    list_display = ('user', 'uuid', 'ordering_date', 'island' )
     search_fields = ['uuid', 'user__username']
 
 
