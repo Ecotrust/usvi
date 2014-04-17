@@ -92,12 +92,11 @@ def get_distribution(request, survey_slug, question_slug):
         question_type = question.type
     else:
         questions = Question.objects.filter(slug__icontains=question_slug.replace('*', ''), question_page__survey__in=surveys)
-        print questions
         if questions.count() == 0:
-            return HttpResponse(simplejson.dumps({'success': "true", "results": []}))
+            return HttpResponse(simplejson.dumps({'success': "true",
+                                                  "results": []}))
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
-
 
     if request.user.is_staff is False or request.GET.get('fisher', None) is not None:
         answers = answers.filter(user=request.user)

@@ -124,7 +124,7 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
 
 
 
-
+TraceKit.remoteFetching = false;
 TraceKit.report.subscribe(function yourLogger(errorReport) {
     'use strict';
     var msg = 'msg: ' + errorReport.message + '\n\n';
@@ -136,4 +136,3 @@ TraceKit.report.subscribe(function yourLogger(errorReport) {
         stackinfo: JSON.stringify({'message': msg})
     });
 });
-//TraceKit.report({message: 'error'});

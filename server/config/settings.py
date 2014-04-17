@@ -21,11 +21,10 @@ ADMINS = (
 )
 
 SERVER_ADMIN = 'edwin@pointnineseven.com'
-
-DEFAULT_FROM_EMAIL = 'P97 Developers <devlopers@pointnineseven.com>'
-
+DEFAULT_FROM_EMAIL = 'USVI <developers@pointnineseven.com>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 MANAGERS = ADMINS
-
+EMAIL_SUBJECT_PREFIX = 'USVI Dev'
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.

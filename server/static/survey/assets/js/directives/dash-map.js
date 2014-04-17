@@ -1,3 +1,4 @@
+
 angular.module('askApp').directive('dashMap', function($http, $timeout) {
     return {
         template: '<div class="map-container"><div ng-show="spinner" class="spinner-cover"></div><div ng-show="spinner" class="spinner-container"><i class="icon-spinner icon-spin"></i></div><div class="map" style="height: 300px; width: 100%;"></div></div>',
@@ -21,7 +22,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
                 layers: null,
                 attribution: "NOAA Nautical Charts"
             });
-            
+
             var labelList = [];
 
             var bing = new L.BingLayer("Av8HukehDaAvlflJLwOefJIyuZsNEtjCOnUB_NtSTCwKYfxzEMrxlKfL1IN7kAJF", {
@@ -31,7 +32,7 @@ angular.module('askApp').directive('dashMap', function($http, $timeout) {
 
             // Map init
             var initPoint = new L.LatLng(18.2, -64.8);
-            var initialZoom = 10;
+            var initialZoom = 8;
             var map = new L.Map($el, {
                 inertia: false,
                 minZoom: 1,
