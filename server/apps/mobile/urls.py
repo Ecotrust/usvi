@@ -4,4 +4,5 @@ from views import *
 
 urlpatterns = patterns('',
                        (r'^getMessages', getMessages),
+                       (r'^getVersion', getMessages),
                        )
