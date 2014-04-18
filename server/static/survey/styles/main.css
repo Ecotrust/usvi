@@ -746,15 +746,18 @@ Carousel Styles
   }
 }
 
-
-
 .acl-progress .carousel .carousel-control {
   /*opacity: 0;*/
-  background-image: none;
+  filter:none;
+  background-color:#F5F5F5;
+  background-image: none !important;
   color: black;
   top: 70%;
 }
 
+.acl-progress .carousel .carousel-control:hover {
+  cursor: pointer;
+}
 .carousel-inner .row>div:first {
   padding-left:20px;
 }
