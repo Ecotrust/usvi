@@ -42,6 +42,9 @@
             <li ng-hide="user.is_staff || user.is_intern || ! user.isUsvi">
                 <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report?user={{user.username}}">Add Catch Report</a>
             </li>
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isPuertoRico">
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report-puerto-rico?user={{user.username}}">Informe de Captura</a>
+            </li>
         </ul>
     </div>
     <!-- <form class="form-inline" role="form" ng-submit="search()">

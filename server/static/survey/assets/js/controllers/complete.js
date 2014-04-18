@@ -21,13 +21,11 @@
         }
         $scope.path = false;
         $scope.viewPath = app.viewPath;
-        if (! app.isAPP) {
-            window.location = '/dash';
-        }
+
         if ($routeParams.action === 'terminate' && $routeParams.questionSlug) {
             url = [url, 'terminate', $routeParams.questionSlug].join('/');
         }
-        if ($routeParams.action === 'done-impersonating') {
+        if (! window.isAPP) {
             $scope.done_impersonating = true;
         } else {
             if (app.surveys) {
