@@ -11,13 +11,14 @@
             return history.getAnswer(questionSlug, $scope.respondent);
         };
 
-
         if (app.user) {
             $scope.user = app.user;
         } else {
             $scope.user = false;
         }
-        $scope.user.offline = app.offline;
+        if (typeof $scope.user.offline === 'undefined'){
+            $scope.user.offline = app.offline;
+        }
         $scope.path = false;
         $scope.viewPath = app.viewPath;
 
