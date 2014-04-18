@@ -90,7 +90,7 @@ angular.module('askApp')
             },
             link: function(scope, element) {
 
-                var map = MapUtils.initMap(element[0].children[0], scope.question, scope.boundaryPath);
+                var map = MapUtils.initMap(element[0].children[1].children[0], scope.question, scope.boundaryPath);
                 scope.question.markers = [];
                 scope.activeMarker = false;
                 scope.addByClick = false;
@@ -112,7 +112,7 @@ angular.module('askApp')
                 scope.onMouseMove = function (e /*Leaflet MouseEvent */) {
                     scope.$apply(function (scope) {
                         scope.hoverLatLng = e.latlng;
-                        $('.floatingMouseCoordinates').css('top', e.containerPoint.y + 15);
+                        $('.floatingMouseCoordinates').css('top', e.containerPoint.y + 40);
                         $('.floatingMouseCoordinates').css('left', e.containerPoint.x + 15);
                     });
                 };

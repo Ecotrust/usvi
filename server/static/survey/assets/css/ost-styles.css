@@ -180,7 +180,7 @@ h1, h2, h3, h4 {
     line-height: 22px;
 }
 .map-question-title {
-    text-align: center;
+    /*text-align: center;*/
     font-size: 20px;
 }
 .question-wrapper {
@@ -196,12 +196,19 @@ h1, h2, h3, h4 {
  * modifying some of the overall page setup */
 .map-question .page-content {
     margin-top: 10px;
+    padding-bottom: 60px;
 }
 .map-question #page-controls {
     padding-top: 0;
 }
 .map-question .question-wrapper {
     margin-bottom: 0;
+}
+.map-question .progress-container {
+    display: none;
+}
+.map-question #wrap > .container {
+    padding-top: 70px;
 }
 
 /* Control positioning */
@@ -211,7 +218,7 @@ h1, h2, h3, h4 {
 }
 .map-controls {
 	position: absolute;
-	top: 10px;
+	top: 12px;
 	left: 10px;
     z-index: 1000;
 }

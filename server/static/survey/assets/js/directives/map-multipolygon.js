@@ -18,7 +18,7 @@ angular.module('askApp')
                 } else {
                     scope.question.answer = [];
                 }
-                var $el = element[0];
+                var $el = element[0].children[1].children[0];
 
                 $(".block-title").hide();
                 $(".question-title").addClass('map-question-title');
@@ -132,12 +132,12 @@ angular.module('askApp')
                 $('.leaflet-label').removeClass('leaflet-label-right');
 
                 
-                scope.hoverLatLng = {};
+                scope.hoverLatLng = null;
 
                 scope.onMouseMove = function (e /*Leaflet MouseEvent */) {
                     scope.$apply(function (scope) {
                         scope.hoverLatLng = e.latlng;
-                        $('.floatingMouseCoordinates').css('top', e.containerPoint.y + 15);
+                        $('.floatingMouseCoordinates').css('top', e.containerPoint.y + 40);
                         $('.floatingMouseCoordinates').css('left', e.containerPoint.x + 15);
                     });
                 };

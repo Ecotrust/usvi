@@ -1,74 +1,80 @@
 <div class="map map-points ost-map" ng-class="{'adding-marker': addByClick}"  ng-style="{height: windowHeight}">
+
+    <p>Please map all your monitoring sites in the Central Coast for this ecosystem/use. When you are done mapping please click <img src="/static/survey/assets/img/ost/btn-next.jpg" height="27" alt="the next button"/> to proceed to the rest of the survey.</p>
 	
-	<div id="map-container" >
-		
-	</div>
+    <div style="position:relative; height: 100%; margin-bottom: 20px;">
+    	<div id="map-container" >
+    		
+    	</div>
 
-    <div class="map-controls map-controls-top-right">
-        <div ng-hide="askingAddStyle || addByClick || addByLatLng" class="map-controls-container">
-            <a  class="btn btn-large btn-primary btn-add-marker"
-                ng-click="askingAddStyle = true"
-                href="javascript:void(0)">
-                <i class="icon-map-marker icon-large"></i><span class="map-control-label"></span>&nbsp;Add Marker
-            </a>
-        </div>
-        <div ng-show="askingAddStyle" class="map-controls-container">
-            <p>
-                How would you like to add a marker?
-            </p>
-            <div class="btn-group">
+        <div class="map-controls map-controls-top-right">
+            <div ng-hide="askingAddStyle || addByClick || addByLatLng" class="map-controls-container">
                 <a  class="btn btn-large btn-primary btn-add-marker"
-                    ng-click="addByClick = true; askingAddStyle = false;"
+                    ng-click="askingAddStyle = true"
                     href="javascript:void(0)">
-                    <span class="glyphicon glyphicon-hand-up"></span><span class="map-control-label"></span>&nbsp;Click Map
+                    <i class="icon-map-marker icon-large"></i><span class="map-control-label"></span>&nbsp;Add Marker
                 </a>
             </div>
-            <div class="btn-group">
-                <a  class="btn btn-large btn-primary btn-add-marker"
-                    ng-click="addByLatLng = true; askingAddStyle = false; manualLatLng = null;"
-                    href="javascript:void(0)">
-                    <i class="glyphicon glyphicon-pencil"></i><span class="map-control-label"></span>&nbsp;Enter Latitude & Longitude
-                </a>
+            <div ng-show="askingAddStyle" class="map-controls-container">
+                <p>
+                    How would you like to add a marker?
+                </p>
+                <div class="btn-group">
+                    <a  class="btn btn-large btn-primary btn-add-marker"
+                        ng-click="addByClick = true; askingAddStyle = false;"
+                        href="javascript:void(0)">
+                        <span class="glyphicon glyphicon-hand-up"></span><span class="map-control-label"></span>&nbsp;Click Map
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <a  class="btn btn-large btn-primary btn-add-marker"
+                        ng-click="addByLatLng = true; askingAddStyle = false; manualLatLng = null;"
+                        href="javascript:void(0)">
+                        <i class="glyphicon glyphicon-pencil"></i><span class="map-control-label"></span>&nbsp;Enter Latitude & Longitude
+                    </a>
+                </div>
             </div>
-        </div>
-        
-        <!-- Clicking Controls -->
-        <div ng-show="addByClick" class="map-controls-container">
-            <!-- <p class="coordinate"><span class="coordinate-label">Lat:</span>{{hoverLatLng.lat}}</p>
-            <p class="coordinate"><span class="coordinate-label">Lng:</span>{{hoverLatLng.lng}}</p> -->
-            <span>Click map to add marker.&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <div class="btn-group">
-                <a  class="btn btn-large btn-danger btn-primary btn-cancel"
-                    ng-click="addByClick = false"
-                    href="javascript:void(0)">
-                    Cancel
-                </a>
+            
+            <!-- Clicking Controls -->
+            <div ng-show="addByClick" class="map-controls-container">
+                <!-- <p class="coordinate"><span class="coordinate-label">Lat:</span>{{hoverLatLng.lat}}</p>
+                <p class="coordinate"><span class="coordinate-label">Lng:</span>{{hoverLatLng.lng}}</p> -->
+                <span>Click map to add marker.&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <div class="btn-group">
+                    <a  class="btn btn-large btn-danger btn-primary btn-cancel"
+                        ng-click="addByClick = false"
+                        href="javascript:void(0)">
+                        Cancel
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <!-- LatLng Controls -->
-        <div ng-show="addByLatLng" class="map-controls-container clearfix">
-            <span>Lat:&nbsp;</span><input type="text" ng-model="manualLatLng.lat"/>
-            <span>Lng:&nbsp;</span><input type="text" ng-model="manualLatLng.lng"/>
-            <div class="btn-group">
-                <a  class="btn btn-large btn-primary btn-add-marker"
-                    ng-click="addMarkerByLatLng(manualLatLng);"
-                    href="javascript:void(0)">
-                    Enter
-                </a>
+            <!-- LatLng Controls -->
+            <div ng-show="addByLatLng" class="map-controls-container clearfix">
+                <p>Please enter in decimal coordinates:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+
+                <span>Lat:&nbsp;</span><input type="text" ng-model="manualLatLng.lat"/>
+                <span>Lng:&nbsp;</span><input type="text" ng-model="manualLatLng.lng"/>
+                <div class="btn-group">
+                    <a  class="btn btn-large btn-primary btn-add-marker"
+                        ng-click="addMarkerByLatLng(manualLatLng);"
+                        href="javascript:void(0)">
+                        Enter
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <a  class="btn btn-large btn-danger btn-primary btn-cancel"
+                        ng-click="addByLatLng = false; latLngError = null;"
+                        href="javascript:void(0)">
+                        Cancel
+                    </a>
+                </div>
+                <div ng-hide="latLngError==null" class="error">
+                    Invalid values. Decimal format is required. <span class="example">Example: 37.61324237</span>
+                </div>
             </div>
-            <div class="btn-group">
-                <a  class="btn btn-large btn-danger btn-primary btn-cancel"
-                    ng-click="addByLatLng = false; latLngError = null;"
-                    href="javascript:void(0)">
-                    Cancel
-                </a>
-            </div>
-            <div ng-hide="latLngError==null" class="error">
-                Invalid values. Decimal format is required. <span class="example">Example: 37.61324237</span>
-            </div>
+            
         </div>
-        
     </div>
 
     <div class="floatingMouseCoordinates map-controls-coordinates-container" ng-class="{'visible': hoverLatLng && addByClick }">

@@ -1,23 +1,27 @@
 <div class="map map-points ost-map" ng-style="{height: windowHeight}">
-	
-	<div id="map-container" >
-		
-	</div>
 
-    <div class="map-controls map-controls-top-right">
-        <div class="map-controls-container">
-            <a  class="btn btn-large btn-primary btn-add-marker"
-                ng-click="selectAllPolygons()"
-                href="javascript:void(0)">
-                <i class="glyphicon glyphicon-th"></i><span class="map-control-label"></span>&nbsp;Select All
-            </a>
-            <a  class="btn btn-large btn-danger"
-                ng-show="selectionCount > 0"
-                ng-click="deselectAllPolygons()"
-                href="javascript:void(0)">
-                Clear All
-            </a>
-        </div>        
+    <p>Please map all your monitoring areas in the Central Coast for this ecosystem/use. When you are done mapping please click <img src="/static/survey/assets/img/ost/btn-next.jpg" height="27" alt="the next button"/> to proceed to the rest of the survey.</p>
+
+    <div style="position:relative; height: 100%; margin-bottom: 20px;">
+    	<div id="map-container" >
+    		
+    	</div>
+
+        <div class="map-controls map-controls-top-right">
+            <div class="map-controls-container">
+                <a  class="btn btn-large btn-primary btn-add-marker"
+                    ng-click="selectAllPolygons()"
+                    href="javascript:void(0)">
+                    <i class="glyphicon glyphicon-th"></i><span class="map-control-label"></span>&nbsp;Select All
+                </a>
+                <a  class="btn btn-large btn-danger"
+                    ng-show="selectionCount > 0"
+                    ng-click="deselectAllPolygons()"
+                    href="javascript:void(0)">
+                    Clear All
+                </a>
+            </div>        
+        </div>
     </div>
 
     <div class="floatingMouseCoordinates map-controls-coordinates-container" ng-class="{'visible': hoverLatLng }">
