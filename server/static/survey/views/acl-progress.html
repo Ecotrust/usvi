@@ -25,10 +25,10 @@
                                 <div class="family-legend">
                                     <div ng-repeat="item in family.data.terms">
                                             <div class="col-md-9 col-sm-9 legend-item">
-                                                <span style="color:{{labelcolors[item.term]}};"> {{item.term}}</span>
+                                                <span ng-style="{color:labelcolors[item.term]}"> {{item.term}}</span>
                                             </div>
                                             <div class="col-md-3 col-sm-3 legend-item text-right">
-                                                <span style="color:{{labelcolors[item.term]}};">{{item.count}}</span>
+                                                <span ng-style="{color:labelcolors[item.term]}">{{item.count}}</span>
                                             </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-md-8 col-sm-8">
                                     <div class="progress">
-                                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ acl.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ acl.percent }}%;">
+                                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ acl.percent }}" aria-valuemin="0" aria-valuemax="100" ng-style="getWidth(acl.percent)">
                                         <span class="sr-only">{{ acl.percent }}% Complete</span>
                                       </div>
                                     </div>

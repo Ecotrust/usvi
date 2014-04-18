@@ -150,7 +150,13 @@ angular.module('askApp')
         }
         $scope.slideTo = function (index) {
             $scope.slideIndex = index;
-        }
+        };
+
+        $scope.getWidth = function(percent) {
+            var out = {width: percent+"%"};
+            console.log(out.width);
+            return out;
+        };
 
 
         $scope.filter = {
