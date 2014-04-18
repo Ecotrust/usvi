@@ -29,11 +29,21 @@ angular.module('askApp')
             respondents.getReports(url, $scope.filter).success(function (data) {
                 $scope.respondents = data.objects;
                 $scope.meta = data.meta;
-
             });
         }
         $scope.goToPage = function (page) {
             $scope.getReports($scope.meta.base_url + '&page=' + page, true);
+        };
+
+        $scope.getWidth = function(value, max, text) {
+            if (typeof(text) === 'undefined') text = false
+            var out = Math.round(100*value / max );
+            if (text)   {
+                console.log(out)
+                return "width: "+out+"%";
+            } else {
+                return {width: out+"%"};
+            }
         };
 
         $scope.$watchCollection('filter', function(newFilter) {

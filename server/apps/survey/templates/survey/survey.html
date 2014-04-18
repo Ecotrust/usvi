@@ -47,9 +47,15 @@
   </head>
   <body xmlns:ng="http://angularjs.org" id="ng-app" ng-app="askApp">
 
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
+<!--[if lte IE 8]>
+  <div class="chromeframe">
+
+      <p>We are sorry to inform you that you are using an outdated browser. <a href="http://browsehappy.com/">Please upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+      <p>Sorry for the inconvience,<br>
+      The Point 97 Team.</p>
+      <img src="/static/survey/assets/img/point97.png"></img>
+  </div>
+<![endif]-->
 
     <!--[if lt IE 9]>
       <script src="{{ STATIC_URL }}survey/components/es5-shim/es5-shim.js"></script>

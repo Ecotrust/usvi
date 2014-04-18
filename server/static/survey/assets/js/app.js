@@ -1,5 +1,12 @@
 7//'use strict';
 var app = {};
+
+// Fix IE9 console issue
+if (typeof console == "undefined") {
+  this.console = {log: function() {}};
+}
+
+
 if (_.string.startsWith(window.location.protocol, "http")) {
     app.server = window.location.protocol + "//" + window.location.host;
 } else {

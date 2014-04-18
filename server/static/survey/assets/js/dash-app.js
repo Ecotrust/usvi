@@ -2,6 +2,12 @@
 
 var app = {};
 
+// Fix IE9 console issue.
+if (typeof console == "undefined") {
+  this.console = {log: function() {}};
+}
+
+
 app.server = window.location.protocol + '//' + window.location.host;
 app.viewPath = app.server + '/static/survey/';
 

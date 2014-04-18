@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-md-7 col-sm-7">
                                 <div class="progress">
-                                  <div class="progress-bar" role="progressbar" aria-valuenow="{{ total/max }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ total/max*100 }}%;">
+                                  <div class="progress-bar" role="progressbar" aria-valuenow="{{ getWidth(total, max) }}" aria-valuemin="0" aria-valuemax="100" ng-style="getWidth(total, max)">
                                     <span class="sr-only">{{ total/max }}% Complete</span>
                                   </div>
                                 </div>
