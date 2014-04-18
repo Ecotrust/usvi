@@ -118,6 +118,7 @@ Top Navigation / Header Classes
     position: relative;
     padding-top: 20px;
     background: #00ABBA;
+    background-color: #00ABBA;
     background-image: -webkit-gradient(linear, right top, left top, color-stop(0, rgb(145, 205, 215)), color-stop(1, rgb(0, 171, 186)));
     background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
     background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
