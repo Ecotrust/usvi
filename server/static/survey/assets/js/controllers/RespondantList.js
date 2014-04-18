@@ -19,6 +19,7 @@ angular.module('askApp')
         var loadReports = function(data, url) {
             $scope.respondents = data.objects;
             $scope.meta = data.meta;
+            console.log(data.meta);
             $scope.responsesShown = $scope.respondents.length;
             $scope.busy = false;
             $scope.filterChanged = {};

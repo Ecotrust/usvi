@@ -109,7 +109,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <p>
-                                        Showing {{ respondents.length }} of {{ meta.total_count }}
+                                        Showing {{ meta.offset + 1 }}-{{ meta.offset + meta.limit }} of {{ meta.total_count }}
                                         <span ng-hide="total_surveys == meta.total_count">filtered from {{ total_surveys || 0}}</span>
                                     </p>
                                 </div>
