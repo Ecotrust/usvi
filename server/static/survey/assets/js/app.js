@@ -151,6 +151,7 @@ $(document).on('blur', 'input, textarea', function() {
         window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
     }, 0);
 });
+
 TraceKit.remoteFetching = false;
 TraceKit.report.subscribe(function yourLogger(errorReport) {
     'use strict';
