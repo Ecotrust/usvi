@@ -15,7 +15,7 @@ if node[:user] == "vagrant"
     user "vagrant" do
         group "deploy"
     end
-    execute command "add to staff group?" do
+    execute "add to staff group" do
         command "usermod -aG staff vagrant"
     end
 
