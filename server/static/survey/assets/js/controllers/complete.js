@@ -29,14 +29,12 @@
         }
         if ($routeParams.action === 'done-impersonating') {
             $scope.done_impersonating = true;
-            
         } else {
             if (app.surveys) {
                 $scope.surveys = app.surveys;
                 $scope.survey = _.findWhere($scope.surveys, { slug: $routeParams.surveySlug});
                 survey.initializeSurvey($scope.survey);
             }
-            
 
             if (app.offline) {
                 app.respondents[$routeParams.uuidSlug].complete = true;
