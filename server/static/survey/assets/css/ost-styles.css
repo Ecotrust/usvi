@@ -156,11 +156,16 @@ h1, h2, h3, h4 {
 	height: 100%;
 }
 
+.adding-marker .leaflet-container,
 .adding-marker .leaflet-container img {
 	cursor: crosshair !important;
 }
+.leaflet-dragging .adding-marker .leaflet-container,
+.leaflet-dragging .adding-marker .leaflet-clickable,
 .leaflet-dragging .adding-marker .leaflet-container img {
-    cursor: inherit !important;
+    cursor: move !important;
+    cursor: -webkit-grabbing !important;
+    cursor:    -moz-grabbing !important;
 }
 .leaflet-container a.btn-add-marker {
     color: white;
