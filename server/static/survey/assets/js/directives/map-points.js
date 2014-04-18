@@ -3,7 +3,7 @@ angular.module('askApp')
 
         var MapUtils = {
 
-            initMap: function (mapHtmlElement, questionSettings) {
+            initMap: function (mapHtmlElement, questionSettings, geojsonPath) {
                 // Setup layers
                 var nautical, bing, initPoint, initialZoom, map, baseMaps, options; 
 
@@ -37,6 +37,25 @@ angular.module('askApp')
                 options = { position: 'bottomleft' };
                 L.control.layers(baseMaps, null, options).addTo(map);
 
+                if (geojsonPath) {
+                    // Add geojson (intended for study area boundary.
+                    $http.get(geojsonPath).success(function(data) {
+                        var boundaryStyle = {
+                            "color": "#E6D845",
+                            "weight": 3,
+                            "opacity": 0.6,
+                            "fillOpacity": 0.0,
+                            "clickable": false
+                        };
+                        L.geoJson(data, { style: boundaryStyle })
+                        .addTo(map)
+                        .on('dblclick',
+                            function(e) {
+                                map.setZoom(map.getZoom() + 1);
+                            });
+                    });
+                }
+
                 return map;
             },
 
@@ -66,11 +85,12 @@ angular.module('askApp')
             transclude: true,
             scope: {
                 question: "=", //scope.question.geojson, scope.question.zoom, etc
-                answer: "=" // the value to set on each marker
+                answer: "=", // the value to set on each marker
+                boundaryPath: "="
             },
             link: function(scope, element) {
 
-                var map = MapUtils.initMap(element[0].children[0], scope.question);
+                var map = MapUtils.initMap(element[0].children[0], scope.question, scope.boundaryPath);
                 scope.question.markers = [];
                 scope.activeMarker = false;
                 scope.addByClick = false;

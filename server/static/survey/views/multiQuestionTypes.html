@@ -373,7 +373,11 @@
         <div map question="question" style="margin-bottom: 10px;"></div>
     </div>
     <div ng-switch-when="map-multipoint">
-        <div map-points question="question" answer="" style="margin-bottom: 10px;"></div>
+        <div map-points 
+             question="question" 
+             answer="" 
+             boundary-path="'/static/survey/data/oceanspaces_ca_cc_boundary.json?v=2'"
+             style="margin-bottom: 10px;"></div>
     </div>
     <div ng-switch-when="grid">
         <div ng-include="viewPath + 'views/gridQuestion.html'"></div>
