@@ -122,12 +122,13 @@
                 </div>
                 <div class="col-md-4">
                     <ul class="pager">
-                        <li class="previous" ng-class="{ 'disabled': !meta.next }">
-                            <a ng-disabled="! meta.next" ng-click="getUsers(meta.next, true)">&larr; Previous</a>
+                        <li class="next" ng-class="{ 'disabled': !meta.next }">
+                            <a ng-disabled="! meta.next" ng-click="getUsers(meta.next, true)">Next &rarr;</a>
                         </li>
-                        <li class="next" ng-class="{ 'disabled': !meta.previous }">
-                            <a ng-disabled="! meta.previous" ng-click="getUsers(meta.previous, true)">Next &rarr;</a>
+                        <li class="previous" ng-class="{ 'disabled': !meta.previous }">
+                            <a ng-disabled="! meta.previous" ng-click="getUsers(meta.previous, true)">&larr; Previous</a>
                         </li>
+                        
                     </ul>
                 </div>
                 <div class="col-md-4">

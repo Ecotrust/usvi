@@ -13,7 +13,7 @@ if (_.string.startsWith(window.location.protocol, "http")) {
     app.server = "APP_SERVER";
 }
 
-app.version = "APP_VERSION";
+var version = "APP_VERSION";
 
 app.stage = "APP_STAGE";
 
@@ -158,6 +158,7 @@ $(document).on('blur', 'input, textarea', function() {
         window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
     }, 0);
 });
+
 TraceKit.remoteFetching = false;
 TraceKit.report.subscribe(function yourLogger(errorReport) {
     'use strict';
@@ -170,7 +171,7 @@ TraceKit.report.subscribe(function yourLogger(errorReport) {
         msg += 'user: ' + app.user.username + '\n';
     }
 
-    msg += 'version: ' + app.version + '\n';
+    msg += 'version: ' + version + '\n';
     return $.post(app.server + '/tracekit/error/', {
         stackinfo: JSON.stringify({'message': msg})
     });
