@@ -8,10 +8,12 @@
   {% endfor %}
     <div class="form-group {% if form.username.errors %}has-error{% endif %}">
     {% for error in form.username.errors %}<p class="label label-danger right no-margin">{{ error }}</p>{% endfor %}
+    <label class="left">{{ form.username.label }}</label>
     {{ form.username }}
   </div>
     <div class="form-group {% if form.password.errors %}has-error{% endif %}">
     {% for error in form.password.errors %}<p class="label label-danger right no-margin">{{ error }}</p>{% endfor %}
+    <label class="left">{{ form.password.label }}</label>
     {{ form.password }}
     <input type="hidden" name="this_is_the_login_form" value="1" />
     <!-- <input type="hidden" name="next" id="next_url" /> -->

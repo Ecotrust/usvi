@@ -890,6 +890,16 @@ Question Options Styles
    -webkit-appearance: none;
 }
 
+.select.choices {
+  margin-top:5px;
+}
+.panel-heading {
+  background-color:#F5F5F5;
+}
+
+.panel-heading:hover {
+  background-color: #5b9aa9;
+} 
 
 .option .checkbox, .select-unchecked .other-checkbox  {
     display: none;

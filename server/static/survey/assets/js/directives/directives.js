@@ -168,6 +168,34 @@ angular.module('askApp')
         }
     });
 
+
+// angular.module('askApp')
+//     .directive('placeholder', function() {
+
+//     return {
+//         restrict: 'EA',
+        
+//         link: function (scope, element, attrs) {
+//             /*
+//             Add IE9 placeholder text handling.
+//             */
+//             if (!Modernizr.input.placeholder) {
+//                 if (typeof(scope.$parent.question) !== 'undefined') {
+//                     debugger
+//                     if (scope.$parent.question.type === "multi-select"){
+//                         element.before('<label>'+element.attr("placeholder")+'</label>');
+//                     } else {
+//                         element.before('<label>'+scope.$parent.question.label+'</label>');
+//                     }
+                    
+//                 }
+//             } // End id support.placeholder
+//         }
+//     };
+// });
+
+
+
 angular.module('askApp')
     .directive('speciesSelect', function($http) {
 

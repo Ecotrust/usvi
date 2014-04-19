@@ -270,6 +270,8 @@ class DashRespondantResource(ReportRespondantResource):
                                    'entered_by', null=True, blank=True, full=True, readonly=True)
     total_weight = fields.FloatField(null=True, blank=True)
 
+
+
     def prepend_urls(self):
             return [
                 url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),

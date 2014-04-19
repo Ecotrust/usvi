@@ -16,6 +16,8 @@ angular.module('askApp')
         $scope.activePage = 'survey-stats';
         $scope.total_surveys = app.survey_meta.total;
         $scope.survey_meta = app.survey_meta;
+        $scope.agencyIdStatusIcon = "glyphicon-floppy-disk";
+
         var loadReports = function(data, url) {
             $scope.respondents = data.objects;
             $scope.meta = data.meta;
@@ -110,6 +112,7 @@ angular.module('askApp')
             $scope.getReports();
         })
 
+
         $scope.getQuestionByUri = function(uri) {
             return _.findWhere($scope.survey.questions, {
                 'resource_uri': uri
@@ -152,6 +155,22 @@ angular.module('askApp')
                 // }, 3000);
             });
         };
+
+        $scope.saveAgencyId= function(respondent, agency_id) {
+            $scope.saveRespondent(respondent, {
+                agency_id:agency_id,
+                updated_at: new Date()
+            }).success(function (data) {
+                respondent.updated_at = new Date();
+                $scope.agencyIdStatusIcon = "glyphicon-floppy-saved";
+
+                // $timeout(function () {
+                //     delete respondent.updated_at;
+                // }, 3000);
+            });
+        };
+
+
         $scope.setStatus = function(respondent, status) {
             var newStatus;
 

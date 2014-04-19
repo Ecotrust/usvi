@@ -39,7 +39,7 @@
                 </option>
                 <option selected value="other">Other</option>
             </select>
-            <input class="form-control" type="text" placeholder="{{ question.label }}" ng-show="answer == 'other'" ng-model="otherAnswer" />
+            <input class="form-control" type="text" ng-show="answer == 'other'" ng-model="otherAnswer" />
         </div>
     </div>
     <div ng-switch-when="text">
@@ -232,14 +232,15 @@
 
                         <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
                             <li class="option" ng-click="onMultiSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked }" ng-model="question.otherAnswer.text">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle">
-                                            Other Species (write in)
-                                        </a>
-                                    </h4>
-
-                                </div>
+                                    <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                                Other Species (write in)
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    </div>
                             </li>
                         </ul>
 
