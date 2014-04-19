@@ -36,8 +36,14 @@
 
             <!-- This is the fisher case. This should just jump into the survey screen to fill out
             a survey in the request.user's name -->
-            <li ng-hide="user.is_staff || user.is_intern">
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isUsvi">
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/did-not-fish?user={{user.username}}">Add Did Not Fish Report</a>
+            </li>
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isUsvi">
                 <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report?user={{user.username}}">Add Catch Report</a>
+            </li>
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isPuertoRico">
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report-puerto-rico?user={{user.username}}">Informe de Captura</a>
             </li>
         </ul>
     </div>

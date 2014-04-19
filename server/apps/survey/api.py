@@ -380,7 +380,8 @@ class DashRespondantResource(ReportRespondantResource):
             "total_count": total,
             "pages": paginator.page_range,
             "base_url": base_url,
-            "page": page.number
+            "page": page.number,
+            "offset": page.start_index() - 1
         }
 
         object_list = {

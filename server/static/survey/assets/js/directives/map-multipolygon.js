@@ -116,7 +116,8 @@ angular.module('askApp').directive('map', function($http) {
                 layer.feature.label = new L.Label( {
                     offset: [-22, -15],
                     clickable: true,
-                    opacity: 1
+                    opacity: 1,
+                    noHide: true
                 });
                 layer.feature.label.setContent(layer.feature.properties.ID.toString());
                 layer.feature.label.setLatLng(layer.getBounds().getCenter());

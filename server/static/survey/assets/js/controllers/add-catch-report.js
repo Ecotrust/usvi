@@ -54,6 +54,7 @@
 				$http.get(url).success(function(data) {
 					$scope.users = data.objects;
 					$scope.meta = data.meta;
+					console.log(data.meta);
 				});
 			};
 			$scope.$watch('searchTerm', function() {

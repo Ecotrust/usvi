@@ -11,20 +11,21 @@
             return history.getAnswer(questionSlug, $scope.respondent);
         };
 
-
         if (app.user) {
             $scope.user = app.user;
         } else {
             $scope.user = false;
         }
-        $scope.user.offline = app.offline;
+        if (typeof $scope.user.offline === 'undefined'){
+            $scope.user.offline = app.offline;
+        }
         $scope.path = false;
         $scope.viewPath = app.viewPath;
 
         if ($routeParams.action === 'terminate' && $routeParams.questionSlug) {
             url = [url, 'terminate', $routeParams.questionSlug].join('/');
         }
-        if ($routeParams.action === 'done-impersonating') {
+        if (! window.isAPP) {
             $scope.done_impersonating = true;
         } else {
             if (app.surveys) {
@@ -32,7 +33,6 @@
                 $scope.survey = _.findWhere($scope.surveys, { slug: $routeParams.surveySlug});
                 survey.initializeSurvey($scope.survey);
             }
-            
 
             if (app.offline) {
                 app.respondents[$routeParams.uuidSlug].complete = true;

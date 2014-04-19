@@ -18,7 +18,7 @@ from apps.reports.models import QuestionReport
 def get_respondants_summary(request):
     """
     """
-    start_time = Respondant.objects.filter(user=request.user).aggregate(lowest=Min('ts'))['lowest']
+    start_time = Respondant.objects.filter(user=request.user).aggregate(lowest=Min('ordering_date'))['lowest']
     return HttpResponse(simplejson.dumps( { 'start_time': start_time.strftime('%Y-%m-%d') } ) )
 
 @login_required
