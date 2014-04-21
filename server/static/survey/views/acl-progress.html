@@ -20,18 +20,17 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-4 no-padding" ng-repeat="family in slide">
                                 <h3 class="family-title">{{family.name}}</h3>
-                                <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart" labelcolors="labelcolors"></div>
                                 
-                                <div class="family-legend">
-                                    <div ng-repeat="item in family.data.terms">
-                                            <div class="col-md-9 col-sm-9 legend-item">
-                                                <span ng-style="{color:labelcolors[item.term]}"> {{item.term}}</span>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3 legend-item text-right">
-                                                <span ng-style="{color:labelcolors[item.term]}">{{item.count}}</span>
-                                            </div>
-                                    </div>
-                                </div>
+                                <nvd3-pie-chart
+                                    id="pieChart-{{$index}}"
+                                    data="family.data"
+                                    showLabels="true"
+                                    x="xFunction()"
+                                    y="yFunction()"
+                                    pieLabelsOutside="true">
+                                
+                                    <svg></svg>
+                                </nvd3-pie-chart>
                             
                             </div>
 

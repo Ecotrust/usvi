@@ -97,17 +97,17 @@ angular.module('askApp')
                                     });
                                 }
 
+                                // Push a family object onto a slide list
+                                
+                                var out = _.map(terms, function(obj){
+                                    return {key:obj.term, y:obj.count}
+                                });
                                 tmpArray.push({
                                     name: aclChunk.acl.species.name,
-                                    families: groups,
-                                    data: {
-                                        _type : "terms",
-                                        missing : 0,
-                                        total : aclChunk.acl.pounds,
-                                        other : 0,
-                                        terms : terms.reverse()
-                                    }
+                                    data: out,
+
                                 });
+                                debugger
                             });
                             $scope.slides.push(tmpArray);
                             $scope.slideIndex = 0;

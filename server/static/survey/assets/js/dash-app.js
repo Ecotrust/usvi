@@ -12,7 +12,7 @@ app.server = window.location.protocol + '//' + window.location.host;
 app.viewPath = app.server + '/static/survey/';
 
 angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.helpers.dimensions',
-    'mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal", "ui.bootstrap.pagination"]) //'ui', 'ui.bootstrap',
+    'mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal", "ui.bootstrap.pagination", 'nvd3ChartDirectives']) //'ui', 'ui.bootstrap',
     .config(function($routeProvider, $httpProvider, $provide) {
 
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
