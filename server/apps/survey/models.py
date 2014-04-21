@@ -589,6 +589,15 @@ class Response(caching.base.CachingMixin, models.Model):
                     profile.save()
             self.save()
 
+            if self.question.slug == 'first-name' or self.question.slug == 'first-name-puerto-rico':
+                if respondent is not None and respondent.user.first_name != self.answer:
+                    respondent.user.first_name = self.answer
+                    respondent.user.save()
+            if self.question.slug == 'last-name' or self.question.slug == 'last-name-puerto-rico':
+                if respondent is not None and respondent.user.last_name != self.answer:
+                    respondent.user.last_name = self.answer
+                    respondent.user.save()
+
             if self.question.slug == 'landed-date' or self.question.slug == 'trip-landing-date-puerto-rico':
                 if respondent is not None:
                     try:
