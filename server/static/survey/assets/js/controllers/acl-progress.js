@@ -104,8 +104,7 @@ angular.module('askApp')
                                 });
                                 tmpArray.push({
                                     name: aclChunk.acl.species.name,
-                                    data: out,
-
+                                    data: out
                                 });
                                 debugger
                             });
@@ -158,6 +157,17 @@ angular.module('askApp')
             return out;
         };
 
+        $scope.xFunction = function(){
+            return function(d) {
+                return d.key;
+            };
+        }
+        
+        $scope.yFunction = function(){
+            return function(d) {
+                return d.y;
+            };
+        }
 
         $scope.filter = {
             "accepted": true
