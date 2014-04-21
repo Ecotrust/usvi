@@ -752,3 +752,26 @@ p.sign-up {
 .complete-page .btn-container .btn {
     font-size: 18px;
 }
+
+.select .checkbox, .option .checkbox, .select-unchecked .other-checkbox  {
+    background-image: none;
+}
+
+.question .other-checkbox {
+    background-image: none;
+    font-size: 18px;
+    color: black;
+    cursor: pointer;
+}
+
+.panel-collapse .select-checked .glyphicon {
+    top: 10px;
+}
+
+/*position: relative;
+    width: 20px;
+    height: 20px;
+    top: 32px;
+    float: right;
+    right: 10px;
+glyphicon glyphicon-edit pull-right*/
