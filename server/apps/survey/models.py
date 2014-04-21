@@ -307,8 +307,6 @@ class Question(caching.base.CachingMixin, models.Model):
     report_type = models.CharField(max_length=20,choices=REPORT_TYPE_CHOICES,null=True, default=None)
     filter_questions = models.ManyToManyField('self', null=True, blank=True)
 
-    tags = TaggableManager()
-
 
     @property
     def answer_domain(self):
