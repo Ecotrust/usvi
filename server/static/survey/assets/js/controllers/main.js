@@ -68,7 +68,13 @@ angular.module('askApp')
             } else {
                 $scope.lastUser = false;
             }
-            app.user.offline = $scope.user.offline = false;
+            if (app.user) {
+                app.user.offline = false;
+            }
+            if ($scope.user) {
+                $scope.user.offline = false;
+            }
+
             if (app.user && app.user.resumePath) {
                 if (!_.has(app.respondents && _.last(app.user.resumePath.split('/')))) {
                     delete $scope.user.resumePath;
