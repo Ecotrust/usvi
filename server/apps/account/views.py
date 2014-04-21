@@ -23,9 +23,7 @@ from account.forms import SignupForm
 
 @csrf_exempt
 def authenticateUser(request):
-
     param = simplejson.loads(request.body)
-    print param
     # user = User.objects.get(username=param.get('username', None))
     user = authenticate(username=param.get(
         'username', None), password=param.get('password')) 
@@ -50,7 +48,8 @@ def authenticateUser(request):
         }))
     else:
         return HttpResponse(simplejson.dumps({'success': False}))
-  
+
+
 
 @csrf_exempt
 def createUser(request):
@@ -110,11 +109,12 @@ def createUser(request):
         if 'username' in form.errors:
             return HttpResponse("duplicate-user", status=500)
         
-        if 'emailaddress1' in form.errors:
-            return HttpResponse("invalid-email", status=500)
+        # if 'emailaddress1' in form.errors:
+        #     return HttpResponse("invalid-email", status=500)
         
         if 'emailaddress1' in form.errors:
             return HttpResponse("duplicate-email", status=500)
+        
         if 'password1' in form.errors:
             return HttpResponse("invalid-password", status=500)
         else:

@@ -1,4 +1,4 @@
-<div id="wrap" class="menu-page">
+<div id="wrap" class="wide-menu-page">
     <!-- Fixed navbar -->
     <div mobilemenu></div>
     <!-- Begin page content -->
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-block" id="dash-button" ng-click="submitPage(page)">continue</button>
+                    <button class="btn btn-primary btn-block" id="dash-button" ng-disabled="!pageIsValid" ng-click="submitPage(page)">continue</button>
                 </div>
             </div>
         </div>

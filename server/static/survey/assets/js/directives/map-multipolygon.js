@@ -1,6 +1,6 @@
 angular.module('askApp').directive('map', function($http) {
     return {
-        template: '<div class="map" style="height: 100%; width: 100%; position: fixed; margin-left: -50px; margin-top: -50px"></div>',
+        template: '<div class="map" style="height: 100%; width: 100%; position: fixed; right: 0; left: 0; bottom: 0"></div>',
         restrict: 'EA',
         replace: true,
         transclude: true,
@@ -25,10 +25,10 @@ angular.module('askApp').directive('map', function($http) {
                 attribution: "NOAA Nautical Charts"
             });
 
-            var bing = new L.BingLayer("Av8HukehDaAvlflJLwOefJIyuZsNEtjCOnUB_NtSTCwKYfxzEMrxlKfL1IN7kAJF", {
-                type: "AerialWithLabels"
-            });
-
+            // var bing = new L.BingLayer("Av8HukehDaAvlflJLwOefJIyuZsNEtjCOnUB_NtSTCwKYfxzEMrxlKfL1IN7kAJF", {
+            //     type: "AerialWithLabels"
+            // });
+            esri = L.esri.basemapLayer("Oceans")
             // Map init
             var initPoint = new L.LatLng(18.35, -64.85);
             if (scope.question.lat && scope.question.lng) {
@@ -42,7 +42,7 @@ angular.module('askApp').directive('map', function($http) {
                 inertia: false,
                 minZoom: 8,
                 maxZoom: 13
-            }).addLayer(bing).setView(initPoint, initialZoom);
+            }).addLayer(esri).setView(initPoint, initialZoom);
 
             map.on('zoomend', function(e) {
                 adjustLabelStyles();
@@ -50,10 +50,10 @@ angular.module('askApp').directive('map', function($http) {
 
             map.attributionControl.setPrefix('');
             map.zoomControl.options.position = 'bottomleft';
-
+            L.control.scale().addTo(map);
 
             // Layer picker init
-            var baseMaps = { "Satellite": bing }; //, "Nautical Charts": nautical };
+            var baseMaps = { "Satellite": esri }; //, "Nautical Charts": nautical };
             //var options = { position: 'topright' };
             //L.control.layers(baseMaps, null, options).addTo(map);
 
@@ -116,7 +116,8 @@ angular.module('askApp').directive('map', function($http) {
                 layer.feature.label = new L.Label( {
                     offset: [-22, -15],
                     clickable: true,
-                    opacity: 1
+                    opacity: 1,
+                    noHide: true
                 });
                 layer.feature.label.setContent(layer.feature.properties.ID.toString());
                 layer.feature.label.setLatLng(layer.getBounds().getCenter());
@@ -146,9 +147,9 @@ angular.module('askApp').directive('map', function($http) {
                 var geojsonLayer = L.geoJson(data, { 
                     style: function(feature) {
                         return {
-                            "color": "#E6D845",
+                            "color": "#0074c8",
                             "weight": 1,
-                            "opacity": 0.6,
+                            "opacity": 1,
                             "fillOpacity": 0.0
                         };
                     },
@@ -166,6 +167,11 @@ angular.module('askApp').directive('map', function($http) {
                     }
                 });
                 geojsonLayer.addTo(map);
+            });
+
+            $http.get(app.viewPath + 'data/carib_3nmi_buffer.json').success(function (data) {
+                var line = L.geoJson(data);
+                line.addTo(map);
             });
 
             scope.validateQuestion = function (question) {

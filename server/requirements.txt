@@ -34,3 +34,4 @@ django-csvimport==1.0
 django-registration==1.0
 django-haystack==2.1.0
 pyelasticsearch==0.6.1
+

@@ -1,4 +1,99 @@
 /* Will be compiled down to a single stylesheet with your sass files */
+
+
+/***********************************************
+General Styles
+************************************************/
+.errorlist {
+  padding-left:0;
+}
+
+.errorlist li {
+    color:red;
+    list-style: none;
+}
+
+.error, .errornote {
+    color:red;
+    margin:0;
+}
+/***********************************************
+End General Styles
+************************************************/
+
+/***********************************************
+Surgical Classes
+************************************************/
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.margin-bottom {
+  margin-bottom: 20px;
+}
+
+.no-margin {
+  margin:0px;
+}
+
+.no-margin{
+  margin:0;
+}
+
+.no-padding {
+  padding:0;
+}
+
+.right {
+  float:right;
+}
+.text-right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  float:left;
+}
+
+.bigger {
+  font-size: 1.2em;
+}
+
+.toUpper {
+  text-transform:uppercase;
+}
+
+
+.red {
+  color:red;
+}
+
+.green {
+  color:green;
+}
+/***********************************************
+End Surgucal Classes
+************************************************/
+
+
+.faux-label {
+  font-size:1.0em;
+  color: #777;
+  text-transform:uppercase;
+  margin-bottom: 0;
+
+}
+
+.page-title {
+  color: #777;
+  margin-bottom: 20px;
+}
+
 .dashboard h1 {
   margin-top: 0;
 }
@@ -20,20 +115,26 @@
   margin-top: 10px;
 }
 
+/***********************************************
+Top Navigation / Header Classes
+************************************************/
+
 #topnav {
     height: 90px;
     color: white;
     border-radius: 0;
     position: relative;
     padding-top: 20px;
-      background-image: -webkit-gradient(linear, right top, left top, color-stop(0, rgb(145, 205, 215)), color-stop(1, rgb(0, 171, 186)));
-  background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
-  background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
-  background-image: -webkit-linear-gradient(left, rgb(145, 205, 215) 0%, rgb(0, 171, 186) 100%);
-  background-image: -ms-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
-  background-image: linear-gradient(to left, rgb(145, 205, 215) 0%, rgb(0, 171, 186) 100%);
-  border-radius: 0px;
-  margin-bottom: 0px;
+    background: #00ABBA;
+    background-color: #00ABBA;
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, rgb(145, 205, 215)), color-stop(1, rgb(0, 171, 186)));
+    background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: -webkit-linear-gradient(left, rgb(145, 205, 215) 0%, rgb(0, 171, 186) 100%);
+    background-image: -ms-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
+    background-image: linear-gradient(to left, rgb(145, 205, 215) 0%, rgb(0, 171, 186) 100%);
+    border-radius: 0px;
+    margin-bottom: 0px;
 }
 #topnav .navbar-brand {
   padding-top: 0;
@@ -49,6 +150,31 @@
 #topnav .btn {
   color: rgb(24,24,24);
 }
+
+
+#topnav .dropdown:hover {
+    color:#333;
+    background-color: #EEEEEE;
+}
+
+#topnav .dropdown.open{
+    color:#333;
+    background-color: #EEEEEE;
+}
+
+#topnav .dropdown-menu {
+  border:0;
+  color:#333;
+  background-color: #EEEEEE;
+}
+
+#topnav .dropdown-menu a:hover {
+    background-color:#8BC9D2
+}
+
+/***********************************************
+Top Navigation / Header Classes
+***********************************************/
 
 #sidenav_respondants {
     color: white;
@@ -74,8 +200,18 @@
     font-size: 4em;
     margin-top: 10px;
 }
+
+
+#report-table td .label{
+  font-size: 1.0em;
+  cursor: 
+}
 .stats .row .box{
   padding-bottom: 10px;
+}
+
+.stats-minor .box {
+  min-height: 115px;
 }
 
 .respondent-table th {
@@ -268,8 +404,13 @@
 body {
 padding-top: 0px;
 padding-bottom: 0px;
-background-color: #f5f5f5;
+background-color: #F5F5F5;
 }
+
+body.login {
+  background-color: #FFF;
+}
+
 
 .navbar {
     margin-bottom: 0;
@@ -314,10 +455,18 @@ padding: 7px 9px;
     height: 40px;
 }
 
+.select-wrapper {
+  border: none;
+}
+
+.select-wrapper .glyphicon {
+  display:none;
+}
+
 .question .unit-select {
-  height: 59px;
-  font-weight: bold;
+  height: 30px;
   font-size: 20px;
+  width:100%;
 }
 
 .pull-right + .pull-right {
@@ -566,19 +715,61 @@ table {
   font-weight: bold;
 }
 
+
+/*****************************************************
+Carousel Styles
+******************************************************/
 .acl-progress .carousel .chart {
-  height: 350px;
+  /*height: 350px;*/
   margin: 0;
   padding: 10px;
   overflow: hidden;
 }
+
+@media (max-width: 991px){
+  .acl-progress .carousel-inner {
+    height:350px;
+  }
+  .acl-progress .carousel .carousel-control {
+    font-size: 30px;
+  }
+
+  .family-legend {
+    top: 70%;
+  }
+
+}
+
+@media (min-width: 992px){
+  .acl-progress .carousel-inner {
+    height:400px;
+  }
+
+  .acl-progress .carousel .carousel-control {
+    font-size: 48px;
+  }
+
+  .family-legend {
+    top: 90%;
+  }
+}
+
 .acl-progress .carousel .carousel-control {
   /*opacity: 0;*/
-  background-image: none;
-  font-size: 48px;
+  filter:none;
+  background-color:#F5F5F5;
+  background-image: none !important;
   color: black;
-  top: 55%;
+  top: 70%;
 }
+
+.acl-progress .carousel .carousel-control:hover {
+  cursor: pointer;
+}
+.carousel-inner .row>div:first {
+  padding-left:20px;
+}
+
 .acl-progress .family-title {
   text-align: left;
   font-size: 18px;
@@ -603,6 +794,9 @@ table {
   height: 400px;
   overflow: auto;
 }
+
+
+
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
   right: 10px;
   top: 43%;
@@ -612,7 +806,7 @@ table {
   top: 43%;
 }
 .carousel-indicators {
-  bottom: 5px;
+  bottom: 5%;
 }
 .carousel-indicators li {
   background-color: rgb(64,63,65);
@@ -620,6 +814,22 @@ table {
 .carousel-indicators li.active {
   background-color: rgb(241,92,73);
 }
+
+.family-legend {
+    position: absolute;
+    font-size: 0.8em;
+    width:100%;
+    padding:0;
+}
+
+.legend-item {
+  margin-bottom:1em;  
+}
+
+/*****************************************************
+End Carousel Styles
+******************************************************/
+
 #header-bar {
   display: none;
 }
@@ -637,6 +847,10 @@ table {
 .summary .map {
   height: 250px !important;
 }
+
+/************************************************************
+Question Options Styles
+*************************************************************/
 .select-content {
     background-color: rgb(246, 235, 194);
     font-size: 24px;
@@ -655,6 +869,46 @@ table {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.select-content:hover {
+  cursor: pointer;
+  background-color: #5b9aa9;
+}
+
+.styled-select {
+  background-color: rgb(246, 235, 194);
+   width: 100%;
+   overflow: hidden;
+   border: 1px solid #ccc;
+}
+
+.styled-select:hover, .styled-select select:hover {
+  background-color: #5b9aa9;
+  cursor:pointer;
+}
+
+.styled-select select {
+   background: transparent;
+   padding: 5px;
+   font-size: 1.0em;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+}
+
+.select.choices {
+  margin-top:5px;
+}
+.panel-heading {
+  background-color:#F5F5F5;
+}
+
+.panel-heading:hover {
+  background-color: #5b9aa9;
+} 
+
 .option .checkbox, .select-unchecked .other-checkbox  {
     display: none;
     width: 15px;
@@ -666,3 +920,31 @@ table {
 .select-checked .checkbox {
     display: block;
 }
+
+.multi-select-other, .single-select-other {
+  width:100%;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.grid .row {
+    padding: 0.5em;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.grid .row .cell {
+    float: left;
+}
+
+.grid .row .cell.head {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.grid input, .grid select {
+    width: 75%;
+}
+/************************************************************
+End Question Options Styles
+*************************************************************/

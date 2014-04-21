@@ -8,23 +8,23 @@ angular.module('askApp')
             uscaribeez: "Region"
         };
         $scope.user = app.user;
-
+        $scope.labelcolors = {};
         $scope.activePage = 'overview';
         var getAclReport = function () {
             var url = app.server + '/reports/distribution/all/weight-*?';
-            
+
             if ($scope.filter.area) {
-                url = url + "filters="+ JSON.stringify({island: $scope.areaMapping[$scope.filter.area].replace(/&/, '|')});
+                url = url + "island=" + $scope.areaMapping[$scope.filter.area].replace(/&/, '|');
             }
             if ($scope.filter.accepted) {
                 url = url + "&accepted=true";
             }
             $http.get(url)
                 .success(function (data) {
-
+                    console.log('getting ' + url)
                     $scope.summary = data.results.length ? data.results : false;
                     if ($scope.summary) {
-                        $scope.byFamily = _.groupBy($scope.summary, 'species__family__name');    
+                        $scope.byFamily = _.groupBy($scope.summary, 'species__family__name');
                         $scope.bySpecies = _.groupBy($scope.summary, 'species__name');
                         $scope.bySpeciesCode = _.groupBy($scope.summary, 'species__code');
                         $scope.byFamilyCode = _.groupBy($scope.summary, 'species__family__code');
@@ -32,11 +32,14 @@ angular.module('askApp')
                         $scope.familyNames = _.keys($scope.byFamily).sort();
                         $scope.totalIndex = {};
                         $scope.aclResults = [];
+                        console.log($scope.bySpeciesCode);
+                        console.log($scope.byFamilyCode);
                          _.each(_.filter($scope.acls, function (acl) {
                                 return acl.area === $scope.filter.area
                             }),
                         function (acl) {
                             var groups, total;
+                            console.log(acl.species.code);
                             if (acl.by_species) {
                                 groups = $scope.bySpeciesCode[acl.species.code];
                             } else {
@@ -50,11 +53,10 @@ angular.module('askApp')
                                 total: total,
                                 percent: total / acl.pounds * 100,
                                 tooltip: 'acl total: ' + acl.pounds + ' ' + ' lbs<br/>' + 'entered at: ' + acl.updated_at
-                            });        
+                            });
 
-                            
+
                         });
-
                         $scope.aclResults = $scope.aclResults.sort(function (a,b) {
                             return b.percent - a.percent;
                         });
@@ -62,7 +64,7 @@ angular.module('askApp')
                         while (i < _.size($scope.aclResults)) {
                             aclChunks = $scope.aclResults.slice(i,i+chunk);
                             tmpArray = [];
-                            
+
                             _.each(aclChunks, function (aclChunk) {
                                 var groups =  aclChunk.groups;
                                 var extra = {
@@ -71,18 +73,18 @@ angular.module('askApp')
                                     groups: []
                                 };
                                 var terms = [];
-                    
+
                                 _.each(groups, function (group) {
                                     if (group.total && group.total/aclChunk.acl.pounds > .05) {
                                         terms.push({
                                             term: [group.species__name, group.col_text].join(' '),
                                             count: group.total
-                                        });    
+                                        });
                                     } else {
                                         extra.count = extra.count + group.total;
                                         extra.groups.push(group.species__name);
                                     }
-                                    
+
                                 });
                                 if (extra.count > 0) {
                                         extra.term = extra.groups.join(', ');
@@ -92,7 +94,7 @@ angular.module('askApp')
                                     terms.unshift({
                                         term: 'Unfilled',
                                         count: aclChunk.acl.pounds - aclChunk.total
-                                    });    
+                                    });
                                 }
 
                                 tmpArray.push({
@@ -123,8 +125,8 @@ angular.module('askApp')
                         $scope.slides = [];
                         $scope.aclResults = [];
                     }
-                    
-                    
+
+
                 })
                 .error(function (err) {
                     debugger;
@@ -148,7 +150,13 @@ angular.module('askApp')
         }
         $scope.slideTo = function (index) {
             $scope.slideIndex = index;
-        }
+        };
+
+        $scope.getWidth = function(percent) {
+            var out = {width: percent+"%"};
+            console.log(out.width);
+            return out;
+        };
 
 
         $scope.filter = {
@@ -159,7 +167,7 @@ angular.module('askApp')
         } else if ($scope.user.isUsvi) {
             $scope.filter.area = "stcroix";
         }
-        
+
 
 
         $http.get('/api/v1/annualcatchlimit/?limit=0&format=json').success(function (data) {
@@ -167,10 +175,10 @@ angular.module('askApp')
             $scope.acls = data.objects;
             getAclReport();
 
-            $scope.$watch('filter', function (newFilter) {
-                $location.search($scope.filter);
+            $scope.$watchCollection('filter', function (newFilter) {
+                // $location.search($scope.filter);
                 $scope.area = $scope.areaMapping[$scope.filter.area];
                 getAclReport();
-            }, true);
+            });
         });
     });

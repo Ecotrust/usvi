@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h3>Select Catch Report</h3>
+</div>
+<div class="modal-body">
+    <div ng-hide="surveys.length">Loading catch reports <i class="icon-spin icon-spinner"></i></div>
+    <table class="table">
+    	<tr ng-class="{ 'active': survey == $parent.selectedSurvey }" ng-repeat="survey in surveys" ng-click="selectSurvey(survey)">
+    		<td><a>{{ survey.name }}</a></td>
+    	</tr>
+     </table>
+</div>
+<div class="modal-footer">
+	<p class="pull-left">Selected: <b>{{ selectedSurvey.name }}</b></p>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

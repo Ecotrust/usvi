@@ -37,6 +37,9 @@
     "element": false,
     "navigateTo": false,
     "input": false,
-    "_": false
+    "_": false,
+    "app": false,
+    "isAuthenticated": false,
+    "L": false
   }
 }

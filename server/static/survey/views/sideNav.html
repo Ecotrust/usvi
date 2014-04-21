@@ -1,12 +1,12 @@
 <div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants" ng-controller="SideBarCtrl">
-    <div class="stats">
+    <div class="stats" ng-show="user.is_staff" >
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
                 <h1>{{survey_meta.total || 0}}</h1>
                 <p>TOTAL REPORTS</p>
             </div>
         </div>
-        <div class="row">
+        <div class="row stats-minor">
             <div id="side_reviews_needed" class="col-sm-6 col-md-6 box">
                 <h1>{{survey_meta.needs_review || 0}}</h1>
                 <p>NEED REVIEW</p>
@@ -17,23 +17,33 @@
             </div>
         </div>
     </div>
+    
     <div id="sidebar_nav">
         <ul class="nav">
-            <li>
+            <li ng-show="user.is_staff">
                 <a ng-class="{'active': activePage == 'overview'}" href="#/acl-progress">Overview: ACL Progress</a>
             </li>
             <li>
                 <a ng-class="{'active': activePage == 'catch-report-summaries'}" href="#/catch-report-summaries">Catch Report Data</a>
             </li>
-            <li>
+            <li ng-show="user.is_staff || user.is_intern">
                 <a ng-class="{'active': activePage == 'survey-stats'}" href="#/RespondantList">Review Catch Reports</a>
             </li>
-             <li>
+
+             <li ng-show="user.is_staff || user.is_intern">
                 <a ng-class="{'active': activePage == 'add-reports'}" href="#/add-catch-report">Add Catch Report</a>
             </li>
 
-            <li ng-show="user.is_staff" >
-                <a ng-class="{'active': activePage == 'add-reports'}" target="_blank" href="/admin/">Admin Backend</a>
+            <!-- This is the fisher case. This should just jump into the survey screen to fill out
+            a survey in the request.user's name -->
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isUsvi">
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/did-not-fish?user={{user.username}}">Add Did Not Fish Report</a>
+            </li>
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isUsvi">
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report?user={{user.username}}">Add Catch Report</a>
+            </li>
+            <li ng-hide="user.is_staff || user.is_intern || ! user.isPuertoRico">
+                <a ng-class="{'active': activePage == 'add-reports'}" href="/respond/catch-report-puerto-rico?user={{user.username}}">Informe de Captura</a>
             </li>
         </ul>
     </div>
@@ -45,7 +55,7 @@
             </span>
         </div>
     </form> -->
-    <form class="form-inline" role="form" ng-submit="search(searchTerm)">
+    <form class="form-inline" role="form" ng-submit="search(searchTerm)" ng-show="user.is_staff || user.is_intern">
         <div class="input-group">
             <input type="search" class="form-control" placeholder="Search" ng-model="searchTerm">
             <span class="input-group-btn">

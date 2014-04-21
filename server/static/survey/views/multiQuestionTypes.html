@@ -15,10 +15,12 @@
             <input name="integerAnswer" ng-model="question.answer" class="form-control" placeholder="{{ question.label }}" type="number" min="{{question.integer_min}}" max="{{question.integer_max}}" step="any" ui-event="{ keypress : 'onlyDigits($event)' }" ng-required="question.required" />
             <div class="select-wrapper form-control" ng-class="{ 'unit-selected': question.unit }">
                 {{ question.unit.text }}
-                <select ng-model="question.unit" class="unit-select" placeholder="{{ question.label }}">
-                    <option value="">Select Units</option>
-                    <option ng-repeat="option in question.options">{{ option.text }}</option>
-                </select>
+                <div class="styled-select">
+                    <select ng-model="question.unit" class="unit-select" placeholder="{{ question.label }}">
+                        <option value="">Select Units</option>
+                        <option ng-repeat="option in question.options">{{ option.text }}</option>
+                    </select>
+                </div>
                 <span class="down glyphicon glyphicon-chevron-down"></span>
             </div>
         </div>
@@ -37,7 +39,7 @@
                 </option>
                 <option selected value="other">Other</option>
             </select>
-            <input class="form-control" type="text" placeholder="{{ question.label }}" ng-show="answer == 'other'" ng-model="otherAnswer" />
+            <input class="form-control" type="text" ng-show="answer == 'other'" ng-model="otherAnswer" />
         </div>
     </div>
     <div ng-switch-when="text">
@@ -230,14 +232,15 @@
 
                         <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
                             <li class="option" ng-click="onMultiSelectClicked(question.otherOption, question)" ng-class="{'select-checked': question.otherOption.checked }" ng-model="question.otherAnswer.text">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle">
-                                            Other Species (write in)
-                                        </a>
-                                    </h4>
-
-                                </div>
+                                    <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                                Other Species (write in)
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    </div>
                             </li>
                         </ul>
 

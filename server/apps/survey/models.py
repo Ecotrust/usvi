@@ -19,6 +19,12 @@ import json
 import dateutil.parser
 import datetime
 
+# Get an instance of a logger
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 def make_uuid():
     return str(uuid.uuid4())
 
@@ -50,8 +56,10 @@ class Respondant(caching.base.CachingMixin, models.Model):
     review_status = models.CharField(max_length=20, choices=REVIEW_STATE_CHOICES, default=REVIEW_STATE_NEEDED)
     comment = models.TextField(null=True, blank=True)
     notify = models.BooleanField(default=False)
+    notify_seen_at = models.DateTimeField(null=True, blank=True)
+    updated_at = models.DateTimeField(null=True, blank=True)
     last_question = models.CharField(max_length=240, null=True, blank=True)
-
+    agency_id = models.CharField(max_length=30, null=True, blank=True, help_text="An alpha-numeric angency specific ID for the catch report")
     island = models.CharField(max_length=240, null=True, blank=True)
     locations = models.IntegerField(null=True, blank=True)
 
@@ -61,7 +69,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
 
     user = models.ForeignKey(User, null=True, blank=True)
     entered_by = models.ForeignKey(User, null=True, blank=True, related_name='entered_by')
-    updated_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    # updated_at = models.DateTimeField(auto_now_add=True)
 
     objects = caching.base.CachingManager()
 
@@ -72,7 +80,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
             self.ordering_date = self.ts
         if self.survey.slug.find('puerto-rico') != -1:
             self.island = "Puerto Rico"
-        self.updated_at = datetime.datetime.now()
+        #self.updated_at = datetime.datetime.now()
+
         super(Respondant, self).save(*args, **kwargs)
 
     @property
@@ -101,6 +110,21 @@ class Respondant(caching.base.CachingMixin, models.Model):
     @property
     def survey_slug(self):
         return self.survey.slug
+
+    @property
+    def total_weight(self):
+        total_weight = 0.0
+        # Puerto Rico format
+        rs = self.response_set.filter(question__slug__contains="total-weight-caught")
+        if rs:
+            total_weight = float(rs[0].answer)
+        
+        # USVI Format
+        rs = self.response_set.filter(question__slug__contains="total-trip-whole-pounds")   
+        if rs:
+            total_weight = total_weight + float(rs[0].answer)
+
+        return total_weight
 
     def __unicode__(self):
         if self.email:
@@ -282,8 +306,6 @@ class Question(caching.base.CachingMixin, models.Model):
     visualize = models.BooleanField(default=False)
     report_type = models.CharField(max_length=20,choices=REPORT_TYPE_CHOICES,null=True, default=None)
     filter_questions = models.ManyToManyField('self', null=True, blank=True)
-
-    tags = TaggableManager()
 
 
     @property
@@ -567,34 +589,44 @@ class Response(caching.base.CachingMixin, models.Model):
                     profile.save()
             self.save()
 
-        if self.question.slug == 'landed-date' or self.question.slug == 'trip-landing-date-puerto-rico':
-            if respondent is not None:
-                try:
-                    respondent.ordering_date = dateutil.parser.parse(self.answer)
-                except:
-                    pass
-                respondent.save()
-        
-        if self.question.slug == 'did-not-fish-for-month-of':
-            if respondent is not None:
-                self.answer = self.answer.replace('"', '')
-                from datetime import datetime
-                dnf_date = None
-                try:
-                    if self.answer.find('-') != -1:
-                        dnf_date = datetime.strptime(self.answer, '%Y-%m')
-                    elif self.answer.find('/') != -1:
-                        dnf_date = datetime.strptime(self.answer, '%Y/%m')
-                except ValueError:
-                    pass
-                try:
-                    dnf_date = dateutil.parser.parse(self.answer)
-                except:
-                    pass
-                if dnf_date is not None:
-                    respondent.ordering_date = dnf_date
-                    respondent.save()
+            if self.question.slug == 'first-name' or self.question.slug == 'first-name-puerto-rico':
+                if respondent is not None and respondent.user.first_name != self.answer:
+                    respondent.user.first_name = self.answer
+                    respondent.user.save()
+            if self.question.slug == 'last-name' or self.question.slug == 'last-name-puerto-rico':
+                if respondent is not None and respondent.user.last_name != self.answer:
+                    respondent.user.last_name = self.answer
+                    respondent.user.save()
 
+            if self.question.slug == 'landed-date' or self.question.slug == 'trip-landing-date-puerto-rico':
+                if respondent is not None:
+                    try:
+                        respondent.ordering_date = dateutil.parser.parse(self.answer)
+                    except:
+                        pass
+                    respondent.save()
+            
+            if self.question.slug == 'did-not-fish-for-month-of':
+                if respondent is not None:
+                    self.answer = self.answer.replace('"', '')
+                    from datetime import datetime
+                    dnf_date = None
+                    try:
+                        if self.answer.find('-') != -1:
+                            dnf_date = datetime.strptime(self.answer, '%Y-%m')
+                        elif self.answer.find('/') != -1:
+                            dnf_date = datetime.strptime(self.answer, '%Y/%m')
+                    except ValueError:
+                        pass
+                    try:
+                        dnf_date = dateutil.parser.parse(self.answer)
+                    except:
+                        pass
+                    if dnf_date is not None:
+                        respondent.ordering_date = dnf_date
+                        respondent.save()
+
+            logger.debug('finshed save related for {0}'.format(self))
 
 def save_related(sender, instance, created, **kwargs):
     # save the related objects on initial creation

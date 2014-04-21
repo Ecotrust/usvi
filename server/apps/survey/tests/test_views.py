@@ -29,7 +29,7 @@ class TestAnswer(ResourceTestCase):
         response.answer_raw = json.dumps({'text': 'St. John'})
         self.respondant.save()
         response.save()
-
+        
     def get_url(self):
         return reverse('survey_answer', kwargs={
             'survey_slug': self.survey.slug,
@@ -74,3 +74,6 @@ class TestAnswer(ResourceTestCase):
         self.assertNotEqual(body['success'], False)
         respondant = Respondant.objects.get(pk=self.respondant.pk)
         self.assertEqual(respondant.user, self.respondant_user)
+
+    def test_save_related_for_island(self):
+        self.assertEqual(self.respondant.island, 'St. John')

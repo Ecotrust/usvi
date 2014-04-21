@@ -1,19 +1,28 @@
 <div class="container">
-    <div class="row" ng-cloak>
-        <div class="col-md-12">
-            <h2>Details</h2>
-            <dl>
-                <dt>user</dt>
-                <dd>{{ respondent.user.username }}</dd>
-                <dt>identity</dt>
-                <dd>{{ respondent.email || respondent.uuid}}</dd>
-                <dt>timestamp</dt>
-                <dd>{{ respondent.ts  |date: 'MM-dd-yyyy HH:mm' }}</dd>
-            </dl>
+    <div ng-include="'/static/survey/views/sideNav.html'"></div>
+    <div class="col-md-9 col-sm-9">
+        <div class="row" ng-cloak>
+            <div class="col-md-6 col-sm-6">
+                <h2>Details</h2>
+                <dl>
+                    <dt>user</dt>
+                    <dd><a href="#/accounts/{{ respondent.user.username }}" >{{ respondent.user.username }}</a></dd>
+                    <dt>identity</dt>
+                    <dd>{{ respondent.email || respondent.uuid}}</dd>
+                    <dt>timestamp</dt>
+                    <dd>{{ respondent.ts  |date: 'MM-dd-yyyy HH:mm' }}</dd>
+                </dl>
+            </div>
+            <div class="col-md-6 col-sm-6" ng-show="respondent.notify">
+                <div class="well">
+                    <h3>Agency Comment <i class="icon-spin icon-spinner" ng-show="respondent.spin"></i> </h3>
+                    <p>{{respondent.comment}}</p>
+                    <button class="btn pull-right ok-button" ng-click="ackNotification(respondent)" ng-hide="respondent.notify_seen_at > respondent.updated_at || respondent.hide_button ||user.is_staff">ok</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
         </div>
-    </div>    
-    <div class="row" ng-cloak>
-        <div class="col-md-12">
+        <div class="row" ng-cloak>
             <h2>Responses</h2>
             <table class="table">
                 <tbody ng-repeat="response in respondent.responses">
@@ -23,7 +32,8 @@
                             <span ng-switch on="response.question.type">
                                 <span ng-switch-default>{{response.answer}}</span>
                                 <span ng-switch-when="yes-no">{{response.answer_parsed.text}}</span>
-                                <span ng-switch-when="number-with-unit">{{response.answer}} {{response.unit}}</span>
+                                <span ng-switch-when="number-with-unit">{{response.answer_parsed.value}} {{response.unit}}</span>
+                                <span ng-switch-when="single-select">{{answer.text}}</span>
                                 <ul class="list-unstyled" ng-switch-when="multi-select">
                                     <li ng-repeat="answer in response.answer_parsed">{{answer.text}}</li>
                                 </ul>
@@ -44,13 +54,13 @@
                                 </table>
                             </span>
                         </td>
-                        <td><a target="_blank" href="/respond#/survey/{{surveySlug}}/{{response.question.slug}}/{{ uuid }}/edit" class="btn btn-default">edit</a></td>
+                        <td><a target="_blank" ng-show="user.is_staff || user.is_intern" href="/respond#/survey/{{surveySlug}}/{{response.question.slug}}/{{ uuid }}/edit" class="btn btn-default">edit</a></td>
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div><!-- end second row -->
         <div class="span6">
             <!--<div leaflet multimarkers="mapResponse" center="map.center" zoom="map.zoom" popupfield="'answers'"></div>-->
-        </div>
-    </div>
+        </div> 
+    </div><!-- end col-md-9 -->
 </div>

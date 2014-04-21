@@ -25,10 +25,10 @@
                 <span>{{ getAnswer('landed-date')[8] }}{{ getAnswer('landed-date')[9] }}</span>
                 <strong class="margin-left-5">Year: </strong>
                 <span>{{ getAnswer('landed-date')[2] }}{{ getAnswer('landed-date')[3] }}</span>
-            </div>        
+            </div>
         </div>
     </div>
-    
+
     <div class="col-xs-12 col-sm-4 margin-top-10">
         <div>
             <strong>Total Trip Pounds:</strong>
@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" ng-show="getAnswer('did-other-permit-holders-split-catch')['text'] == 'Yes'">
     <div class="col-xs-12 col-sm-4">
         <div class="margin-top-10">
             <strong>Partner #1 License #: </strong>

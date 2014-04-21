@@ -1,13 +1,19 @@
-//'use strict';
+7//'use strict';
 
 var app = {};
+
+// Fix IE9 console issue.
+if (typeof console == "undefined") {
+  this.console = {log: function() {}};
+}
+
 
 app.server = window.location.protocol + '//' + window.location.host;
 app.viewPath = app.server + '/static/survey/';
 
 angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.helpers.dimensions',
     'mgcrea.ngStrap.button', "ui.bootstrap.tpls", "ui.bootstrap.modal", "ui.bootstrap.pagination"]) //'ui', 'ui.bootstrap',
-    .config(function($routeProvider, $httpProvider) {
+    .config(function($routeProvider, $httpProvider, $provide) {
 
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
     $httpProvider.defaults.headers.patch = {
@@ -16,10 +22,31 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     
+    // Initial Landing page and controller is determined by user type
+    var landingTemplate, landingController;
+    if (app.user.is_staff){
+        landingTemplate = '/static/survey/views/acl-progress.html';
+        landingController = 'AnnualCatchLimitProgressCtrl';
+    } else {
+        landingTemplate ='/static/survey/views/catch-report-summaries.html';
+        landingController = 'CatchReportSummariesCtrl';
+    }
+
+    $provide.decorator("$exceptionHandler", function($delegate) {
+        return function(exception, cause) {
+            TraceKit.report(exception);
+            $delegate(exception, cause);
+        };
+    });
+
     $routeProvider.when('/author/:surveySlug', {
         templateUrl: '/static/survey/views/author.html',
         controller: 'AuthorCtrl',
         reloadOnSearch: false
+    })
+        .when('/', {
+        templateUrl: landingTemplate,
+        controller: landingController
     })
         .when('/author', {
         templateUrl: '/static/survey/views/author.html',
@@ -50,11 +77,14 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
-
     })
         .when('/agency-dash/:surveySlug', {
         templateUrl: '/static/survey/views/agency-dash.html',
         controller: 'AgencyDashCtrl'
+    })
+        .when('/fisher-dash', {
+        templateUrl: '/static/survey/views/fisher-dash.html',
+        controller: 'FisherDashCtrl'
     })
         .when('/RespondantDetail/:uuidSlug', {
         templateUrl: '/static/survey/views/RespondantDetail.html',
@@ -68,7 +98,7 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/acl-detail.html',
         controller: 'AnnualCatchLimitDetailCtrl'
     })
-        .when('/', {
+        .when('/acl-progress', {
         templateUrl: '/static/survey/views/acl-progress.html',
         controller: 'AnnualCatchLimitProgressCtrl',
         reloadOnSearch: false
@@ -77,9 +107,13 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/survey-list.html',
         controller: 'SurveyListMenuCtrl'
     })
-        .when('/users', {
-        templateUrl: '/static/survey/views/user-list.html',
+        .when('/accounts', {
+        templateUrl: '/static/survey/views/account/user-list.html',
         controller: 'UserListCtrl'
+    })
+        .when('/accounts/:username', {
+        templateUrl: '/static/survey/views/account/account-detail.html',
+        controller: 'AccountsCtrl'
     })
         .when('/add-catch-report', {
         templateUrl: '/static/survey/views/add-catch-report.html',
@@ -91,5 +125,20 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     })
         .otherwise({
         redirectTo: '/'
+    });
+});
+
+
+
+TraceKit.remoteFetching = false;
+TraceKit.report.subscribe(function yourLogger(errorReport) {
+    'use strict';
+    var msg = 'msg: ' + errorReport.message + '\n\n';
+    msg += '::::STACKTRACE::::\n';
+    for(var i = 0; i < errorReport.stack.length; i++) {
+        msg += 'stack[' + i + '] ' + errorReport.stack[i].url + ':' + errorReport.stack[i].line + '\n';
+    }
+    $.post(app.server + '/tracekit/error/', {
+        stackinfo: JSON.stringify({'message': msg})
     });
 });

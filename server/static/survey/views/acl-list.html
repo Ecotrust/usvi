@@ -1,59 +1,62 @@
 <div class="container" ng-cloak>
 	<div class="row">
-		<div class="col-md-9">
-            <h1>Current Annual Catch Limits</h1>
-        </div>
-        <!-- <div class="col-md-3">
-            <div class="btn-group pull-right">
-                <button class="btn btn-default" ng-click="displayYear=year" ng-repeat="year in years">{{ year }}</button>
+		<div class="col-md-3 col-sm-3 print-hide" ng-include="'/static/survey/views/admin-dash-menu.html'"></div>
+        <div class="col-md-9 col-sm-9">
+            <div class="row">
+                <div class="col-md-9 col-sm-12">
+                    <h1 class="page-title">Current Annual Catch Limits</h1>
+                </div>
+                <div class="margin-bottom col-md-3 col-sm-4 col-sm-offset-8">
+                    <a ng-click="create()"><button class="btn btn-success">New Annual Catch Limit</button></a>
+                </div>
+
             </div>
-        </div> -->
-	</div>
-    <div class="row">
-        <div class="col-md-12 acl-list">
             <!-- <i ng-hide="loaded" class="icon-spinner icon-spin"></i> -->
             <strong ng-show="acls.length == 0">You have no catch limits defined.</strong>
-            <table class="dash-table table table-striped">
-                <tbody>
-                    <tr ng-repeat="acl in acls">
-                        <td>
-                            <h4>{{meta.areas[acl.area]}}</h4>
-                            <p ng-show="acl.start_date && acl.end_date">{{ acl.start_date|date }} - {{ acl.end_date|date }}</p>
-                        </td>
-                        <td>
-                            <h4 ng-hide="acl.species">No Species Set</h4>
-                        	<h4 ng-show="acl.species">{{acl.species.name | titleCase}} ({{acl.species.code}})</h4>
-                            <p>{{meta.sectors[acl.sector]}}</p>
-                        </td>
-                        <td>
-                            <div ng-show="acl.pounds">
-                        	   <h2 class="kpi-num">{{ acl.pounds |number}}</h2>
-                        	   <p class="kpi-num">pounds</p>
-                            </div>
-                        </td>
-                        <td>
-                            <div ng-show="acl.number_of_fish">
-                                <h2 class="kpi-num">{{ acl.number_of_fish |number }}</h2>
-                                <p class="kpi-num">number of fish</p>
-                            </div>
-                    	</td>
-                    	<td>
-                    		<div class="btn-group pull-right" ng-hide="confirmDelete">
-                                <a class="btn btn-default" href="#/acl/{{ acl.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    			<a class="btn btn-default" ng-click="confirmDelete = true"><span class="glyphicon glyphicon-remove"></span></a>
-                			</div>
-                            <div class="btn-group pull-right" ng-show="confirmDelete">
-                                <a class="btn btn-danger" ng-click="delete(acl)">Delete</a>
-                                <a class="btn btn-default" ng-click="confirmDelete = false">Cancel</a>
-                            </div>
-                    	</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    <div class="row">
-        <div class="col-md-2">
-            <a ng-click="create()"><button class="btn btn-success">New Annual Catch Limit</button></a>
-        </div>
+            <div class="row">
+                <table class="dash-table table table-striped">
+                    <tbody>
+                        <tr ng-repeat="acl in acls">
+                            <td>
+                                <h4>{{meta.areas[acl.area]}}</h4>
+                                <p ng-show="acl.start_date && acl.end_date">{{ acl.start_date|date }} - {{ acl.end_date|date }}</p>
+                            </td>
+                            <td>
+                                <h4 ng-hide="acl.species">No Species Set</h4>
+                            	<h4 ng-show="acl.species">{{acl.species.name | titleCase}} ({{acl.species.code}})</h4>
+                                <p>{{meta.sectors[acl.sector]}}</p>
+                            </td>
+                            <td>
+                                <div ng-show="acl.pounds">
+                            	   <h2 class="kpi-num">{{ acl.pounds |number}}</h2>
+                            	   <p class="kpi-num">pounds</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-show="acl.number_of_fish">
+                                    <h2 class="kpi-num">{{ acl.number_of_fish |number }}</h2>
+                                    <p class="kpi-num">number of fish</p>
+                                </div>
+                        	</td>
+                        	<td>
+                        		<div class="btn-group pull-right" ng-hide="confirmDelete">
+                                    <a class="btn btn-default" href="#/acl/{{ acl.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        			<a class="btn btn-default" ng-click="confirmDelete = true"><span class="glyphicon glyphicon-remove"></span></a>
+                    			</div>
+                                <div class="btn-group pull-right" ng-show="confirmDelete">
+                                    <a class="btn btn-danger" ng-click="delete(acl)">Delete</a>
+                                    <a class="btn btn-default" ng-click="confirmDelete = false">Cancel</a>
+                                </div>
+                        	</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-8 col-sm-3 col-sm-offset-8">
+                    <a ng-click="create()"><button class="btn btn-success">New Annual Catch Limit</button></a>
+                </div>
+            </div>
+        </div><!-- end col-md-9 Main content-->
     </div>
 </div>

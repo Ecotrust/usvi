@@ -11,10 +11,19 @@ from django.conf.urls import url
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.db.models import Sum
 
 from haystack.query import SearchQuerySet
 
 import datetime
+import json
+
+# Get an instance of a logger
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 
 from survey.models import (Survey, Question, Option, Respondant, Response,
                            Page, Block, Dialect, DialectSpecies)
@@ -30,7 +39,6 @@ class SurveyModelResource(ModelResource):
                bundle.data.get(field_name, None) is None):
                 setattr(bundle.obj, field_name, None)
         bundle.obj.save()
-
         return bundle
 
 
@@ -44,12 +52,16 @@ class StaffUserOnlyAuthorization(Authorization):
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
-        return bundle.obj.user == bundle.request.user
+        if hasattr(bundle.obj, 'user'):
+            return bundle.obj.user == bundle.request.user
+        else:
+            return bundle.request.user.is_staff
 
     def update_list(self, object_list, bundle):
         return bundle.request.user.is_staff
 
     def update_detail(self, object_list, bundle):
+        logger.debug('update_detail StaffUserOnlyAuthorization')
         return bundle.request.user.is_staff
 
     def delete_list(self, object_list, bundle):
@@ -64,7 +76,10 @@ class UserObjectsOnlyAuthorization(Authorization):
 
     def read_list(self, object_list, bundle):
         # This assumes a ``QuerySet`` from ``ModelResource``.
-        return object_list.filter(user=bundle.request.user)
+        if bundle.request.user.is_staff:
+            return object_list
+        else:
+            return object_list.filter(user=bundle.request.user)
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
@@ -88,6 +103,7 @@ class UserObjectsOnlyAuthorization(Authorization):
         return allowed
 
     def update_detail(self, object_list, bundle):
+        logger.debug('update_detail UserObjectsOnlyAuthorization')
         if bundle.request.user.is_staff:
             return True
         return bundle.obj.user == bundle.request.user
@@ -101,11 +117,47 @@ class UserObjectsOnlyAuthorization(Authorization):
 
 
 class ResponseResource(SurveyModelResource):
+    """
+    The web app uses this to craete and update answers
+
+    """
     question = fields.ToOneField(
         'apps.survey.api.QuestionResource', 'question', full=True)
     respondant = fields.ToOneField(
         'apps.survey.api.RespondantResource', 'respondant', full=False)
     answer_count = fields.IntegerField(readonly=True)
+    user = fields.ToOneField(
+        'apps.account.api.UserResource', 'user', null=True, blank=True)
+
+
+    def obj_create(self, bundle, **kwargs):
+        # Determine user that this response belongs to
+        logger.debug('obj create for response')
+        if bundle.request.user.is_staff:
+            respondant = self.get_via_uri(bundle.data['respondant'])
+            user = respondant.user
+            respondant.entered_by = bundle.request.user
+            respondant.save()
+        else:
+            user = bundle.request.user
+
+        return super(ResponseResource,
+                     self).obj_create(bundle, user=bundle.request.user)
+
+
+    # def get_via_uri(self, uri):
+    #     # overriding to make it not look for offlinerespondant
+    #     logger.debug('get_view_uri override')
+    #     peices = uri.split("offlinerespondant/")
+    #     if len(peices) > 1:
+    #         uuid = peices[1].split("/")[0]
+    #         respondant = Respondant.objects.get(pk=uuid)
+    #         return respondant
+    #     return super(ResponseResource, self).get_via_uri(uri)
+
+    def dehydrate_answer(self, bundle):
+        return json.loads(bundle.obj.answer_raw)
+
 
     class Meta:
         queryset = Response.objects.all().order_by(
@@ -116,13 +168,20 @@ class ResponseResource(SurveyModelResource):
             'respondant': ALL_WITH_RELATIONS
         }
         ordering = ('question__question_page__order',)
+        detail_allowed_methods = ['get', 'post', 'put', 'patch']
+        authorization = UserObjectsOnlyAuthorization()
+        authentication = Authentication()
+        # If this is enabled it will fail with a 401
+        #authentication = MultiAuthentication(
+        #    ApiKeyAuthentication(), SessionAuthentication())
+        always_return_data = True
 
 
 class OfflineResponseResource(SurveyModelResource):
     question = fields.ToOneField(
-        'apps.survey.api.QuestionResource', 'question', null=True, blank=True)
+        'apps.survey.api.QuestionResource', 'question', null=True, blank=True, full=True)
     respondant = fields.ToOneField(
-        'apps.survey.api.OfflineRespondantResource', 'respondant')
+        'apps.survey.api.OfflineRespondantResource', 'respondant', null=True, blank=True, full=True)
     user = fields.ToOneField(
         'apps.account.api.UserResource', 'user', null=True, blank=True)
 
@@ -132,6 +191,8 @@ class OfflineResponseResource(SurveyModelResource):
         authorization = UserObjectsOnlyAuthorization()
         authentication = MultiAuthentication(
             ApiKeyAuthentication(), SessionAuthentication())
+        always_return_data = True
+
 
     def obj_create(self, bundle, **kwargs):
         return super(OfflineResponseResource,
@@ -149,9 +210,10 @@ class OfflineRespondantResource(SurveyModelResource):
         always_return_data = True
         queryset = Respondant.objects.all()
         authorization = UserObjectsOnlyAuthorization()
-        authentication = MultiAuthentication(
-            ApiKeyAuthentication(), SessionAuthentication())
-        ordering = ['-ts']
+        authentication = Authentication()
+        # authentication = MultiAuthentication(
+        #     ApiKeyAuthentication(), SessionAuthentication())
+        # ordering = ['-ts']
 
     def obj_create(self, bundle, **kwargs):
         if not bundle.request.user.is_authenticated():
@@ -160,11 +222,13 @@ class OfflineRespondantResource(SurveyModelResource):
                      self).obj_create(bundle, user=bundle.request.user)
 
     def save_related(self, bundle):
+        logger.debug('save related offline respondant')
         resource_uri = self.get_resource_uri(bundle.obj)
         user_uri = self.get_resource_uri(bundle.request.user)
         for response in bundle.data.get('responses'):
-            response['respondant'] = resource_uri
-            response['user'] = user_uri
+            if isinstance(response, dict):
+                response['respondant'] = resource_uri
+                response['user'] = user_uri
 
 
 class ReportRespondantResource(SurveyModelResource):
@@ -204,6 +268,9 @@ class DashRespondantResource(ReportRespondantResource):
                                'survey', null=True, blank=True, full=False, readonly=True)
     entered_by = fields.ToOneField('apps.account.api.UserResource',
                                    'entered_by', null=True, blank=True, full=True, readonly=True)
+    total_weight = fields.FloatField(null=True, blank=True)
+
+
 
     def prepend_urls(self):
             return [
@@ -213,8 +280,8 @@ class DashRespondantResource(ReportRespondantResource):
 
     def get_object_list(self, request):
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
-        print user_tags
         surveys = Survey.objects.filter(tags__name__in=user_tags)
+
         return super(DashRespondantResource, self).get_object_list(request).filter(survey__in=surveys)
 
     def get_search(self, request, **kwargs):
@@ -233,8 +300,12 @@ class DashRespondantResource(ReportRespondantResource):
         island = request.GET.get('island', None)
 
         sqs = SearchQuerySet().models(Respondant).load_all()
+
         if query != '':
             sqs = sqs.auto_query(query)
+
+        if not request.user.is_staff:
+            sqs = sqs.filter(username = request.user.username)
 
         if start_date is not None:
             sqs = sqs.filter(ordering_date__gte=datetime.datetime.strptime(
@@ -245,6 +316,7 @@ class DashRespondantResource(ReportRespondantResource):
 
         if review_status is not None:
             sqs = sqs.filter(review_status=review_status)
+
         if entered_by is not None:
             sqs = sqs.filter(entered_by=entered_by)
         if island is not None:
@@ -308,7 +380,8 @@ class DashRespondantResource(ReportRespondantResource):
             "total_count": total,
             "pages": paginator.page_range,
             "base_url": base_url,
-            "page": page.number
+            "page": page.number,
+            "offset": page.start_index() - 1
         }
 
         object_list = {
@@ -318,6 +391,9 @@ class DashRespondantResource(ReportRespondantResource):
 
         self.log_throttled_access(request)
         return self.create_response(request, object_list)
+
+    def dehydrate_total_weight(self, bundle):
+        return bundle.obj.total_weight
 
 
 class DashRespondantDetailsResource(ReportRespondantResource):
@@ -341,6 +417,18 @@ class RespondantResource(SurveyModelResource):
                                'survey', null=True, blank=True, full=True, readonly=True)
     user = fields.ToOneField('apps.account.api.UserResource',
                              'user', null=True, blank=True, full=True, readonly=True)
+
+    def alter_detail_data_to_serialize(self, request, bundle):
+        if 'meta' not in bundle.data:
+            bundle.data['meta'] = {}
+        print request.user, bundle.obj.user
+        is_impersonated = bundle.obj.user != request.user
+        if is_impersonated:
+            bundle.data['meta']['profile'] = json.loads(bundle.obj.user.profile.registration)
+        else:
+            bundle.data['meta']['profile'] = json.loads(request.user.profile.registration)
+        bundle.data['meta']['is_impersonated'] = is_impersonated
+        return bundle
 
     class Meta:
         queryset = Respondant.objects.all().order_by('-ts')
@@ -456,9 +544,12 @@ class SurveyResource(SurveyModelResource):
         PageResource, 'page_set', full=True, null=True, blank=True)
 
     def get_object_list(self, request):
-        user_tags = [tag.name for tag in request.user.profile.tags.all()]
         obj_list = super(SurveyResource, self).get_object_list(request)
-        return obj_list.filter(tags__name__in=user_tags)
+        if not request.user.is_anonymous():
+            user_tags = [tag.name for tag in request.user.profile.tags.all()]
+            return obj_list.filter(tags__name__in=user_tags)
+        else:
+            return obj_list
 
     class Meta:
         detail_uri_name = 'slug'
@@ -522,3 +613,38 @@ class SurveyReportResource(SurveyResource):
                            .values('entered_by__username').distinct()]
         }
         return bundle
+
+
+
+
+# Based off of ``piston.utils.coerce_put_post``. Similarly BSD-licensed.
+# And no, the irony is not lost on me.
+def convert_post_to_VERB(request, verb):
+    """
+    Force Django to process the VERB.
+    """
+    if request.method == verb:
+        if hasattr(request, '_post'):
+            del(request._post)
+            del(request._files)
+
+        try:
+            request.method = "POST"
+            request._load_post_and_files()
+            request.method = verb
+        except AttributeError:
+            request.META['REQUEST_METHOD'] = 'POST'
+            request._load_post_and_files()
+            request.META['REQUEST_METHOD'] = verb
+        setattr(request, verb, request.POST)
+
+    return request
+
+def convert_post_to_put(request):
+    return convert_post_to_VERB(request, verb='PUT')
+
+
+def convert_post_to_patch(request):
+    print "Converting post to patch"
+    return convert_post_to_VERB(request, verb='PATCH')
+

@@ -1,21 +1,9 @@
 <div class="container user-list">
     <div class="row" ng-cloak>
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9">
-            <div class="row">
-                <!-- <div class="col-md-8">
-                    <div ng-model="filter.type" bs-radio-group>
-                        <label class="btn btn-default">
-                            <input type="radio" class="btn btn-default" value="staff">
-                            Staff
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" class="btn btn-default" value="fishers">
-                            Fishers
-                        </label>
-                        
-                    </div>
-                </div> -->
+        <div class="col-md-9 col-sm-9">
+            <h1 class="page-title">Add Catch Report</h1>
+            <div class="row">   
                 <div class="col-md-6 filter-box">
                     <form class="form-inline" role="form" ng-submit="search()">
                         <div class="form-group search-group col-md-7">
@@ -56,9 +44,16 @@
                         </td> -->
                         <td>
                             <div class="btn-group pull-right">
-                                <a class="btn btn-default" target="_blank" href="/respond/catch-report?user={{user.username}}">
+                                <span class="hidden-sm">
+                                <a class="btn btn-default" target="_blank" ng-click="addCatchReport(user)">
                                     <i class="icon-plus"></i> Add Catch Report
                                 </a>
+                                </span>
+                                <span class="visible-sm">
+                                <a class="btn btn-default" target="_blank" ng-click="addCatchReport(user)">
+                                    <i class="icon-plus"></i> Add
+                                </a>
+                                </span>
                             </div>
                         </td>
                     </tr>
@@ -67,17 +62,17 @@
             <div class="row">
                 <div class="col-md-4">
                     <p>
-                        Showing {{ users.length }} of {{ meta.total_count }}
+                        Showing {{ meta.offset + 1 }}-{{ meta.offset + meta.limit }} of {{ meta.total_count }}
                         
                     </p>
                 </div>
                 <div class="col-md-4">
                     <ul class="pager">
-                        <li class="previous" ng-class="{ 'disabled': !meta.next }">
-                            <a ng-disabled="! meta.next" ng-click="getUsers(meta.next, true)">&larr; Previous</a>
+                        <li class="previous" ng-class="{ 'disabled': !meta.previous }">
+                            <a ng-disabled="! meta.previous" ng-click="getUsers(meta.previous, true)">&larr; Previous</a>
                         </li>
-                        <li class="next" ng-class="{ 'disabled': !meta.previous }">
-                            <a ng-disabled="! meta.previous" ng-click="getUsers(meta.previous, true)">Next &rarr;</a>
+                        <li class="next" ng-class="{ 'disabled': !meta.next }">
+                            <a ng-disabled="! meta.next" ng-click="getUsers(meta.next, true)">Next &rarr;</a>
                         </li>
                     </ul>
                 </div>

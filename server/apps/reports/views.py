@@ -14,26 +14,29 @@ from apps.survey.models import (Survey, Question, Response, Respondant, Location
 from apps.places.models import Area
 from apps.reports.models import QuestionReport
 
+
 def get_respondants_summary(request):
-    start_time = Respondant.objects.filter(user=request.user).aggregate(lowest=Min('ts'))['lowest']
+    """
+    """
+    start_time = Respondant.objects.filter(user=request.user).aggregate(lowest=Min('ordering_date'))['lowest']
     return HttpResponse(simplejson.dumps( { 'start_time': start_time.strftime('%Y-%m-%d') } ) )
 
-@staff_member_required
+@login_required
 def get_geojson(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
     question = get_object_or_404(QuestionReport, slug=question_slug, survey=survey)
     locations = LocationAnswer.objects.filter(location__response__respondant__survey=survey, location__respondant__complete=True)
-    
+
     filter_list = []
     filters = None
 
-    if request.GET:    
+    if request.GET:
         filters = request.GET.get('filters', None)
 
     if filters is not None:
         filter_list = simplejson.loads(filters)
 
-    if filters is not None:    
+    if filters is not None:
         for filter in filter_list:
             slug = filter.keys()[0]
             value = filter[slug]
@@ -53,12 +56,30 @@ def get_geojson(request, survey_slug, question_slug):
                 'coordinates': [location.location.lng,location.location.lat]
             }
         }
-        geojson.append(d) 
+        geojson.append(d)
     return HttpResponse(simplejson.dumps({'success': "true", 'geojson': geojson}))
 
 
 @login_required
 def get_distribution(request, survey_slug, question_slug):
+    """
+
+    Request Params:
+    - start_date [String] - ISO 8601 date stamp yyyy-mm-dd
+    - end_date [String] - ISO 8601 date stamp yyyy-mm-dd
+    - fisher [String] - if present only returns the logged in users data
+    - accepted - if present filters respondants on REVIEW_STATE_ACCEPTED
+
+    Returns a list JSON dict with keywords 'success' and 'results'. If the user is not staff or
+    the 'fisher' param is present only returns data for the logged in user.
+
+    """
+    if request.method == 'GET':
+        filters = request.GET.get('filters', None)
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        island = request.GET.get('island', None)
+
     if survey_slug == 'all':
         user_tags = [tag.name for tag in request.user.profile.tags.all()]
         surveys = Survey.objects.filter(tags__name__in=user_tags)
@@ -70,23 +91,20 @@ def get_distribution(request, survey_slug, question_slug):
         answers = question.response.filter(respondant__complete=True)
         question_type = question.type
     else:
-        questions = Question.objects.filter(slug__istartswith=question_slug.replace('*', ''), question_page__survey__in=surveys)
+        questions = Question.objects.filter(slug__icontains=question_slug.replace('*', ''), question_page__survey__in=surveys)
         if questions.count() == 0:
-            return HttpResponse(simplejson.dumps({'success': "true", "results": []}))
+            return HttpResponse(simplejson.dumps({'success': "true",
+                                                  "results": []}))
         answers = Response.objects.filter(question__in=questions)
         question_type = questions.values('type').distinct()[0]['type']
-    if request.user.is_staff is None or request.GET.get('fisher', None) is not None:
+
+    if request.user.is_staff is False or request.GET.get('fisher', None) is not None:
         answers = answers.filter(user=request.user)
     elif request.GET.get('accepted', None) is not None:
         answers = answers.filter(respondant__review_status=REVIEW_STATE_ACCEPTED)
 
     filter_list = []
 
-    if request.method == 'GET':
-        filters = request.GET.get('filters', None)
-        start_date = request.GET.get('start_date', None)
-        end_date = request.GET.get('end_date', None)
-        island = request.GET.get('island', None)
 
     if filters is not None:
         filter_list = simplejson.loads(filters)
@@ -122,7 +140,7 @@ def get_distribution(request, survey_slug, question_slug):
             answers = answers.filter(respondant__response__in=filter_question.response_set.filter(answer__in=value))
     if question_type in ['grid']:
         # print GridAnswer.objects.filter(response__in=answers).values('row_text', 'col_text', 'sp').annotate(total=Sum('answer_number')).order_by('row_text')
-        
+
         answer_domain = GridAnswer.objects.filter(response__in=answers).values('species__name', 'species__family__name', 'species__code', 'species__family__code').annotate(total=Sum('answer_number')).order_by('species__name')
         # return answers.values('answer').annotate(locations=Sum('respondant__locations'), surveys=Count('answer'))
     elif question_type in ['map-multipoint']:
@@ -174,8 +192,8 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
 
             # if end_date is not None:
             #     #respondants = respondants.filter(respondantsesponses__in=date_question.response_set.filter(answer_date__lte=end_date))
-                
-            
+
+
             if question_b.type in ['grid']:
                 obj['type'] = 'stacked-column'
                 rows = Response.objects.filter(respondant__in=respondants, question=question_b)[0].gridanswer_set.all().values('row_text','row_label').order_by('row_label')
@@ -194,12 +212,12 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
                 else:
                     obj['type'] = 'time-series'
                     values = Response.objects.filter(respondant__in=respondants, question=question_b).extra(select={ 'date': "date_trunc('%s', ts)" % group}).order_by('date').values('date').annotate(sum=Sum('answer_number'))
-                    
+
                     d = {
                         'name': question_a_answer['answer'],
                         'value': list(values)
                     }
-        
+
                 crosstab.append(d)
 
             obj['crosstab'] = crosstab
@@ -207,7 +225,7 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
         return HttpResponse(json.dumps(obj, cls=DjangoJSONEncoder))
     except Exception, err:
         print Exception, err
-        return HttpResponse(json.dumps({'success': False, 'message': "No records for this date range." }))    
+        return HttpResponse(json.dumps({'success': False, 'message': "No records for this date range." }))
 
 
 class MapLayer(GeoJSONLayerView):

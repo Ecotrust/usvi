@@ -28,11 +28,11 @@ angular.module('askApp')
                 }
 
                 for (var i = 0; i < v1parts.length; ++i) {
-                    if (v2parts.length == i) {
+                    if (v2parts.length === i) {
                         return 1;
                     }
 
-                    if (v1parts[i] == v2parts[i]) {
+                    if (v1parts[i] === v2parts[i]) {
                         continue;
                     } else if (v1parts[i] > v2parts[i]) {
                         return 1;
@@ -41,13 +41,12 @@ angular.module('askApp')
                     }
                 }
 
-                if (v1parts.length != v2parts.length) {
+                if (v1parts.length !== v2parts.length) {
                     return -1;
                 }
 
                 return 0;
             }
-
 
             $scope.path = 'home';
 
@@ -69,6 +68,12 @@ angular.module('askApp')
             } else {
                 $scope.lastUser = false;
             }
+            if (app.user) {
+                app.user.offline = false;
+            }
+            if ($scope.user) {
+                $scope.user.offline = false;
+            }
 
             if (app.user && app.user.resumePath) {
                 if (!_.has(app.respondents && _.last(app.user.resumePath.split('/')))) {
@@ -83,37 +88,35 @@ angular.module('askApp')
                 $scope.authUser = app.offlineUser;
             }
 
-            $scope.version = app.version;
+            $scope.version = version;
             $scope.stage = app.stage;
-
             $scope.update = false;
             $http({
                 method: 'GET',
-                url: app.server + "/mobile/getVersion"
+                url: app.server + '/mobile/getMessages'
             })
                 .success(function(data) {
                     $scope.newVersion = data.version;
+                    $scope.notificationCount = data.notification_count;
                     if (versionCompare($scope.version, $scope.newVersion) < 0) {
-                        $scope.update = "An update is available for Digital Deck."
+                        $scope.update = "An update is available for Digital Deck.";
                         app.refreshSurveys = true;
                         storage.saveState(app);
                     } else {
                         $scope.update = false;
                     }
-                })
-                .error(function(data) {});
-
-
+                });
             $scope.updateApp = function() {
-                var ref = window.open(app.server + '/downloads/update.html', '_blank', 'location=yes');
-            }
+                window.open(app.server + '/static/survey/mobile.html#/update', '_blank', 'location=yes');
+                // window.open(app.server + '/downloads/update.html', '_blank', 'location=yes');
+            };
 
             $scope.logout = function() {
                 app.lastUser = app.user; // Save last user so we can remeber account info fpr login screen
                 app.user = false;
                 storage.saveState(app);
                 $location.path('/');
-            }
+            };
 
             // $scope.saveState = function () {
             //     localStorage.setItem('hapifish', JSON.stringify(app));
@@ -178,6 +181,9 @@ angular.module('askApp')
 
 
             $scope.authenticateUser = function(user) {
+                if (! user.password) {
+                    return false;
+                }
                 var url = app.server + "/account/authenticateUser";
                 $scope.working = true;
                 user = storage.cleanUserObject(user);

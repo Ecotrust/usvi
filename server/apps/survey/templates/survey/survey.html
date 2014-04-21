@@ -17,10 +17,13 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <script src="{{ STATIC_URL}}javascripts/libs/modernizr-2.0.6.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <!-- <link href="{{ STATIC_URL }}survey/components/flatui/css/bootstrap.css" rel="stylesheet"> -->
     <link href="https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/flatui/css/flat-ui.css"> -->
+    
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/select2/select2.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/main.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/select2/select2.css">
@@ -31,6 +34,8 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/jquery-ui-bootstrap/jquery.ui.theme.font-awesome.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/main.css?v=0">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/map.css?v=0">
+    <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/lib/css/angular-loading-bar.css">
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/tracekit.js"></script>
 
     <!--[if lt IE 9]>
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/leaflet/dist/leaflet.ie.css">
@@ -45,9 +50,15 @@
   </head>
   <body xmlns:ng="http://angularjs.org" id="ng-app" ng-app="askApp">
 
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
+<!--[if lte IE 8]>
+  <div class="chromeframe">
+
+      <p>We are sorry to inform you that you are using an outdated browser. <a href="http://browsehappy.com/">Please upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+      <p>Sorry for the inconvience,<br>
+      The Point 97 Team.</p>
+      <img src="/static/survey/assets/img/point97.png"></img>
+  </div>
+<![endif]-->
 
     <!--[if lt IE 9]>
       <script src="{{ STATIC_URL }}survey/components/es5-shim/es5-shim.js"></script>
@@ -66,14 +77,18 @@
     <script src="{{ STATIC_URL }}survey/assets/lib/js/angular-route.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/angular-ui.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/angular-touch.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/angular-animate.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/directives/ui-bootstrap-tpls-0.2.0.js"></script>
 
     <script src="{{ STATIC_URL }}survey/assets/lib/js/select2.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/underscore.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/underscore.string.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet-src.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/esri-leaflet.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/ng-grid.min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/ng-grid-plugins/ng-grid-flexible-height.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/angular-loading-bar.js"></script>
+
     <script src="{{ STATIC_URL }}survey/assets/lib/js/bootstrap.js"></script>
 
     <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet-pip.min.js"></script>
@@ -102,15 +117,7 @@
 
 
 
-    <script>
-    var token = "{{csrf_token}}";
-    var static_url = "{{STATIC_URL}}";
-    {% if user.is_authenticated %}
-    var isAuthenticated = true;
-    {% else %}
-    var isAuthenticated = false;
-    {% endif %}
-    </script>
+    {% include "survey/load_user_object.html" %}
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

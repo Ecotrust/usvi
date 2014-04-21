@@ -9,6 +9,7 @@
         <!-- Sets initial viewport load and disables zooming -->
         <!-- <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> -->
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi" />
+        <meta name="format-detection" content="telephone=no">
         <!-- Makes your prototype chrome-less once bookmarked to your phone's
         home screen -->
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,14 +22,15 @@
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="touch-icons/apple-touch-icon-57x57.png">
         <!-- Include the compiled Ratchet CSS -->
 
-         <link rel="stylesheet" href="assets/lib/css/ng-grid.css">
-         <link rel="stylesheet" href="assets/lib/css/bootstrap.css">
+        <link rel="stylesheet" href="assets/lib/css/ng-grid.css">
+        <link rel="stylesheet" href="assets/lib/css/bootstrap.css">
         <link rel="stylesheet" href="assets/css/mobile.css">
         <link rel="stylesheet" href="assets/lib/css/leaflet.css">
         <link rel="stylesheet" href="assets/lib/css/leaflet.awesome-markers.css">
         <link rel="stylesheet" href="assets/lib/css/leaflet.label.css">
-
-        <link rel="stylesheet" href="assets/lib/css/font-awesome.min.css">        
+        <link rel="stylesheet" href="assets/lib/css/angular-loading-bar.css">
+        <link rel="stylesheet" href="assets/lib/css/font-awesome.min.css">
+    
     </head>
     
     <body ng-app="askApp" id="app_shell">
@@ -40,31 +42,36 @@
     <script src="assets/lib/js/angular.js"></script>
     <script src="assets/lib/js/angular-route.js"></script>
     <script src="assets/lib/js/angular-touch.js"></script>
+    <script src="assets/lib/js/angular-animate.js"></script>
+    <script src="assets/lib/js/angular-ui.js"></script>
+    <script src="assets/lib/js/angular-loading-bar.js"></script>
+    <script src="assets/js/directives/ui-bootstrap-tpls-0.2.0.js"></script>
+    <script src="assets/lib/js/tracekit.js"></script>
 
-     <script src="assets/lib/js/angular-ui.js"></script>
-     <script src="assets/js/directives/ui-bootstrap-tpls-0.2.0.js"></script>
-
-     <script src="assets/lib/js/select2.js"></script>
-     <script src="assets/lib/js/underscore.js"></script>
-     <script src="assets/lib/js/underscore.string.js"></script>
-     <script src="assets/lib/js/leaflet-src.js"></script>
-     <script src="assets/lib/js/ng-grid.min.js"></script>
-     <script src="assets/lib/js/ng-grid-plugins/ng-grid-flexible-height.js"></script>
-     <script src="assets/lib/js/bootstrap.js"></script>
+    <script src="assets/lib/js/select2.js"></script>
+    <script src="assets/lib/js/underscore.js"></script>
+    <script src="assets/lib/js/underscore.string.js"></script>
+    <script src="assets/lib/js/leaflet-src.js"></script>
+    <script src="assets/lib/js/ng-grid.min.js"></script>
+    <script src="assets/lib/js/ng-grid-plugins/ng-grid-flexible-height.js"></script>
+    <script src="assets/lib/js/bootstrap.js"></script>
 
     <script src="assets/lib/js/leaflet-pip.min.js"></script>
     <script src="assets/lib/js/Bing.js"></script>
     <script src="assets/lib/js/leaflet.awesome-markers.min.js"></script>
     <script src="assets/lib/js/leaflet.label.js"></script>
+    <script src="assets/lib/js/esri-leaflet.js"></script>
     <script src="assets/lib/js/backstretch.js"></script>
-     <script>
+    <script>
      window.isAuthenticated = false;
-     </script>
+     window.isAPP = true;
+    </script>
 
 
     <!-- build:js scripts/scripts.js -->
     <script src="assets/js/app.js"></script>
     <script src="assets/js/controllers/splash.js"></script>
+    <script src="assets/js/controllers/update.js"></script>
     <script src="assets/js/controllers/SurveyList.js"></script>
     <script src="assets/js/controllers/offlineRespondantList.js"></script>
     <script src="assets/js/controllers/history.js"></script>

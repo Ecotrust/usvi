@@ -1,42 +1,41 @@
-<div class="container summary">
-    <div class="row" ng-cloak>
+<div class="summary" ng-cloak>
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9">
+        <div class="col-md-9 col-sm-9">
             <div class="row">
-                <h1>Catch Report Summaries<span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
+                <h1 class="page-title">Catch Report Summaries<span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
                     <i ng-show="busy" class="icon-spinner icon-spin"></i>
                 </h1>
                 <div>
                     <div class="row filter-box">
-                        <div class="col-md-7">
+                        <div class="col-md-7 col-sm-6">
                             <div ng-include="'/static/survey/views/areaButtons.html'"></div>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-sm-6">
                             <div class="form-control date-range-picker" date-range-picker min="filter.min" max="filter.max" start="filter.startDate" end="filter.endDate"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-            	<div dash-map zoom="8"  locations="locations" geojson="geojson_layer"></div>
+            	<div dash-map zoom="7"  locations="locations" geojson="geojson_layer"></div>
         	</div>
             <div class="row">
                 <ol class="list-unstyled" class="acl-results catch-report-summaries" style="margin-top: 20px;">
                     <li ng-repeat="(k, total) in totals" class="acl-result" >
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3">
                                 <span ng-hide="k== 'null'">{{ k }}</span>
                                 <span ng-hide="k != 'null'">Not Matched</span>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-7 col-sm-7">
                                 <div class="progress">
-                                  <div class="progress-bar" role="progressbar" aria-valuenow="{{ total/max }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ total/max*100 }}%;">
+                                  <div class="progress-bar" role="progressbar" aria-valuenow="{{ getWidth(total, max) }}" aria-valuemin="0" aria-valuemax="100" ng-style="getWidth(total, max)">
                                     <span class="sr-only">{{ total/max }}% Complete</span>
                                   </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-2">
                                 <span class="info-percent">{{ total|number:1 }} lbs</span>
                             </div>
                         </div>
@@ -45,22 +44,42 @@
             </div>
             <div class="row">
                 <h3>Matching Reports</h3>
-                <table class="table">
+                <table id="report-table" class="table">
+                    <thead>
+                    <tr>
+                        <th>Landed Date</th>
+                        <th>Name</th>
+                        <th>Catch Report</th>
+                        <th>Harvest (lbs.)</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <tr ng-repeat="respondent in respondents">
+                        <td>{{ respondent.ordering_date|date }}</td>
+                        <td>{{ respondent.user.first_name }}, {{respondent.user.last_name}}</td>
                         <td>
-                            <a target="_blank" href="#/RespondantDetail/{{respondent.uuid}}">
+                            <a href="#/RespondantDetail/{{respondent.uuid}}">
                                 {{ respondent.survey_title }}
                             </a>
                         </td>
-                        <td>{{ respondent.user.username }}</td>
-                        <td>{{ respondent.ordering_date|date }}</td>
+                        <td>{{respondent.total_weight}}</td>
+                        <td>
+                            <span class="label" ng-class="{ 'label-default': respondent.review_status == 'needs review', 'label-success': respondent.review_status == 'accepted', 'label-danger': respondent.review_status == 'flagged' }">
+                                {{ respondent.review_status }}
+                            </span>
+
+                        </td>
                     </tr>
+                    </tbody>
                 </table>
+                <div class="pull-left">
+                    Showing {{ meta.offset + 1 }}-{{ meta.offset + meta.limit }} of {{ meta.total_count }}
+                </div>
                 <div class="pull-right">
                     <div ng-show="meta.pages.length > 1" pagination total-items="meta.total_count" page="meta.page" items-per-page="5" max-size="8" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="goToPage(page)">
                     </div>
                 </div>
             </div>
        	</div>
-    </div>
 </div>

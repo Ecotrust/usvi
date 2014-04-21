@@ -1,7 +1,8 @@
 <div class="container acl-progress" ng-cloak style="min-height: 600px;">
     <div class="row">
-        <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9">
+        <div ng-include="'/static/survey/views/sideNav.html'" ></div>
+        <h1 class="page-title">ACL Progress</h1>
+        <div class="col-md-9 col-sm-9">
             <div class="row">
                 <div class="col-md-12">
                     <div ng-include="'/static/survey/views/areaButtons.html'"></div>
@@ -13,42 +14,63 @@
                 </div>
             </div>
             <div class="carousel slide" ng-show="aclResults">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li ng-click="slideTo($index)" ng-repeat="slide in slides" ng-class="{ 'active': slideIndex == $index }"></li>
-                </ol>
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item" ng-class="{ 'active': slideIndex == $index }" ng-repeat="slide in slides">
                         <div class="row">
-                            <div class="col-md-4" ng-repeat="family in slide">
+                            <div class="col-md-4 col-sm-4 no-padding" ng-repeat="family in slide">
                                 <h3 class="family-title">{{family.name}}</h3>
-                                <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart"></div>
+                                <div acl-pie-chart inner-radius="100" font-size="24" bind="family.data" class="chart" labelcolors="labelcolors"></div>
+                                
+                                <div class="family-legend">
+                                    <div ng-repeat="item in family.data.terms">
+                                            <div class="col-md-9 col-sm-9 legend-item">
+                                                <span ng-style="{color:labelcolors[item.term]}"> {{item.term}}</span>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 legend-item text-right">
+                                                <span ng-style="{color:labelcolors[item.term]}">{{item.count}}</span>
+                                            </div>
+                                    </div>
+                                </div>
+                            
                             </div>
+
                         </div>
-                        <div class="carousel-caption">
-                        </div>
+                        
                     </div>
-                    <!-- Controls -->
+
+
+                </div><!-- end carousel-inner -->
+                
+                <!-- Controls -->
+                <div>
                     <a class="left carousel-control" ng-click="slidePrev()">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </a>
+
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li ng-click="slideTo($index)" ng-repeat="slide in slides" ng-class="{ 'active': slideIndex == $index }"></li>
+                    </ol>
+
                     <a class="right carousel-control" ng-click="slideNext()">
                         <span class="glyphicon glyphicon-chevron-right"></span>
                     </a>
+
                 </div>
+
             </div>
             <div class="row" ng-show="aclResults">
                 <div class="col-md-12">
                     <ol class="list-unstyled" class="acl-results">
                         <li ng-repeat="acl in aclResults" class="acl-result" >
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-3">
                                     {{ acl.acl.species.name }}
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 col-sm-8">
                                     <div class="progress">
-                                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ acl.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ acl.percent }}%;">
+                                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ acl.percent }}" aria-valuemin="0" aria-valuemax="100" ng-style="getWidth(acl.percent)">
                                         <span class="sr-only">{{ acl.percent }}% Complete</span>
                                       </div>
                                     </div>

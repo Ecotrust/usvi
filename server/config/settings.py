@@ -21,11 +21,10 @@ ADMINS = (
 )
 
 SERVER_ADMIN = 'edwin@pointnineseven.com'
-
-DEFAULT_FROM_EMAIL = 'P97 Developers <devlopers@pointnineseven.com>'
-
+DEFAULT_FROM_EMAIL = 'USVI <developers@pointnineseven.com>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 MANAGERS = ADMINS
-
+EMAIL_SUBJECT_PREFIX = 'USVI Dev'
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -48,6 +47,10 @@ USE_L10N = False
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+
+LOGIN_URL = "/account/login"
+LOGIN_REDIRECT_URL = "/dash/"
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -149,56 +152,83 @@ INSTALLED_APPS = (
     'apps.places',
     'apps.survey',
     'apps.reports',
-    'apps.acl'
+    'apps.acl',
+    'tracekit',
 )
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
+
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
         },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
+    },
+    'formatters': {
+        'main_formatter': {
+            'format': '%(levelname)s:%(name)s: %(message)s '
+                     '(%(asctime)s; %(filename)s:%(lineno)d)',
+            'datefmt': "%Y-%m-%d %H:%M:%S",
         },
     },
     'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console':{
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'main_formatter',
+        },
+        'production_file':{
+            'level' : 'INFO',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : 'logs/main.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount' : 7,
+            'formatter': 'main_formatter',
+            'filters': ['require_debug_false'],
+        },
+        'debug_file':{
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : 'logs/main_debug.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount' : 7,
+            'formatter': 'main_formatter',
+            'filters': ['require_debug_true'],
+        },
+        'null': {
+            "class": 'django.utils.log.NullHandler',
         }
     },
     'loggers': {
-        'django': {
-            'handlers': ['null'],
-            'propagate': True,
-            'level': 'INFO',
-        },
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'INFO',
-        },
         'django.request': {
-            'handlers': ['mail_admins', 'console'],
+            'handlers': ['mail_admins', 'console', 'production_file',],
             'level': 'ERROR',
             'propagate': True,
-        }
+        },
+        'django': {
+            'handlers': ['null', ],
+        },
+        'py.warnings': {
+            'handlers': ['null', ],
+        },
+        'apps': {
+            'handlers': ['console', 'production_file', 'debug_file'],
+            'level': "DEBUG",
+        },
+        'tracekit': {
+            'handlers': ['console', 'production_file', 'debug_file'],
+            'level': "DEBUG",
+        },
     }
 }
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ()
@@ -232,3 +262,5 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

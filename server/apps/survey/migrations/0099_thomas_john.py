@@ -13,11 +13,13 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
-        question = Question.objects.get(slug='island')
-        for response in question.response_set.filter(Q(answer__icontains='Thomas') | Q(answer__icontains='John')):
-            response.answer_raw = '{"text":"St. Thomas & St. John","label":"st-thomas-st-john","checked":true,"isGroupName":false,"$$hashKey":"016"}'
-            response.save_related()
-
+        try:
+            question = Question.objects.get(slug='island')
+            for response in question.response_set.filter(Q(answer__icontains='Thomas') | Q(answer__icontains='John')):
+                response.answer_raw = '{"text":"St. Thomas & St. John","label":"st-thomas-st-john","checked":true,"isGroupName":false,"$$hashKey":"016"}'
+                response.save_related()
+        except:
+            pass
     def backwards(self, orm):
         "Write your backwards methods here."
 

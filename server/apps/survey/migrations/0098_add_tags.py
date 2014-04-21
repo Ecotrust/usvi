@@ -11,23 +11,26 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
-        ct = orm['contenttypes.contenttype'].objects.get(
-            app_label='survey',
-            model='survey'
-        )
-        for survey in orm.Survey.objects.all():
-            if survey.slug.endswith('puerto-rico'):
-                tag = 'puerto-rico'
-            else:
-                tag = 'usvi'
-            tag, created = orm['taggit.tag'].objects.get_or_create(
-                name=tag, slug=tag)
-            tag.save()
-            tagged_item, created = orm['taggit.taggeditem'].objects.get_or_create(
-                tag=tag,
-                content_type=ct,
-                object_id=survey.id
+        try:
+            ct = orm['contenttypes.contenttype'].objects.get(
+                app_label='survey',
+                model='survey'
             )
+            for survey in orm.Survey.objects.all():
+                if survey.slug.endswith('puerto-rico'):
+                    tag = 'puerto-rico'
+                else:
+                    tag = 'usvi'
+                tag, created = orm['taggit.tag'].objects.get_or_create(
+                    name=tag, slug=tag)
+                tag.save()
+                tagged_item, created = orm['taggit.taggeditem'].objects.get_or_create(
+                    tag=tag,
+                    content_type=ct,
+                    object_id=survey.id
+                )
+        except:
+            pass
 
 
     def backwards(self, orm):

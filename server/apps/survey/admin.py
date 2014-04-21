@@ -5,12 +5,12 @@ from survey.models import *
 
 class RespondantAdmin(admin.ModelAdmin):
     readonly_fields=('uuid', )
-    list_display = ('user', 'uuid', 'ordering_date', 'island', )
-
+    list_display = ('user', 'uuid', 'ordering_date', 'island', 'survey_slug' )
+    search_fields = ['uuid', 'user__username']
 
 
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'ts',)
+    list_display = ('__unicode__', 'answer', 'ts',)
 
 
 

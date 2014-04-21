@@ -2,7 +2,8 @@
 angular.module('askApp')
     .controller('AnnualCatchLimitListCtrl', function($scope, $http, $routeParams, $location) {
     	var url = '/api/v1/annualcatchlimit/';
-    	$http.get(url + '?limit=0&format=json').success(function (data) {
+    	$scope.activePage = "acl-list";
+        $http.get(url + '?limit=0&format=json').success(function (data) {
             var years = [];
     		$scope.acls = data.objects;
     		$scope.meta = {

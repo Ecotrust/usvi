@@ -1,12 +1,17 @@
 
 <!-- HEADER -->
-
 <div class="row">
-    <div class="col-xs-12 col-sm-4 margin-top-10">
-        <div>
+    <div class="col-xs-12 col-sm-12 margin-top-10">
+        <div class="pull-right">
             <strong>Fecha del desembarco: </strong>
             <span>{{ getAnswer('trip-landing-date-puerto-rico') }}</span>
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-4 margin-top-10">
+        
         <div>
             <strong>Pesca: </strong>
             <span>{{ getAnswer('fishing-day-night-puerto-rico')['text'] }}</span>
@@ -89,17 +94,36 @@
                 {{ area }}<span ng-hide="$last">, </span>
             </span>
         </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-4 margin-top-10 paper-group" ng-repeat="(group,species) in groups">
-        <h4 class="title">{{ group }}</h4>
-        <ul class="list-unstyled">
-            <li ng-repeat="s in species">
-                <p><strong>{{ s.text }}</strong></p>
-                <p>precio por libra: {{ fw[s.text].precioporlibra}}</p>
-                <p>libras: {{ fw[s.text].libras}}</p>
-            </li>
-        </ul>
+        <div>
+            <strong>Pesca capturada n una distancia de In msm</strong>
+            <span>{{ getAnswer('fished-9-miles-from-shore-puerto-rico').text }}</span>
+        </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 margin-top-10 paper-group" ng-repeat="(group,species) in groups">
+        <h4 class="title">{{ group }}</h4>
+        <table class="table">
+            <thead>
+                <th>Clase de Pescado</th>
+                <th>Peso</th>
+                <th>Precio Por Libra</th>
+                <th>Arte</th>
+                <th>Horas Pescando</th>
+                <th>Cantidad o Tamaño De Arte</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="s in species">
+                    <td><strong>{{ s.text }}</strong></td>
+                    <td>{{ fw[s.text].peso}}</td>
+                    <td>{{ fw[s.text].precioporlibra}}</td>
+                    <td>{{ arte[s.text].arte }}</td>
+                    <td>{{ hours[s.text].horasdepesca }}</td>
+                    <td>{{ gear_size[s.text].cantidadytamanodearte }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <!-- end Header -->

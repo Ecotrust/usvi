@@ -48,48 +48,71 @@
   </head>
   <body xmlns:ng="http://angularjs.org">
 
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
+<!--[if lte IE 8]>
+  <div class="chromeframe">
+
+      <p>We are sorry to inform you that you are using an outdated browser. <a href="http://browsehappy.com/">Please upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+      <p>Sorry for the inconvience,<br>
+      The Point 97 Team.</p>
+      <img src="/static/survey/assets/img/point97.png"></img>
+  </div>
+<![endif]-->
 
     <!--[if lt IE 9]>
       <script src="{{ STATIC_URL }}survey/components/es5-shim/es5-shim.js"></script>
       <script src="{{ STATIC_URL }}survey/components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    {% if user.is_authenticated %}
-    <div id="topnav" class="navbar navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">
-            <img src="{{STATIC_URL}}survey/assets/img/point_97_logo.png">
-            <span>Digital Deck USVI & Puerto Rico</span>
-          </a>
-        </div>
-        <div class="navbar-right">
-          <a href="{% url 'auth_logout' %}" class="navbar-btn navbar-right btn btn-default">Sign Out</a>
-          <p class="navbar-text navbar-right">Signed in as {{user.username}}
-          {% if user.profile.is_intern == False %}(<a href="#/users">admin</a>){% endif %}
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid dashboard" id="ng-app" ng-app="askApp" ng-view style="min-height: 600px"></div>
+        <!-- Add your site or application content here -->
+        {% if user.is_authenticated %}
+        <div id="topnav" class="navbar navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">
+                <img src="{{STATIC_URL}}survey/assets/img/point_97_logo.png">
+                <span>Digital Deck USVI & Puerto Rico</span>
+              </a>
+            </div>
+            
+            <div class="collapse navbar-collapse">
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="bigger">{{user.username}} <b class="caret"></b></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'auth_logout' %}" class="toUpper">Sign Out</a></li>
+                                {% if user.profile.is_intern == False and user.is_staff == True %}
+                                <li><a href="#/accounts" class="toUpper">admin</a></li>
+                                {% endif %}
 
-    {% endif %}
-    <div id="footer" style="margin-top: 60px;">
-    <div class="container">
-        <p class="pull-right text-muted">&copy; 2014, Point 97</p>
+                                {% if user.is_superuser == True %}
+                                <li class="toUpper"><a target="_blank" href="/admin/">Django Admin</a></li>
+                                <li class="toUpper"><a target="_blank" href="/static/survey/mobile.html">Mobile App</a></li>
+                                {% endif %}
 
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+          
+        </div>
+        
+        <div class="container dashboard" id="ng-app" ng-app="askApp" ng-view style="min-height: 600px"></div>
+
+        {% endif %}
+        <div id="footer" style="margin-top: 60px;">
+        <div class="container">
+            <p class="pull-right text-muted">&copy; 2014, Point 97</p>
+
+        </div>
     </div>
-</div>
     <script src="{{ STATIC_URL }}survey/components/flatui/js/jquery-1.8.2.min.js"></script>
     <script src="{{ STATIC_URL }}survey/components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="{{ STATIC_URL }}javascripts/libs/jquery.mjs.nestedSortable.js"></script>
@@ -99,8 +122,7 @@
     <script src="{{ STATIC_URL }}survey/components/angular-ui/build/angular-ui.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/directives/ui-bootstrap-tpls-0.10.0.js"></script>
     
-    <script src="{{ STATIC_URL }}survey/components/select2/select2.js"></script>
-    <script src="{{ STATIC_URL }}survey/components/underscore/underscore.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/underscore.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/underscore.string.js"></script>
     
     <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet-src.js"></script>
@@ -109,6 +131,7 @@
     <script src="{{ STATIC_URL }}survey/lib/js/leaflet.awesome-markers.min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/jQDateRangeSlider-min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/date.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/tracekit.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet.label.js"></script>
 
     <!--<script src="{{ STATIC_URL }}survey/lib/js/heatmap.js"></script>
@@ -124,17 +147,18 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/main.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/menu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/agency-dash.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/landing-dash.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyList.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/Accounts.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyListMenu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyDetail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/mapView.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantList.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-detail.js"></script>
-    <script src="{{ STATIC_URL }}survey/assets/js/controllers/user-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/add-catch-report.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/catch-report-summaries.js"></script>
-\    <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/sidebarmenu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantDetail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/complete.js"></script>
@@ -150,6 +174,7 @@
     <script src="{{ STATIC_URL }}survey/assets/js/directives/dash-map.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/services/History.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/services/respondents.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/services/api-client.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/filters.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/directives/directives.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/angular-strap.js"></script>
@@ -161,21 +186,9 @@
      <!-- <script src="http://d3js.org/colorbrewer.v1.min.js"></script>-->
     <!-- endbuild -->
 
-    <script>
-    var token = "{{csrf_token}}";
+    {% include "survey/load_user_object.html" %}
     {% if user.is_authenticated %}
-    var isAuthenticated = true;
-    app.user = {
-      username: "{{user.username}}",
-      is_intern: "{{ user.profile.is_intern }}" === "True",
-      tags: "{% for tag in user.profile.tags.all %}{{ tag.name }} {% endfor %}",
-      is_staff :"{{ user.is_staff}}" === "True",
-      is_superuser :"{{user.is_superuser}}" === "True",
-    };
-
-    app.user.isUsvi = _.string.contains(app.user.tags, "usvi");
-    app.user.isPuertoRico = _.string.contains(app.user.tags, "puerto-rico");
-
+    <script>
     app.survey_meta = {
         total: {{ meta.total }},
         flagged: {{ meta.flagged }},
@@ -185,10 +198,10 @@
         entered_by: {{meta.entered_by|safe}}
       };
 
-    {% else %}
-    var isAuthenticated = false;
-    {% endif %}
+      
+
     </script>
+    {% endif %}
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

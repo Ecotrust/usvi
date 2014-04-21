@@ -1,19 +1,39 @@
-{% extends "dash-base.html" %}
-{% block content %}
-<form class="form-signin" method="post" action="{% url 'django.contrib.auth.views.login' %}">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input type="text" class="form-control" placeholder="Email address" name="username" autofocus>
-    <input type="password" class="form-control" placeholder="Password" name="password">
-    
-    <label class="checkbox">
-        <input type="checkbox" value="remember-me">Remember me
-    </label>
-    {% if next %}
-    <input type="hidden" name="next" value="{{ next }}" />
-    {% else %}
-    <input type="hidden" name="next" value="/fisher" />
-    {% endif %}
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    {% csrf_token %}
+{% extends "admin/hapifis_admin_base.html" %}
+{% load i18n admin_static %}
+{% block hapifis_content %}
+<!-- <h1>ADMINISTRATIVE DASHBOARD</h1> -->
+  <form action="{% url 'login' %}" method="POST" id="login-form">{% csrf_token %}
+  {% for error in form.non_field_errors %}
+  <div class="alert alert-danger margin-top"><p>{{ error }}</p></div>
+  {% endfor %}
+    <div class="form-group {% if form.username.errors %}has-error{% endif %}">
+    {% for error in form.username.errors %}<p class="label label-danger right no-margin">{{ error }}</p>{% endfor %}
+    <label class="left">{{ form.username.label }}</label>
+    {{ form.username }}
+  </div>
+    <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+    {% for error in form.password.errors %}<p class="label label-danger right no-margin">{{ error }}</p>{% endfor %}
+    <label class="left">{{ form.password.label }}</label>
+    {{ form.password }}
+    <input type="hidden" name="this_is_the_login_form" value="1" />
+    <!-- <input type="hidden" name="next" id="next_url" /> -->
+  </div>
+  {% endblock %}
+  {% block hapifis_content_nobg %}
+    <div class="submit-row">
+    <input type="submit" class="btn" value="{% trans 'Sign In' %}" />
+  </div>
+    <div class="center margin-top">
+    <a href="{% url 'admin_password_reset' %}">{% trans 'Forgot password?' %}</a>
+  </div>
+</div>
 </form>
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+document.getElementById('id_username').setAttribute('placeholder', 'username')
+document.getElementById('id_password').setAttribute('placeholder', 'password')
+document.getElementById('id_username').setAttribute('class', 'form-control')
+document.getElementById('id_password').setAttribute('class', 'form-control')
+// document.getElementById('next_url').setAttribute('value', window.location.href)
+</script>
 {% endblock %}

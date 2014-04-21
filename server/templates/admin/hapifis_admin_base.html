@@ -3,7 +3,9 @@
 
 {%block title %}Dashboard Log in{% endblock %}
 {% block extrahead %}
+<link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/main.css">
 <script>
+    
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -17,7 +19,7 @@
 
 <style>
 html, #grp-content-container {
-    background-color: #DFF2F4;
+   
 }
 .container {
     margin-top: 10%;
@@ -68,6 +70,8 @@ h1 {
     background-color: #82B4C0;
 }
 .header {
+    background: #00ABBA;
+    background-color: #00ABBA;
     background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #91CDD7), color-stop(1, #00ABBA));
     background-image: -o-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
     background-image: -moz-linear-gradient(left, #91CDD7 0%, #00ABBA 100%);
@@ -120,7 +124,7 @@ h1 {
     <div>
         <ul class="nav navbar-nav navbar-left">
             <li><a class="navbar-brand" href="http://pointnineseven.com/"><img src="{{STATIC_URL}}survey/assets/img/point97.png"></img></a></li>
-            <li><h3 class="navbar-text">Digital Deck USVI & Puerto Rico</h3></li>
+            <li><h3 class="navbar-text"><a href="/dash">Digital Deck USVI & Puerto Rico</a></h3></li>
         </ul>
     </div>
 </nav>

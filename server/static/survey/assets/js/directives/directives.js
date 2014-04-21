@@ -37,7 +37,7 @@ angular.module('askApp')
                         }
                     }, function(start, end) {
                         scope.$apply(function(s) {
-                            if (start !== scope.start) {         
+                            if (start !== scope.start) {
                                 s.start = start;
                                 s.displayMin = (new Date(start)).toString('MMM dd, yyyy');
                             }
@@ -45,7 +45,7 @@ angular.module('askApp')
                                 s.end = end;
                                 s.displayMax = (new Date(end)).toString('MMM dd, yyyy')
                             }
-                        });  
+                        });
                     });
                 });
 
@@ -70,12 +70,12 @@ angular.module('askApp')
                 });
                 scope.$watch('start', function (newValue) {
                     if (newValue) {
-                        scope.displayMin = (new Date(newValue)).toString('MMM dd, yyyy');    
+                        scope.displayMin = (new Date(newValue)).toString('MMM dd, yyyy');
                     }
                 });
                 scope.$watch('end', function (newValue) {
                     if (newValue) {
-                        scope.displayMax = (new Date(newValue)).toString('MMM dd, yyyy');    
+                        scope.displayMax = (new Date(newValue)).toString('MMM dd, yyyy');
                     }
                 });
             }
@@ -103,9 +103,26 @@ angular.module('askApp')
                 scope.toggleVisible = function() {
                     scope.visible = !scope.visible;
                 };
-                
+
             }
         }
+    });
+
+angular.module('askApp')
+    .directive('autofocus', function() {
+        return {
+            retrict: 'E',
+            link: function(scope, element, attrs) {
+                element.on('submit', function (e) {
+                    e.preventDefault();
+                    element.find('input').filter(function () {
+                        return !this.value;
+                    }).filter(':first').focus();
+                    return false;
+                });
+
+            }
+        };
     });
 
 angular.module('askApp')
@@ -136,7 +153,7 @@ angular.module('askApp')
             },
             link: function(scope, element, attrs) {
                 element.on("mouseover", function(d) {
-                        $(this).tooltip({ 
+                        $(this).tooltip({
                             'container': 'body',
                             'placement': 'bottom',
                             title: scope.ttitle,
@@ -144,12 +161,40 @@ angular.module('askApp')
                         });
                         $(this).tooltip('show');
                     })
-                element.on("mouseout", function(d) {       
+                element.on("mouseout", function(d) {
                         $(this).tooltip('hide');
                     })
             }
         }
     });
+
+
+// angular.module('askApp')
+//     .directive('placeholder', function() {
+
+//     return {
+//         restrict: 'EA',
+        
+//         link: function (scope, element, attrs) {
+//             /*
+//             Add IE9 placeholder text handling.
+//             */
+//             if (!Modernizr.input.placeholder) {
+//                 if (typeof(scope.$parent.question) !== 'undefined') {
+//                     debugger
+//                     if (scope.$parent.question.type === "multi-select"){
+//                         element.before('<label>'+element.attr("placeholder")+'</label>');
+//                     } else {
+//                         element.before('<label>'+scope.$parent.question.label+'</label>');
+//                     }
+                    
+//                 }
+//             } // End id support.placeholder
+//         }
+//     };
+// });
+
+
 
 angular.module('askApp')
     .directive('speciesSelect', function($http) {
@@ -210,7 +255,8 @@ angular.module('askApp')
                 colorMap: '=',
                 onClick: '=',
                 bind: '=',
-                duration: '@'
+                duration: '@',
+                labelcolors: '='
             },
 
             link: function(scope, element, attrs) {
@@ -221,7 +267,7 @@ angular.module('askApp')
                 var fontSize = scope.fontSize || 28;
                 var fontColor = attrs.fontColor || "#fff";
                 var color = undefined;
-                
+
                 var colorMap = [
                     "#4bb1e4",
                     "#f15c49",
@@ -252,7 +298,7 @@ angular.module('askApp')
                 // but see if user has defined a domain of values.
                 if (scope.colorMap === undefined) {
                     color = d3.scale.category20();
-                    
+
                     if (scope.domain !== undefined) {
                         color.domain(scope.domain);
                     }
@@ -265,7 +311,7 @@ angular.module('askApp')
                 var w = (outerRadius * 3) + 30;
                 var h = outerRadius * 3;
 
-                // arc generator 
+                // arc generator
                 var arc = d3.svg.arc()
                     .outerRadius(outerRadius - 10)
                     .innerRadius(innerRadius);
@@ -305,7 +351,7 @@ angular.module('askApp')
                             return arc(i(t));
                         };
                     }
-        
+
                     // label tweening
                     function textTween(d, i) {
                         var a = (this._current.startAngle + this._current.endAngle - Math.PI)/2;
@@ -314,8 +360,8 @@ angular.module('askApp')
                         var fn = d3.interpolateNumber(a, b);
                         return function(t) {
                             var val = fn(t);
-                            return "translate(" + 
-                                Math.cos(val) * (outerRadius + textOffset) + "," + 
+                            return "translate(" +
+                                Math.cos(val) * (outerRadius + textOffset) + "," +
                                 Math.sin(val) * (outerRadius + textOffset) + ")";
                         };
                     }
@@ -332,7 +378,7 @@ angular.module('askApp')
                     var textOffset = 14;
 
                     // if data is not null
-                    if (data) { 
+                    if (data) {
 
                         // pull out the terms array from the facet
                         data = data.terms || [];
@@ -350,7 +396,7 @@ angular.module('askApp')
                             // update the arcs
                             var path = arcs.selectAll('path').data(pieData);
                             path.enter()
-                                .append('path') 
+                                .append('path')
                                     .attr('d', arc)
                                     .attr('stroke', '#fff')
                                     .attr('stroke-width', '1.5')
@@ -360,9 +406,9 @@ angular.module('askApp')
                                         if (d.data.term === 'Unfilled') {
                                             color = '#999899';
                                         } else {
-                                            color = colorPop();    
+                                            color = colorPop();
                                         }
-                                        console.log(d.data.term + color)
+                                        scope.labelcolors[d.data.term] = color;
                                         return color;
                                      })
                                     .each(function(d) { this._current = d; })
@@ -372,14 +418,14 @@ angular.module('askApp')
                                         });
                                     })
                                     .on("mouseover", function(d) {
-                                            $(this).tooltip({ 
+                                            $(this).tooltip({
                                                 'container': 'body',
                                                 'placement': 'bottom',
                                                 title: d.data.term + " " + d.data.count + " lbs"
                                             });
                                             $(this).tooltip('show');
                                         })
-                                    .on("mouseout", function(d) {       
+                                    .on("mouseout", function(d) {
                                             $(this).tooltip('hide');
                                         })
                             // run the transition
@@ -430,8 +476,8 @@ angular.module('askApp')
                                 .attr('font-weight', 'bold')
 
                                 .attr("transform", function(d) {
-                                    return "translate(" + 
-                                        Math.cos(((d.startAngle + d.endAngle - Math.PI)/2)) * (outerRadius + textOffset) + "," + 
+                                    return "translate(" +
+                                        Math.cos(((d.startAngle + d.endAngle - Math.PI)/2)) * (outerRadius + textOffset) + "," +
                                         Math.sin((d.startAngle + d.endAngle - Math.PI)/2) * (outerRadius + textOffset) + ")";
                                 })
                                 .attr("dy", function(d) {
@@ -447,14 +493,14 @@ angular.module('askApp')
                                     return percentage.toFixed(1) + "% (" + d.value + " lbs)";
                                 })
                                 .each(function(d) {this._current = d;});
-                           
+
                             // run the transition
                             percentLabels.transition().duration(duration).attrTween("transform", textTween);
 
                             // flush old entries
                             percentLabels.exit().remove();
 
-                            // update the value labels 
+                            // update the value labels
                             var nameLabels = labels.selectAll("text.units").data(pieData)
                                 .attr("dy", function(d){
                                     if ((d.startAngle + d.endAngle)/2 > Math.PI/2 && (d.startAngle+d.endAngle)/2 < Math.PI*1.5 ) {
@@ -485,8 +531,8 @@ angular.module('askApp')
                                 .attr('stroke', 'none')
                                 .attr('fill', '#000')
                                 .attr("transform", function(d) {
-                                    return "translate(" + 
-                                        Math.cos(((d.startAngle + d.endAngle - Math.PI)/2)) * (outerRadius + textOffset) + "," + 
+                                    return "translate(" +
+                                        Math.cos(((d.startAngle + d.endAngle - Math.PI)/2)) * (outerRadius + textOffset) + "," +
                                         Math.sin((d.startAngle + d.endAngle - Math.PI)/2) * (outerRadius + textOffset) + ")";
                                 })
                                 .attr("dy", function(d){
@@ -510,7 +556,7 @@ angular.module('askApp')
 
                             // run the transition
                             nameLabels.transition().duration(duration).attrTween("transform", textTween);
-    
+
                             // flush old entries
                             nameLabels.exit().remove();
 
