@@ -76,8 +76,6 @@
                                                         <span ng-click="hideAjax()" class="right"><i class="icon icon-remove-circle"></i></span>
                                                     </div>
                                                     <h4>Report Summary for <a href="#/accounts/{{respondent.user.username}}" target="_blank"> {{respondent.user.username}}</a></h4>
-                                                    <p class="pull-right text-muted" ng-show="respondent.spin"> Updating <i class="icon-spinner icon-spin"></i>
-                                                    </p>
                                                     
                                                     
                                                     <p class="pull-right text-muted" ng-show="respondent.dirty">Unsaved changes.</p>
@@ -93,9 +91,7 @@
                                                     <div class="form-group">
                                                         <textarea ng-model="respondent.comment" placeholder="comments" class="form-control" rows="10"></textarea>
 
-                                                        <p class="pull-right text-muted text-success" ng-show="respondent.updated_at && ! respondent.notify">Comment saved</p>
-                                                        <p class="pull-right text-muted text-success" ng-show="respondent.updated_at && respondent.notify">Comment shared and saved</p>
-                                                        
+                                                       
                                                         <div class="checkbox">
                                                             <label>
                                                                 <input type="checkbox" ng-model="respondent.notify">Share comment with fisher
