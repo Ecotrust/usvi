@@ -228,7 +228,7 @@
 
     <!-- Multi-Select -->
     <div ng-switch-when="multi-select">
-        <div class="alert alert-danger" ng-hide="isValid()">
+        <div class="alert alert-danger" ng-show="question.integer_max && numAnswers(question) > question.integer_max && !isValid()">
             <i class="icon-exclamation-sign"></i> Select {{question.integer_max}} or less options.
         </div>
         <div class="question multi-select">
