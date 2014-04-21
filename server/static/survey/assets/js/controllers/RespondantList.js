@@ -9,7 +9,8 @@ angular.module('askApp')
             region: "Region"
         };
 
-
+        $scope.ajax_message = "";
+        $scope.showajax = false;
         $scope.user = app.user;
 
         $scope.viewPath = app.server + '/static/survey/';
@@ -128,6 +129,13 @@ angular.module('askApp')
 
         $scope.saveRespondent = function(respondent, data) {
             respondent.spin = true;
+            var save_type = null;
+            
+            if (_.indexOf(data, 'comment') > -1){
+                save_type= "comment";
+            } else if (_.indexOf(data, 'agency_id') > -1) {
+                save_type = 'agency_id';
+            }
 
             return $http({
                 url: respondent.resource_uri,
@@ -136,7 +144,6 @@ angular.module('askApp')
             })
                 .success(function(data) {
                     respondent.spin = false;
-                    //delete respondent.updated_at;
                 })
                 .error(function(err) {
                     // TraceKit.report({message: err});
@@ -151,9 +158,14 @@ angular.module('askApp')
                 updated_at: new Date()
             }).success(function (data) {
                 respondent.updated_at = new Date();
-                // $timeout(function () {
-                //     delete respondent.updated_at;
-                // }, 3000);
+                var msg;
+                if (respondent.notify) {
+                    msg = 'Comment shared and saved';
+                } else {
+                    msg = 'Comment saved';
+                }
+                respondent.ajax_message = msg;
+                $scope.showAjax();
             });
         };
 
@@ -163,12 +175,18 @@ angular.module('askApp')
                 updated_at: new Date()
             }).success(function (data) {
                 respondent.updated_at = new Date();
-                $scope.agencyIdStatusIcon = "glyphicon-floppy-saved";
-
-                // $timeout(function () {
-                //     delete respondent.updated_at;
-                // }, 3000);
+                $scope.agencyIdStatusIcon = 'glyphicon-floppy-saved';
+                respondent.ajax_message = 'Catch Report ID';
+                $scope.showAjax();
             });
+        };
+
+        $scope.hideAjax = function(){
+            $scope.showajax = false;
+        };
+
+        $scope.showAjax = function(){
+            $scope.showajax = true;
         };
 
 
