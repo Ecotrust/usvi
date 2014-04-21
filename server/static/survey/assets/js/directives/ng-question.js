@@ -1,5 +1,28 @@
 angular.module('askApp').directive('multiquestion', function($modal) {
 
+    function _numAnswersForMultiSelect (q /* question */) {
+        var standards = [],
+            others,
+            numStandard = 0,
+            numOthers = 0;
+
+        if (q.otherAnswers && q.otherAnswers.length && ( ! (q.otherAnswers.length === 1 && q.otherAnswers[0] === "") )) {
+            numOthers = q.otherAnswers.length;
+        }
+
+        if (q.groupedOptions && q.groupedOptions.length) {  
+            standards = _.pluck(_.flatten(_.map(q.groupedOptions, function (group) { return group.options })), 'checked');
+        } else {
+            standards = _.pluck(q.options, 'checked');
+        }
+        if (standards && standards.length > 0) {
+            standards = _.filter(standards, function (isChecked) { return isChecked; });
+            numStandard = standards.length;
+        }
+
+        return numStandard + numOthers;
+    };
+
     function _isBlank (q /* question */) {
         if (q.type === 'single-select' || q.type === 'multi-select' || q.type === 'yes-no') {
             var others = q.otherAnswers || {},
@@ -37,6 +60,10 @@ angular.module('askApp').directive('multiquestion', function($modal) {
     }
 
     function _isValid (q /* question */) {
+        if (q.type === 'multi-select' && q.integer_max && q.integer_max > 0) {
+            return _numAnswersForMultiSelect(q) <= q.integer_max;
+        }
+
         // if the question has no content and is not required, it is good to go
         if (! q.required) {
             if (_.isArray(q.answer) && (q.answer.length === 0 || (q.answer.length === 1 && q.answer[0].text && q.answer[0].text === 'NO_ANSWER'))) {
@@ -83,6 +110,7 @@ angular.module('askApp').directive('multiquestion', function($modal) {
                 return false;
             }
         }
+
         var otherAnswers = q.otherAnswers && q.otherAnswers.length && ( ! (q.otherAnswers.length === 1 && q.otherAnswers[0] === "") );
         if (q.type === 'single-select') {
             if (q.groupedOptions && q.groupedOptions.length) {
@@ -535,6 +563,14 @@ angular.module('askApp').directive('multiquestion', function($modal) {
                         };                        
                     }
                 });
+            };
+
+            scope.numAnswers = function (q /* question */) {
+                /* Written to tend to a special case for the OceanSpaces 
+                   survey to allow limiting to no more than 3 answers. */
+                if ( q.type === 'multi-select') {
+                    return _numAnswersForMultiSelect(q);
+                }   
             };
         }
     };
