@@ -175,9 +175,16 @@ angular.module('askApp')
                         answers: [{text: "not_set", label: "not_set"}]
                     };
 
-                    popup += '<a href="javascript:void(0)" class="btn btn-danger pull-right" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a>';
+
+                    popup += '<div class="popupCoordinates map-controls-coordinates-container">';
+                    popup += '    <p class="coordinate"><span class="coordinate-label pull-left">Lat:</span><span class="value pull-right">{{activeMarker.getLatLng().lat | number:8 }}</span></p>';
+                    popup += '    <p class="coordinate"><span class="coordinate-label pull-left">Lng:</span><span class="value pull-right">{{activeMarker.getLatLng().lng | number:8 }}</span></p>';
+                    popup += '</div>';
                     popup += '<div class="clearfix"></div>';
-                    popup = '<div>' + popup + '</div>';
+                    popup += '<p>Drag marker to adjust. Zoom in for precision.</p>';
+                    popup += '<div class="btn-container"><a href="javascript:void(0)" class="btn btn-danger" ng-click="removeMarkerWrapper(activeMarker)"><i class="icon-trash"></i>&nbsp;Remove</a></div>';
+                    popup += '<div class="clearfix"></div>';
+                    popup = '<div class="marker-popup-content">' + popup + '</div>';
                     marker.bindPopup(popup, { closeButton: true });
                     marker.on('click', function(e) {
                         scope.activeMarker = marker;
@@ -186,6 +193,15 @@ angular.module('askApp')
                         $compile(angular.element(map._popup._contentNode))(scope);
                         scope.$digest();
                     });
+
+                    $timeout(function () {
+                        marker.openPopup();
+                        scope.activeMarker = marker;
+                        // The popup is added to the DOM outside of the angular framework so
+                        // its content must be compiled for any interaction with this scope.
+                        $compile(angular.element(map._popup._contentNode))(scope);
+                        scope.$digest();
+                    }, 200, false);
 
                     marker.on('dragend', function(e) {
                         scope.updateMarker(marker);
