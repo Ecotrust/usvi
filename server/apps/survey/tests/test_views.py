@@ -29,7 +29,7 @@ class TestAnswer(ResourceTestCase):
         response.answer_raw = json.dumps({'text': 'St. John'})
         self.respondant.save()
         response.save()
-        
+
     def get_url(self):
         return reverse('survey_answer', kwargs={
             'survey_slug': self.survey.slug,

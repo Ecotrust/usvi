@@ -155,6 +155,14 @@ package "python-pip"
 package "python-dev"
 package "mailutils"
 
+cookbook_file "/etc/postfix/main.cf" do
+    source "main.cf"
+    mode 644
+end
+
+execute "restart postfix" do
+    command "service postfix restart"
+end
 
 
 include_recipe "openssl"
