@@ -1,30 +1,43 @@
 from django.core.management.base import BaseCommand
-# from optparse import make_option
-from survey.models import Response, Respondant
-
+from optparse import make_option
+from survey.models import Respondant, Response
+import traceback
+  
 
 class Command(BaseCommand):
     help = 'Save All Responses'
-    # option_list = BaseCommand.option_list + (
-    #     make_option('-W', '--white-space',
-    #         action='store_true',
-    #         default=False,
-    #         help='Get responses with funky white space.'),
-    #     make_option('-I', '--question_id',
-    #         action='store',
-    #         default=False,
-    #         help='Get responses for a specific quesiton.'),
-    # )
 
     def handle(self, *args, **options):
-        #for response in Response.objects.all():
         responses = Response.objects.all()
+        respondents = Respondant.objects.all()
+        numRespondents = respondents.count()
+        numRespondentsFailed = 0
+        numResponsesFailed = 0
+        respondentIndex = 0
+        
         print "Saving Answers for %s Responses" % responses.count()
-        for respondent in Respondant.objects.all():
-            print respondent.response_set.count()
+        for respondent in respondents:
+            respondentIndex += 1
+            print "Saving for respondent " + str(respondentIndex) + " of " + str(numRespondents) + " who has " + str(respondent.response_set.count()) + " responses."
             if respondent.response_set.count():
                 for response in respondent.response_set.all():
-                    print response.id
-                    response.save_related()
-            else:
+                    try:
+                        response.save_related()
+                    except Exception as e:
+                        numResponsesFailed += 1
+                        print "Error for response " + str(response.id)
+                        print e
+                        pass
+    
+            try:        
                 respondent.save()
+            except Exception as e:
+                numRespondentsFailed += 1
+                print 'EXCEPTION, respondent is:' + respondent.uuid
+                print traceback.format_exc()
+                pass
+
+        print 'Done'
+        print str(numRespondentsFailed) + ' Respondents failed to save()'
+        print str(numResponsesFailed) + ' Responses failed to save_related()'
+

@@ -9,10 +9,15 @@ from djgeojson.serializers import Serializer as GeoJSONSerializer
 import simplejson
 import datetime
 
+from ordereddict import OrderedDict
+
 from apps.survey.models import (Survey, Question, Response, Respondant, Location,
                                 MultiAnswer, LocationAnswer, GridAnswer, REVIEW_STATE_ACCEPTED)
 from apps.places.models import Area
 from apps.reports.models import QuestionReport
+from apps.survey.utils import CsvFieldGenerator
+from .utils import SlugCSVWriter
+
 
 
 def get_respondants_summary(request):
@@ -226,6 +231,44 @@ def get_crosstab(request, survey_slug, question_a_slug, question_b_slug):
     except Exception, err:
         print Exception, err
         return HttpResponse(json.dumps({'success': False, 'message': "No records for this date range." }))
+
+
+def _create_csv_response(filename):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
+    return response
+
+@staff_member_required
+def full_data_dump_csv(request, survey_slug):
+    survey = Survey.objects.get(slug=survey_slug)
+    response = _create_csv_response('full_dump_{0}.csv'.format(
+        datetime.date.today().strftime('%d-%m-%Y')))
+
+    fields = OrderedDict(CsvFieldGenerator.get_field_names_for_respondent().items() +
+                         CsvFieldGenerator.get_field_names_for_survey(survey).items())
+
+    writer = SlugCSVWriter(response, fields)
+    writer.writeheader()
+
+    respondents = survey.respondant_set.filter(complete=True).order_by('uuid')
+    numSuccesful = 0
+    for resp in respondents:
+        row_ascii = resp.csv_row.json_data.encode(encoding='ascii', errors='backslashreplace')
+        try:
+            writer.writerow(json.loads(row_ascii))
+            numSuccesful = numSuccesful + 1
+        except Exception as e:
+            print 'EXCEPTION, respondent time is:' + str(resp.ts) + '; respondent uuid is: ' + resp.uuid
+            print traceback.format_exc()
+            pass
+
+    print ''
+    print 'CSV Export Report:'
+    print '' + str(respondents.count()) + ' respondents available'
+    print '' + str(numSuccesful) + ' respondents successfully written to csv'
+    print '' + str(respondents.count() - numSuccesful) + ' respondents threw an exception'
+    print ''
+    return response
 
 
 class MapLayer(GeoJSONLayerView):

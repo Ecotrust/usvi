@@ -71,6 +71,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
     entered_by = models.ForeignKey(User, null=True, blank=True, related_name='entered_by')
     # updated_at = models.DateTimeField(auto_now_add=True)
 
+    csv_row = models.ForeignKey('reports.CSVRow', null=True, blank=True)
+
     objects = caching.base.CachingManager()
 
     def save(self, *args, **kwargs):
