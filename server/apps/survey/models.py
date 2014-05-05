@@ -22,6 +22,8 @@ import datetime
 # Get an instance of a logger
 import logging
 
+from .utils import CsvFieldGenerator
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -84,7 +86,19 @@ class Respondant(caching.base.CachingMixin, models.Model):
             self.island = "Puerto Rico"
         #self.updated_at = datetime.datetime.now()
 
+        if not self.csv_row:
+            # Circular import dodging
+            from apps.reports.models import CSVRow
+            self.csv_row = CSVRow.objects.create()
+
         super(Respondant, self).save(*args, **kwargs)
+        # Do this after saving so save_related is called to catch
+        # all the updated responses.
+        self.update_csv_row()
+
+    def update_csv_row(self):
+        self.csv_row.json_data = simplejson.dumps(CsvFieldGenerator.get_flat_dict_for_respondent(self))
+        self.csv_row.save()
 
     @property
     def profile_values(self):
@@ -404,6 +418,8 @@ class MultiAnswer(caching.base.CachingMixin, models.Model):
     answer_label = models.TextField(null=True, blank=True)
     species = models.ForeignKey('acl.Species', null=True, blank=True)
     area = models.ForeignKey('places.Area', null=True, blank=True)
+    is_other = models.BooleanField(default=False,
+            help_text="Marks whether this answer is manually entered in an Other field.")
 
     def __unicode__(self):
         return self.answer_text
@@ -428,6 +444,8 @@ class Response(caching.base.CachingMixin, models.Model):
     answer = models.TextField(null=True, blank=True)
     answer_raw = models.TextField(null=True, blank=True)
     unit = models.TextField(null=True, blank=True)
+    is_other = models.BooleanField(default=False,
+            help_text="Marks whether this answer is manually entered in an Other field.")
     ts = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, null=True, blank=True)
     species = models.ForeignKey(Species, null=True, blank=True)
@@ -452,6 +470,11 @@ class Response(caching.base.CachingMixin, models.Model):
                     self.answer = answer['text'].strip()
                 if answer.get('name'):
                     self.answer = answer['name'].strip()
+
+                if answer.has_key('other') and answer['other']:
+                    self.answer = "[Other]" + self.answer
+                    self.is_other = True
+
             if self.question.type in ['monthpicker']:
                 try:
                     date = dateutil.parser.parse(self.answer)
@@ -476,6 +499,12 @@ class Response(caching.base.CachingMixin, models.Model):
                         answer_text = answer['text'].strip()
                     if answer.get('name'):
                         answer_text = answer['name'].strip()
+
+                    is_other = False
+                    if answer.has_key('other') and answer['other']:
+                        answer_text = "[Other]" + answer_text
+                        is_other = True
+
                     answers.append(answer_text)
                     answer_label = answer.get('label', None)
                     if self.question.use_species_list:
@@ -493,7 +522,7 @@ class Response(caching.base.CachingMixin, models.Model):
                                 species = None
                     else:
                         species = None
-                    multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label, species=species)
+                    multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label, species=species, is_other=is_other)
                     multi_answer.save()
                     
                 self.answer = ", ".join(answers)
@@ -510,7 +539,7 @@ class Response(caching.base.CachingMixin, models.Model):
                         area = None
                     multi_answer.area = area
                     multi_answer.save()
-                self.answer = ", ".join(answers)
+                self.answer = "; ".join(answers)
             if self.question.type in ['map-multipoint'] and self.id:
                 answers = []
                 self.location_set.all().delete()
@@ -522,7 +551,7 @@ class Response(caching.base.CachingMixin, models.Model):
                             answer = LocationAnswer(answer=answer['text'], label=answer['label'], location=location)
                             answer.save()
                         location.save()
-                self.answer = ", ".join(answers)
+                self.answer = "; ".join(answers)
             if self.question.type == 'grid':
                 self.gridanswer_set.all().delete()
                 for answer in self.answer:
@@ -574,8 +603,18 @@ class Response(caching.base.CachingMixin, models.Model):
                 respondent = None
 
             if hasattr(respondent, self.question.slug):
+                # setattr(respondent, self.question.slug, self.answer)
+                # respondent.save()
+
+
+                # Switched to filter and update rather than just modifying and
+                # saving. This doesn't trigger post_save, but still updates
+                # self.respondant and the related CSVRow object.
+                (Respondant.objects.filter(pk=respondent.pk)
+                                   .update(**{self.question.slug: self.answer}))
                 setattr(respondent, self.question.slug, self.answer)
                 respondent.save()
+                respondent.update_csv_row()
 
             if respondent is not None and respondent.user is not None:
                 if self.question.attach_to_profile or self.question.persistent:

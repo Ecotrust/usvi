@@ -3,12 +3,13 @@ from ordereddict import OrderedDict
 import simplejson
 
 # get_field_names_for_respondent(respondent)
-# get_field_names_for_survey(survey)
 # get_field_names_for_question_set(questions)
 # get_field_names_for_question(question)
 
 # get_flat_dict_for_respondent(respondent)
 # get_flat_dict_for_response(response)
+
+ISO_DATE_FORMAT = "%Y-%m-%d"
 
 
 class CsvFieldGenerator(object):
@@ -18,10 +19,13 @@ class CsvFieldGenerator(object):
     def get_field_names_for_respondent():
         return OrderedDict((
             ('model-uuid', 'UUID'),
-            ('model-surveyor', 'Surveyor'),
             ('model-timestamp', 'Date of survey'),
-            ('model-email', 'Email'),
             ('model-complete', 'Complete'),
+            ('model-email', 'Email'),
+            ('first-name', 'First Name'),
+            ('last-name', 'Last Name'),
+            ('license-number', 'License Number'),
+            ('vessel-number', 'Vessel Number'),
             ('model-review-status', 'Review Status'),
         ))
 
@@ -30,22 +34,18 @@ class CsvFieldGenerator(object):
     def get_flat_dict_for_respondent(respondent):
         flat = {
             'model-uuid': respondent.uuid,
-            'model-surveyor': respondent.surveyor.get_full_name() if respondent.surveyor else '',
             'model-timestamp': str(respondent.ts),
-            'model-email': respondent.surveyor.email if respondent.surveyor else '',
             'model-complete': respondent.complete,
+            'model-email': respondent.surveyor.email if hasattr(respondent, 'surveyor') else '',
+            'first-name': respondent.user.first_name if respondent.user is not None else '',
+            'last-name': respondent.user.last_name if respondent.user is not None else '',
             'model-review-status': respondent.get_review_status_display(),
         }
         for response in respondent.response_set.all().select_related('question'):
-            if response.question.type != 'info':
-                flat.update(CsvFieldGenerator.get_flat_dict_for_response(response))
+            flat_response = CsvFieldGenerator.get_flat_dict_for_response(response)
+            if flat_response is not None:
+                flat.update(flat_response)
         return flat
-
-
-    @staticmethod
-    def get_field_names_for_survey(survey):
-        questions = survey.questions.all().order_by('order')
-        return CsvFieldGenerator.get_field_names_for_question_set(questions)
 
 
     @staticmethod
@@ -66,7 +66,11 @@ class CsvFieldGenerator(object):
         qu = question
         field_names = OrderedDict()
 
-        if qu.type == 'grid':
+        if qu.type in ('number-with-unit'):
+            field_names[qu.slug] = qu.label
+            field_names[qu.slug + '-unit'] = qu.label + ' Unit'
+
+        elif qu.type == 'grid':
             rows = (qu.response_set
                      .exclude(gridanswer__row_label__isnull=True)
                      .values_list('gridanswer__row_label',
@@ -103,53 +107,54 @@ class CsvFieldGenerator(object):
         elif qu.type != 'info':
             field_names[qu.slug] = qu.label
         
-        return field_names
+        # for k, v in field_names:
+        #     field_names[k] = v.encode('utf-8')
 
+        return field_names
 
     @staticmethod
     def get_flat_dict_for_response(response):
+        if response.question.type in ('info', 'map-multipoint', 'location', 'pennies'):
+            # These question types not yet tended to. The 'info' type,
+            # is intentionally not exported because there is no answer 
+            # to provide.
+            return None
+
+        if response.question.slug[:6] in ('area-3', 'area-2'):
+            # Ignoring responses provided for old questions.
+            return None
+
         flat = {}
         if response.answer_raw:
-            if response.question.type in ('text', 'textarea', 'yes-no',
-                                      'map-multipoint', 'pennies', 'timepicker'):
+            if response.question.type in ('text', 'textarea', 'yes-no', 'timepicker',
+                                            'datepicker', 'monthpicker', 'timepicker', 
+                                            'map-multipolygon'):
                 flat[response.question.slug] = response.answer
+            
+            elif response.question.type in ('number-with-unit'):
+                flat[response.question.slug] = response.answer
+                flat[response.question.slug + '-unit'] = response.unit
+            
             elif response.question.type in ('currency', 'integer', 'number'):
-                flat[response.question.slug] = str(response.answer_number)
-            elif response.question.type == 'datepicker':
-                date = response.answer_date
-                flat[response.question.slug] = response.answer_date.strftime(ISO_DATE_FORMAT)
+                flat[response.question.slug] = str(response.answer)
+            
             elif response.question.type == 'grid':
                 for answer in response.gridanswer_set.all():
                     flat[response.question.slug + '-' + answer.row_label + '-' + answer.col_label] = answer.answer_text
-            elif response.question.type in ('auto-single-select', 'single-select'):
-                answer = simplejson.loads(response.answer_raw)
-                if answer.get('name'):
-                    answer_text = answer['name'].strip()
-                elif answer.get('text'):
-                    answer_text = answer['text'].strip()
 
-                if answer.has_key('other') and answer['other']:
-                    # Put all Other answers into a single column cell.
-                    answer_text = "[Other]" + answer_text
-                    other_key = response.question.slug + '-other'
-                    if flat.has_key(other_key) and flat[other_key]:
-                        flat[other_key] = flat[other_key] + '; ' + answer_text
-                    else:
-                        flat[other_key] = answer_text
+            elif response.question.type in ('auto-single-select', 'single-select', 
+                                            'auto-multi-select', 'multi-select'):
+                
+                if response.question.type in ('auto-single-select', 'single-select'):
+                    response.answer_text = response.answer
+                    answers = [response]
                 else:
-                    flat[response.question.slug + '-' + slugify(answer_text)] = 1
-
-            elif response.question.type in ('auto-multi-select', 'multi-select'):
-                for answer in simplejson.loads(response.answer_raw):
-                    if answer.get('name'):
-                        answer_text = answer['name'].strip()
-                    elif answer.get('text'):
-                        answer_text = answer['text'].strip()
-                    
-
-                    if answer.has_key('other') and answer['other']:
+                    answers = response.multianswer_set.all()
+                for answer in answers:
+                    answer_text = answer.answer_text
+                    if answer.is_other:
                         # Put all Other answers into a single column cell.
-                        answer_text = "[Other]" + answer_text
+                        answer_text = answer.answer_text
                         other_key = response.question.slug + '-other'
                         if flat.has_key(other_key) and flat[other_key]:
                             flat[other_key] = flat[other_key] + '; ' + answer_text
@@ -159,11 +164,10 @@ class CsvFieldGenerator(object):
                         # Make a column for each non-Other answer with 1 signifying selected. 
                         flat[response.question.slug + '-' + slugify(answer_text)] = 1
 
-            elif response.question.type == 'info':
-                pass
             else:
                 raise NotImplementedError(
                     ('Found unknown question type of {0} while processing '
                      'response id {1}').format(response.question.type, response.id)
                 )
-        return flat     
+
+        return flat

@@ -26,7 +26,7 @@ class Command(BaseCommand):
                     except Exception as e:
                         numResponsesFailed += 1
                         print "Error for response " + str(response.id)
-                        print e
+                        print traceback.format_exc()
                         pass
     
             try:        

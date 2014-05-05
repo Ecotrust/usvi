@@ -8,13 +8,14 @@ from djgeojson.serializers import Serializer as GeoJSONSerializer
 
 import simplejson
 import datetime
+import traceback
+import json
 
 from ordereddict import OrderedDict
 
 from apps.survey.models import (Survey, Question, Response, Respondant, Location,
                                 MultiAnswer, LocationAnswer, GridAnswer, REVIEW_STATE_ACCEPTED)
 from apps.places.models import Area
-from apps.reports.models import QuestionReport
 from apps.survey.utils import CsvFieldGenerator
 from .utils import SlugCSVWriter
 
@@ -29,7 +30,6 @@ def get_respondants_summary(request):
 @login_required
 def get_geojson(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
-    question = get_object_or_404(QuestionReport, slug=question_slug, survey=survey)
     locations = LocationAnswer.objects.filter(location__response__respondant__survey=survey, location__respondant__complete=True)
 
     filter_list = []
@@ -45,7 +45,7 @@ def get_geojson(request, survey_slug, question_slug):
         for filter in filter_list:
             slug = filter.keys()[0]
             value = filter[slug]
-            filter_question = QuestionReport.objects.get(slug=slug, survey=survey)
+            filter_question = Question.objects.get(slug=slug, question_page__survey__in=survey)
             locations = locations.filter(location__respondant__response_set__in=filter_question.response_set.filter(answer__in=value))
 
     geojson = [];
@@ -92,7 +92,7 @@ def get_distribution(request, survey_slug, question_slug):
         surveys = Survey.objects.filter(slug=survey_slug)
 
     if question_slug.find('*') == -1:
-        question = get_object_or_404(QuestionReport, slug=question_slug, question_page__survey__in=surveys)
+        question = Question.objects.get(slug=question_slug, question_page__survey__in=surveys)
         answers = question.response.filter(respondant__complete=True)
         question_type = question.type
     else:
@@ -132,7 +132,7 @@ def get_distribution(request, survey_slug, question_slug):
     if filters is not None:
         for filter_slug in filter_list.keys():
             value = filter_list[filter_slug].replace('|', '&')
-            filter_question = QuestionReport.objects.get(slug=filter_slug, question_page__survey__in=surveys)
+            filter_question = Question.objects.get(slug=filter_slug, question_page__survey__in=surveys)
             if question_type in ['map-multipoint']:
                 if filter_question == self:
                     locations = locations.filter(answer__in=value)
@@ -241,11 +241,12 @@ def _create_csv_response(filename):
 @staff_member_required
 def full_data_dump_csv(request, survey_slug):
     survey = Survey.objects.get(slug=survey_slug)
-    response = _create_csv_response('full_dump_{0}.csv'.format(
+    questions = Question.objects.filter(question_page__survey=survey).order_by('order')
+    response = _create_csv_response(survey.slug+'_full-dump_{0}.csv'.format(
         datetime.date.today().strftime('%d-%m-%Y')))
 
     fields = OrderedDict(CsvFieldGenerator.get_field_names_for_respondent().items() +
-                         CsvFieldGenerator.get_field_names_for_survey(survey).items())
+                         CsvFieldGenerator.get_field_names_for_question_set(questions).items())
 
     writer = SlugCSVWriter(response, fields)
     writer.writeheader()
@@ -253,13 +254,14 @@ def full_data_dump_csv(request, survey_slug):
     respondents = survey.respondant_set.filter(complete=True).order_by('uuid')
     numSuccesful = 0
     for resp in respondents:
-        row_ascii = resp.csv_row.json_data.encode(encoding='ascii', errors='backslashreplace')
+        #row_ascii = resp.csv_row.json_data.encode(encoding='ascii', errors='backslashreplace')
         try:
-            writer.writerow(json.loads(row_ascii))
+            writer.writerow(json.loads(resp.csv_row.json_data))
             numSuccesful = numSuccesful + 1
         except Exception as e:
             print 'EXCEPTION, respondent time is:' + str(resp.ts) + '; respondent uuid is: ' + resp.uuid
             print traceback.format_exc()
+            #return HttpResponse(json.dumps({'success': False, 'message': traceback.format_exc() }))
             pass
 
     print ''

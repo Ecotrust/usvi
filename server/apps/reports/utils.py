@@ -29,10 +29,10 @@ class SlugCSVWriter(object):
                 for key in self.fieldnames.keys()]
 
     def writeheader(self):
-        return self.writer.writerow(self.fieldnames.values())
-
+        return self.writer.writerow([s.encode("utf-8") for s in self.fieldnames.values()])
+        
     def writerow(self, rowdict):
-        return self.writer.writerow(self._dict_to_list(rowdict))
+        return self.writer.writerow([unicode(s).encode("utf-8") for s in self._dict_to_list(rowdict)])
 
     def writerows(self, rowdicts):
         rows = []
