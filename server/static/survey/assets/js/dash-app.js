@@ -123,6 +123,10 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/catch-report-summaries.html',
         controller: 'CatchReportSummariesCtrl'
     })
+        .when('/downloads', {
+        templateUrl: '/static/survey/views/dash-downloads.html',
+        controller: 'DashDownloadsCtrl'
+    })
         .otherwise({
         redirectTo: '/'
     });

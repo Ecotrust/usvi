@@ -1,0 +1,30 @@
+<div class="summary" ng-cloak>
+        <div ng-include="'/static/survey/views/sideNav.html'"></div>
+        <div class="col-md-9 col-sm-9">
+            <div class="row">
+                <h1 class="page-title">Catch Report Download Files <span ng-hide="user.isPuertoRico && ! user.isUsvi">: {{ area || 'All Islands' }}</span>
+                    <i ng-show="busy" class="icon-spinner icon-spin"></i>
+                </h1>
+                <p>Only 'Accepted' catch reports are included in data downloads. Downloads are available as .CSV files.</p>
+            </div>
+            <div class="row" ng-show="user.is_staff && user.isUsvi">
+                <h3>USVI</h3>
+                <div class="list-group">
+                    <a href="/report/full-survey-data/catch-report" class="list-group-item">
+                        <i class="glyphicon glyphicon-download"></i> Catch Reports
+                    </a>
+                    <a href="/report/full-survey-data/did-not-fish" class="list-group-item">
+                        <i class="glyphicon glyphicon-download"></i> Did-not-fish Reports
+                    </a>
+                </div>                
+            </div>
+            <div class="row" ng-show="user.is_staff && user.isPuertoRico">
+                <h3>Puerto Rico</h3>
+                <div class="list-group">
+                    <a href="/report/full-survey-data/catch-report-puerto-rico" class="list-group-item">
+                        <i class="glyphicon glyphicon-download"></i> Catch Reports
+                    </a>
+                </div>                
+            </div>
+       	</div>
+</div>
