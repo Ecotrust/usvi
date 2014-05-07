@@ -279,6 +279,7 @@ class Block(caching.base.CachingMixin, models.Model):
 class Question(caching.base.CachingMixin, models.Model):
     title = models.TextField()
     label = models.CharField(max_length=254)
+    export_label = models.CharField(max_length=254, default='heading_not_set')
     order = models.IntegerField(default=0)
     slug = models.SlugField(max_length=64)
     attach_to_profile = models.BooleanField(default=False)

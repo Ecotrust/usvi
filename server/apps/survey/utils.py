@@ -61,8 +61,8 @@ class CsvFieldGenerator(object):
         field_names = OrderedDict()
 
         if qu.type in ('number-with-unit'):
-            field_names[qu.slug] = qu.slug + ' :: ' + qu.label
-            field_names[qu.slug + '-unit'] = qu.slug + ' :: ' + qu.label + ' Unit'
+            field_names[qu.slug] = qu.slug + ' :: ' + qu.export_label
+            field_names[qu.slug + '-unit'] = qu.slug + ' :: ' + qu.export_label + ' Unit'
 
         elif qu.type == 'grid':
             rows = (qu.response_set
@@ -75,7 +75,7 @@ class CsvFieldGenerator(object):
                      .distinct()
                      .order_by('gridanswer__row_label', 'gridanswer__col_label'))
             for row_slug, row_text, col_slug, col_text in rows:
-                field_names[qu.slug + '-' + row_slug + '-' + col_slug] = qu.slug + ' :: ' + qu.label + ' - ' + row_text + ' - ' + col_text
+                field_names[qu.slug + '-' + row_slug + '-' + col_slug] = qu.slug + ' :: ' + qu.export_label + ' - ' + row_text + ' - ' + col_text
         
         elif qu.type in ('single-select', 'multi-select'):
             # Break each selected option into its own column with 1 signifying selected. 
@@ -89,7 +89,7 @@ class CsvFieldGenerator(object):
                      .distinct()
                      .order_by('answer_text'))
                 for option_text, in selected_options:
-                    field_names[qu.slug + '-' + slugify(option_text)] = qu.slug + ' :: ' + qu.label + ' - ' + option_text
+                    field_names[qu.slug + '-' + slugify(option_text)] = qu.slug + ' :: ' + qu.export_label + ' - ' + option_text
             elif qu.type == 'single-select':
                 selected_options = (qu.response_set
                      .filter(respondant__in=respondent_set)
@@ -98,12 +98,12 @@ class CsvFieldGenerator(object):
                      .distinct()
                      .order_by('answer'))
                 for option_text, in selected_options:
-                    field_names[qu.slug + '-' + slugify(option_text)] = qu.slug + ' :: ' + qu.label + ' - ' + option_text
+                    field_names[qu.slug + '-' + slugify(option_text)] = qu.slug + ' :: ' + qu.export_label + ' - ' + option_text
             if qu.allow_other and selected_options.count() > 0:
                 # All Others will go into a single cell per response.
-                field_names[qu.slug + '-other'] = qu.slug + ' :: ' + qu.label + ' - Other'
+                field_names[qu.slug + '-other'] = qu.slug + ' :: ' + qu.export_label + ' - Other'
         elif qu.type != 'info':
-            field_names[qu.slug] = qu.slug + ' :: ' + qu.label
+            field_names[qu.slug] = qu.slug + ' :: ' + qu.export_label
         
         # for k, v in field_names:
         #     field_names[k] = v.encode('utf-8')
