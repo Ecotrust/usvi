@@ -97,7 +97,8 @@ class Respondant(caching.base.CachingMixin, models.Model):
         self.update_csv_row()
 
     def update_csv_row(self):
-        self.csv_row.json_data = simplejson.dumps(CsvFieldGenerator.get_flat_dict_for_respondent(self))
+        flat_dict = CsvFieldGenerator.get_flat_dict_for_respondent(self, self.survey)
+        self.csv_row.json_data = simplejson.dumps(flat_dict)
         self.csv_row.save()
 
     @property

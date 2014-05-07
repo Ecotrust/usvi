@@ -2,15 +2,6 @@ from django.utils.text import slugify
 from ordereddict import OrderedDict
 import simplejson
 
-# get_field_names_for_respondent(respondent)
-# get_field_names_for_question_set(questions)
-# get_field_names_for_question(question)
-
-# get_flat_dict_for_respondent(respondent)
-# get_flat_dict_for_response(response)
-
-ISO_DATE_FORMAT = "%Y-%m-%d"
-
 
 class CsvFieldGenerator(object):
 
@@ -22,26 +13,24 @@ class CsvFieldGenerator(object):
             ('model-timestamp', 'Date of survey'),
             ('model-complete', 'Complete'),
             ('model-email', 'Email'),
-            ('first-name', 'First Name'),
-            ('last-name', 'Last Name'),
-            ('license-number', 'License Number'),
-            ('vessel-number', 'Vessel Number'),
             ('model-review-status', 'Review Status'),
         ))
 
 
     @staticmethod
-    def get_flat_dict_for_respondent(respondent):
+    def get_flat_dict_for_respondent(respondent, survey):
         flat = {
             'model-uuid': respondent.uuid,
             'model-timestamp': str(respondent.ts),
             'model-complete': respondent.complete,
             'model-email': respondent.surveyor.email if hasattr(respondent, 'surveyor') else '',
-            'first-name': respondent.user.first_name if respondent.user is not None else '',
-            'last-name': respondent.user.last_name if respondent.user is not None else '',
+            # 'first-name': respondent.user.first_name if respondent.user is not None else '',
+            # 'last-name': respondent.user.last_name if respondent.user is not None else '',
             'model-review-status': respondent.get_review_status_display(),
         }
-        for response in respondent.response_set.all().select_related('question'):
+        survey_questions = survey.questions.all()
+        responses = respondent.response_set.filter(question__in=survey_questions).select_related('question')
+        for response in responses:
             flat_response = CsvFieldGenerator.get_flat_dict_for_response(response)
             if flat_response is not None:
                 flat.update(flat_response)
@@ -49,30 +38,36 @@ class CsvFieldGenerator(object):
 
 
     @staticmethod
-    def get_field_names_for_question_set(questions):
+    def get_field_names_for_question_set(questions, respondent_set):
         fields = OrderedDict()
         for qu in questions:
-            field_names = CsvFieldGenerator.get_field_names_for_question(qu)
+            field_names = CsvFieldGenerator.get_field_names_for_question(qu, respondent_set)
             if field_names is not None:
                 fields = OrderedDict(fields.items() + field_names.items())
         return fields
 
 
     @staticmethod
-    def get_field_names_for_question(question):
-        """ Depending on the question type, multiple column headings
-        may be needed per question. 
+    def get_field_names_for_question(question, respondent_set):
+        """ Provide a field name dict entry for the given question.
+        
+        param: question - the question to produce a dict of field name(s)
+        
+        param: respondent_set - used to filter down to only responses which are 
+        provided by the set of respondents to be included in the export. Otherwise, 
+        there is potential for unneccesary extra columns that are empty.
         """
         qu = question
         field_names = OrderedDict()
 
         if qu.type in ('number-with-unit'):
-            field_names[qu.slug] = qu.label
-            field_names[qu.slug + '-unit'] = qu.label + ' Unit'
+            field_names[qu.slug] = qu.slug + ' :: ' + qu.label
+            field_names[qu.slug + '-unit'] = qu.slug + ' :: ' + qu.label + ' Unit'
 
         elif qu.type == 'grid':
             rows = (qu.response_set
                      .exclude(gridanswer__row_label__isnull=True)
+                     .filter(respondant__in=respondent_set)
                      .values_list('gridanswer__row_label',
                                   'gridanswer__row_text',
                                   'gridanswer__col_label', 
@@ -80,32 +75,35 @@ class CsvFieldGenerator(object):
                      .distinct()
                      .order_by('gridanswer__row_label', 'gridanswer__col_label'))
             for row_slug, row_text, col_slug, col_text in rows:
-                field_names[qu.slug + '-' + row_slug + '-' + col_slug] = qu.label + ' - ' + row_text + ' - ' + col_text
+                field_names[qu.slug + '-' + row_slug + '-' + col_slug] = qu.slug + ' :: ' + qu.label + ' - ' + row_text + ' - ' + col_text
         
         elif qu.type in ('single-select', 'multi-select'):
             # Break each selected option into its own column with 1 signifying selected. 
-            if qu.allow_other:
-                # All Others will go into a single cell per response.
-                field_names[qu.slug + '-other'] = qu.label + ' - Other'
             if qu.type == 'multi-select':
                 from models import MultiAnswer
-                selected_options = (MultiAnswer.objects.filter(response__question__slug=qu.slug)
+                selected_options = (MultiAnswer.objects
+                     .filter(response__question__slug=qu.slug)
+                     .filter(response__respondant__in=respondent_set)
                      .exclude(is_other=True)
                      .values_list('answer_text')
                      .distinct()
                      .order_by('answer_text'))
                 for option_text, in selected_options:
-                    field_names[qu.slug + '-' + slugify(option_text)] = qu.label + ' - ' + option_text
+                    field_names[qu.slug + '-' + slugify(option_text)] = qu.slug + ' :: ' + qu.label + ' - ' + option_text
             elif qu.type == 'single-select':
                 selected_options = (qu.response_set
+                     .filter(respondant__in=respondent_set)
                      .exclude(is_other=True)
                      .values_list('answer')
                      .distinct()
                      .order_by('answer'))
                 for option_text, in selected_options:
-                    field_names[qu.slug + '-' + slugify(option_text)] = qu.label + ' - ' + option_text
+                    field_names[qu.slug + '-' + slugify(option_text)] = qu.slug + ' :: ' + qu.label + ' - ' + option_text
+            if qu.allow_other and selected_options.count() > 0:
+                # All Others will go into a single cell per response.
+                field_names[qu.slug + '-other'] = qu.slug + ' :: ' + qu.label + ' - Other'
         elif qu.type != 'info':
-            field_names[qu.slug] = qu.label
+            field_names[qu.slug] = qu.slug + ' :: ' + qu.label
         
         # for k, v in field_names:
         #     field_names[k] = v.encode('utf-8')

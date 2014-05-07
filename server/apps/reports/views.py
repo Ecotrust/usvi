@@ -241,20 +241,20 @@ def _create_csv_response(filename):
 @staff_member_required
 def full_data_dump_csv(request, survey_slug):
     survey = Survey.objects.get(slug=survey_slug)
-    questions = Question.objects.filter(question_page__survey=survey).order_by('order')
-    response = _create_csv_response(survey.slug+'_full-dump_{0}.csv'.format(
+    questions = Question.objects.filter(question_page__survey=survey).order_by('question_page__order')
+    respondents = survey.respondant_set.filter(complete=True, review_status='accepted').order_by('-ts')
+
+    response_file = _create_csv_response(survey.slug+'_full-dump_{0}.csv'.format(
         datetime.date.today().strftime('%d-%m-%Y')))
 
     fields = OrderedDict(CsvFieldGenerator.get_field_names_for_respondent().items() +
-                         CsvFieldGenerator.get_field_names_for_question_set(questions).items())
+                         CsvFieldGenerator.get_field_names_for_question_set(questions, respondents).items())
 
-    writer = SlugCSVWriter(response, fields)
+    writer = SlugCSVWriter(response_file, fields)
     writer.writeheader()
-
-    respondents = survey.respondant_set.filter(complete=True).order_by('uuid')
+    
     numSuccesful = 0
     for resp in respondents:
-        #row_ascii = resp.csv_row.json_data.encode(encoding='ascii', errors='backslashreplace')
         try:
             writer.writerow(json.loads(resp.csv_row.json_data))
             numSuccesful = numSuccesful + 1
@@ -270,7 +270,7 @@ def full_data_dump_csv(request, survey_slug):
     print '' + str(numSuccesful) + ' respondents successfully written to csv'
     print '' + str(respondents.count() - numSuccesful) + ' respondents threw an exception'
     print ''
-    return response
+    return response_file
 
 
 class MapLayer(GeoJSONLayerView):
