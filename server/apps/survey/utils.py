@@ -24,8 +24,8 @@ class CsvFieldGenerator(object):
             'model-timestamp': str(respondent.ts),
             'model-complete': respondent.complete,
             'model-email': respondent.surveyor.email if hasattr(respondent, 'surveyor') else '',
-            # 'first-name': respondent.user.first_name if respondent.user is not None else '',
-            # 'last-name': respondent.user.last_name if respondent.user is not None else '',
+            'first-name': respondent.user.first_name if respondent.user is not None else '',
+            'last-name': respondent.user.last_name if respondent.user is not None else '',
             'model-review-status': respondent.get_review_status_display(),
         }
         survey_questions = survey.questions.all()
