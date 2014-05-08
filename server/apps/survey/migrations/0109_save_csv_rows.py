@@ -170,6 +170,7 @@ class Migration(DataMigration):
             'attach_to_profile': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'blocks': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['survey.Block']", 'null': 'True', 'blank': 'True'}),
             'cols': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'export_label': ('django.db.models.fields.CharField', [], {'default': "'heading_not_set'", 'max_length': '254'}),
             'filterBy': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'filter_questions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'filter_questions_rel_+'", 'null': 'True', 'to': u"orm['survey.Question']"}),
             'foreach_question': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'foreach'", 'null': 'True', 'to': u"orm['survey.Question']"}),
@@ -225,7 +226,7 @@ class Migration(DataMigration):
             'ts': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
-            'uuid': ('django.db.models.fields.CharField', [], {'default': "'641dd396-0698-4ee3-b9e0-4d42242e9a87'", 'max_length': '36', 'primary_key': 'True'})
+            'uuid': ('django.db.models.fields.CharField', [], {'default': "'43b70a00-7652-4e28-a45b-f945f293388f'", 'max_length': '36', 'primary_key': 'True'})
         },
         u'survey.response': {
             'Meta': {'ordering': "['-ts']", 'object_name': 'Response'},
