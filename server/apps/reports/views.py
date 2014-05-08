@@ -242,7 +242,7 @@ def _create_csv_response(filename):
 def full_data_dump_csv(request, survey_slug):
     survey = Survey.objects.get(slug=survey_slug)
     questions = Question.objects.filter(question_page__survey=survey).order_by('question_page__order')
-    respondents = survey.respondant_set.filter(complete=True, review_status='accepted').order_by('-ts')
+    respondents = survey.respondant_set.filter(complete=True).order_by('-ts')
 
     response_file = _create_csv_response(survey.slug+'_full-dump_{0}.csv'.format(
         datetime.date.today().strftime('%d-%m-%Y')))
