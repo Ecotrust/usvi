@@ -147,6 +147,14 @@ h1, h2, h3, h4 {
 	}
 }
 
+#wrap > .container {
+    padding-top: 15px;
+}
+
+.page-header {
+    margin-bottom: 5px;
+}
+
 .required-indicator {
     color: red;
     font-size: 22px;
@@ -640,6 +648,7 @@ h1, h2, h3, h4 {
     font-weight: 100;
     letter-spacing: 2px;
     text-align: center;
+    margin-top: 10px;
 }
 
 .btn-main {
