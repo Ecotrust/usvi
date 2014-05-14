@@ -20,6 +20,16 @@
     <div id="sidebar_nav">
         <ul class="nav">
             <li>
+                <a ng-class="{'active': activePage == 'welcome'}" href="#/welcome/{{survey.slug}}">welcome</a>
+            </li>
+            <li>
+                <a ng-class="{'active': activePage == 'community'}" href="#/explore/{{survey.slug}}">explore community</a>
+            </li>
+            <li>
+                <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">monitoring activity - overview</a>
+            </li>
+
+            <li>
                 <a ng-class="{'active': activePage == 'responses'}" href="#/responses/{{survey.slug}}">Responses</a>
             </li>
             <li>

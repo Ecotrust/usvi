@@ -58,6 +58,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    
     {% if user.is_authenticated %}
     <div id="topnav" class="navbar navbar-fixed-top" role="navigation">
       <div class="container">
@@ -71,9 +72,10 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
     <div class="container-fluid dashboard" id="ng-app" ng-app="askApp" ng-view></div>
-    {% endif %}
+
     
     <script src="{{ STATIC_URL }}survey/components/flatui/js/jquery-1.8.2.min.js"></script>
     <script src="{{ STATIC_URL }}survey/components/jquery-ui/ui/jquery-ui.js"></script>
@@ -114,6 +116,7 @@
 
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantList.js"></script>
  
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-welcome.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-ecosystems.js"></script>
 
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-list.js"></script>

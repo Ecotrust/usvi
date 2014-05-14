@@ -57,6 +57,11 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     })
 
     /* Routes for dashboard side nav */
+    .when('/welcome/:surveySlug', {
+        templateUrl: '/static/survey/views/ost/dash-welcome.html',
+        controller: 'WelcomeCtrl',
+        reloadOnSearch: false
+    })
     .when('/RespondantList/:surveySlug', {
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
@@ -93,6 +98,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     //     controller: 'DashDownloadCtrl',
     // })
     .otherwise({
-        redirectTo: '/responses/monitoring-project'
+        redirectTo: '/welcome/monitoring-project'
     });
 });
