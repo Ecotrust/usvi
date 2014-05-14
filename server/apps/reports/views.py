@@ -53,7 +53,7 @@ def get_geojson(request, survey_slug, question_slug):
     return HttpResponse(simplejson.dumps({'success': "true", 'geojson': list(locations.values('geojson'))}))
 
 
-@api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
+# @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def get_distribution_json(request, survey_slug, question_slug):
     answer_domain = _get_answer_domain(request, survey_slug, question_slug)
     return HttpResponse(simplejson.dumps({'success': "true", "answer_domain": list(answer_domain)}))
@@ -72,7 +72,7 @@ def get_distribution_csv(request, survey_slug, question_slug):
     return response
 
 
-@api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
+# @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def _get_answer_domain(request, survey_slug, question_slug):
     ### Returns a filtered list of answers and their counts for a given question.
     survey = get_object_or_404(Survey, slug=survey_slug)

@@ -12,7 +12,7 @@ angular.module('askApp')
 
         var onDataSuccess = function (data) {
             var chartConfig = {
-                labels: _.pluck(data.answer_domain, "answer_text"),
+                labels: _.pluck(data.answer_domain, "answer"),
                 displayTitle: false,
                 yLabel: options.yLabel,
                 title: options.title,

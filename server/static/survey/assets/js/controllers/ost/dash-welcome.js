@@ -1,5 +1,5 @@
 
-angular.module('askApp').controller('WelcomeCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils) {
+angular.module('askApp').controller('DashWelcomeCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils) {
     
     $scope.activePage = 'welcome';
     $scope.filters = {};

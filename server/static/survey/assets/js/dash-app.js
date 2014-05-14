@@ -59,7 +59,12 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     /* Routes for dashboard side nav */
     .when('/welcome/:surveySlug', {
         templateUrl: '/static/survey/views/ost/dash-welcome.html',
-        controller: 'WelcomeCtrl',
+        controller: 'DashWelcomeCtrl',
+        reloadOnSearch: false
+    })
+    .when('/explore/:surveySlug', {
+        templateUrl: '/static/survey/views/ost/dash-explore.html',
+        controller: 'DashExploreCtrl',
         reloadOnSearch: false
     })
     .when('/RespondantList/:surveySlug', {
