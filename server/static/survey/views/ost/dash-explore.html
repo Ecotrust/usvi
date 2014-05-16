@@ -8,10 +8,40 @@
                     <h4>community overview</h4>
                 </div>
             </div>
-            <!-- <div class="row" ng-include="'/static/survey/views/dash-top-filters.html'"></div> -->
-            <!-- <div class="row">
-                <div dash-map zoom="8"  locations="locations" geojson="geojson_layer"></div>
-            </div> -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div nvd3-pie-chart 
+                        id="donut-org-type"
+                        data="charts['org-type'].answer_domain"
+                        x="xFunction()"
+                        y="yFunction()"
+                        width="350"
+                        height="350"
+                        showLabels="true"
+                        tooltips="true"
+                        donut="true"
+                        donutLabelsOutside="true"
+                        interactive="true">
+                        <svg></svg>
+                    </div>                
+                </div>
+                <div class="col-sm-6">
+                    <div nvd3-pie-chart 
+                        id="donut-proj-num-people"
+                        data="charts['proj-num-people'].answer_domain"
+                        x="xFunction()"
+                        y="yFunction()"
+                        width="350"
+                        height="350"
+                        showLabels="true"
+                        tooltips="true"
+                        donut="true"
+                        donutLabelsOutside="true"
+                        interactive="true">
+                        <svg></svg>
+                    </div>                
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div bar-chart chart="charts['proj-data-years']"></div>
