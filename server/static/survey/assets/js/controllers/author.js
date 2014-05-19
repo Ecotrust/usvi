@@ -167,7 +167,7 @@ angular.module('askApp')
         };
 
 
-        $scope.delete = function (question, page) {
+        $scope.deleteQuestion = function (question, page) {
             var questionToBeDeleted = question;
             $http({
                 method: 'DELETE',

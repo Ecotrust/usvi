@@ -9,17 +9,32 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-sm-12">
+                    <p>TEXT NEEDED</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Organization</h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4>How many people are collecting the data?</h4>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
                     <div nvd3-pie-chart 
                         id="donut-org-type"
                         data="charts['org-type'].answer_domain"
                         x="xFunction()"
                         y="yFunction()"
-                        width="350"
-                        height="350"
+                        width="325"
+                        height="325"
                         showLabels="true"
                         tooltips="true"
                         donut="true"
+                        donutRatio=".50"
                         donutLabelsOutside="true"
                         interactive="true">
                         <svg></svg>
@@ -31,11 +46,12 @@
                         data="charts['proj-num-people'].answer_domain"
                         x="xFunction()"
                         y="yFunction()"
-                        width="350"
-                        height="350"
+                        width="325"
+                        height="325"
                         showLabels="true"
                         tooltips="true"
                         donut="true"
+                        donutRatio=".50"
                         donutLabelsOutside="true"
                         interactive="true">
                         <svg></svg>
@@ -43,7 +59,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" id="bc111">
+                    <iframe id="downloadFrame" name="downloadFrame" style="display:none"></iframe>
+                    <button class="btn" ng-click="downloadPng('#bc111 .highcharts-container')">PNG</button>
                     <div bar-chart chart="charts['proj-data-years']"></div>
                 </div>
             </div>
