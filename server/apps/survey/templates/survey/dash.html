@@ -5,14 +5,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="flashcanvas.js"></script>
-    <![endif]-->    
-    <!--[if lt IE 9]>
      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
      <script>var L_DISABLE_3D=true;</script>
     <![endif]-->
     <!--[if lt IE 8]>
-      <script src="{{ STATIC_URL }}survey/lib/js/json3.min.js"></script>
       <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.min.css" rel="stylesheet">
     <![endif]-->
     <meta charset="utf-8"/>
@@ -20,53 +16,35 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <!-- <link href="{{ STATIC_URL }}survey/components/flatui/css/bootstrap.css" rel="stylesheet"> -->
     <link href="https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/flatui/css/flat-ui.css"> -->
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/select2/select2.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/main.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/css/ost-dash.css">
-<!--     <link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/map.css">
- -->    <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/lib/css/leaflet.awesome-markers.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/lib/css/iThing.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/lib/css/jquery-ui-1.10.0.custom.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}survey/assets/lib/css/daterangepicker-bs3.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/lib/css/leaflet.label.css">
-
-    <!-- <link rel="stylesheet" href="{{ STATIC_URL }}survey/lib/css/ade-1.2.min.css"> -->
-
+    <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/lib/css/nv.d3.css">
     <!--[if lt IE 9]>
-    <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/leaflet/dist/leaflet.ie.css">
+      <link rel="stylesheet" href="{{ STATIC_URL }}survey/components/leaflet/dist/leaflet.ie.css">
     <![endif]-->
-    
     <!--[if lt IE 8]>
       <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.min.css" rel="stylesheet">
       <link rel="stylesheet" href="{{ STATIC_URL }}survey/styles/main.ie7.css">
-
     <![endif]-->
-    <link rel="stylesheet" href="{{ STATIC_URL }}survey/assets/lib/css/nv.d3.css">
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="{{ STATIC_URL }}survey/assets/lib/js/flashcanvas/flashcanvas.js"></script>
-    <![endif]-->        
   </head>
   <body xmlns:ng="http://angularjs.org">
-
     <!--[if lt IE 9]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
-
     <!--[if lt IE 9]>
-      <script src="{{ STATIC_URL }}survey/lib/polyfill.arraymap.js"></script>
-      <script src="{{ STATIC_URL }}survey/lib/js/aight.js"></script>
       <script src="{{ STATIC_URL }}survey/components/es5-shim/es5-shim.js"></script>
-      <script src="{{ STATIC_URL }}survey/components/json3/lib/json3.min.js"></script>
+      <script src="{{ STATIC_URL }}survey/lib/js/json3.min.js"></script>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    
     {% if user.is_authenticated %}
     <div id="topnav" class="navbar navbar-fixed-top" role="navigation">
       <div class="container">
@@ -92,19 +70,16 @@
     <script src="{{ STATIC_URL }}survey/assets/lib/js/angular-route.js"></script>
     <script src="{{ STATIC_URL }}survey/components/angular-ui/build/angular-ui.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/directives/ui-bootstrap-tpls-0.10.0.js"></script>
-    
     <script src="{{ STATIC_URL }}survey/components/select2/select2.js"></script>
     <script src="{{ STATIC_URL }}survey/components/underscore/underscore.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/underscore.string.js"></script>
-    
     <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet-src.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/highcharts.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/Bing.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/leaflet.awesome-markers.min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/jQDateRangeSlider-min.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/date.js"></script>
-        <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet.label.js"></script>
-
+    <script src="{{ STATIC_URL }}survey/assets/lib/js/leaflet.label.js"></script>
     <!--<script src="{{ STATIC_URL }}survey/lib/js/heatmap.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/heatmap-leaflet.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/QuadTree.js"></script>-->
@@ -113,7 +88,6 @@
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.js"></script>
     <!-- build:js scripts/scripts.js -->
     <script src="{{ STATIC_URL }}survey/assets/js/dash-app.js"></script>
-
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/main.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/menu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/agency-dash.js"></script>
@@ -121,17 +95,13 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyListMenu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/SurveyDetail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/mapView.js"></script>
-
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantList.js"></script>
- 
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-welcome.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-explore.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-ecosystems.js"></script>
-
     <!-- <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-detail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-progress.js"></script> -->
-
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/RespondentDetail.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/complete.js"></script>
     <!-- // <script src="{{ STATIC_URL }}survey/assets/js/directives/leaflet.js"></script>
@@ -157,15 +127,9 @@
     <script src="{{ STATIC_URL }}survey/lib/js/angular-strap.tpl.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}survey/assets/lib/js/daterangepicker.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}survey/assets/lib/js/moment.min.js"></script>
-
     <script src="{{ STATIC_URL }}survey/assets/lib/js/d3.v3.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/nv.d3.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/angularjs-nvd3-directives.js"></script>
-    
-    <script src="{{ STATIC_URL }}survey/assets/lib/js/rgbcolor.js"></script>
-    <script src="{{ STATIC_URL }}survey/assets/lib/js/canvg.js"></script>
-    
-
     <!-- endbuild -->
 
     <script>
