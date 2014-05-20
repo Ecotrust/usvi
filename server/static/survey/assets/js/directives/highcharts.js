@@ -78,53 +78,65 @@ angular.module('askApp')
     .directive('pieChart', function() {
 
         return {
-            template: '<div class="pie-chart" style="min-width: 100%; height: 150px; margin: 0 auto"></div>',
+            template: '<div class="pie-chart" style="height: 300px; margin: 0 auto"></div>',
             restrict: 'EA',
             replace: true,
             transclude: true,
             scope: {
-                chart: "=chart",
-                filter: "=filter"
+                chart: "="
             },
             link: function(scope, element, attrs) {
-                scope.$watch('filter', function (newValue) {
-                    console.log(newValue);
+
+                function render (chartConfig) {
                     element.highcharts({
+                        credits: {
+                            enabled: false
+                        },
                         chart: {
-                            plotBackgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            plotBorderWidth: null,
-                            plotShadow: false
+                            backgroundColor:'rgba(255, 255, 255, 0.1)',
+                            plotBorderWidth: 0,
+                            plotShadow: false,
+                            height: 300
                         },
                         title: {
-                            text: false
+                            text: chartConfig.title,
+                            align: 'left',
                         },
                         tooltip: {
-                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                            pointFormat: '<b>{point.percentage:.1f}%</b> of ' + chartConfig.unit
                         },
                         plotOptions: {
                             pie: {
-                                allowPointSelect: true,
-                                cursor: 'pointer',
+                                startAngle: 180,
                                 dataLabels: {
                                     enabled: true,
-                                    color: '#000000',
-                                    connectorColor: '#000000',
-                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                                }
+                                    distance: 4,
+                                    style: {
+                                        fontWeight: 'bold',
+                                        color: 'rgb(51, 51, 51)',
+                                        textShadow: '0px 1px 2px white'
+                                    },
+                                    format: '{point.name}',
+                                    connectorWidth: 0
+                                },
+                                //allowPointSelect: true,
+                                cursor: 'pointer',
+                                size: '75%'
                             }
                         },
                         series: [{
                             type: 'pie',
-                            name: 'Browser share',
-                            data: [
-                                ['Hook and Line or Rod and Reel', 45.0],
-                                ['Lobster Traps', 26.8],
-                                ['Nets', 8.5],
-                                ['Spear or By Hand', 6.2]
-                            ]
+                            innerSize: '50%',
+                            data: chartConfig.data
                         }]
                     });    
-                }, true);
+                }
+                
+                scope.$watch('chart', function (newValue) {
+                    if (newValue) {
+                        render(scope.chart);
+                    }
+                });
                 
             }
         }
