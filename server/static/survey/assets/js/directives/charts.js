@@ -40,7 +40,7 @@ angular.module('askApp')
                                 type: scope.chart.type == 'bar-chart' ? 'column' : 'bar'
                             },
                             backgroundColor: 'rgba(255, 255, 255, 0)',
-                            title: scope.chart.displayTitle ? { text: scope.chart.title } : false,
+                            title: scope.chart.displayTitle ? { text: scope.chart.title, align: "left" } : false,
                             tooltip: {
                                 formatter: scope.chart.formatter ? scope.chart.formatter :
                                     function() {

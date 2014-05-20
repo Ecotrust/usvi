@@ -67,7 +67,7 @@ def get_distribution_csv(request, survey_slug, question_slug):
     writer = csv.writer(response)
     writer.writerow((question_slug, 'count'))
     for row in answer_domain:
-        writer.writerow((row['answer_text'], row['surveys']))
+        writer.writerow((row['answer'], row['surveys']))
 
     return response
 

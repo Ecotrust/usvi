@@ -78,7 +78,7 @@ angular.module('askApp')
     .directive('pieChart', function() {
 
         return {
-            template: '<div class="pie-chart" style="height: 300px; margin: 0 auto"></div>',
+            templateUrl: '/static/survey/views/chart_400.html',
             restrict: 'EA',
             replace: true,
             transclude: true,
@@ -87,23 +87,19 @@ angular.module('askApp')
             },
             link: function(scope, element, attrs) {
 
-                function render (chartConfig) {
-                    element.highcharts({
+                function render () {
+                    element.find(".chart").highcharts({
                         credits: {
                             enabled: false
                         },
                         chart: {
                             backgroundColor:'rgba(255, 255, 255, 0.1)',
                             plotBorderWidth: 0,
-                            plotShadow: false,
-                            height: 300
+                            plotShadow: false
                         },
-                        title: {
-                            text: chartConfig.title,
-                            align: 'left',
-                        },
+                        title: scope.chart.displayTitle ? { text: scope.chart.title, align: "left" } : false,
                         tooltip: {
-                            pointFormat: '<b>{point.percentage:.1f}%</b> of ' + chartConfig.unit
+                            pointFormat: '<b>{point.percentage:.1f}%</b> of ' + scope.chart.unit
                         },
                         plotOptions: {
                             pie: {
@@ -119,22 +115,20 @@ angular.module('askApp')
                                     format: '{point.name}',
                                     connectorWidth: 0
                                 },
-                                //allowPointSelect: true,
-                                cursor: 'pointer',
                                 size: '75%'
                             }
                         },
                         series: [{
                             type: 'pie',
                             innerSize: '50%',
-                            data: chartConfig.data
+                            data: scope.chart.data
                         }]
                     });    
                 }
                 
                 scope.$watch('chart', function (newValue) {
                     if (newValue) {
-                        render(scope.chart);
+                        render();
                     }
                 });
                 

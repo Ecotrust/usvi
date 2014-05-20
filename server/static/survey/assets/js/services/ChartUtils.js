@@ -19,7 +19,7 @@ angular.module('askApp')
                 categories: [""],
                 type: "stacked-column",
                 data: _.pluck(data.answer_domain, "surveys"),
-                download_url: data.csvUrl,
+                download_url: app && app.user && app.user.is_staff ? data.csvUrl : '',
                 unit: options.unit || "projects"
             };
             setChart_callback(chartConfig);
@@ -60,9 +60,9 @@ angular.module('askApp')
 
             var chartConfig = {
                 data: formattedData,
-                download_url: data.csvUrl,
+                download_url: app && app.user && app.user.is_staff ? data.csvUrl : '',
                 title: options.title,
-                displayTitle: true,
+                displayTitle: false,
                 yLabel: options.yLabel,
                 unit: options.unit || "projects"
             };
