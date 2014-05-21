@@ -71,6 +71,43 @@ class Respondant(caching.base.CachingMixin, models.Model):
     def survey_slug(self):
         return self.survey.slug
 
+    @property
+    def project_name(self):
+        try:
+            return self.responses.filter(question__slug='proj-title')[0].answer
+        except:
+            return 'unavailable'
+
+    @property
+    def organization_name(self):
+        try:
+            return self.responses.filter(question__slug='org-name')[0].answer
+        except:
+            return 'unavailable'
+
+    @property
+    def ecosystem_features(self):
+        try:
+            return self.responses.filter(question__slug='ecosystem-features')[0].answer
+        except:
+            return 'unavailable'
+
+    @property
+    def duration(self):
+        try:
+            return self.responses.filter(question__slug='proj-data-years')[0].answer
+        except:
+            return 'unavailable'
+
+
+    @property
+    def frequency(self):
+        try:
+            return self.responses.filter(question__slug='proj-data-frequency')[0].answer
+        except:
+            return 'unavailable'
+
+
     def save(self, *args, **kwargs):
         if self.uuid and ":" in self.uuid:
             self.uuid = self.uuid.replace(":", "_")
