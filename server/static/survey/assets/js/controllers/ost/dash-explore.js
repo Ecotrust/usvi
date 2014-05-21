@@ -2,6 +2,7 @@
 angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils) {
     
     $scope.activePage = 'explore';
+    $scope.user = app.user || {};
     
     //
     // Charts

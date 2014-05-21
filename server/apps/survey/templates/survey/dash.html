@@ -62,7 +62,6 @@
 
     <div class="container-fluid dashboard" id="ng-app" ng-app="askApp" ng-view></div>
 
-    
     <script src="{{ STATIC_URL }}survey/components/flatui/js/jquery-1.8.2.min.js"></script>
     <script src="{{ STATIC_URL }}survey/components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="{{ STATIC_URL }}javascripts/libs/jquery.mjs.nestedSortable.js"></script>
@@ -88,6 +87,20 @@
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.js"></script>
     <!-- build:js scripts/scripts.js -->
     <script src="{{ STATIC_URL }}survey/assets/js/dash-app.js"></script>
+
+    <script>
+    var token = "{{csrf_token}}";
+    {% if user.is_authenticated %}
+    var isAuthenticated = true;
+    app.user = {
+      username: "{{user.username}}",
+      is_staff: "{{user.is_staff}}"
+    }
+    {% else %}
+    var isAuthenticated = false;
+    {% endif %}
+    </script>
+
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/main.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/menu.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/agency-dash.js"></script>
@@ -131,19 +144,6 @@
     <script src="{{ STATIC_URL }}survey/assets/lib/js/nv.d3.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/lib/js/angularjs-nvd3-directives.js"></script>
     <!-- endbuild -->
-
-    <script>
-    var token = "{{csrf_token}}";
-    {% if user.is_authenticated %}
-    var isAuthenticated = true;
-    app.user = {
-      username: "{{user.username}}",
-      is_staff: "{{user.is_staff}}"
-    }
-    {% else %}
-    var isAuthenticated = false;
-    {% endif %}
-    </script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
