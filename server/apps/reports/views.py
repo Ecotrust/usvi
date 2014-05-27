@@ -25,11 +25,16 @@ def get_respondants_summary(request):
     return HttpResponse(simplejson.dumps( { 'start_time': start_time.strftime('%Y-%m-%d') } ) )
 
 
-@api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def get_geojson(request, survey_slug, question_slug):
     survey = get_object_or_404(Survey, slug=survey_slug)
-    locations = LocationAnswer.objects.filter(location__response__respondant__survey=survey,
-                                              location__respondant__complete=True)
+    if question_slug.find('*') == -1:
+        locations = LocationAnswer.objects.filter(location__response__respondant__survey=survey,
+                                                  location__response__question__slug=question_slug,
+                                                  location__respondant__complete=True)
+    else:
+        locations = LocationAnswer.objects.filter(location__response__respondant__survey=survey,
+                                                  location__response__question__slug__contains=question_slug.replace('*', ''),
+                                                  location__respondant__complete=True)
 
     filter_list = []
     filters = None
@@ -45,10 +50,7 @@ def get_geojson(request, survey_slug, question_slug):
             slug = filter.keys()[0]
             value = filter[slug]
             filter_question = Question.objects.get(slug=slug, question_page__survey=survey)
-            if filter_question.type == 'map-multipoint':
-                locations = locations.filter(answer__in=value)
-            else:
-                locations = locations.filter(location__respondant__responses__in=filter_question.response_set.filter(answer__in=value))
+            locations.filter(answer__contains=slug)
 
     return HttpResponse(simplejson.dumps({'success': "true", 'geojson': list(locations.values('geojson'))}))
 
