@@ -391,10 +391,10 @@ def create_migrations(app_name):
             _manage_py('schemamigration %s --auto' % app_name)
 
 @task
-def migrate_db():
+def migrate_db(app_name):
     with cd(env.code_dir):
         with _virtualenv():
-            _manage_py('migrate --settings=config.environments.staging')
+            _manage_py('migrate %s --settings=config.environments.staging' % app_name)
 
 @task
 def backup_db():
