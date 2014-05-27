@@ -1,5 +1,5 @@
 angular.module('askApp')
-    .directive('mapPoints', function($http, $compile, $timeout) {
+    .directive('mapPoints', function($http, $compile, $timeout, $routeParams) {
 
         var MapUtils = {
 
@@ -172,7 +172,7 @@ angular.module('askApp')
                     marker.data = {
                         lat: latlng.lat.toString(),
                         lng: latlng.lng.toString(),
-                        answers: [{text: "not_set", label: "not_set"}]
+                        answers: [{text: $routeParams.uuidSlug, label: scope.question.slug}]
                     };
 
 

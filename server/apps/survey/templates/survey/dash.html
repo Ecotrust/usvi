@@ -49,8 +49,8 @@
     <div id="topnav" class="navbar navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-            <img class="navbar-brand oceanspaces-logo" src="{{STATIC_URL}}survey/assets/img/oceanspaces-logo-white.png"></img>
-            <a class="navbar-brand" href="http://pointnineseven.com/"><img class="point97-logo" src="{{STATIC_URL}}survey/assets/img/point_97_logo.png"></img></a>
+            <img class="navbar-brand oceanspaces-logo" src="{{STATIC_URL}}survey/assets/img/oceanspaces-logo-white.png">
+            <a class="navbar-brand" href="http://pointnineseven.com/"><img class="point97-logo" src="{{STATIC_URL}}survey/assets/img/point_97_logo.png"></a>
         </div>
         <div class="navbar-right">
           <a href="{% url 'auth_logout' %}" class="navbar-btn navbar-right btn btn-default">Sign Out</a>
@@ -111,6 +111,7 @@
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/RespondantList.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-welcome.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-explore.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-overview.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/ost/dash-ecosystems.js"></script>
     <!-- <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-list.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/controllers/acl-detail.js"></script>
@@ -136,6 +137,7 @@
     <script src="{{ STATIC_URL }}survey/assets/js/services/Survey.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/filters.js"></script>
     <script src="{{ STATIC_URL }}survey/assets/js/directives/directives.js"></script>
+    <script src="{{ STATIC_URL }}survey/assets/js/directives/dash-map-ost.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/angular-strap.js"></script>
     <script src="{{ STATIC_URL }}survey/lib/js/angular-strap.tpl.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}survey/assets/lib/js/daterangepicker.js"></script>
