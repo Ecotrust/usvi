@@ -180,7 +180,7 @@ class ReportRespondantResource(SurveyModelResource):
 class CompleteRespondantResource(ReportRespondantResource):
     project_name = fields.CharField(attribute='project_name', readonly=True)
     organization_name = fields.CharField(attribute='organization_name', readonly=True)
-    ecosystem_features = fields.CharField(attribute='ecosystem_features', readonly=True)
+    ecosystem_features = fields.CharField(attribute='monitored_ecosystem_features', readonly=True)
     duration = fields.CharField(attribute='duration', readonly=True)
     frequency = fields.CharField(attribute='frequency', readonly=True)
 

@@ -86,7 +86,7 @@ class Respondant(caching.base.CachingMixin, models.Model):
             return 'unavailable'
 
     @property
-    def ecosystem_features(self):
+    def monitored_ecosystem_features(self):
         try:
             return self.responses.filter(question__slug='ecosystem-features')[0].answer
         except:
@@ -456,6 +456,7 @@ class LocationAnswer(caching.base.CachingMixin, models.Model):
     answer = models.TextField(null=True, blank=True, default=None)
     label = models.TextField(null=True, blank=True, default=None)
     location = models.ForeignKey('Location')
+    geojson = models.TextField(null=True, blank=True, default=None)
     
     def __unicode__(self):
         return "%s/%s" % (self.location.response.respondant.uuid, self.answer)
