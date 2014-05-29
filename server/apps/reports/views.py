@@ -46,11 +46,17 @@ def get_geojson(request, survey_slug, question_slug):
         filter_list = simplejson.loads(filters)
 
     if filters is not None:
+        merged_filtered_set = None
         for filter in filter_list:
             slug = filter.keys()[0]
             value = filter[slug]
             filter_question = Question.objects.get(slug=slug, question_page__survey=survey)
-            locations.filter(answer__contains=slug)
+            if merged_filtered_set is not None:
+                merged_filtered_set = merged_filtered_set | locations.filter(geojson__contains=value)
+            else:
+                merged_filtered_set = locations.filter(geojson__contains=value)
+        if merged_filtered_set is not None:
+            locations = merged_filtered_set
 
     return HttpResponse(simplejson.dumps({'success': "true", 'geojson': list(locations.values('geojson'))}))
 
