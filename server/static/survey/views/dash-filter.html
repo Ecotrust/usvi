@@ -5,7 +5,7 @@
         ui-select2 
         placeholder="{{placeholderText}}" 
         ng-model="model.selectedValuesInternal" 
-        ng-change="selectionChanged()"
+        ng-change="selectionChanged(value)"
         style="width: 200px">
         <option value="{{option.value}}" ng-repeat="option in filterOptions">
             <strong>{{option.displayLabel}}</strong>

@@ -882,7 +882,6 @@ input.multi-select-other:-ms-input-placeholder {
 
 .leaflet-control-attribution,
 .leaflet-control-zoom {
->>>>>>> gs/master:server/static/survey/assets/css/mobile.css
   display: none;
 }
 .alert-notice {

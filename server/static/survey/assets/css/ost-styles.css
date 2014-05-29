@@ -358,9 +358,6 @@ h1, h2, h3, h4 {
     background: rgba(0, 0, 0, 0.5) !important;
     border: none;
     }
-.leaflet-control-zoom a {
-    background-color: white !important;
-    }
 .leaflet-control-zoom a, .leaflet-control-layers a {
     background-position: 50% 50% !important;
     background-repeat: no-repeat !important;
@@ -377,6 +374,9 @@ h1, h2, h3, h4 {
     position: relative;
     padding: 0px;
     left: -1px;
+    }
+.leaflet-control-zoom a {
+    background-color: white !important;
     }
 .leaflet-control-zoom a:hover {
     background-color: white !important;

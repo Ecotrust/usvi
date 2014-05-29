@@ -2,7 +2,7 @@
     
     <div style="position:relative; height: 100%;">
     
-        <div id="map-container" >
+        <div id="map-container" style="height: 100%;">
             
         </div>
 
@@ -13,23 +13,38 @@
                     Action <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
+                    
+                    <li role="presentation" class="dropdown-header">Data</li>
                     <li>
                         <a  href="javascript:void(0)" 
-                            ng-click="showPoints = true; showUnits = false;">
+                            ng-click="showPoints = true; showUnits = false; $event.stopPropagation();">
+
+                            <span class="glyphicon glyphicon-unchecked" ng-hide="showPoints"></span>
+                            <span class="glyphicon glyphicon-check" ng-show="showPoints"></span>
                             Points
                         </a>
                     </li>
                     <li>
                         <a  href="javascript:void(0)" 
-                            ng-click="showPoints = false; showUnits = true;">
+                            ng-click="showPoints = false; showUnits = true; $event.stopPropagation();">
+
+                            <span class="glyphicon glyphicon-unchecked" ng-hide="showUnits"></span>
+                            <span class="glyphicon glyphicon-check" ng-show="showUnits"></span>
                             Planning Units
                         </a>
                     </li>
-                    <li class="divider"></li>
-                    <li>
+                    
+                    <li role="presentation" class="divider"></li>
+                    <li ng-show="showBoundary">
                         <a  href="javascript:void(0)" 
-                            ng-click="showBoundary = !showBoundary">
-                            Study Area Boundary
+                            ng-click="showBoundary = false">
+                            Hide Boundary
+                        </a>
+                    </li>
+                    <li ng-hide="showBoundary">
+                        <a  href="javascript:void(0)" 
+                            ng-click="showBoundary = true">
+                            Show Boundary
                         </a>
                     </li>
                   </ul>

@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <div id="sidebar_nav">
+    <div class="sidebar_nav">
         <ul class="nav">
             <li>
                 <a ng-class="{'active': activePage == 'welcome'}" href="#/welcome/{{survey.slug}}">welcome</a>
@@ -34,6 +34,26 @@
             </li>
             <li ng-hide="user.is_staff != 'True'">
                 <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sidebar_nav" ng-show="activePage == 'overview'">
+        <div dash-filter 
+             placeholder-text="'all ecosystem features'"
+             allow-multi-select="true"
+             survey-slug="'monitoring-project'"
+             question-slug="'ecosystem-features'"
+             selected-values="filters.ecosystemFeatures"
+             ></div>
+        <button type="button" class="btn btn-default" ng-click="updateMap()"><span class="glyphicon glyphicon-filter"></span>Filter</button>
+        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
+    </div>
+
+    <div class="sidebar_nav">
+        <ul class="nav">
+            <li>
+                <a href="http://oceanspaces.org/program/central-coast-ongoing-mpa-monitoring-program">more about Central Coast Monitoring</a>
             </li>
         </ul>
     </div>

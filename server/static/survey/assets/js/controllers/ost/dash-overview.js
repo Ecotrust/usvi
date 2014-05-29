@@ -1,10 +1,32 @@
 
 angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils) {
+
+    function initPage () {
+        $scope.activePage = 'overview';
+        $scope.user = app.user || {};
+
+        $scope.filtersJson = '';
+        $scope.filters = { ecosystemFeatures: 'all' };
+        $scope.mapSettings = {
+            questionSlugPattern: '*-collection-points',
+            lat: 35.8336630,
+            lng: -122.0000000,
+            zoom: 7
+        };
+        $scope.updateMap();
+
+        $scope.$watch('filters.ecosystemFeatures', function(newVal, oldVal) {
+            // TODO clear existing markers from map
+            console.log('filter changed: ' + $scope.filters.ecosystemFeatures);
+            $scope.filtersJson = [];
+            _.each($scope.filters.ecosystemFeatures, function (label) {
+                var slug = ecosystemLabelToSlug(label);
+                console.log('eco label to slug: ' + slug);
+                $scope.filtersJson.push({'ecosystem-features': slug});
+            });
+        });
+    }
     
-    $scope.activePage = 'overview';
-    $scope.user = app.user || {};
-    $scope.filtersJson = '';
-    $scope.questionSlugPattern = '*-collection-points';
 
     //
     // Fill survey stats blocks
@@ -18,12 +40,35 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     //
     // Map
     // 
+    $scope.updateMap = function () {
+        var apiUrl = mapUtils.pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson);
+        mapUtils.getPoints(apiUrl, function (points) {
+            $scope.mapSettings.mapPoints = points;
+        });    
+    }
+
+    function ecosystemLabelToSlug (label) {
+        var dict = {};
+        dict['Rocky Intertidal Ecosystems'] = 'ef-rockyintertidal-collection-';
+        dict['Kelp and Shallow (0-30m) Rock Ecosystems'] = 'ef-kelp-and-shallow-rock-collection-';
+        dict['Mid depth (30-100m) Rock Ecosystems'] = 'ef-middepthrock-collection-';
+        dict['Estuarine and Wetland Ecosystems'] = 'ef-estuarine-collection-';
+        dict['Soft-bottom Intertidal and Beach Ecosystems'] = 'ef-softbottomintertidal-collection-';
+        dict['Soft bottom Subtidal (0-100m) Ecosystems'] = 'ef-softbottomsubtidal-collection-';
+        dict['Deep Ecosystems and Canyons (>100m)'] = 'ef-deep-collection-';
+        dict['Nearshore Pelagic Ecosystems'] = 'ef-nearshore-collection-';
+        dict['Consumptive Uses'] = 'ef-consumptive-collection-';
+        dict['Non-consumptive Uses'] = 'ef-nonconsumptive-collection-';
+
+        return dict[label];
+    }
+
     var mapUtils = {
 
         pointsApiUrl: function (sSlug, qSlug, filtersJson) {
             var url = ['/reports/geojson', sSlug, qSlug];
-            if (filtersJson) {
-                url.push('?filters=' + filtersJson);
+            if (filtersJson && !_.isEmpty(filtersJson)) {
+                url.push('?filters=' + JSON.stringify(filtersJson));
             }
             return url.join('/');
         },
@@ -69,14 +114,11 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         }
     };
 
-    var apiUrl = mapUtils.pointsApiUrl($routeParams.surveySlug, $scope.questionSlugPattern, $scope.filtersJson);
-    mapUtils.getPoints(apiUrl, function (points) {
-        $scope.mapPoints = points;
-    });
-
 
     //
     // Charts
     //
     $scope.charts = {};
+
+    initPage();
 });

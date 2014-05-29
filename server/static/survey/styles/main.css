@@ -49,7 +49,7 @@
 }
 
 
-#sidebar_nav {
+.sidebar_nav {
     margin-top: 10px;
     border-top: 10px solid #466B71;
     border-bottom: 10px solid #466B71;
@@ -57,14 +57,14 @@
     text-transform: uppercase;
     font-weight: bold;
 }
-#sidebar_nav a {
+.sidebar_nav a {
     color: inherit;
     background: #EEEEEE;
 }
-#sidebar_nav a:hover {
+.sidebar_nav a:hover {
     background: #AEDAE0;
 }
-#sidebar_nav a.active {
+.sidebar_nav a.active {
     background: #8BC9D2;
 }
 
