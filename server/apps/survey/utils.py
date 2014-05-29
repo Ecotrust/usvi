@@ -142,7 +142,6 @@ class CsvFieldGenerator(object):
 
             elif response.question.type in ('auto-single-select', 'single-select', 
                                             'auto-multi-select', 'multi-select'):
-                
                 if response.question.type in ('auto-single-select', 'single-select'):
                     response.answer_text = response.answer
                     answers = [response]

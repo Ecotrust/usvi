@@ -476,7 +476,6 @@ class Response(caching.base.CachingMixin, models.Model):
                 if answer.has_key('other') and answer['other']:
                     self.answer = "[Other]" + self.answer
                     self.is_other = True
-
             if self.question.type in ['monthpicker']:
                 try:
                     date = dateutil.parser.parse(self.answer)
@@ -599,6 +598,7 @@ class Response(caching.base.CachingMixin, models.Model):
                         else:
                             print grid_col.type
                             print answer
+            self.save()
             try:
                 respondent = Respondant.objects.get(uuid=self.respondant.uuid)
             except:
@@ -630,7 +630,6 @@ class Response(caching.base.CachingMixin, models.Model):
                     profile = get_object_or_404(UserProfile, user=respondent.user)
                     profile.registration = simplejson.dumps(profileAnswers)
                     profile.save()
-            self.save()
 
             if self.question.slug == 'first-name' or self.question.slug == 'first-name-puerto-rico':
                 if respondent is not None and respondent.user.first_name != self.answer:
