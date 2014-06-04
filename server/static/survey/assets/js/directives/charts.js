@@ -37,8 +37,9 @@ angular.module('askApp')
                             chart: {
                                 // 'bar-chart' isn't a chart highcharts understands, so we map it
                                 // to just 'bar'. This is easier than fixing it all the way down.
-                                type: scope.chart.type == 'bar-chart' ? 'column' : 'bar'
+                                type: scope.chart.type == 'bar-chart' ? 'column' : 'bar',
                             },
+                            exporting :{url:HC_EXPORT_SERVER_URL},
                             backgroundColor: 'rgba(255, 255, 255, 0)',
                             title: scope.chart.displayTitle ? { text: scope.chart.title, align: "left" } : false,
                             tooltip: {
@@ -115,6 +116,7 @@ angular.module('askApp')
                             chart: {
                                 type: 'column'
                             },
+                            exporting :{url:HC_EXPORT_SERVER_URL},
                             backgroundColor: 'rgba(255, 255, 255, 0)',
                             title: scope.chart.displayTitle ? { text: scope.chart.title } : false,
                             xAxis: {
@@ -223,6 +225,7 @@ angular.module('askApp')
                             chart: {
                                 type: 'line'
                             },
+                            exporting :{url:HC_EXPORT_SERVER_URL},
                             title: scope.chart.displayTitle ? { text: scope.chart.title } : false,
                             subtitle: false,
                             xAxis: {
