@@ -6,7 +6,7 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         $scope.user = app.user || {};
 
         $scope.filtersJson = '';
-        $scope.filters = { ecosystemFeatures: 'all' };
+        $scope.filters = { ecosystemFeatures: [] };
         $scope.mapSettings = {
             questionSlugPattern: '*-collection-points',
             lat: 35.8336630,
