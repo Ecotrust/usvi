@@ -70,6 +70,15 @@ End to end tests will run whenever you save a file:
 grunt c-e2e
 ```
 
+
+# Running managment commands on toold-dev
+Log into `tools-dev.oceanspaces.org` and run
+
+```
+./manage.py COMMAND_NAME --settings=config.environments.staging
+```
+
+
 #Heroku
 ##requirements
 1. Install the heroku toolbelt.
