@@ -185,6 +185,9 @@ class CompleteRespondantResource(ReportRespondantResource):
     frequency = fields.CharField(attribute='frequency', readonly=True)
 
     class Meta:
+        import pdb
+        pdb.set_trace()
+
         queryset = Respondant.objects.all().annotate(responses_count=Count("responses")).filter(responses_count__gte=1, complete__exact=True).order_by("-ts")
         #queryset = Respondant.objects.filter(responses_count__gte=1).order_by('-ts')
 
@@ -192,7 +195,8 @@ class CompleteRespondantResource(ReportRespondantResource):
             'survey': ALL_WITH_RELATIONS,
             'responses': ALL_WITH_RELATIONS,
             'user': ALL_WITH_RELATIONS,
-            'ts': ['gte','lte']
+            'ts': ['gte','lte'],
+            'monitored_ecosystem_features': ['contains']
         }
         ordering = ['-ts']
         authorization = StaffUserOnlyAuthorization()

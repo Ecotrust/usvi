@@ -12,7 +12,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             zoom: "=",
             points: '=',
             units: '=',
-            boundaryPath: '='
+            boundaryPath: '=',
+            slugToColor: '&',
+            slugToLabel: '&'
         }
     };
 
@@ -24,20 +26,12 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             map = MapUtils.initMap(element[0].children[0].children[0],
                     scope.lat, scope.lng, scope.zoom);
 
-            if (scope.boundaryPath) {
-                MapUtils.addGeoJson(scope.boundaryPath, function (layer) {
-                    map.addLayer(layer);
-
-                    // .on('dblclick', function(e) {
-                    //     map.setZoom(map.getZoom() + 1);
-                    // });
-
-                    if (map.hasLayer(layer)) {
-                        if (console) { console.log('MAP HAS GEOJSON LAYER'); }
-                    }
-
+            MapUtils.addGeoJson(scope.boundaryPath, function (layer) {
+                map.addLayer(layer)
+                .on('dblclick', function(e) {
+                    map.setZoom(map.getZoom() + 1);
                 });
-            }
+            });
 
             scope.showBoundary = true;
             scope.showPoints = true;
@@ -56,6 +50,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
         function addMarker (markerData) {
             markerData['draggable'] = false;
+            markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
             var marker = MapUtils.createMarker(markerData);
             marker.addTo(map);
             markers.push(marker);
@@ -87,7 +82,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 scope.responses = false;
                 getRespondent(markerData.uuid, function (responses) {
                     scope.responses = responses;
-                    scope.ecosystemLabel =  ecosystemSlugToLabel(markerData.qSlug);
+                    scope.ecosystemLabel =  scope.slugToLabel({slug: markerData.qSlug});
                     // The popup is added to the DOM outside of the angular framework so
                     // its content must be compiled for any interaction with this scope.
                     if (map._popup) {
@@ -122,28 +117,6 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 debugger;
             }); 
         };
-
-        function ecosystemSlugToLabel (slug) {
-            var pointsKey = 'points',
-                areasKey = 'areas',
-                key,
-                dict = {};
-            dict['ef-rockyintertidal-collection-'] = 'Rocky Intertidal Ecosystems';
-            dict['ef-kelp-and-shallow-rock-collection-'] = 'Kelp and Shallow (0-30m) Rock Ecosystems';
-            dict['ef-middepthrock-collection-'] = 'Mid depth (30-100m) Rock Ecosystems';
-            dict['ef-estuarine-collection-'] = 'Estuarine and Wetland Ecosystems';
-            dict['ef-softbottomintertidal-collection-'] = 'Soft-bottom Intertidal and Beach Ecosystems';
-            dict['ef-softbottomsubtidal-collection-'] = 'Soft bottom Subtidal (0-100m) Ecosystems';
-            dict['ef-deep-collection-'] = 'Deep Ecosystems and Canyons (>100m)';
-            dict['ef-nearshore-collection-'] = 'Nearshore Pelagic Ecosystems';
-            dict['ef-consumptive-collection-'] = 'Consumptive Uses';
-            dict['ef-nonconsumptive-collection-'] = 'Non-consumptive Uses';
-
-            key = slug.indexOf(pointsKey) > -1 ? pointsKey : areasKey;
-            key = slug.slice(0, -key.length);
-
-            return dict[key];
-        }
 
         init();
 
@@ -184,32 +157,48 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         },
 
         addGeoJson: function (geojsonPath, success_callback) {
-            // Add geojson (intended for study area boundary.
-            $http.get(geojsonPath).success(function(data) {
-                var boundaryStyle = {
-                    "color": "#E6D845",
-                    "weight": 3,
-                    "opacity": 0.6,
-                    "fillOpacity": 0.0,
-                    "clickable": false
-                },
-                layer = L.geoJson(data, { style: boundaryStyle });
-                success_callback(layer);
-            });
+            if (geojsonPath) {
+                // Add geojson (intended for study area boundary.
+                $http.get(geojsonPath).success(function(data) {
+                    var boundaryStyle = {
+                        "color": "#E6D845",
+                        "weight": 3,
+                        "opacity": 0.6,
+                        "fillOpacity": 0.0,
+                        "clickable": false
+                    },
+                    layer = L.geoJson(data, { style: boundaryStyle });
+                    success_callback(layer);
+                });
+            }
         },
 
         createMarker: function (config) {
             var marker;
             if (config.lat && config.lat) {
-                marker = new L.marker([config.lat, config.lng], {
-                    draggable: config.draggable ? true : false,
-                    title: 'click for details',
-                    icon: L.AwesomeMarkers.icon({
-                        icon: 'icon-circle',
-                        color: 'red'
-                    })
-                });                
-                // marker.closePopup();
+                
+                marker = new L.circleMarker([config.lat, config.lng], {
+                    radius: 6,
+                    /* border */
+                    color: "#FFFFFF",
+                    opacity: 1,
+                    weight: 1,
+                    /* fill */
+                    fillColor: config.color,
+                    fillOpacity: 1.0
+                });
+                
+                marker.on('mouseover', function (e) {
+                    marker.setStyle({
+                        weight: 3
+                    });
+                });
+                
+                marker.on('mouseout', function (e) {
+                    marker.setStyle({
+                        weight: 1
+                    });
+                });
             }
             return marker;
         }
@@ -217,18 +206,3 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
     return directive;
 });
-
-
-                // marker = new L.circleMarker([config.lat, config.lng], {
-                //     radius: 5,
-                //     fillColor: "#ff7800",
-                //     color: "#000",
-                //     weight: 1,
-                //     opacity: 1,
-                //     fillOpacity: 0.8
-                // });
-                // marker = new L.circle([config.lat, config.lng], 6000, {
-                //     color: 'red',
-                //     fillColor: '#f03',
-                //     fillOpacity: 1.0
-                // });
