@@ -18,6 +18,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Tim Glaser', 'tim.glaser@pointnineseven.com'),
+
 )
 
 SERVER_ADMIN = 'Tim Glaser <tim.glaser@pointnineseven.com>'
@@ -130,7 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'gunicorn',
     'registration',
-
+    'haystack',
     #'discover_runner',
     # 'django.contrib.gis',
 
@@ -250,4 +251,14 @@ SOCIAL_AUTH_BACKEND_ERROR_URL = LOGIN_ERROR_URL
 #SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 if DEBUG == False:
     SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 

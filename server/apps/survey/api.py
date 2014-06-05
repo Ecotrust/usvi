@@ -1,45 +1,16 @@
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields, utils
-
+from tastypie.utils import trailing_slash
 from tastypie.authentication import SessionAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization, Authorization
 from django.conf.urls import url
+from django.core.paginator import Paginator, InvalidPage
+from django.core.urlresolvers import reverse
 from django.db.models import Avg, Max, Min, Count
 
 from survey.models import Survey, Question, Option, Respondant, Response, Page, Block
 
-# def main_save_m2m(self, bundle):
-#     for field_name, field_object in self.fields.items():
-#         if not getattr(field_object, 'is_m2m', False):
-#             continue
-
-#         if not field_object.attribute:
-#             continue
-
-#         if field_object.readonly:
-#             continue
-
-#         # Get the manager.
-#         related_mngr = getattr(bundle.obj, field_object.attribute)
-#             # This is code commented out from the original function
-#             # that would clear out the existing related "Person" objects
-#         if hasattr(related_mngr, 'clear'):
-#             #Clear it out, just to be safe.
-#             related_mngr.clear()
-
-#         related_objs = []
-
-#         for related_bundle in bundle.data[field_name]:
-#             try:
-#                 obj = related_mngr.model.objects.get(id=related_bundle.obj.id)
-#             except related_mngr.model.DoesNotExist:
-#                 print "could not get object"
-#                 obj = related_bundle.obj
-#                 obj.save()
-
-#             related_objs.append(obj)
-
-#         related_mngr.add(*related_objs)
+from haystack.query import SearchQuerySet
 
 
 class SurveyModelResource(ModelResource):
@@ -213,8 +184,140 @@ class IncompleteRespondantResource(ReportRespondantResource):
         authentication = Authentication()
 
 
-class DashRespondantResource(ReportRespondantResource):
+class OLDDashRespondantResource(ReportRespondantResource):
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
+
+
+class DashRespondantResource(ReportRespondantResource):
+    """
+    /api/v1/dashrespondant/
+    This endpoint is used by the searcxh box feature on the dashboard as an
+    autocomplete search field on text in the responses
+    
+
+    """
+    
+    class Meta:
+        queryset = Respondant.objects.all().order_by('-ordering_date')
+        filtering = {
+            'survey': ALL_WITH_RELATIONS,
+            'responses': ALL_WITH_RELATIONS,
+            'user': ALL_WITH_RELATIONS,
+            'complete': ['exact'],
+            'ts': ['gte','lte']
+        }
+        #ordering = ['-ordering_date']
+        authorization = Authorization()
+        authentication = Authentication()
+
+    user = fields.ToOneField('apps.account.api.UserResource',
+                             'user', null=True, blank=True, full=True, readonly=True)
+    survey = fields.ToOneField('apps.survey.api.SurveyResource',
+                               'survey', null=True, blank=True, full=False, readonly=True)
+    entered_by = fields.ToOneField('apps.account.api.UserResource',
+                                   'entered_by', null=True, blank=True, full=True, readonly=True)
+    total_weight = fields.FloatField(null=True, blank=True)
+
+
+
+    def prepend_urls(self):
+            return [
+                url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('get_search'), name="api_get_search"),
+            ]
+
+    def OLDget_object_list(self, request):
+
+        user_tags = [tag.name for tag in request.user.profile.tags.all()]
+        surveys = Survey.objects.filter(tags__name__in=user_tags)
+
+        return super(DashRespondantResource, self).get_object_list(request).filter(survey__in=surveys)
+
+    def get_search(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        # Do the query.
+        limit = int(request.GET.get('limit', 20))
+        query = request.GET.get('q', '')
+        page = int(request.GET.get('page', 1))
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        review_status = request.GET.get('review_status', None)
+        entered_by = request.GET.get('entered_by', None)
+        island = request.GET.get('island', None)
+
+        sqs = SearchQuerySet().models(Respondant).load_all()
+
+        if query != '':
+            sqs = sqs.auto_query(query)
+
+        sqs = sqs.order_by('-ordering_date')
+
+        paginator = Paginator(sqs, limit)
+        total = sqs.count()
+
+        try:
+            page = paginator.page(page)
+        except InvalidPage:
+            raise Http404("Sorry, no results on that page.")
+
+        objects = []
+
+        for result in page.object_list:
+            if result is not None:
+                bundle = self.build_bundle(obj=result.object, request=request)
+                bundle = self.full_dehydrate(bundle)
+                objects.append(bundle)
+
+        base_url = reverse(
+            'api_get_search', kwargs={'resource_name': 'dashrespondant', 'api_name': 'v1'})
+
+        base_url = base_url + \
+            "?limit={0}&q={1}&format=json".format(limit, query)
+
+        if start_date is not None:
+            base_url = base_url + "&start_date=" + start_date
+        if entered_by is not None:
+            base_url = base_url + "&entered_by" + entered_by
+        if review_status is not None:
+            base_url = review_status + "&review_status" + review_status
+        if island is not None:
+            base_url = base_url + "&island=" + island
+
+        if page.has_next():
+            next_url = "{0}&page={1}".format(base_url, page.next_page_number())
+        else:
+            next_url = None
+
+        if page.has_previous():
+            previous_url = "{0}&page={1}".format(
+                base_url, page.previous_page_number())
+        else:
+            previous_url = None
+
+        meta = {
+            "limit": limit,
+            "next": next_url,
+            "previous": previous_url,
+            "total_count": total,
+            "pages": paginator.page_range,
+            "base_url": base_url,
+            "page": page.number,
+            "offset": page.start_index() - 1
+        }
+
+        object_list = {
+            'objects': objects,
+            'meta': meta
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
+
+
+
 
 class DashRespondantDetailsResource(ReportRespondantResource):
     responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
