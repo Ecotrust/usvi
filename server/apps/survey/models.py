@@ -107,6 +107,11 @@ class Respondant(caching.base.CachingMixin, models.Model):
         except:
             return 'unavailable'
 
+    @property
+    def answers_list(self):
+        answers = self.response_set.all().values('answer')
+        return [a['answer'] for a in answers]
+        
 
     def save(self, *args, **kwargs):
         if self.uuid and ":" in self.uuid:
