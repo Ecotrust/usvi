@@ -7,6 +7,7 @@ angular.module('askApp')
     }])
     .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
 
+    $scope.searchTerm = $location.search().q;
     $scope.resource = '/api/v1/dashrespondant/';
 
     $scope.busy = true;

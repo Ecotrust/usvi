@@ -4,7 +4,7 @@
         <div class="col-md-9 col-sm-9">
             <div ng-hide="busy" class="row">
                 <div class="col-md-12 col-sm-12">  
-                    <h3>MPA Monitoring Framework Survey: Central Coast Survey Responses</h3>
+                    <h3>central coast monitoring efforts</h3>
                 </div>
             </div>
             <div ng-show="busy" ng-include="viewPath + 'views/spinner.html'"></div>
@@ -13,11 +13,10 @@
 
 
 
-
             <div class="row" ng-hide="busy">
-                <h3>Matching Reports</h3>
-                <div respondentstable respondents='respondents' resource='resource'></div>
-               
+                <h3>Matching Reports for '{{searchTerm}}'</h3>
+                <div respondentstable respondents='respondents' resource='resource' meta='meta'></div>
+
             </div>
                 
         </div>

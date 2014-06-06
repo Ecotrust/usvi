@@ -133,21 +133,25 @@ angular.module('askApp')
 
 
 angular.module('askApp')
-    .directive('respondentstable', ['$http', function(http) {
+    .directive('respondentstable', ['$http', '$location', 'surveyFactory', function(http, location, surveyFactory) {
 
     return {
         restrict: 'EA',
         templateUrl : app.viewPath +'views/ost/dash-respondents-table.html',
         scope: {respondents: '=',
                 resource:'=',
+                meta:'='
             },
 
         link: function (scope, element, attrs) {
             scope.meta = null;
             scope.http = http;
+            scope.surveySlug = surveyFactory.survey.slug;
+
+            scope.location = location;
+
             scope.showRespondent = function(uuid){
-                console.log('WTF');
-                console.log(uuid);
+                scope.location.path('/RespondantDetail/'+scope.surveySlug+'/'+uuid );
             };
 
             // Paginated respondent table

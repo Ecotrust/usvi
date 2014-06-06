@@ -7,6 +7,7 @@ angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $
     //
     // Charts
     //
+    
     $scope.charts = {};
     $scope.filtersJson = '';
     function buildChart(questionSlug, options) {
