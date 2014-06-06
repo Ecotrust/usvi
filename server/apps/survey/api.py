@@ -10,6 +10,8 @@ from django.db.models import Avg, Max, Min, Count
 
 from survey.models import Survey, Question, Option, Respondant, Response, Page, Block
 
+from django.db.models import Q
+
 from haystack.query import SearchQuerySet
 
 
@@ -155,7 +157,28 @@ class CompleteRespondantResource(ReportRespondantResource):
     duration = fields.CharField(attribute='duration', readonly=True)
     frequency = fields.CharField(attribute='frequency', readonly=True)
 
+    def apply_filters(self, request, applicable_filters):
+        # This enables filtering on items not included in the model.
+
+        semi_filtered = super(CompleteRespondantResource, self).apply_filters(request, applicable_filters)
+
+        if 'ef' in request.GET:
+            # Include respondants that had any of the queried ecosystem features (OR them together)
+            efs = request.GET['ef'].split(',')
+            ef_filter = Q()
+            for ef in efs:
+                 ef_filter = ef_filter | Q(responses__answer__contains=ef)
+            
+            # Only for the ecosystem-features question
+            ef_filter = ef_filter & Q(responses__question__slug='ecosystem-features')
+            
+            return semi_filtered.filter(ef_filter)
+
+        else:
+            return semi_filtered
+
     class Meta:
+
         queryset = Respondant.objects.all().annotate(responses_count=Count("responses")).filter(responses_count__gte=1, complete__exact=True).order_by("-ts")
         #queryset = Respondant.objects.filter(responses_count__gte=1).order_by('-ts')
 

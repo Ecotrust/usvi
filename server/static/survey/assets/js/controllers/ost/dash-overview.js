@@ -16,7 +16,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         $scope.updateMap();
 
         $scope.$watch('filters.ecosystemFeatures', function(newVal, oldVal) {
-            // TODO clear existing markers from map
             console.log('filter changed: ' + $scope.filters.ecosystemFeatures);
             $scope.filtersJson = [];
             _.each($scope.filters.ecosystemFeatures, function (label) {
@@ -24,6 +23,10 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
                 console.log('eco label to slug: ' + slug);
                 $scope.filtersJson.push({'ecosystem-features': slug});
             });
+
+            // Update respondent table
+            $scope.goToPage(1, $scope.filters.ecosystemFeatures);
+
         });
     }
     
@@ -41,10 +44,49 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     // Map
     // 
     $scope.updateMap = function () {
-        var apiUrl = mapUtils.pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson);
-        mapUtils.getPoints(apiUrl, function (points) {
+        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson);
+        getPoints(apiUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
-        });    
+            var uniq = [];
+            _.each(points, function (point) {
+                if (! _.contains(uniq, point.qSlug)) {
+                    uniq.push(point.qSlug);
+                }
+            });
+            $scope.uniqueEcosystemFeatureSlugs = uniq;
+        });
+    }
+
+    function pointsApiUrl (sSlug, qSlug, filtersJson) {
+        var url = ['/reports/geojson', sSlug, qSlug];
+        if (filtersJson && !_.isEmpty(filtersJson)) {
+            url.push('?filters=' + JSON.stringify(filtersJson));
+        }
+        return url.join('/');
+    }
+
+    function getPoints (url, success_callback) {
+        $http.get(url).success(function(data) {
+            // Set points collection (bound to directive)
+            var points = [];
+            _.each(data.geojson, function (item) {
+                var feature = JSON.parse(item.geojson)
+                  , lat = feature.geometry.coordinates[1]
+                  , lng = feature.geometry.coordinates[0]
+                  , uuid = feature.properties.activity
+                  , qSlug = feature.properties.label
+                  ;
+                if (lat && lng && uuid && qSlug) {
+                    points.push({
+                        lat: lat,
+                        lng: lng,
+                        uuid: uuid,
+                        qSlug: qSlug});
+                }
+            });
+
+            success_callback(points);
+        });
     }
 
     function ecosystemLabelToSlug (label) {
@@ -63,55 +105,69 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         return dict[label];
     }
 
-    var mapUtils = {
+    $scope.ecosystemSlugToLabel = function (slug) {
+        var key = generalizeEcosystemSlug(slug),
+            dict = {};
+        dict['ef-rockyintertidal-collection-'] = 'Rocky Intertidal Ecosystems';
+        dict['ef-kelp-and-shallow-rock-collection-'] = 'Kelp and Shallow (0-30m) Rock Ecosystems';
+        dict['ef-middepthrock-collection-'] = 'Mid depth (30-100m) Rock Ecosystems';
+        dict['ef-estuarine-collection-'] = 'Estuarine and Wetland Ecosystems';
+        dict['ef-softbottomintertidal-collection-'] = 'Soft-bottom Intertidal and Beach Ecosystems';
+        dict['ef-softbottomsubtidal-collection-'] = 'Soft bottom Subtidal (0-100m) Ecosystems';
+        dict['ef-deep-collection-'] = 'Deep Ecosystems and Canyons (>100m)';
+        dict['ef-nearshore-collection-'] = 'Nearshore Pelagic Ecosystems';
+        dict['ef-consumptive-collection-'] = 'Consumptive Uses';
+        dict['ef-nonconsumptive-collection-'] = 'Non-consumptive Uses';
 
-        pointsApiUrl: function (sSlug, qSlug, filtersJson) {
-            var url = ['/reports/geojson', sSlug, qSlug];
-            if (filtersJson && !_.isEmpty(filtersJson)) {
-                url.push('?filters=' + JSON.stringify(filtersJson));
-            }
-            return url.join('/');
-        },
+        return dict[key];
+    }
 
-        getPoints: function (url, success_callback) {
-            $http.get(url).success(function(data) {
-                // Set points collection (bound to directive)
-                var points = [];
-                _.each(data.geojson, function (item) {
-                    var feature = JSON.parse(item.geojson)
-                      , lat = feature.geometry.coordinates[1]
-                      , lng = feature.geometry.coordinates[0]
-                      , uuid = feature.properties.activity
-                      , qSlug = feature.properties.label
-                      ;
-                    if (lat && lng && uuid && qSlug) {
-                        points.push({
-                            lat: lat,
-                            lng: lng,
-                            uuid: uuid,
-                            qSlug: qSlug});
-                    }
-                });
+    $scope.ecosystemSlugToColor = function (slug) {
+        var key = generalizeEcosystemSlug(slug),
+            dict = {};
+        dict['ef-rockyintertidal-collection-'] = '#FF0000';
+        dict['ef-kelp-and-shallow-rock-collection-'] = '#00FF00';
+        dict['ef-middepthrock-collection-'] = '#0000FF';
+        dict['ef-estuarine-collection-'] = '#000000';
+        dict['ef-softbottomintertidal-collection-'] = '#000000';
+        dict['ef-softbottomsubtidal-collection-'] = '#000000';
+        dict['ef-deep-collection-'] = '#000000';
+        dict['ef-nearshore-collection-'] = '#000000';
+        dict['ef-consumptive-collection-'] = '#000000';
+        dict['ef-nonconsumptive-collection-'] = '#000000';
 
-                success_callback(points);
-            });
-        },
+        return dict[key];
+    }
 
-        getMapCenter: function (qSlug) {
-            // Get center and zoom for map.
-            // todo
-        },
+    function generalizeEcosystemSlug (slug) {
+        var pointsKey = 'points',
+            areasKey = 'areas',
+            s;
+        s = slug.indexOf(pointsKey) > -1 ? pointsKey : areasKey;
+        s = slug.slice(0, -s.length);
 
-        getCategories: function (data) {
-            // Find out which categories are present.
-            // var filterItems;
-            // if (!scope.filterItems) {
-            //     filterItems = _.map(data.geojson, function(location) {
-            //         return location.properties.label
-            //     });
-            //     scope.filterItems = _.uniq(filterItems).sort();
-            // }
-        }
+        return s;
+    }
+
+
+    //
+    // Paginated respondent table
+    //
+    $scope.goToPage = function (page, ecosystemFeatureLabels) {
+        var meta = $scope.meta || {}
+            , limit = 8
+            , offset = limit * (page - 1)
+            , url = [
+                '/api/v1/completerespondant/?format=json&limit='+limit
+                , '&offset='+offset
+                , '&ef='+ecosystemFeatureLabels.join(',')
+              ].join('')
+            ;
+        $http.get(url).success(function (data) {
+            $scope.respondents = data.objects;
+            $scope.meta = data.meta;
+            $scope.currentPage = page;
+        });
     };
 
 
