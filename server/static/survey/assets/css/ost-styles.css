@@ -321,7 +321,9 @@ h1, h2, h3, h4 {
     bottom: 85px;
     left: 13px;
 }
-
+.leaflet-control-zoom {
+  display: block;
+}
 .ost-map {
     height: 500px;
     margin-top: 20px;
