@@ -274,7 +274,6 @@ class DashRespondantResource(ReportRespondantResource):
         review_status = request.GET.get('review_status', None)
         entered_by = request.GET.get('entered_by', None)
         island = request.GET.get('island', None)
-
         sqs = SearchQuerySet().models(Respondant).load_all()
 
         if query != '':
