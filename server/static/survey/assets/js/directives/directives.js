@@ -112,20 +112,16 @@ angular.module('askApp')
         //     };
         // }
         link: function (scope, element, attrs) {
-            debugger
+
             scope.surveyFactory = surveyFactory;
             scope.element = element
 
-            scope.mysearch = function(){
+            scope.search = function(){
                 console.log('WTF');
-                debugger
+                var val = element.find("input").val();
+                surveyFactory.searchRespondants(val)
             }
 
-            onClick = function(surveyFactory){
-                console.log("in onclick")
-                var val = element.find("input").val();
-                console.log(val)
-            }
 
             //element.find("button:submit").bind('click', onClick);
         }
