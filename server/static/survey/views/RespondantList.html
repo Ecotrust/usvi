@@ -16,25 +16,8 @@
 
             <div class="row" ng-hide="busy">
                 <h3>Matching Reports</h3>
-                    <div ng-repeat="respondent in respondents">
-                        {{respondent.survey_slug}}  - {{respondent.responses.length}} Responses
-                    </div>
-                <div class="pull-left">
-                    Showing {{ meta.offset + 1 }}-{{ meta.offset + meta.limit }} of {{ meta.total_count }}
-                </div>
-                <div class="pull-right">
-                    <div pagination 
-                        total-items="meta.total_count" 
-                        items-per-page="8" 
-                        max-size="8" 
-                        page="currentPage"
-                        previous-text="&lsaquo;" 
-                        next-text="&rsaquo;" 
-                        first-text="&laquo;" 
-                        last-text="&raquo;" 
-                        on-select-page="goToPage(page)">
-                    </div>
-                </div>
+                <div respondentstable respondents='respondents' resource='resource'></div>
+               
             </div>
                 
         </div>

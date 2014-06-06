@@ -123,6 +123,13 @@
     cursor: pointer; 
     cursor: hand;
 }
+
+tr.respondent:hover {
+  background: #AEDAE0;
+  cursor: pointer;
+}
+
+
 .darkSalmonBackground {
   background-color: rgb(239, 94, 70) !important;    
 }

@@ -98,7 +98,7 @@ angular.module('askApp')
 
 
 angular.module('askApp')
-    .directive('respondantsearch', function(surveyFactory) {
+    .directive('respondentsearch', function(surveyFactory) {
 
     return {
         restrict: 'EA',
@@ -128,4 +128,51 @@ angular.module('askApp')
         }
     };
 });
+
+
+
+
+angular.module('askApp')
+    .directive('respondentstable', ['$http', function(http) {
+
+    return {
+        restrict: 'EA',
+        templateUrl : app.viewPath +'views/ost/dash-respondents-table.html',
+        scope: {respondents: '=',
+                resource:'=',
+            },
+
+        link: function (scope, element, attrs) {
+            scope.meta = null;
+            scope.http = http;
+            scope.showRespondent = function(uuid){
+                console.log('WTF');
+                console.log(uuid);
+            };
+
+            // Paginated respondent table
+            scope.goToPage = function (page) {
+                var meta = scope.meta || {}
+                    , limit = 8
+                    , offset = limit * (page - 1)
+                    , url = [
+                        scope.resource + '?format=json&limit='+limit
+                        , '&offset='+offset
+                      ].join('')
+                    ;
+                scope.http.get(url).success(function (data) {
+                    scope.respondents = data.objects;
+                    scope.meta = data.meta;
+                    scope.currentPage = page;
+                });
+            };
+            
+            // Only load first page if not results from a text search
+            if (scope.resource === '/api/v1/completerespondant/'){
+                scope.goToPage(1);
+            }
+
+        }
+    };
+}]);
 

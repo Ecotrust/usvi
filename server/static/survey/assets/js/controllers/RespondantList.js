@@ -7,6 +7,7 @@ angular.module('askApp')
     }])
     .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
 
+    $scope.resource = '/api/v1/dashrespondant/';
 
     $scope.busy = true;
     $scope.viewPath = app.server + '/static/survey/';

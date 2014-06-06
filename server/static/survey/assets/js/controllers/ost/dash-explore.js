@@ -3,7 +3,7 @@ angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $
     
     $scope.activePage = 'explore';
     $scope.user = app.user || {};
-    
+    $scope.resource = '/api/v1/completerespondant/';
     //
     // Charts
     //
@@ -48,25 +48,4 @@ angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $
         $scope.survey = data;
     });
 
-
-    //
-    // Paginated respondent table
-    //
-    $scope.goToPage = function (page) {
-        var meta = $scope.meta || {}
-            , limit = 8
-            , offset = limit * (page - 1)
-            , url = [
-                '/api/v1/completerespondant/?format=json&limit='+limit
-                , '&offset='+offset
-              ].join('')
-            ;
-        $http.get(url).success(function (data) {
-            $scope.respondents = data.objects;
-            $scope.meta = data.meta;
-            $scope.currentPage = page;
-        });
-    };
-
-    $scope.goToPage(1);
 });
