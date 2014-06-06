@@ -94,3 +94,41 @@ angular.module('askApp')
         }
     }
 }]);    
+
+
+
+angular.module('askApp')
+    .directive('respondantsearch', function(surveyFactory) {
+
+    return {
+        restrict: 'EA',
+        templateUrl : app.viewPath +'views/ost/searchbox.html',
+        scope: {},
+
+        // controller: function($scope, $element){
+        //     $scope.mysearch = function(){
+        //         console.log('WTF');
+        //         debugger
+        //     };
+        // }
+        link: function (scope, element, attrs) {
+            debugger
+            scope.surveyFactory = surveyFactory;
+            scope.element = element
+
+            scope.mysearch = function(){
+                console.log('WTF');
+                debugger
+            }
+
+            onClick = function(surveyFactory){
+                console.log("in onclick")
+                var val = element.find("input").val();
+                console.log(val)
+            }
+
+            //element.find("button:submit").bind('click', onClick);
+        }
+    };
+});
+
