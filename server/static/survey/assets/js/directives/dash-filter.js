@@ -27,8 +27,7 @@ angular.module('askApp')
                     return noHtml;
                 };
 
-                var onFail = function (data) { 
-                    debugger; 
+                var onFail = function (data) {
                 };
 
                 var onSuccess = function (data) {

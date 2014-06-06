@@ -15,6 +15,7 @@ angular.module('askApp')
                     chart: {
                         type: 'bar'
                     },
+                    exporting :{url:HC_EXPORT_SERVER_URL},
                     title: {
                         text: scope.chart.title
                     },
@@ -97,6 +98,7 @@ angular.module('askApp')
                             plotBorderWidth: 0,
                             plotShadow: false
                         },
+                        exporting :{url:HC_EXPORT_SERVER_URL},
                         title: scope.chart.displayTitle ? { text: scope.chart.title, align: "left" } : false,
                         tooltip: {
                             pointFormat: '<b>{point.percentage:.1f}%</b> of ' + scope.chart.unit

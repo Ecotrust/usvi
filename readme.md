@@ -6,7 +6,7 @@
 vagrant up
 fab vagrant bootstrap
 fab vagrant createsuperuser
-fab vagrand loaddata
+fab vagrant loaddata
 fab vagrant runserver
 ```
 
@@ -69,6 +69,15 @@ End to end tests will run whenever you save a file:
 ```bash
 grunt c-e2e
 ```
+
+
+# Running managment commands on toold-dev
+Log into `tools-dev.oceanspaces.org` and run
+
+```
+./manage.py COMMAND_NAME --settings=config.environments.staging
+```
+
 
 #Heroku
 ##requirements

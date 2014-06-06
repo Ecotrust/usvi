@@ -1,6 +1,7 @@
 //'use strict';
 
 var app = {};
+var HC_EXPORT_SERVER_URL = "http://export.highcharts.com";
 
 app.server = window.location.protocol + '//' + window.location.host;
 app.viewPath = app.server + '/static/survey/';

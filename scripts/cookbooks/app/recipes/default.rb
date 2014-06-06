@@ -157,6 +157,35 @@ execute "add mapnik ppa" do
     not_if "test -x /etc/apt/sources.list.d/mapnik-nightly-2_0-*.list"
 end
 
+
+
+## elastic search
+execute "add oracle java repo" do
+    command '/usr/bin/add-apt-repository -y ppa:webupd8team/java && /usr/bin/apt-get update'
+    not_if "test -x /etc/apt/sources.list.d/webupd8team-java-precise.list"
+end
+execute "accept-license" do
+  command "echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections"
+end
+
+package "oracle-java7-installer"
+package "oracle-java7-set-default"
+
+remote_file "/tmp/elasticsearch-0.90.7.deb" do
+    source "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.7.deb"
+    mode 0644
+    checksum "a3ec3c05ffabf8048642aa431b675f3c132b4fae755e1b7aee0cb9fe3f2a37ba" # PUT THE SHA256 CHECKSUM HERE
+end
+
+dpkg_package "elastic search" do
+    source "/tmp/elasticsearch-0.90.7.deb"
+    action :install
+end
+
+
+
+
+
 package "libmapnik"
 package "mapnik-utils"
 package "python-mapnik"
