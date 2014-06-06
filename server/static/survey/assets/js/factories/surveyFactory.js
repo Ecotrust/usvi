@@ -13,6 +13,7 @@ angular.module('askApp').factory('surveyFactory', function($http, $routeParams, 
         },
 
         searchRespondants : function(q){
+            
             $location.path('/RespondantList').search({q: q});
         }
     }

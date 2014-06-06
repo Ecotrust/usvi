@@ -105,25 +105,26 @@ angular.module('askApp')
         templateUrl : app.viewPath +'views/ost/searchbox.html',
         scope: {},
 
-        // controller: function($scope, $element){
-        //     $scope.mysearch = function(){
-        //         console.log('WTF');
-        //         debugger
-        //     };
-        // }
         link: function (scope, element, attrs) {
-
             scope.surveyFactory = surveyFactory;
             scope.element = element
+            
+            // Bind enter key
+            element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.search();
+                });
+                event.preventDefault();
+            }
+        });
 
             scope.search = function(){
                 console.log('WTF');
                 var val = element.find("input").val();
                 surveyFactory.searchRespondants(val)
-            }
+            };
 
-
-            //element.find("button:submit").bind('click', onClick);
         }
     };
 });

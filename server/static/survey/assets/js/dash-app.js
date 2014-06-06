@@ -83,7 +83,7 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
     .when('/RespondantList', {
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
-        reloadOnSearch: false
+        reloadOnSearch: true
 
     })
 
