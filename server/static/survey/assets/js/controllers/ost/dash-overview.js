@@ -16,7 +16,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         $scope.updateMap();
 
         $scope.$watch('filters.ecosystemFeatures', function(newVal, oldVal) {
-            // TODO clear existing markers from map
             console.log('filter changed: ' + $scope.filters.ecosystemFeatures);
             $scope.filtersJson = [];
             _.each($scope.filters.ecosystemFeatures, function (label) {
@@ -24,6 +23,10 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
                 console.log('eco label to slug: ' + slug);
                 $scope.filtersJson.push({'ecosystem-features': slug});
             });
+
+            // Update respondent table
+            $scope.goToPage(1, $scope.filters.ecosystemFeatures);
+
         });
     }
     
@@ -150,13 +153,14 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     //
     // Paginated respondent table
     //
-    $scope.goToPage = function (page) {
+    $scope.goToPage = function (page, ecosystemFeatureLabels) {
         var meta = $scope.meta || {}
             , limit = 8
             , offset = limit * (page - 1)
             , url = [
                 '/api/v1/completerespondant/?format=json&limit='+limit
                 , '&offset='+offset
+                , '&ef='+ecosystemFeatureLabels.join(',')
               ].join('')
             ;
         $http.get(url).success(function (data) {
@@ -165,8 +169,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
             $scope.currentPage = page;
         });
     };
-
-    $scope.goToPage(1);
 
 
     //
