@@ -1,4 +1,4 @@
-angular.module('askApp').factory('surveyFactory', function($http, $routeParams) {
+angular.module('askApp').factory('surveyFactory', function($http, $routeParams, $location) {
     return {
         survey : {},
         getSurvey: function(callback) {
@@ -10,6 +10,11 @@ angular.module('askApp').factory('surveyFactory', function($http, $routeParams) 
             } else {
                 self.survey = null;
             }
+        },
+
+        searchRespondants : function(q){
+            
+            $location.path('/RespondantList').search({q: q});
         }
     }
 });

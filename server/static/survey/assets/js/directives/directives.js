@@ -94,3 +94,38 @@ angular.module('askApp')
         }
     }
 }]);    
+
+
+
+angular.module('askApp')
+    .directive('respondantsearch', function(surveyFactory) {
+
+    return {
+        restrict: 'EA',
+        templateUrl : app.viewPath +'views/ost/searchbox.html',
+        scope: {},
+
+        link: function (scope, element, attrs) {
+            scope.surveyFactory = surveyFactory;
+            scope.element = element
+            
+            // Bind enter key
+            element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.search();
+                });
+                event.preventDefault();
+            }
+        });
+
+            scope.search = function(){
+                console.log('WTF');
+                var val = element.find("input").val();
+                surveyFactory.searchRespondants(val)
+            };
+
+        }
+    };
+});
+
