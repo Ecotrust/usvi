@@ -1,5 +1,5 @@
 angular.module('askApp')
-    .directive('map', function($http, $timeout) {
+    .directive('map', function($http, $timeout, $routeParams) {
         return {
             templateUrl: app.viewPath + 'views/questionMapPolygons.html',
             restrict: 'EA',
@@ -67,7 +67,11 @@ angular.module('askApp')
                         layer.setStyle( {
                             fillOpacity: .6
                         });
-                        scope.question.answer.push(id);
+                        scope.question.answer.push({
+                            id: id,
+                            uuid: $routeParams.uuidSlug, 
+                            qSlug: scope.question.slug
+                        });
                         scope.selectionCount++;
                     }
                 };
@@ -78,7 +82,9 @@ angular.module('askApp')
                         layer.setStyle({
                             fillOpacity: 0
                         });
-                        scope.question.answer = _.without(scope.question.answer, id);
+                        scope.question.answer = _.reject(scope.question.answer, function(item) {
+                            return item.id == id; 
+                        });
                         scope.selectionCount--;
                     }
                 };
@@ -113,7 +119,11 @@ angular.module('askApp')
                             };
                         },
                         onEachFeature: function(feature, layer) {
-                            if ( _.indexOf( scope.question.answer, layer.feature.properties.ID ) !== -1 ) {
+                            var id = layer.feature.properties.ID,
+                                item = _.find(scope.question.answer, function(item) {
+                                    return item.id == id;
+                                });
+                            if (item !== undefined) {
                                 layer.setStyle( {
                                     fillOpacity: .6
                                 });
