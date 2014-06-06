@@ -13,7 +13,7 @@ angular.module('askApp')
     $scope.activePage = 'responses';
 
 
-    $http.get('/api/v1/dashrespondant/?format=json&survey__slug__exact=' + $routeParams.surveySlug).success(function(data) {
+    $http.get('/api/v1/dashrespondant/search/?format=json&q=' + $routeParams.q).success(function(data) {
         $scope.respondents = data.objects;
         $scope.meta = data.meta;
         $scope.responsesShown = $scope.respondents.length;

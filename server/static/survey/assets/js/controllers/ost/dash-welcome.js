@@ -11,4 +11,7 @@ angular.module('askApp').controller('DashWelcomeCtrl', function($scope, surveyFa
         $scope.survey = data;
     });
 
+    $scope.search = function(searchTerm){
+        surveyFactory.searchRespondants(searchTerm);
+    };
 });
