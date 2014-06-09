@@ -62,11 +62,12 @@
     background: #EEEEEE;
 }
 .sidebar_nav a:hover {
-    background: #AEDAE0;
+    background: #AEDAE0 !important;
 }
 .sidebar_nav a.active {
     background: #8BC9D2;
 }
+
 
 .filter-box {
   margin-bottom: 20px;

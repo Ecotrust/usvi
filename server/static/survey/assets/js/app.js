@@ -119,11 +119,11 @@ if (window.browserNotSupported) {
         })
             .when('/completes/:surveySlug/:uuidSlug', {
             templateUrl: app.viewPath + 'views/ost/ost-respondent-detail.html',
-            controller: 'RespondentDetailCtrl'
+            controller: 'RespondentDetailCtrl'  // <-- This is in controllers/ost/respondentDetail.js
         })
             .when('/incompletes/:surveySlug/:uuidSlug', {
             templateUrl: app.viewPath + 'views/ost/ost-respondent-detail.html',
-            controller: 'RespondentDetailCtrl'
+            controller: 'RespondentDetailCtrl'  // <-- This is in controllers/ost/respondentDetail.js
         })
 
             .when('/fisher-summary', {
@@ -148,7 +148,7 @@ if (window.browserNotSupported) {
         })
             .when('/RespondantDetail/:surveySlug/:uuidSlug', {
             templateUrl: app.viewPath + 'views/RespondantDetail.html',
-            controller: 'RespondantDetailCtrl'
+            controller: 'RespondantDetailCtrl'  //<-- Thiis is the old controller (note the 'a') in controllers/RespondantDetail.js, not used by OST.
         })
             .when('/survey', {
             templateUrl: app.viewPath + 'views/survey.html',

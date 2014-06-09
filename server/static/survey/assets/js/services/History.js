@@ -121,7 +121,6 @@ angular.module('askApp')
         if (answer === 'NA') {
             answer = '';
         }
-        
         return answer;
     };
 

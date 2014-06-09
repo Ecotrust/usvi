@@ -52,6 +52,31 @@ class Respondant(caching.base.CachingMixin, models.Model):
         else:
             return "%s" % self.uuid
 
+    def clone(self):
+        """
+        Make a copy of the respondant all its responses.
+        Mainly used to generate test data.
+        
+        """
+
+        new_resp = self
+        responses = new_resp.response_set.all()
+
+        new_resp.pk = None
+        new_resp.uuid = make_uuid()
+        new_resp.save()
+
+        # Copy responses
+        for response in responses:
+            response.id = None
+            response.respondant = new_resp
+            response.save()
+
+        return new_resp
+        
+
+
+
     @property
     def survey_title(self):
         if self.survey.slug == 'monitoring-project':

@@ -22,8 +22,7 @@ angular.module('askApp')
         $scope.busy = false;
     });
 
-
-    $scope.showRespondent = function (respondent) {
+    $scope.OLDshowRespondent = function (respondent) {
         var path = ['/RespondantDetail', $routeParams.surveySlug, respondent.uuid].join('/');
         $location.path(path);
     };
@@ -31,6 +30,7 @@ angular.module('askApp')
 
     $scope.getAnswer = function(questionSlug, respondent) {
         return history.getAnswer(questionSlug, respondent);
+
     };
 
 
