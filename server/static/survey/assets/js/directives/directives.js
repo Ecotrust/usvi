@@ -131,7 +131,6 @@ angular.module('askApp')
 
 
 
-
 angular.module('askApp')
     .directive('respondentstable', ['$http', '$location', 'surveyFactory', function(http, location, surveyFactory) {
 
@@ -150,8 +149,8 @@ angular.module('askApp')
 
             scope.location = location;
 
-            scope.showRespondent = function(uuid){
-                scope.location.path('/RespondantDetail/'+scope.surveySlug+'/'+uuid );
+            scope.showRespondent = function(respondent){
+                scope.location.path('/RespondantDetail/'+respondent.survey_slug+'/'+respondent.uuid );
             };
 
             // Paginated respondent table

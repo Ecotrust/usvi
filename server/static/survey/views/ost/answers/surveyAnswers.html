@@ -1,14 +1,11 @@
 <div class="row">
-    <dl class="dl-horizontal">
-
-        <dt>Respondent:</dt>
-        <dd>{{getAnswer('user-info-first-name')}} {{getAnswer('user-info-last-name')}}</dd>
-    </dl>
+ <h1>MAP GOES HERE</h1>
 </div>
-
 
 <div class="row">
     <dl class="dl-horizontal">
+        <dt>Project:</dt>
+        <dd>{{getAnswer('proj-title')}}</dd>
         <dt>Organization</dt>
         <dd>
             {{getAnswer('org-name')}} ({{getAnswer('org-type')}})</br>
@@ -16,6 +13,20 @@
             {{getAnswer('org-city')}}<span ng-show="getAnswer('org-city') && (getAnswer('org-state') || getAnswer('org-zipcode'))">,</span>  {{getAnswer('org-state')}} {{getAnswer('org-zipcode')}}</br>
             <a target="_blank" class="dark" style="font-size:14px;" href="{{getAnswer('org-url')}}">{{getAnswer('org-url')}}</a></br>
         </dd>
+        <dt>Duration:</dt>
+        <dd>{{ getAnswer('proj-data-years') }}</dd>
+        <dt>Avg. Number of visits to a typical site:</dt>
+        <dd>{{ getAnswer('proj-data-frequency') }}</dd>
+        <dt>Data availability:</dt>
+        <dd>{{getAnswer('proj-data-availability')}}</dd>
+
+    </dl>
+</div>
+
+
+<div class="row">
+    <dl class="dl-horizontal">
+        
     </dl>
 </div>
 

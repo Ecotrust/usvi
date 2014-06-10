@@ -28,10 +28,6 @@
             <li>
                 <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">monitoring activity - overview</a>
             </li>
-
-            <li>
-                <a ng-class="{'active': activePage == 'responses'}" href="#/responses/{{survey.slug}}">Responses</a>
-            </li>
             <li ng-hide="user.is_staff != 'True'">
                 <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
             </li>
