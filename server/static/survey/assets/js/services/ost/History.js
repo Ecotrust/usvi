@@ -41,11 +41,11 @@ angular.module('askApp')
                              'ef-consumptive-point-vs-grid',
                              'ef-nonconsumptive-point-vs-grid',
                              'cd-collection-locations',
+                             'proj-data-availability', 
                              'future-monitoring-yes-no'],
                 
                 multiSelects = 
-                             ['proj-data-availability', 
-                              'proj-operational-capacity-if-funded', 
+                             ['proj-operational-capacity-if-funded', 
                               'ecosystem-features', 
                               'future-monitoring-ecosystems'],
                 
@@ -116,6 +116,23 @@ angular.module('askApp')
         } catch(e) {
             answer = '';
         }
+
+        // Sometimes its and array
+        
+        
+        if (Array.isArray(answer)){
+            debugger
+            var answers = _.each(answer, function(ans){
+                return ans.text;
+            });
+            answer = answers.join(", ");
+        }
+
+        // Sometimes its and ojbect
+        if (answer.text) {
+            answer = answer.text;
+        }
+
         if (answer === 'NA' || answer === 'NO_ANSWER') {
             answer = '';
         }

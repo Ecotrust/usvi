@@ -112,15 +112,32 @@ angular.module('askApp')
                     return  0;
                 }
             } else {
+                
                 var answer = _.findWhere(respondent.responses, {question: questionSlug}).answer;
             }
             
         } catch(e) {
             var answer = '';
         }
+        
+        // Sometimes its and array
+        if (Array.isArray(answer)){
+            var answers = _.each(answer, function(ans){
+                return ans.text;
+            });
+            answer = answers.join(", ");
+        }
+
+        // Sometimes its and ojbect
+        if (answer.text) {
+            answer = answer.text;
+        }
+
+        // Sometimes its none
         if (answer === 'NA') {
             answer = '';
         }
+
         return answer;
     };
 

@@ -39,6 +39,10 @@ angular.module('askApp')
 
 
     $scope.getAnswer = function(questionSlug) {
+        console.log("respondent" );
+        console.log($scope.respondent);
+        console.log("Looking for answer to "+questionSlug)
+
         return history.getAnswer(questionSlug, $scope.respondent);
     };
 

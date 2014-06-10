@@ -8,17 +8,17 @@
         <dd>{{getAnswer('proj-title')}}</dd>
         <dt>Organization</dt>
         <dd>
-            {{getAnswer('org-name')}} ({{getAnswer('org-type').text }})</br>
+            {{getAnswer('org-name')}} ({{getAnswer('org-type')}})</br>
             {{getAnswer('org-address-1')}}</br>
             {{getAnswer('org-city')}}<span ng-show="getAnswer('org-city') && (getAnswer('org-state') || getAnswer('org-zipcode'))">,</span>  {{getAnswer('org-state')}} {{getAnswer('org-zipcode')}}</br>
             <a target="_blank" class="dark" style="font-size:14px;" href="{{getAnswer('org-url')}}">{{getAnswer('org-url')}}</a></br>
         </dd>
         <dt>Duration:</dt>
-        <dl></dl>
+        <dd>{{ getAnswer('proj-data-years') }}</dd>
         <dt>Avg. Number of visits to a typical site:</dt>
-        <dl></dl>
-        <dd>Data availability</dd>
-        <dl></dl>
+        <dd>{{ getAnswer('proj-data-frequency') }}</dd>
+        <dt>Data availability:</dt>
+        <dd>{{getAnswer('proj-data-availability')}}</dd>
 
     </dl>
 </div>
