@@ -476,6 +476,9 @@ class Question(caching.base.CachingMixin, models.Model):
         else:
             return (answers.values('answer')
                            .annotate(locations=Sum('respondant__locations'), surveys=Count('answer')))
+    @property
+    def contained_in(self):
+        return [obj for obj in self.question_page.all()]
 
 
     def __unicode__(self):
