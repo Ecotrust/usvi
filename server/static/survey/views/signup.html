@@ -14,11 +14,11 @@
             <div ng-show="showTempUser">
                 <h2>No Connection</h2>
                 <p>Can't reach the server.  Do you want to continue offline?</p>
-                <button class="btn btn-main btn-default btn-block" ng-click="offline(newUser, 'signup')">Use Digital Deck Offline</button>
+                <button class="btn btn-main btn-default btn-block" ng-click="offline(newUser, 'signup')">Use Survey Offline</button>
                 <a class="btn btn-main btn-default btn-block" href="#/">cancel</a>
             </div>
             <div class="new-user-form" ng-hide="working || showTempUser">
-                <h3>Create New Account</h3>
+                <h3>Create New Survey Account</h3>
                 <form ng-submit="createUser(newUser)">
                     <fieldset>
                         <h4 class="question-title">Username</h4>
@@ -30,7 +30,7 @@
                         <h4 class="question-title">Password</h4>
                         <password password-text="newUser.password"></password>
                     </fieldset>
-                    <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">Create Account</button>
+                    <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">Create Survey Account</button>
                     <a class="btn btn-main btn-default btn-block" href="/respond">Cancel</a>
                     <div class="alert alert-danger" ng-show="showError == 'duplicate-user'">
                         That username is already registered. Please try another.
