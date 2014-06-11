@@ -121,7 +121,6 @@ angular.module('askApp')
         
         
         if (Array.isArray(answer)){
-            debugger
             var answers = _.each(answer, function(ans){
                 return ans.text;
             });
