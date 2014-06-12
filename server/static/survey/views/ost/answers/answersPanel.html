@@ -12,23 +12,32 @@
                         <div class="answer answer-multi-select">
                             <strong>Species / habitats monitored: </strong></br>
                             <div ng-repeat="entry in speciesAnswer">
-                                {{entry.text}}
-                                {{angular_version}}
                                 <div ng-show="entry.showGroupName">
                                     
-                                    <div ng-if="angular_version < 1.2">
-                                        <div class="groupname" ng-bind-html-unsafe="entry.groupName"></div>
-                                        <div class="entry" ng-bind-html-unsafe="entry.text"></div>
-                                    </div>
+                                    <div ng-switch="angular_version">
+                                        <div ng-switch-when="1.1">
+                                            <div class="groupname" ng-bind-html-unsafe="entry.groupName"></div>
+                                            <div class="entry" ng-bind-html-unsafe="entry.text"></div>
+                                        </div>
 
-                                    <!-- for dash on angular 1.2.9 -->
-                                    <div ng-if="angular_version >= 1.2">
-                                        <div  class="groupname" ng-bind-html="entry.groupName | to_trusted" ></div>
-                                        <div  class="entry" ng-bind-html="entry.text | to_trusted"></div>
+                                        <!-- for dash on angular 1.2.9 -->
+                                        <div ng-switch-when="1.2">
+                                            <div  class="groupname" ng-bind-html="entry.groupName | to_trusted" ></div>
+                                            <div  class="entry" ng-bind-html="entry.text | to_trusted"></div>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div ng-hide="entry.showGroupName">
-                                    <div class="entry" ng-bind-html="entry.text | to_trusted"></div>
+                                    <div ng-switch="angular_version">
+                                        <div ng-switch-when="1.1">
+                                            <div class="entry" ng-bind-html-unsafe="entry.text"></div>
+                                        </div>
+                                        <div ng-switch-when="1.2">
+                                            <div class="entry" ng-bind-html="entry.text | to_trusted"></div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
