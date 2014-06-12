@@ -58,7 +58,6 @@ angular.module('askApp')
         });
     };
 
-
     $scope.deleteRespondent = function (respondent) {
         $http.get(app.server + '/respond/delete-incomplete/' + respondent.uuid).success(function(data) {
             var path = respondent.complete ? '/completes' : '/incompletes';
@@ -68,16 +67,6 @@ angular.module('askApp')
             $scope.showDeleteErrorMessage = true;
         });
     };
-
-
-    // $scope.map = {
-    //     center: {
-    //         lat: 47,
-    //         lng: -124
-    //     },
-    //     zoom: 7
-    // }
-
 
     $scope.getRespondent($routeParams.uuidSlug, $routeParams.survey_slug, function (respondent) {
         $scope.respondent = respondent;
