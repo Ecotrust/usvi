@@ -39,7 +39,7 @@ angular.module('askApp')
                                 // to just 'bar'. This is easier than fixing it all the way down.
                                 type: scope.chart.type == 'bar-chart' ? 'column' : 'bar',
                             },
-                            exporting :{url:HC_EXPORT_SERVER_URL},
+                            exporting :{url:"http://export.highcharts.com"},
                             backgroundColor: 'rgba(255, 255, 255, 0)',
                             title: scope.chart.displayTitle ? { text: scope.chart.title, align: "left" } : false,
                             tooltip: {
