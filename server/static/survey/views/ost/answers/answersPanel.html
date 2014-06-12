@@ -7,8 +7,44 @@
         </div>
         <div class="panel-collapse collapse" ng-class="{ 'in': open }">
             <div class="panel-body">
+                <div ng-show="speciesAnswer" class="row">                
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="answer answer-multi-select">
+                            <strong>Species / habitats monitored: </strong></br>
+                            <div ng-repeat="entry in speciesAnswer">
+                                {{entry.text}}
+                                {{angular_version}}
+                                <div ng-show="entry.showGroupName">
+                                    
+                                    <div ng-if="angular_version < 1.2">
+                                        <div class="groupname" ng-bind-html-unsafe="entry.groupName"></div>
+                                        <div class="entry" ng-bind-html-unsafe="entry.text"></div>
+                                    </div>
 
-                <div ng-include="htmlContent"></div>
+                                    <!-- for dash on angular 1.2.9 -->
+                                    <div ng-if="angular_version >= 1.2">
+                                        <div  class="groupname" ng-bind-html="entry.groupName | to_trusted" ></div>
+                                        <div  class="entry" ng-bind-html="entry.text | to_trusted"></div>
+                                    </div>
+                                </div>
+                                <div ng-hide="entry.showGroupName">
+                                    <div class="entry" ng-bind-html="entry.text | to_trusted"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="answer" ng-hide="'Add point markers' == getAnswer('ef-rockyintertidal-point-vs-grid')">
+                            <strong>Mapped planning units:</strong>
+                            <!-- <span>{{ getAnswer('ef-rockyinteridal-collection-areas') }}</span> -->
+                        </div>
+                        <div class="answer" ng-show="'Add point markers' == getAnswer('ef-rockyintertidal-point-vs-grid')">
+                            <strong>Mapped points:</strong>
+                            <!-- <span>{{ getAnswer('ef-rockyintertidal-collection-points') }}</span> -->
+                        </div>
+                    </div>
+                </div><!-- End .row -->
+                
+                <div ng-show="htmlContent" ng-include="htmlContent"></div>
 
             </div>
         </div>

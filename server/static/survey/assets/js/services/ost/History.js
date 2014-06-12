@@ -120,12 +120,14 @@ angular.module('askApp')
         // Sometimes its and array
         
         
-        if (Array.isArray(answer)){
-            var answers = _.each(answer, function(ans){
-                return ans.text;
-            });
-            answer = answers.join(", ");
-        }
+        // if (Array.isArray(answer)){
+        //     console.log(question.question + ": answer is an array");
+        //     var answers = _.map(answer, function(ans){
+        //         return ans.text;
+        //     });
+        //     answer = answers.join(", ");
+        //     console.log(answer)
+        // }
 
         // Sometimes its and ojbect
         if (answer.text) {

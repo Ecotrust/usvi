@@ -2,8 +2,6 @@
 
 angular.module('askApp')
     .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history) {
-
-    
     $scope.viewPath = app.viewPath;
 
 
@@ -39,10 +37,6 @@ angular.module('askApp')
 
 
     $scope.getAnswer = function(questionSlug) {
-        console.log("respondent" );
-        console.log($scope.respondent);
-        console.log("Looking for answer to "+questionSlug)
-
         return history.getAnswer(questionSlug, $scope.respondent);
     };
 
@@ -94,6 +88,18 @@ angular.module('askApp')
 
 
 }).directive('answersPanel', function(history) {
+    /*
+    This directive takes both speciesAnswer and htmlContent. 
+    
+    If htmlContent is not falsey, it will display the conent form the 
+    template defined by htmlContent (this is for the Proejct and Data Managemt, etc... quesitons)
+    
+    If speciesAnswer is not falsey it will display the answers based on what is in the answerPanel.html. 
+    This option is used to display all the Ecosystem Features species answers.
+
+    Note in order for this to work both html-content and species-answer must be attributes on
+    the html element, but only one should not be falsey (use a blank string for the other). 
+    */
     return {
         templateUrl: '/static/survey/views/ost/answers/answersPanel.html',
         restrict: 'EA',
@@ -101,15 +107,22 @@ angular.module('askApp')
         transclude: true,
         scope: {
             title: '=',
+            respondent: '=',
+            speciesAnswer: '=',
             htmlContent: '=',
-            respondent: '='
         },
         link: function postLink(scope, element, attrs) {
             scope.open = false;
-
+            scope.angular_version = parseFloat(angular.version.major+'.'+angular.version.minor);
             scope.getAnswer = function(questionSlug) {
                 return history.getAnswer(questionSlug, scope.respondent);
             };
         }
     }
-});
+}).filter('to_trusted', ['$sce', function($sce){
+        return function(text) {
+            return $sce.trustAsHtml(text);
+        };
+}]);
+
+;
