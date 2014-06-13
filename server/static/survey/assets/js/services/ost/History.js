@@ -41,6 +41,7 @@ angular.module('askApp')
                              'ef-consumptive-point-vs-grid',
                              'ef-nonconsumptive-point-vs-grid',
                              'cd-collection-locations',
+                             'cde-where',
                              'proj-data-availability', 
                              'future-monitoring-yes-no'],
                 
@@ -84,6 +85,11 @@ angular.module('askApp')
                              'ef-consumptive-collection-points',
                              'ef-nonconsumptive-collection-points'];
 
+
+            console.log(questionSlug)
+            if (questionSlug === 'cde-where-elaborated'){
+
+            }   
             // Grab answer based on the type of question.
             if (_.contains(singleSelects, questionSlug)) {
                 answer = question.answer.text;
@@ -112,6 +118,8 @@ angular.module('askApp')
             } else {
                 answer = question.answer;
             }
+
+            if (answer === '') answer = 'Not Available';
             
         } catch(e) {
             answer = '';
@@ -129,13 +137,9 @@ angular.module('askApp')
         //     console.log(answer)
         // }
 
-        // Sometimes its and ojbect
-        if (answer.text) {
-            answer = answer.text;
-        }
 
         if (answer === 'NA' || answer === 'NO_ANSWER') {
-            answer = '';
+            answer = 'Not Available';
         }
         
         return answer;

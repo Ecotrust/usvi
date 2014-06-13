@@ -14,8 +14,13 @@ angular.module('askApp')
     $scope.viewPath = app.server + '/static/survey/';
     $scope.activePage = 'responses';
 
+    if ($scope.searchTerm){
+        var url = '/api/v1/dashrespondant/search/?format=json&q=' + $scope.searchTerm;
+    } else {
+        var url = '/api/v1/dashrespondant/?format=json';
+    }
 
-    $http.get('/api/v1/dashrespondant/search/?format=json&q=' + $routeParams.q).success(function(data) {
+    $http.get(url).success(function(data) {
         $scope.respondents = data.objects;
         $scope.meta = data.meta;
         $scope.responsesShown = $scope.respondents.length;
