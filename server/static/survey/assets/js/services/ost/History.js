@@ -43,12 +43,14 @@ angular.module('askApp')
                              'cd-collection-locations',
                              'cde-where',
                              'proj-data-availability', 
-                             'future-monitoring-yes-no'],
+                             'future-monitoring-yes-no',
+                             'proj-financial-support-timeline'],
                 
                 multiSelects = 
                              ['proj-operational-capacity-if-funded', 
                               'ecosystem-features', 
-                              'future-monitoring-ecosystems'],
+                              'future-monitoring-ecosystems',
+                              'proj-operational-capacity-if-funded'],
                 
                 groupedMultiSelects = 
                              ['org-funding',
@@ -86,10 +88,6 @@ angular.module('askApp')
                              'ef-nonconsumptive-collection-points'];
 
 
-            console.log(questionSlug)
-            if (questionSlug === 'cde-where-elaborated'){
-
-            }   
             // Grab answer based on the type of question.
             if (_.contains(singleSelects, questionSlug)) {
                 answer = question.answer.text;
