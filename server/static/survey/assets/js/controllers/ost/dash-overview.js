@@ -70,19 +70,22 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
             // Set points collection (bound to directive)
             var points = [];
             _.each(data.geojson, function (item) {
-                var feature = JSON.parse(item.geojson)
-                  , lat = feature.geometry.coordinates[1]
-                  , lng = feature.geometry.coordinates[0]
-                  , uuid = feature.properties.activity
-                  , qSlug = feature.properties.label
-                  ;
-                if (lat && lng && uuid && qSlug) {
-                    points.push({
-                        lat: lat,
-                        lng: lng,
-                        uuid: uuid,
-                        qSlug: qSlug});
-                }
+                if (item.geojson) {
+                    var feature = JSON.parse(item.geojson)
+                      , lat = feature.geometry.coordinates[1]
+                      , lng = feature.geometry.coordinates[0]
+                      , uuid = feature.properties.activity
+                      , qSlug = feature.properties.label
+                      ;
+                    if (lat && lng && uuid && qSlug) {
+                        points.push({
+                            lat: lat,
+                            lng: lng,
+                            uuid: uuid,
+                            qSlug: qSlug});
+                    }
+                };
+                
             });
 
             success_callback(points);
