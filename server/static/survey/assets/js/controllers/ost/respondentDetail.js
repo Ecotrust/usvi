@@ -4,6 +4,12 @@ angular.module('askApp')
     .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history) {
     $scope.viewPath = app.viewPath;
 
+    $scope.mapSettings = {
+        questionSlugPattern: '*-collection-points',
+        lat: 35.8336630,
+        lng: -122.0000000,
+        zoom: 7
+    };
 
     $scope.getRespondent = function (respondent_uuid, survey_slug, onSuccess) {
         var url = app.server 
