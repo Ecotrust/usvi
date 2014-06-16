@@ -1,5 +1,5 @@
 
-angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils) {
+angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils, survey) {
 
     function initPage () {
         $scope.activePage = 'overview';
@@ -29,7 +29,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
 
         });
     }
-    
 
     //
     // Fill survey stats blocks
@@ -126,21 +125,8 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     }
 
     $scope.ecosystemSlugToColor = function (slug) {
-        var key = generalizeEcosystemSlug(slug),
-            dict = {};
-        dict['ef-rockyintertidal-collection-'] = '#FF0000';
-        dict['ef-kelp-and-shallow-rock-collection-'] = '#00FF00';
-        dict['ef-middepthrock-collection-'] = '#0000FF';
-        dict['ef-estuarine-collection-'] = '#000000';
-        dict['ef-softbottomintertidal-collection-'] = '#000000';
-        dict['ef-softbottomsubtidal-collection-'] = '#000000';
-        dict['ef-deep-collection-'] = '#000000';
-        dict['ef-nearshore-collection-'] = '#000000';
-        dict['ef-consumptive-collection-'] = '#000000';
-        dict['ef-nonconsumptive-collection-'] = '#000000';
-
-        return dict[key];
-    }
+        return survey.ecosystemSlugToColor(slug);
+    };
 
     function generalizeEcosystemSlug (slug) {
         var pointsKey = 'points',

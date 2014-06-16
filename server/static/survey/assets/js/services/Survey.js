@@ -303,6 +303,69 @@ angular.module('askApp')
        $location.path(url);
     };
 
+    var generalizeEcosystemSlug = function(slug) {
+        var pointsKey = 'points',
+            areasKey = 'areas',
+            s;
+        s = slug.indexOf(pointsKey) > -1 ? pointsKey : areasKey;
+        s = slug.slice(0, -s.length);
+        return s;
+    };
+
+    var ecosystemLabelToSlug = function(label) {
+        debugger
+        var dict = {};
+        dict['Rocky Intertidal Ecosystems'] = 'ef-rockyintertidal-collection-';
+        dict['Kelp and Shallow (0-30m) Rock Ecosystems'] = 'ef-kelp-and-shallow-rock-collection-';
+        dict['Mid depth (30-100m) Rock Ecosystems'] = 'ef-middepthrock-collection-';
+        dict['Estuarine and Wetland Ecosystems'] = 'ef-estuarine-collection-';
+        dict['Soft-bottom Intertidal and Beach Ecosystems'] = 'ef-softbottomintertidal-collection-';
+        dict['Soft bottom Subtidal (0-100m) Ecosystems'] = 'ef-softbottomsubtidal-collection-';
+        dict['Deep Ecosystems and Canyons (>100m)'] = 'ef-deep-collection-';
+        dict['Nearshore Pelagic Ecosystems'] = 'ef-nearshore-collection-';
+        dict['Consumptive Uses'] = 'ef-consumptive-collection-';
+        dict['Non-consumptive Uses'] = 'ef-nonconsumptive-collection-';
+
+        return dict[label];
+    }
+
+    var ecosystemSlugToLabel = function (slug) {
+        var key = generalizeEcosystemSlug(slug),
+            dict = {};
+        dict['ef-rockyintertidal-collection-'] = 'Rocky Intertidal Ecosystems';
+        dict['ef-kelp-and-shallow-rock-collection-'] = 'Kelp and Shallow (0-30m) Rock Ecosystems';
+        dict['ef-middepthrock-collection-'] = 'Mid depth (30-100m) Rock Ecosystems';
+        dict['ef-estuarine-collection-'] = 'Estuarine and Wetland Ecosystems';
+        dict['ef-softbottomintertidal-collection-'] = 'Soft-bottom Intertidal and Beach Ecosystems';
+        dict['ef-softbottomsubtidal-collection-'] = 'Soft bottom Subtidal (0-100m) Ecosystems';
+        dict['ef-deep-collection-'] = 'Deep Ecosystems and Canyons (>100m)';
+        dict['ef-nearshore-collection-'] = 'Nearshore Pelagic Ecosystems';
+        dict['ef-consumptive-collection-'] = 'Consumptive Uses';
+        dict['ef-nonconsumptive-collection-'] = 'Non-consumptive Uses';
+
+        return dict[key];
+    }
+
+
+    var ecosystemSlugToColor = function(slug){
+        var key = generalizeEcosystemSlug(slug),
+            dict = {};
+            dict['ef-rockyintertidal-collection-'] = '#FF0000';
+            dict['ef-kelp-and-shallow-rock-collection-'] = '#00FF00';
+            dict['ef-middepthrock-collection-'] = '#0000FF';
+            dict['ef-estuarine-collection-'] = '#77FF00';
+            dict['ef-softbottomintertidal-collection-'] = '#FF00FF';
+            dict['ef-softbottomsubtidal-collection-'] = '#00FFFF';
+            dict['ef-deep-collection-'] = '#7777FF';
+            dict['ef-nearshore-collection-'] = '#FF7777';
+            dict['ef-consumptive-collection-'] = '#77FF77';
+            dict['ef-nonconsumptive-collection-'] = '#0077FF';
+
+            return dict[key];
+    };
+    
+
+
     // Public API here
     return {
       'isOnFirstPage': isOnFirstPage,
@@ -313,6 +376,9 @@ angular.module('askApp')
       'cleanSurvey': cleanSurvey,
       'getQuestionUriFromSlug': getQuestionUriFromSlug,
       'submitSurvey': submitSurvey,
-      'resume': resume
+      'resume': resume,
+      'ecosystemSlugToColor':ecosystemSlugToColor,
+      'ecosystemLabelToSlug':ecosystemLabelToSlug,
+      'ecosystemSlugToLabel':ecosystemSlugToLabel
     };
   });

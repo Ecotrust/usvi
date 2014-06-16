@@ -10,11 +10,11 @@
     margin-top: 20px;
 }
 
-.dash-overview .dash-map-ost { 
-	height: 500px;
+.dash-map-ost { 
+    height: 500px;
 }
 .leaflet-control-zoom a {
-	background-color: white !important;
+    background-color: white !important;
 }
 .leaflet-control-zoom a.leaflet-control-zoom-in {
     -moz-border-top-left-radius: 2px !important;
