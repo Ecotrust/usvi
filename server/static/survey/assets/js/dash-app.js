@@ -1,7 +1,8 @@
 //'use strict';
 
 var app = {};
-var HC_EXPORT_SERVER_URL = "http://export.highcharts.com";
+
+var HC_EXPORT_SERVER_URL = "http://util.point97.io/highcharts-export-web";
 
 app.server = window.location.protocol + '//' + window.location.host;
 app.viewPath = app.server + '/static/survey/';
@@ -84,7 +85,6 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         templateUrl: '/static/survey/views/RespondantList.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: true
-
     })
 
     .when('/responses/:surveySlug', {
@@ -95,11 +95,12 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
 
     .when('/RespondantDetail/:surveySlug/:uuidSlug', {
         templateUrl: '/static/survey/views/ost/dash-respondent-detail.html',
-        controller: 'RespondentDetailCtrl'
+        controller: 'RespondentDetailCtrl'  // <-- This is in controllers/ost/respondentDetail.js
     })
+    
     .when('/responses/:surveySlug/:uuidSlug', {
         templateUrl: '/static/survey/views/ost/dash-respondent-detail.html',
-        controller: 'RespondentDetailCtrl',
+        controller: 'RespondentDetailCtrl', // <-- This is in controllers/ost/respondentDetail.js
     })
     .when('/ecosystems/:surveySlug', {
         templateUrl: '/static/survey/views/ost/dash-ecosystems.html',

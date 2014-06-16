@@ -219,7 +219,6 @@ angular.module('askApp')
         if (page.order === firstNonProfilePage) {
             _setProfileAnswers($scope.survey.slug, $routeParams.uuidSlug);
         }
-
         var answers = _.map(page.questions, function (question) {
             return $scope.getAnswerOnPage(question);
         });
@@ -286,7 +285,6 @@ angular.module('askApp')
 
     $scope.getAnswerOnPage = function(question) {
         var answer = question.answer;
-
 
         //var url = ['/respond/answer', survey.slug, $routeParams.questionSlug, $routeParams.uuidSlug].join('/');
         if (question.type === 'timepicker' || question.type === 'datepicker' || question.type === 'monthpicker') {
@@ -506,7 +504,7 @@ angular.module('askApp')
                 text: question.otherAnswers[0],
                 other: true
             };
-        } else if (!question.required) {
+        } else if (!answer && !question.required) {
             // No answer given. Submit empty.
            answer = {
                 text: 'NO_ANSWER'
@@ -579,15 +577,7 @@ $scope.loadSurvey = function(data) {
             }
         });
 
-        // if (data.last_question && !data.complete) {
-        //     $scope.resumeQuestionPath = $scope.getResumePage(data.last_question);
-        // } else {
-        //     $scope.resumeQuestionPath = 'NO_RESUME';
-        // }
-        // if (data.complete) {
-        //     $location.path(['survey', $scope.survey.slug, 'complete', $routeParams.uuidSlug].join('/'));
-        // }
-        // we may inject a question into the scope
+
         if ($routeParams.pageID) {
             $scope.page = _.findWhere($scope.survey.pages, { order: parseInt($routeParams.pageID, 10) });
             if (!$scope.page) {

@@ -1,8 +1,11 @@
 //'use strict';
 
+/* 
+THIS IS NOT USED BY OST. Use ost/respondentDetail.js instead (note the spelling differnce)
+*/ 
+
 angular.module('askApp')
     .controller('RespondantDetailCtrl', function($scope, $routeParams, $http) {
-
     $http.get('/api/v1/dashrespondantdetails/'  + $routeParams.uuidSlug + '/?format=json&survey__slug=' + $routeParams.surveySlug).success(function(data) {
         //order responses to reflect the order in which they were presented in the survey
         data.responses = _.sortBy(data.responses, function(response) { return response.question.order; });

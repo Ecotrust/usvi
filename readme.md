@@ -78,6 +78,14 @@ Log into `tools-dev.oceanspaces.org` and run
 ./manage.py COMMAND_NAME --settings=config.environments.staging
 ```
 
+# Deploying to tools-dev.oceanspaces.org deploy
+This will take whatever is in you local directory, i.e. it does not pull from github. So make sure to do a `git pull ...` if necessary.
+
+```
+fab staging:wilblack@tools-dev.oceanspaces.org deploy
+```
+
+# 
 
 #Heroku
 ##requirements
