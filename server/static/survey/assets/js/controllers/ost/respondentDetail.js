@@ -3,8 +3,9 @@
 angular.module('askApp')
     .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history) {
     $scope.viewPath = app.viewPath;
+    $scope.uuid = $routeParams.uuidSlug;
 
-    
+
 
     $scope.getRespondent = function (respondent_uuid, survey_slug, onSuccess) {
         var url = app.server 
@@ -21,7 +22,7 @@ angular.module('askApp')
                 $scope.showErrorMessage = true;
             });
     };
-        
+
 
     $scope.parseResponses = function (respondent) {
         _.each(respondent.responses, function(response, index) {
@@ -89,7 +90,8 @@ angular.module('askApp')
     };
 
     $scope.updateMap = function () {
-        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson);
+        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson, $scope.uuid);
+        
         getPoints(apiUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
             var uniq = [];
@@ -102,18 +104,26 @@ angular.module('askApp')
         });
     };
     
-    function pointsApiUrl (sSlug, qSlug, filtersJson) {
+    function pointsApiUrl (sSlug, qSlug, filtersJson, resp_uuid) {
         var url = ['/reports/geojson', sSlug, qSlug];
+        
+        var del = '?';
         if (filtersJson && !_.isEmpty(filtersJson)) {
             url.push('?filters=' + JSON.stringify(filtersJson));
+            del = '&';
+        }
+        if (resp_uuid) {
+            url.push(del+'respondant='+resp_uuid);
         }
         return url.join('/');
     }
 
     function getPoints (url, success_callback) {
+
         $http.get(url).success(function(data) {
             // Set points collection (bound to directive)
             var points = [];
+
             _.each(data.geojson, function (item) {
                 if (item.geojson) {
                     var feature = JSON.parse(item.geojson)
