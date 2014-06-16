@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     (r'/crosstab/(?P<survey_slug>[\w\d-]+)/(?P<question_a_slug>[\w\d-]+)/(?P<question_b_slug>[\w\d-]+).csv', get_crosstab_csv),
     (r'/crosstab/(?P<survey_slug>[\w\d-]+)/(?P<question_a_slug>[\w\d-]+)/(?P<question_b_slug>[\w\d-]+)', get_crosstab_json),
     (r'/geojson/(?P<survey_slug>[\w\d-]+)/(?P<question_slug>[\w\d*-]+)', get_geojson),
+    (r'/planningunits/(?P<survey_slug>[\w\d-]+)/(?P<question_slug>[\w\d*-]+)', get_planning_unit_answers),
     (r'/respondants_summary/', get_respondants_summary),
 
     url(r'/full-survey-data/(?P<survey_slug>[\w\d-]+)',

@@ -43,8 +43,10 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     // Map
     // 
     $scope.updateMap = function () {
-        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson);
-        getPoints(apiUrl, function (points) {
+        var pointsUrl = pointsApiUrl($routeParams.surveySlug, '*-collection-points', $scope.filtersJson),
+            polysUrl = polysApiUrl($routeParams.surveySlug, '*-collection-areas', $scope.filtersJson);
+        
+        getPoints(polysUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
             var uniq = [];
             _.each(points, function (point) {
@@ -53,6 +55,10 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
                 }
             });
             $scope.uniqueEcosystemFeatureSlugs = uniq;
+        });
+    
+        getPolys(polysUrl, function (polys) {
+            $scope.mapSettings.mapPlanningUnits = polys;
         });
     }
 
@@ -88,6 +94,27 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
             });
 
             success_callback(points);
+        });
+    }
+
+    function polysApiUrl (sSlug, qSlug, filtersJson) {
+        var url = ['/reports/planningunits', sSlug, qSlug];
+        if (filtersJson && !_.isEmpty(filtersJson)) {
+            url.push('?filters=' + JSON.stringify(filtersJson));
+        }
+        return url.join('/');
+    }
+
+    function getPolys (url, success_callback) {
+        $http.get(url).success(function(data) {
+            // Set points collection (bound to directive)
+            var polys = [];
+            _.each(data.answers, function (item) {
+                var feature = JSON.parse(item.answer);
+                polys.push(feature);
+            });
+
+            success_callback(polys);
         });
     }
 
