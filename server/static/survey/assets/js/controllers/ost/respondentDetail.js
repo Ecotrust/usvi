@@ -3,6 +3,8 @@
 angular.module('askApp')
     .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history) {
     $scope.viewPath = app.viewPath;
+    $scope.uuid = $routeParams.uuidSlug;
+
 
 
     $scope.getRespondent = function (respondent_uuid, survey_slug, onSuccess) {
@@ -17,11 +19,10 @@ angular.module('askApp')
                 onSuccess(data);
             }).error(function (err) {
                 console.log(JSON.stringify(err));
-                debugger;
                 $scope.showErrorMessage = true;
             });
     };
-        
+
 
     $scope.parseResponses = function (respondent) {
         _.each(respondent.responses, function(response, index) {
@@ -74,6 +75,103 @@ angular.module('askApp')
         $scope.backPath = respondent.complete ? '/completes' : '/incompletes';
         $scope.showContent = true;
     });
+
+
+/*************************** MAP STUFF **********************************/
+    
+    $scope.mapSettings = {
+        questionSlugPattern: '*-collection-points',
+        lat: 35.8336630,
+        lng: -122.0000000,
+        zoom: 7,
+        mapPoints: [],
+        mapUnits: '',
+
+    };
+
+    $scope.updateMap = function () {
+        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson, $scope.uuid);
+        
+        getPoints(apiUrl, function (points) {
+            $scope.mapSettings.mapPoints = points;
+            var uniq = [];
+            _.each(points, function (point) {
+                if (! _.contains(uniq, point.qSlug)) {
+                    uniq.push(point.qSlug);
+                }
+            });
+            $scope.uniqueEcosystemFeatureSlugs = uniq;
+        });
+    };
+    
+    function pointsApiUrl (sSlug, qSlug, filtersJson, resp_uuid) {
+        var url = ['/reports/geojson', sSlug, qSlug];
+        
+        var del = '?';
+        if (filtersJson && !_.isEmpty(filtersJson)) {
+            url.push('?filters=' + JSON.stringify(filtersJson));
+            del = '&';
+        }
+        if (resp_uuid) {
+            url.push(del+'respondant='+resp_uuid);
+        }
+        return url.join('/');
+    }
+
+    function getPoints (url, success_callback) {
+
+        $http.get(url).success(function(data) {
+            // Set points collection (bound to directive)
+            var points = [];
+
+            _.each(data.geojson, function (item) {
+                if (item.geojson) {
+                    var feature = JSON.parse(item.geojson)
+                      , lat = feature.geometry.coordinates[1]
+                      , lng = feature.geometry.coordinates[0]
+                      , uuid = feature.properties.activity
+                      , qSlug = feature.properties.label
+                      ;
+                    if (lat && lng && uuid && qSlug) {
+                        points.push({
+                            lat: lat,
+                            lng: lng,
+                            uuid: uuid,
+                            qSlug: qSlug});
+                    }
+                };
+                
+            });
+
+            success_callback(points);
+        });
+    }
+
+    function ecosystemLabelToSlug (label) {
+        return survey.ecosystemLabelToSlug(label);
+    }
+
+    $scope.ecosystemSlugToLabel = function (slug) {
+        return survey.ecosystemSlugToLabel(slug);
+    }
+
+    $scope.ecosystemSlugToColor = function (slug) {
+        return survey.ecosystemSlugToColor(slug);
+    };
+
+    // function generalizeEcosystemSlug (slug) {
+    //     var pointsKey = 'points',
+    //         areasKey = 'areas',
+    //         s;
+    //     s = slug.indexOf(pointsKey) > -1 ? pointsKey : areasKey;
+    //     s = slug.slice(0, -s.length);
+
+    //     return s;
+    // }
+    $scope.updateMap();
+/*************************** END MAP STUFF ********************************/
+
+
 
 
 }).directive('answersPanel', function(history) {
