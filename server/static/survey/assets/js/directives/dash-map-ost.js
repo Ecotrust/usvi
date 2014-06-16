@@ -26,7 +26,14 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             map = MapUtils.initMap(element[0].children[0].children[0],
                     scope.lat, scope.lng, scope.zoom);
 
-            MapUtils.addGeoJson(scope.boundaryPath, function (layer) {
+            MapUtils.addBoundary(scope.boundaryPath, function (layer) {
+                map.addLayer(layer)
+                .on('dblclick', function(e) {
+                    map.setZoom(map.getZoom() + 1);
+                });
+            });
+            
+            MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", function (layer) {
                 map.addLayer(layer)
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
@@ -40,6 +47,11 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 _.each(markers, delMarker)
                 _.each(newVal, addMarker);
             });
+            // scope.$watch('units', function(newVal, oldVal) {
+            //     deselectAll
+            //     _.each(markers, delMarker)
+            //     _.each(newVal, addMarker);
+            // });
         }
 
         function delMarker (marker) {
@@ -92,6 +104,56 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             });
         }
 
+        function isLayerSelected (layer) {
+            return layer.options.fillOpacity !== 0;
+        }
+
+        function selectLayer (layer) {
+            if (!isLayerSelected(layer)) {
+                var id = layer.feature.properties.ID;
+                layer.setStyle( {
+                    fillOpacity: .6
+                });
+                scope.question.answer.push({
+                    id: id,
+                    uuid: $routeParams.uuidSlug, 
+                    qSlug: scope.question.slug
+                });
+                scope.selectionCount++;
+            }
+        }
+        
+        function deselectLayer (layer) {
+            if (isLayerSelected(layer)) {
+                var id = layer.feature.properties.ID;
+                layer.setStyle({
+                    fillOpacity: 0
+                });
+                scope.question.answer = _.reject(scope.question.answer, function(item) {
+                    return item.id == id; 
+                });
+                scope.selectionCount--;
+            }
+        }
+
+        function layerClick (layer) {
+            isLayerSelected(layer) ?
+                deselectLayer(layer) :
+                selectLayer(layer);
+        }
+
+        function deselectAllPolygons () {
+            _.each(scope.allPloygons, function (layer) {
+                deselectLayer(layer);
+            });
+        }
+
+        function selectAllPolygons () {
+            _.each(scope.allPloygons, function (layer) {
+                selectLayer(layer);
+            });
+        }
+
         function getRespondent (uuid, success_callback) {
             var url = app.server 
                   + '/api/v1/reportrespondantdetails/'
@@ -116,7 +178,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             }).error(function (err) {
                 debugger;
             }); 
-        };
+        }
 
         init();
 
@@ -156,9 +218,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             return map;
         },
 
-        addGeoJson: function (geojsonPath, success_callback) {
+        addBoundary: function (geojsonPath, success_callback) {
             if (geojsonPath) {
-                // Add geojson (intended for study area boundary.
+                // Add study area boundary
                 $http.get(geojsonPath).success(function(data) {
                     var boundaryStyle = {
                         "color": "#E6D845",
@@ -173,6 +235,40 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             }
         },
 
+        addPlanningUnitGrid: function (geojsonPath, success_callback) {
+            // Add planning units grid with no borders
+            $http.get(geojsonPath).success(function(data) {
+                var geojsonLayer = L.geoJson(data, { 
+                    style: function(feature) {
+                        return {
+                            "color": "#E6D845",
+                            "weight": 1,
+                            "opacity": 0.6,
+                            "fillOpacity": 0.0
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        // var id = layer.feature.properties.ID,
+                        //     item = _.find(scope.question.answer, function(item) {
+                        //         return item.id == id;
+                        //     });
+                        // if (item !== undefined) {
+                        //     layer.setStyle( {
+                        //         fillOpacity: .6
+                        //     });
+                        // }
+                        // layer.on("click", function (e) {
+                        //     scope.$apply(function () {
+                        //         layerClick(layer);                                    
+                        //     });
+                        // });
+                        // scope.allPloygons.push(layer);
+                    }
+                });
+                success_callback(geojsonLayer);
+            });
+        },
+        
         createMarker: function (config) {
             var marker;
             if (config.lat && config.lat) {

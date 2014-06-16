@@ -492,6 +492,16 @@ class Location(caching.base.CachingMixin, models.Model):
         return "%s/%s/%s" % (self.response.respondant.survey.slug, self.response.question.slug, self.response.respondant.uuid)
 
 
+class PlanningUnitAnswer(caching.base.CachingMixin, models.Model):
+    answer = models.TextField(null=True, blank=True, default=None)
+    response = models.ForeignKey('Response')
+    respondant = models.ForeignKey('Respondant', null=True, blank=True)
+    related_question_slug = models.SlugField(max_length=64)
+
+    def __unicode__(self):
+        return "%s/%s/%s" % (self.response.respondant.survey.slug, self.response.question.slug, self.response.respondant.uuid)
+
+
 class MultiAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
     answer_text = models.TextField()
@@ -597,8 +607,8 @@ class Response(caching.base.CachingMixin, models.Model):
                     answer_label = answer.get('label', None)
                     multi_answer = MultiAnswer(response=self, answer_text=answer_text, answer_label=answer_label)
                     multi_answer.save()
-            
                 self.answer = "; ".join(answers)
+
             elif self.question.type in ['map-multipoint'] and self.id:
                 answers = []
                 self.location_set.all().delete()
@@ -611,6 +621,14 @@ class Response(caching.base.CachingMixin, models.Model):
                         answer.save()
                     location.save()
                 self.answer = ", ".join(answers)
+
+            elif self.question.type in ['map-multipolygon']:
+                answers = []
+                self.planningunitanswer_set.all().delete()
+                for pu_obj in simplejson.loads(self.answer_raw):
+                    pua = PlanningUnitAnswer(answer=simplejson.dumps(pu_obj), related_question_slug=pu_obj['qSlug'], response=self, respondant=self.respondant)
+                    pua.save()
+
             elif self.question.type == 'grid':
                 self.gridanswer_set.all().delete()
                 for answer in self.answer:
