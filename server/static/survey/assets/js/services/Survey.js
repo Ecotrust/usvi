@@ -60,17 +60,21 @@ angular.module('askApp')
     // };
 
     var getNextPageWithSkip = function(numPsToSkips) {
+        /*
+        Params
+        - numPsToSkips : [Integer] Indicates the number of pages to ignore after the current
+                          page before looking for the next page.
+        
+        Returns a page object or false. This function is cllaed by getNextPage which will
+        this function until a page it returned or it runs out of pages.
+        */
 
         var index = _.indexOf(survey.pages, page) + 1 + (numPsToSkips || 0);
         var nextPage = survey.pages[index];
         
         if (nextPage) {
+            // Check to see if this page should be skipped 
             if (skipPageIf(nextPage)) {
-                // debugger;
-                // _.each(nextPage.questions, function (question) {
-                //     //$scope.deleteAnswer(question, $routeParams.uuidSlug);
-                // });
-                
                 nextPage = false;
             }
         } 
@@ -117,6 +121,10 @@ angular.module('askApp')
     };
 
     var keepQuestion = function(op, answer, testCriteria) {
+        /*
+        Returns a [Boolean]. If the anser passes the test based on op against testCriteria it
+        returns false, meaning doe not keep it. 
+        */
         if (op === '<') {
             return !isNaN(answer) && answer >= testCriteria;
         } else if (op === '>') {
@@ -180,6 +188,19 @@ angular.module('askApp')
     };
 
     var skipPageIf = function(nextPage) {
+        /*
+        
+        Returns a boolean, the negative of keep. So if keep = true, this function returns false 
+        and the page will not be skipped.
+
+        */
+        if (nextPage.id === 190){
+            var answer = getAnswer('ecosystem-features');
+            if (answer.length === 1 && answer[0].label === 'contextual-data-only-no-ecological-monitoring'){
+                return true;
+            }
+
+        }
         var keep = true;
 
         //console.log(nextPage);
@@ -193,7 +214,7 @@ angular.module('askApp')
         } else {
             var blocks = []; //(return false)
         }
-
+    
         _.each(blocks, function(block) {
             if (block.skip_question === null) {
                 // Block has no skip questions.
@@ -206,7 +227,7 @@ angular.module('askApp')
                     condition = block.skip_condition,
                     op = condition[0],
                     testCriteria = condition.slice(1);
-                    
+
                 if (_.isObject(answer)) {
                     if (_.isNumber(answer.answer)) {
                         answer = answer.answer;
@@ -219,7 +240,7 @@ angular.module('askApp')
                     }
                 }
                 
-                keep = keep && keepQuestion(op, answer, testCriteria);                
+                keep = keep && keepQuestion(op, answer, testCriteria);
             }
 
         });

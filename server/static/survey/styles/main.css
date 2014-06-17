@@ -62,11 +62,12 @@
     background: #EEEEEE;
 }
 .sidebar_nav a:hover {
-    background: #AEDAE0;
+    background: #AEDAE0 !important;
 }
 .sidebar_nav a.active {
     background: #8BC9D2;
 }
+
 
 .filter-box {
   margin-bottom: 20px;
@@ -540,4 +541,18 @@ table {
 }
 .carousel-indicators li.active {
   background-color: rgb(241,92,73);
+}
+
+.answer-multi-select .groupname {
+    font-weight: bold;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+.answer-multi-select .entry {
+    padding-left: 15px;
+}
+
+.answer-panels .panel {
+  padding-left: 0;
+  padding-right: 0;
 }

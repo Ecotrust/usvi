@@ -34,7 +34,8 @@ class PageAdmin(admin.ModelAdmin):
 
 
 class BlockAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'skip_question')
+    list_display = ('__unicode__', 'skip_question', 'skip_condition')
+    list_filter = ['skip_question']
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "skip_question":
@@ -47,8 +48,10 @@ class SurveyAdmin(admin.ModelAdmin):
 
 class QuestionAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('label',),'info':('label',),}
-    list_display = ('survey_slug','slug','type', 'title', '__unicode__' )
-    
+    list_display = ('survey_slug','slug','type', 'title', '__unicode__', 'contained_in' )
+    search_fields = ['slug']
+
+
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "blocks":
             kwargs["queryset"] = Block.objects.all().order_by('name')

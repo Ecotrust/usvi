@@ -11,9 +11,7 @@ angular.module('askApp')
         }
 
         var queryTypes = { INCOMPLETES: 0, COMPLETES: 1};
-
         $scope.path = $location.path().slice(1,5);
-
 
         $scope.getIncompletes = function() {
             $scope.getList(queryTypes.INCOMPLETES, function (result) {
@@ -65,7 +63,6 @@ angular.module('askApp')
                     }
                 });
         };
-
 
         $scope.getIncompletes();
         $scope.getCompletes();        

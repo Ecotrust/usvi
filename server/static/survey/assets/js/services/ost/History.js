@@ -41,13 +41,16 @@ angular.module('askApp')
                              'ef-consumptive-point-vs-grid',
                              'ef-nonconsumptive-point-vs-grid',
                              'cd-collection-locations',
-                             'future-monitoring-yes-no'],
+                             'cde-where',
+                             'proj-data-availability', 
+                             'future-monitoring-yes-no',
+                             'proj-financial-support-timeline'],
                 
                 multiSelects = 
-                             ['proj-data-availability', 
-                              'proj-operational-capacity-if-funded', 
+                             ['proj-operational-capacity-if-funded', 
                               'ecosystem-features', 
-                              'future-monitoring-ecosystems'],
+                              'future-monitoring-ecosystems',
+                              'proj-operational-capacity-if-funded'],
                 
                 groupedMultiSelects = 
                              ['org-funding',
@@ -84,6 +87,7 @@ angular.module('askApp')
                              'ef-consumptive-collection-points',
                              'ef-nonconsumptive-collection-points'];
 
+
             // Grab answer based on the type of question.
             if (_.contains(singleSelects, questionSlug)) {
                 answer = question.answer.text;
@@ -112,12 +116,28 @@ angular.module('askApp')
             } else {
                 answer = question.answer;
             }
+
+            if (answer === '') answer = 'Not Available';
             
         } catch(e) {
             answer = '';
         }
+
+        // Sometimes its and array
+        
+        
+        // if (Array.isArray(answer)){
+        //     console.log(question.question + ": answer is an array");
+        //     var answers = _.map(answer, function(ans){
+        //         return ans.text;
+        //     });
+        //     answer = answers.join(", ");
+        //     console.log(answer)
+        // }
+
+
         if (answer === 'NA' || answer === 'NO_ANSWER') {
-            answer = '';
+            answer = 'Not Available';
         }
         
         return answer;

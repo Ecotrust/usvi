@@ -274,7 +274,6 @@ class DashRespondantResource(ReportRespondantResource):
         review_status = request.GET.get('review_status', None)
         entered_by = request.GET.get('entered_by', None)
         island = request.GET.get('island', None)
-
         sqs = SearchQuerySet().models(Respondant).load_all()
 
         if query != '':
@@ -355,6 +354,13 @@ class ReportRespondantDetailsResource(ReportRespondantResource):
     responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
     user = fields.ToOneField('apps.account.api.UserResource', 'user', null=True, blank=True, full=True, readonly=True)
     
+    project_name = fields.CharField(attribute='project_name', readonly=True)
+    organization_name = fields.CharField(attribute='organization_name', readonly=True)
+    ecosystem_features = fields.CharField(attribute='monitored_ecosystem_features', readonly=True)
+    duration = fields.CharField(attribute='duration', readonly=True)
+    frequency = fields.CharField(attribute='frequency', readonly=True)
+    
+
 class RespondantResource(SurveyModelResource):
     responses = fields.ToManyField(ResponseResource, 'responses', full=True, null=True, blank=True)
     survey = fields.ToOneField('apps.survey.api.SurveyResource', 'survey', null=True, blank=True, full=True, readonly=True)
