@@ -34,10 +34,12 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             });
             
             MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", function (layer) {
+                scope.puLayer = layer;
                 map.addLayer(layer)
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
+
             });
 
             scope.showBoundary = true;
@@ -47,11 +49,12 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 _.each(markers, delMarker)
                 _.each(newVal, addMarker);
             });
-            // scope.$watch('units', function(newVal, oldVal) {
-            //     deselectAll
-            //     _.each(markers, delMarker)
-            //     _.each(newVal, addMarker);
-            // });
+            scope.$watch('units', function(newVal, oldVal) {
+                debugger;
+                //deselectAll
+                _.each(markers, delMarker)
+                _.each(newVal, addMarker);
+            });
         }
 
         function delMarker (marker) {
@@ -176,9 +179,16 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 }
                 success_callback(responses);
             }).error(function (err) {
-                debugger;
+                debugger
             }); 
         }
+        function getLayerByID(layer, planningUnitId){
+            pu = _.find(layer._layers, function(sublayer){
+                var id = parseInt(sublayer.feature.properties.ID, 10);
+                return id === planningUnitId;
+            });
+            return pu;
+        };
 
         init();
 
@@ -236,7 +246,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         },
 
         addPlanningUnitGrid: function (geojsonPath, success_callback) {
-            // Add planning units grid with no borders
+            // Add planning units grid with no borders from /static/survey/data/CentralCalifornia_PlanningUnits.json
             $http.get(geojsonPath).success(function(data) {
                 var geojsonLayer = L.geoJson(data, { 
                     style: function(feature) {
@@ -248,7 +258,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                         };
                     },
                     onEachFeature: function(feature, layer) {
-                        // var id = layer.feature.properties.ID,
+                        var id = layer.feature.properties.ID
                         //     item = _.find(scope.question.answer, function(item) {
                         //         return item.id == id;
                         //     });
@@ -257,11 +267,10 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                         //         fillOpacity: .6
                         //     });
                         // }
-                        // layer.on("click", function (e) {
-                        //     scope.$apply(function () {
-                        //         layerClick(layer);                                    
-                        //     });
-                        // });
+                        layer.on("click", function (e) {
+                            console.log("Click layer "+id);
+                            console.log(e)
+                        });
                         // scope.allPloygons.push(layer);
                     }
                 });
@@ -299,6 +308,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             return marker;
         }
     };
+
+    
 
     return directive;
 });

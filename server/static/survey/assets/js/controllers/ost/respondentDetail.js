@@ -159,15 +159,6 @@ angular.module('askApp')
         return survey.ecosystemSlugToColor(slug);
     };
 
-    // function generalizeEcosystemSlug (slug) {
-    //     var pointsKey = 'points',
-    //         areasKey = 'areas',
-    //         s;
-    //     s = slug.indexOf(pointsKey) > -1 ? pointsKey : areasKey;
-    //     s = slug.slice(0, -s.length);
-
-    //     return s;
-    // }
     $scope.updateMap();
 /*************************** END MAP STUFF ********************************/
 

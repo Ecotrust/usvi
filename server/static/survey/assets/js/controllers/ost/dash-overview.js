@@ -46,7 +46,7 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         var pointsUrl = pointsApiUrl($routeParams.surveySlug, '*-collection-points', $scope.filtersJson),
             polysUrl = polysApiUrl($routeParams.surveySlug, '*-collection-areas', $scope.filtersJson);
         
-        getPoints(polysUrl, function (points) {
+        getPoints(pointsUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
             var uniq = [];
             _.each(points, function (point) {
@@ -70,6 +70,14 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         return url.join('/');
     }
 
+    function polysApiUrl (sSlug, qSlug, filtersJson) {
+        var url = ['/reports/planningunits', sSlug, qSlug];
+        if (filtersJson && !_.isEmpty(filtersJson)) {
+            url.push('?filters=' + JSON.stringify(filtersJson));
+        }
+        return url.join('/');
+    }
+    
     function getPoints (url, success_callback) {
         $http.get(url).success(function(data) {
             // Set points collection (bound to directive)
@@ -97,13 +105,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         });
     }
 
-    function polysApiUrl (sSlug, qSlug, filtersJson) {
-        var url = ['/reports/planningunits', sSlug, qSlug];
-        if (filtersJson && !_.isEmpty(filtersJson)) {
-            url.push('?filters=' + JSON.stringify(filtersJson));
-        }
-        return url.join('/');
-    }
 
     function getPolys (url, success_callback) {
         $http.get(url).success(function(data) {
@@ -113,57 +114,22 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
                 var feature = JSON.parse(item.answer);
                 polys.push(feature);
             });
-
+            debugger
             success_callback(polys);
         });
     }
 
     function ecosystemLabelToSlug (label) {
-        var dict = {};
-        dict['Rocky Intertidal Ecosystems'] = 'ef-rockyintertidal-collection-';
-        dict['Kelp and Shallow (0-30m) Rock Ecosystems'] = 'ef-kelp-and-shallow-rock-collection-';
-        dict['Mid depth (30-100m) Rock Ecosystems'] = 'ef-middepthrock-collection-';
-        dict['Estuarine and Wetland Ecosystems'] = 'ef-estuarine-collection-';
-        dict['Soft-bottom Intertidal and Beach Ecosystems'] = 'ef-softbottomintertidal-collection-';
-        dict['Soft bottom Subtidal (0-100m) Ecosystems'] = 'ef-softbottomsubtidal-collection-';
-        dict['Deep Ecosystems and Canyons (>100m)'] = 'ef-deep-collection-';
-        dict['Nearshore Pelagic Ecosystems'] = 'ef-nearshore-collection-';
-        dict['Consumptive Uses'] = 'ef-consumptive-collection-';
-        dict['Non-consumptive Uses'] = 'ef-nonconsumptive-collection-';
-
-        return dict[label];
+        return survey.ecosystemLabelToSlug(label);
     }
 
     $scope.ecosystemSlugToLabel = function (slug) {
-        var key = generalizeEcosystemSlug(slug),
-            dict = {};
-        dict['ef-rockyintertidal-collection-'] = 'Rocky Intertidal Ecosystems';
-        dict['ef-kelp-and-shallow-rock-collection-'] = 'Kelp and Shallow (0-30m) Rock Ecosystems';
-        dict['ef-middepthrock-collection-'] = 'Mid depth (30-100m) Rock Ecosystems';
-        dict['ef-estuarine-collection-'] = 'Estuarine and Wetland Ecosystems';
-        dict['ef-softbottomintertidal-collection-'] = 'Soft-bottom Intertidal and Beach Ecosystems';
-        dict['ef-softbottomsubtidal-collection-'] = 'Soft bottom Subtidal (0-100m) Ecosystems';
-        dict['ef-deep-collection-'] = 'Deep Ecosystems and Canyons (>100m)';
-        dict['ef-nearshore-collection-'] = 'Nearshore Pelagic Ecosystems';
-        dict['ef-consumptive-collection-'] = 'Consumptive Uses';
-        dict['ef-nonconsumptive-collection-'] = 'Non-consumptive Uses';
-
-        return dict[key];
+        return survey.ecosystemSlugToLabel(slug);
     }
 
     $scope.ecosystemSlugToColor = function (slug) {
         return survey.ecosystemSlugToColor(slug);
     };
-
-    function generalizeEcosystemSlug (slug) {
-        var pointsKey = 'points',
-            areasKey = 'areas',
-            s;
-        s = slug.indexOf(pointsKey) > -1 ? pointsKey : areasKey;
-        s = slug.slice(0, -s.length);
-
-        return s;
-    }
 
 
     //

@@ -38,7 +38,6 @@ def get_geojson(request, survey_slug, question_slug):
         survey = get_object_or_404(Survey, slug=survey_slug)
 
         # Check for respondent filter
-        
         uuid = request.GET.get('respondant', None)
         
         if uuid:
@@ -77,7 +76,6 @@ def get_geojson(request, survey_slug, question_slug):
                 #Filter Questions by question slug provided by the filter
                 slug = filter.keys()[0]
                 value = filter[slug]
-                filter_question = Question.objects.get(slug=slug, question_page__survey=survey)
                 if merged_filtered_set is not None:
                     merged_filtered_set = merged_filtered_set | locations.filter(geojson__contains=value)
                 else:
@@ -89,38 +87,60 @@ def get_geojson(request, survey_slug, question_slug):
 
 
 def get_planning_unit_answers(request, survey_slug, question_slug):
-    survey = get_object_or_404(Survey, slug=survey_slug)
-    if question_slug.find('*') == -1:
-        pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__survey=survey,
-                                                  response__question__slug=question_slug,
-                                                  respondant__complete=True)
-    else:
-        pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__survey=survey,
-                                                  response__question__slug__contains=question_slug.replace('*', ''),
-                                                  respondant__complete=True)
-    filter_list = []
-    filters = None
+    """
+    Example URL
+    /reports/planningunits/monitoring-project/*-collection-areas
 
-    if request.GET:    
+    Params
+     - filters : 
+     - respondant : The UUID of a respondant. Only answer from that respodant will be returned. 
+
+    """
+    survey = get_object_or_404(Survey, slug=survey_slug)
+    
+    if request.method == 'GET':
+        uuid = request.GET.get('respondant', None)
+        if uuid:
+            if question_slug.find('*') == -1:
+                pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__uuid=uuid,
+                                                          response__question__slug=question_slug,
+                                                          respondant__complete=True)
+            else:
+                pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__uuid=uuid,
+                                                          response__question__slug__contains=question_slug.replace('*', ''),
+                                                          respondant__complete=True)
+        else:
+            if question_slug.find('*') == -1:
+                pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__survey=survey,
+                                                          response__question__slug=question_slug,
+                                                          respondant__complete=True)
+            else:
+                pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__survey=survey,
+                                                          response__question__slug__contains=question_slug.replace('*', ''),
+                                                          respondant__complete=True)
+
+        filter_list = []
+        filters = None
+
         filters = request.GET.get('filters', None)
 
-    if filters is not None:
-        filter_list = simplejson.loads(filters)
+        if filters is not None:
+            filter_list = simplejson.loads(filters)
 
-    if filters is not None:
-        merged_filtered_set = None
-        for filter in filter_list:
-            slug = filter.keys()[0]
-            value = filter[slug]
-            filter_question = Question.objects.get(slug=slug, question_page__survey=survey)
+        if filters is not None:
+            merged_filtered_set = None
+            for filter in filter_list:
+                slug = filter.keys()[0]
+                value = filter[slug]
+                if merged_filtered_set is not None:
+                    merged_filtered_set = merged_filtered_set | pu_answers.filter(related_question_slug=value)
+                else:
+                    merged_filtered_set = pu_answers.filter(related_question_slug=value)
             if merged_filtered_set is not None:
-                merged_filtered_set = merged_filtered_set | pu_answers.filter(related_question_slug=value)
-            else:
-                merged_filtered_set = pu_answers.filter(related_question_slug=value)
-        if merged_filtered_set is not None:
-            pu_answers = merged_filtered_set
+                pu_answers = merged_filtered_set
 
-    return HttpResponse(simplejson.dumps({'success': "true", 'answers': list(pu_answers.values('answer'))}))
+        import pdb; pdb.set_trace()
+        return HttpResponse(simplejson.dumps({'success': "true", 'answers': list(pu_answers.values('answer'))}))
 
 # @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def get_distribution_json(request, survey_slug, question_slug):
