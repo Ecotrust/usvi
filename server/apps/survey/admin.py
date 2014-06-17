@@ -1,5 +1,6 @@
 from django.contrib import admin
-from survey.models import Survey, Question, Option, Response, Respondant, Page, Location, LocationAnswer, MultiAnswer, GridAnswer, Block
+from survey.models import (Survey, Question, Option, Response, Respondant, 
+    Page, Location, LocationAnswer, MultiAnswer, GridAnswer, Block, PlanningUnitAnswer)
 
 
 
@@ -66,7 +67,8 @@ class OptionAdmin(admin.ModelAdmin):
     prepopulated_fields = {'label':('text',),}
 
 
-
+class PlaningUnitAnswerAdmin(admin.ModelAdmin):
+    list_display = ['response','answer' ]
 
 admin.site.register(Respondant, RespondantAdmin)
 admin.site.register(Question, QuestionAdmin)
@@ -78,4 +80,6 @@ admin.site.register(Location)
 admin.site.register(LocationAnswer)
 admin.site.register(MultiAnswer)
 admin.site.register(GridAnswer)
+admin.site.register(PlanningUnitAnswer, PlaningUnitAnswerAdmin)
+
 admin.site.register(Block, BlockAdmin)
