@@ -114,7 +114,7 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
                 var feature = JSON.parse(item.answer);
                 polys.push(feature);
             });
-
+            debugger
             success_callback(polys);
         });
     }

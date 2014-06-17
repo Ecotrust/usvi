@@ -39,8 +39,6 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
-                debugger
-
 
             });
 
@@ -52,6 +50,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 _.each(newVal, addMarker);
             });
             scope.$watch('units', function(newVal, oldVal) {
+                debugger;
                 //deselectAll
                 _.each(markers, delMarker)
                 _.each(newVal, addMarker);
@@ -180,7 +179,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 }
                 success_callback(responses);
             }).error(function (err) {
-                debugger;
+                debugger
             }); 
         }
         function getLayerByID(layer, planningUnitId){
