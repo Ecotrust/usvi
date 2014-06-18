@@ -79,41 +79,52 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             scope.showPoints = true;
             scope.showUnits = false;
             scope.$watch('points', function(newVal, oldVal) {
-                _.each(markers, delMarker);
-                _.each(newVal, addMarker);
+                // Clear scope.markersLayer
+                if (scope.markersLayer){
+                    map.removeLayer(scope.makersLayer);
+                    scope.markersLayer.clearLayers();
+                }
+
+                if (newVal) {
+                    // Add new markers to markersLayer
+                    scope.markersLayer = addMarkers(newVal);
+
+                    // Add to map and map controls
+                    map.addLayer(scope.markersLayer);
+                    map.controls.addOverlay(scope.markersLayer, 'Points');
+                }
+                
             });
 
             scope.$watch('units', function(newVal, oldVal) {
-                console.log("[$watch units] planning units changed")
-                
-                // Clear scope.markersLayer
-                scope.makersLayer.removeLayer();
-                scope.markersLayer.clearLayers();
-
-                // Add new markers to markersLayer
-                scope.markersLayer = addMarkers(newVal);
-
-                // Add to map controls
-                map.controls.addOverlay(scope.markersLayer, 'Points')
-
-                //deselectAll
-                //_.each(markers, delMarker)
-                //_.each(newVal, addMarker);
-            
+                console.log("[$watch units] planning units changed");
             });
         }
 
         function addMarkers(data){
-            _.each(markers, delMarker);
+            // Returns a LayerGroup containing all the markers.
+            var out = L.layerGroup();
+            _.each(data, function(markerData){
+                markerData['draggable'] = false;
+                markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
+                var marker = MapUtils.createMarker(markerData);
+                if (marker) {
+                    //marker.addTo(map);
+                    //markers.push(marker);
+                    setPopup(marker, markerData);
+                }
+                out.addLayer(marker);
+            });
+            return out;
         }
 
-        function delMarker (marker) {
+        function OLDdelMarker (marker) {
             if (map.hasLayer(marker)) {
                 map.removeLayer(marker);
             }
         }
 
-        function addMarker (markerData) {
+        function OLDaddMarker (markerData) {
             markerData['draggable'] = false;
             markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
             var marker = MapUtils.createMarker(markerData);
@@ -269,7 +280,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
             // Setup layer picker
             baseMaps = { "Satellite": bingLayer, "Nautical Charts": nauticalLayer };
-            options = { position: 'bottomleft' };
+            options = { position: 'topright' };
             var controls = L.control.layers(baseMaps, null, options).addTo(map);
             map.controls = controls;
 
