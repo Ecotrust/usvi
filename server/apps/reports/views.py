@@ -139,7 +139,6 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
             if merged_filtered_set is not None:
                 pu_answers = merged_filtered_set
 
-        import pdb; pdb.set_trace()
         return HttpResponse(simplejson.dumps({'success': "true", 'answers': list(pu_answers.values('answer'))}))
 
 # @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)

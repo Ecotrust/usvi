@@ -39,22 +39,69 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
+                console.log("[addPlanningUnitGrid] Added planning units grid to map");
+                console.log(scope.puLayer);
+
+                _.each(scope.units, function(unit){
+                    var id = parseInt(unit.id, 10);
+                    scope.setCellActive(id);
+                });
 
             });
+
+
+            scope.getLayerByID = function(layer, planningUnitId){
+                pu = _.find(layer._layers, function(sublayer){
+                    var id = parseInt(sublayer.feature.properties.ID, 10);
+                    return id === planningUnitId;
+                });
+                return pu;
+            };
+
+            scope.setCellActive = function(planningUnitId){
+                pu = scope.getLayerByID(scope.puLayer, planningUnitId);
+                pu.setStyle(
+                    {"color": "#0F0",
+                     "fillColor": "#0F0",
+                     "fillOpacity": 0.5}
+                );
+            };
 
             scope.showBoundary = true;
             scope.showPoints = true;
             scope.showUnits = false;
             scope.$watch('points', function(newVal, oldVal) {
-                _.each(markers, delMarker)
+                _.each(markers, delMarker);
                 _.each(newVal, addMarker);
             });
+
             scope.$watch('units', function(newVal, oldVal) {
-                debugger;
+                console.log("[$watch units] planning units changed")
                 //deselectAll
                 _.each(markers, delMarker)
                 _.each(newVal, addMarker);
             });
+
+
+            scope.$watch('showPoints', function(newVal){
+                console.log("showPoints "+newVal);
+                if (newVal){
+                    _.each(scope.markers, function(marker){
+                        console.log("Please hide me, they're coming...")
+                    });
+                    
+                }
+            });
+
+            scope.$watch('showUnits', function(newVal){
+                console.log("showUnits "+newVal);
+                if (newVal){
+                    map.removeLayer(scope.puLayer);
+                } else {
+                    map.addLayer(scope.puLayer);
+                }
+            });
+
         }
 
         function delMarker (marker) {
@@ -67,9 +114,11 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             markerData['draggable'] = false;
             markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
             var marker = MapUtils.createMarker(markerData);
-            marker.addTo(map);
-            markers.push(marker);
-            setPopup(marker, markerData);
+            if (marker) {
+                marker.addTo(map);
+                markers.push(marker);
+                setPopup(marker, markerData);
+            }
         }
 
         function setPopup(marker, markerData) {
@@ -182,13 +231,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 debugger
             }); 
         }
-        function getLayerByID(layer, planningUnitId){
-            pu = _.find(layer._layers, function(sublayer){
-                var id = parseInt(sublayer.feature.properties.ID, 10);
-                return id === planningUnitId;
-            });
-            return pu;
-        };
+        
 
         init();
 
@@ -279,7 +322,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         },
         
         createMarker: function (config) {
-            var marker;
+            var marker = null;
             if (config.lat && config.lat) {
                 
                 marker = new L.circleMarker([config.lat, config.lng], {

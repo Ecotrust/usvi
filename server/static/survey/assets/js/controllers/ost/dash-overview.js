@@ -58,7 +58,10 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         });
     
         getPolys(polysUrl, function (polys) {
+            
             $scope.mapSettings.mapPlanningUnits = polys;
+            console.log("settings ative planning units");
+            console.log(polys);
         });
     }
 
@@ -114,7 +117,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
                 var feature = JSON.parse(item.answer);
                 polys.push(feature);
             });
-            debugger
             success_callback(polys);
         });
     }
