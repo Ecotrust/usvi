@@ -20,7 +20,10 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
     directive.link = function (scope, element) {
         var map,
-            markers = [];
+            markers = [],
+            controls;
+
+        scope.makersLayer = L.layerGroup();
 
         function init () {
             map = MapUtils.initMap(element[0].children[0].children[0],
@@ -31,6 +34,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
+                // Adding controls to L.controls
+                map.controls.addOverlay(layer, 'Boundary');
             });
             
             MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", function (layer) {
@@ -46,6 +51,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     var id = parseInt(unit.id, 10);
                     scope.setCellActive(id);
                 });
+
+                // Adding controls to L.controls
+                map.controls.addOverlay(scope.puLayer, 'Planning Units');
 
             });
 
@@ -77,31 +85,26 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
             scope.$watch('units', function(newVal, oldVal) {
                 console.log("[$watch units] planning units changed")
+                
+                // Clear scope.markersLayer
+                scope.makersLayer.removeLayer();
+                scope.markersLayer.clearLayers();
+
+                // Add new markers to markersLayer
+                scope.markersLayer = addMarkers(newVal);
+
+                // Add to map controls
+                map.controls.addOverlay(scope.markersLayer, 'Points')
+
                 //deselectAll
-                _.each(markers, delMarker)
-                _.each(newVal, addMarker);
+                //_.each(markers, delMarker)
+                //_.each(newVal, addMarker);
+            
             });
+        }
 
-
-            scope.$watch('showPoints', function(newVal){
-                console.log("showPoints "+newVal);
-                if (newVal){
-                    _.each(scope.markers, function(marker){
-                        console.log("Please hide me, they're coming...")
-                    });
-                    
-                }
-            });
-
-            scope.$watch('showUnits', function(newVal){
-                console.log("showUnits "+newVal);
-                if (newVal){
-                    map.removeLayer(scope.puLayer);
-                } else {
-                    map.addLayer(scope.puLayer);
-                }
-            });
-
+        function addMarkers(data){
+            _.each(markers, delMarker);
         }
 
         function delMarker (marker) {
@@ -119,6 +122,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 markers.push(marker);
                 setPopup(marker, markerData);
             }
+
         }
 
         function setPopup(marker, markerData) {
@@ -266,7 +270,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             // Setup layer picker
             baseMaps = { "Satellite": bingLayer, "Nautical Charts": nauticalLayer };
             options = { position: 'bottomleft' };
-            L.control.layers(baseMaps, null, options).addTo(map);
+            var controls = L.control.layers(baseMaps, null, options).addTo(map);
+            map.controls = controls;
 
             return map;
         },
