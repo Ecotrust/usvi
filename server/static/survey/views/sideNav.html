@@ -47,9 +47,11 @@
              selected-values="filters.ecosystemFeatures"
              ></div>
         <button type="button" class="btn btn-default" ng-click="updateMap()"><span class="glyphicon glyphicon-filter"></span>Filter</button>
-        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
-    </div>
+        <button type="button" class="btn btn-default" ng-click="updateMap('clear')"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
 
+    </div>
+    filters.ecosystemFeatures: {{filters.ecosystemFeatures}}
+    filtersJson: {{filtersJson}}
     <div respondentsearch></div>
 
     <div class="sidebar_nav">
