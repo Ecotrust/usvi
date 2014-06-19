@@ -70,9 +70,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             scope.setCellActive = function(planningUnitId){
                 pu = scope.getLayerByID(scope.puLayer, planningUnitId);
                 pu.setStyle(
-                    {"color": "#0F0",
-                     "fillColor": "#0F0",
-                     "fillOpacity": 0.5}
+                    {"color": '#E6D845',
+                     "fillColor": '#E6D845',
+                     "fillOpacity": 0.7}
                 );
             };
 
@@ -87,15 +87,23 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 }
 
                 if (newVal) {
+
+                    if (_.find(map.controls._layers, function(l){return l.name === 'Points'}) ){
+                        map.controls.removeLayer(scope.markersLayer);
+                    }
+                    
+
                     // Add new markers to markersLayer
                     scope.markersLayer = addMarkers(newVal);
 
                     // Add to map and map controls
                     map.addLayer(scope.markersLayer);
                     scope.markersLayer.bringToFront();
-                    if (!_.find(map.controls._layers, function(l){return l.name === 'Points'}) ){
-                        map.controls.addOverlay(scope.markersLayer, 'Points');
-                    }
+                    map.controls.addOverlay(scope.markersLayer, 'Points');
+
+                    // if (!_.find(map.controls._layers, function(l){return l.name === 'Points'}) ){
+                    //     map.controls.addOverlay(scope.markersLayer, 'Points');
+                    // }
                     
                 }
             });
