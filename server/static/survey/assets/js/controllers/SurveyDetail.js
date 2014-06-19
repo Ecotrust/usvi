@@ -209,7 +209,6 @@ angular.module('askApp')
     };
 
     $scope.submitPage = function (page) {
-
         if (! $scope.pageIsValid) {
             $scope.showErrorAlert();
             return false;
@@ -229,17 +228,20 @@ angular.module('askApp')
             });
             $scope.gotoNextPage();
         } else {
+            var url = ['/respond/submitPage', $scope.survey.slug, $routeParams.uuidSlug].join('/');
+            var data = {
+                        'answers': _.map(answers, function (answer) {
+                            return {
+                                slug: answer.question.slug,
+                                answer: answer.answer
+                            }
+                        })
+                    };
+
             $http({
-                url: ['/respond/submitPage', $scope.survey.slug, $routeParams.uuidSlug].join('/'),
+                url: url,
                 method: 'POST',
-                data: {
-                    'answers': _.map(answers, function (answer) {
-                        return {
-                            slug: answer.question.slug,
-                            answer: answer.answer
-                        }
-                    })
-                },
+                data: data,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -262,6 +264,8 @@ angular.module('askApp')
                     });                    
                 });
                 $scope.gotoNextPage();
+            }).error(function(data, status){
+                console.log(status)
             });
         }
         

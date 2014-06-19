@@ -115,7 +115,9 @@ def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid
         
         if respondant.complete is True and not request.user.is_staff:
             return HttpResponse(simplejson.dumps({'success': False, 'complete': True}))
-        answers = simplejson.loads(request.POST.keys()[0]).get('answers', None)
+        
+        keys = request.POST.keys()
+        answers = simplejson.loads(keys[0]).get('answers', None)
 
         for answerDict in answers:
             answer = answerDict['answer']

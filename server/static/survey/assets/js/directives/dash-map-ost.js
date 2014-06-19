@@ -62,13 +62,15 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 return pu;
             };
 
-            scope.setCellActive = function(planningUnitId){
-                pu = scope.getLayerByID(scope.puLayer, planningUnitId);
+            scope.setCellActive = function(unit){
+                var id = parseInt(unit.id, 10);
+                pu = scope.getLayerByID(scope.puLayer, id);
                 pu.setStyle(
                     {"color": '#00FF00',
                      "fillColor": '#00FF00',
                      "fillOpacity": 0.7}
                 );
+                setPuPopup(pu, unit.popup);
             };
 
             scope.showBoundary = true;
@@ -86,7 +88,6 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     if (_.find(map.controls._layers, function(l){return l.name === 'Points'}) ){
                         map.controls.removeLayer(scope.markersLayer);
                     }
-                    
 
                     // Add new markers to markersLayer
                     scope.markersLayer = addMarkers(newVal);
@@ -95,10 +96,6 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     map.addLayer(scope.markersLayer);
                     scope.markersLayer.bringToFront();
                     map.controls.addOverlay(scope.markersLayer, 'Points');
-
-                    // if (!_.find(map.controls._layers, function(l){return l.name === 'Points'}) ){
-                    //     map.controls.addOverlay(scope.markersLayer, 'Points');
-                    // }
                     
                 }
             });
@@ -137,19 +134,28 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             // Turns off all cells
             _.each(scope.puLayer._layers, function(sublayer){
                 sublayer.setStyle({
-                    fillOpacity: 0
+                    fillOpacity: 0,
+                    color: '#E6D845'
                 });
             });
 
-            console.log("scope.units")
-            console.log(scope.units);
             // Add opacity to active cells.
             _.each(scope.units, function(unit){
-                var id = parseInt(unit.id, 10);
-                scope.setCellActive(id);
+                scope.setCellActive(unit);
             });
         };
 
+
+        function setPuPopup (layer, popup){
+            // Sets a pop for this planning unit.
+            console.log(popup)
+            layer.bindPopup(popup, { closeButton: true });
+            layer.on('click', function(e) {
+                if (map._popup) {
+                    $compile(angular.element(map._popup._contentNode))(scope);
+                }
+            });
+        }
 
 
         function setPopup(marker, markerData) {

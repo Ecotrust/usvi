@@ -529,6 +529,12 @@ class PlanningUnitAnswer(caching.base.CachingMixin, models.Model):
     def __unicode__(self):
         return "%s/%s/%s" % (self.response.respondant.survey.slug, self.response.question.slug, self.response.respondant.uuid)
 
+    @property
+    def ecosystem_feature_vebose(self):
+        # This is used on the planning unit popup
+        return self.response.question.label.split(" - ")[0].strip()
+
+
 
 class MultiAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')

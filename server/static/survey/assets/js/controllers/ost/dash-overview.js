@@ -134,10 +134,11 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
 
     function getPolys (url, success_callback) {
         $http.get(url).success(function(data) {
-            // Set points collection (bound to directive)
+            
             var polys = [];
             _.each(data.answers, function (item) {
                 var feature = JSON.parse(item.answer);
+                feature.popup = item.popup;
                 polys.push(feature);
             });
             success_callback(polys);
