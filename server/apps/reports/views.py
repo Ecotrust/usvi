@@ -61,7 +61,6 @@ def get_geojson(request, survey_slug, question_slug):
                                                           location__response__question__slug__contains=question_slug.replace('*', ''),
                                                           location__respondant__complete=True)
 
-
         filter_list = []
         filters = None
 
@@ -76,10 +75,12 @@ def get_geojson(request, survey_slug, question_slug):
                 #Filter Questions by question slug provided by the filter
                 slug = filter.keys()[0]
                 value = filter[slug]
+                related_questions = locations.filter(geojson__contains=value)
+
                 if merged_filtered_set is not None:
-                    merged_filtered_set = merged_filtered_set | locations.filter(geojson__contains=value)
+                    merged_filtered_set = merged_filtered_set | related_questions
                 else:
-                    merged_filtered_set = locations.filter(geojson__contains=value)
+                    merged_filtered_set = related_questions
             if merged_filtered_set is not None:
                 locations = merged_filtered_set
 
@@ -127,15 +128,18 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
         if filters is not None:
             filter_list = simplejson.loads(filters)
 
+
         if filters is not None:
             merged_filtered_set = None
             for filter in filter_list:
                 slug = filter.keys()[0]
-                value = filter[slug]
+                value = filter[slug]+"areas"
+                related_questions = pu_answers.filter(related_question_slug=value)
                 if merged_filtered_set is not None:
-                    merged_filtered_set = merged_filtered_set | pu_answers.filter(related_question_slug=value)
+                    merged_filtered_set = merged_filtered_set | related_questions
                 else:
-                    merged_filtered_set = pu_answers.filter(related_question_slug=value)
+                    merged_filtered_set = related_questions
+            
             if merged_filtered_set is not None:
                 pu_answers = merged_filtered_set
 

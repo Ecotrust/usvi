@@ -324,7 +324,7 @@ angular.module('askApp')
         dict['Nearshore Pelagic Ecosystems'] = 'ef-nearshore-collection-';
         dict['Consumptive Uses'] = 'ef-consumptive-collection-';
         dict['Non-consumptive Uses'] = 'ef-nonconsumptive-collection-';
-        dict['Contextual Data Only (No Ecological Monitoring)'] = 'wtf';
+       
 
 
         return dict[label];

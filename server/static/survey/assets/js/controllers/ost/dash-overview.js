@@ -42,6 +42,17 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     // Map
     // 
     $scope.updateMap = function (action) {
+        /*
+        Params:
+        - action - The only action this supports is 'clear'. This clears the map and the filters.
+
+        - builds the filtersJson based on the $scope.filters.ecosystemFeatures
+        - Builds URL's for points and polys (note: polys does not contain the geometry, only the ID of a grid cell).
+        - Calls getPoints and getPolys and defines their callbacks.
+        - Puts points on $scope.mapSettings.mapPoints
+        - Puts polys $scope.mapSettings.mapPlanningUnits
+
+        */
         if (action === 'clear') {
             $(".sidebar_nav .multi-select2").select2('data', null);
             $scope.filters.ecosystemFeatures = [];

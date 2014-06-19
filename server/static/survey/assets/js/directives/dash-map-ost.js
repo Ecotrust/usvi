@@ -46,13 +46,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
-                scope.puLayer.bringToBack();
-
-                _.each(scope.units, function(unit){
-                    var id = parseInt(unit.id, 10);
-                    scope.setCellActive(id);
-                });
-
+                scope.updatePuLayer();
+                
                 // Adding controls to L.controls
                 map.controls.addOverlay(scope.puLayer, 'Planning Units');
 
@@ -70,8 +65,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             scope.setCellActive = function(planningUnitId){
                 pu = scope.getLayerByID(scope.puLayer, planningUnitId);
                 pu.setStyle(
-                    {"color": '#E6D845',
-                     "fillColor": '#E6D845',
+                    {"color": '#00FF00',
+                     "fillColor": '#00FF00',
                      "fillOpacity": 0.7}
                 );
             };
@@ -110,6 +105,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
             scope.$watch('units', function(newVal, oldVal) {
                 console.log("[$watch units] planning units changed");
+                if (newVal){
+                    scope.updatePuLayer();
+                }
             });
         }
 
@@ -126,7 +124,33 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 out.addLayer(marker);
             });
             return out;
-        }
+        };
+
+        scope.updatePuLayer = function(){
+            try {
+                scope.puLayer.bringToBack();
+            } catch(e) {
+                console.log(e);
+                return;
+            }
+
+            // Turns off all cells
+            _.each(scope.puLayer._layers, function(sublayer){
+                sublayer.setStyle({
+                    fillOpacity: 0
+                });
+            });
+
+            console.log("scope.units")
+            console.log(scope.units);
+            // Add opacity to active cells.
+            _.each(scope.units, function(unit){
+                var id = parseInt(unit.id, 10);
+                scope.setCellActive(id);
+            });
+        };
+
+
 
         function setPopup(marker, markerData) {
             var loading = '<p ng-show="responses == false" class="load-indicator">Loading...</p>', 
