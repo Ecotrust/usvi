@@ -1,5 +1,6 @@
 <div class="marker-popup-content">
     <dl>
+        {% for project in projs %}
         <dt>Project</dt>
         <dd><a href="#/RespondantDetail/monitoring-project/{{obj.respondant.uuid}}">{{obj.respondant.project_name}}</a></dd>
 

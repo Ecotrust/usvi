@@ -531,11 +531,13 @@ class PlanningUnitAnswer(caching.base.CachingMixin, models.Model):
         return "%s/%s/%s" % (self.response.respondant.survey.slug, self.response.question.slug, self.response.respondant.uuid)
 
     @property
-    def ecosystem_feature_vebose(self):
+    def ecosystem_feature_verbose(self):
         # This is used on the planning unit popup
         return self.response.question.label.split(" - ")[0].strip()
 
-
+    @property
+    def project(self):
+        return self.respondant.project_name
 
 class MultiAnswer(caching.base.CachingMixin, models.Model):
     response = models.ForeignKey('Response')
@@ -661,7 +663,11 @@ class Response(caching.base.CachingMixin, models.Model):
                 answers = []
                 self.planningunitanswer_set.all().delete()
                 for pu_obj in simplejson.loads(self.answer_raw):
-                    pua = PlanningUnitAnswer(answer=simplejson.dumps(pu_obj), related_question_slug=pu_obj['qSlug'], response=self, respondant=self.respondant)
+                    pua = PlanningUnitAnswer(unit=pu_obj['id'],
+                                             answer=simplejson.dumps(pu_obj), 
+                                             related_question_slug=pu_obj['qSlug'], 
+                                             response=self, 
+                                             respondant=self.respondant)
                     pua.save()
 
             elif self.question.type == 'grid':

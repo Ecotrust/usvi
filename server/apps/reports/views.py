@@ -103,33 +103,68 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
         Returns a dict whose keywords are planning unit ids and values are
         a list containing dicts. 
 
-        {123:[
-            'project_name':'My Project'
-            'ecosystem_features':[]
-        ]}
+        { UNIT_ID : projects : {
+                uuid:{
+                    'project_name':'My Project'
+                    'ecosystem_features':[],
+                    'project_uuid'
+                },
+                uuid:{
+                    'project_name':'My Project'
+                    'ecosystem_features':[],
+                    'project_uuid'
+                }
+            }
+        }
 
         """
         out = {}
-        for obj in pu_answers:
-            ans = json.loads(obj.answer)
-            unit_id = int(ans['id'])
+        pu_answers = list(pu_answers.order_by('unit'))
+        count = len(pu_answers)
+
+        group=[]
+        for i, obj in enumerate(pu_answers):
+            if len(group) == 0:
+                group.append(obj)
+                unit_id = obj.id
+
             
-            proj = {'project_name':obj.respondant.project_name,
-                    'project_uuid':obj.respondant.uuid,
-                    'ecosystem_features':obj.ecosystem_feature_vebose,
 
+            if count > 1 and i + 1 < count:
+                next_obj = pu_answers[i+1]
+                if next_obj.unit == obj.unit:
+                    # If the next_obj has the same unit add them to the group list
+                    group.append(next_obj)
+                    continue
+            
+            # process group
+            group_len = len(group)
+            projects = {}
+            print "Processing group for %s" %(unit_id)
+            for pua in group:
+                uuid = pua.respondant.uuid
+                
+                if uuid in projects.keys():
+                    projects[uuid]['ecosystem_features'].append(pua.ecosystem_feature_verbose)
+
+                else:
+                    proj = {'project_name':pua.respondant.project_name,
+                            'project_uuid':uuid,
+                            'ecosystem_features':[pua.ecosystem_feature_verbose],
                     }
-            if unit_id in out.keys():
-                out[unit_id].append(proj)
-            else:
-                out.update({unit_id:[proj]})
+                    projects.update({uuid:proj})
+            group = []
 
+
+            # Append to groups out dict
+            out.update({unit_id:projects})
         return out
 
 
     survey = get_object_or_404(Survey, slug=survey_slug)
     
     if request.method == 'GET':
+        
         uuid = request.GET.get('respondant', None)
         if uuid:
             if question_slug.find('*') == -1:
@@ -149,7 +184,6 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
                 pu_answers = PlanningUnitAnswer.objects.filter(response__respondant__survey=survey,
                                                           response__question__slug__contains=question_slug.replace('*', ''),
                                                           respondant__complete=True)
-
         filter_list = []
         filters = None
 
@@ -173,22 +207,8 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
                 pu_answers = merged_filtered_set
 
         answers = flatten_answers(pu_answers)
-        
-        new_answers = []
-        # Add the popup html
-        for obj in answers:
-            projects = answers[obj]
-            popup = render_to_response("reports/planning_unit_popup.html", {"projects":projects}).content
-            
-            # answer_list = [{'answer':obj.answer,
-            #                 'popup':popup,
-            #          }]
-            answer = {'popup':popup}
-
-            new_answers.append(answer)
-
         out = {'success': "true", 
-               'answers': new_answers
+               'answers': answers
                }
 
         return HttpResponse(simplejson.dumps(out))

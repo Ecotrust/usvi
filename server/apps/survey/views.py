@@ -106,8 +106,6 @@ def set_profile_responses(request, survey_slug, uuid):
     return HttpResponse(simplejson.dumps({'success': False}))
 
 
-
-
 def submit_page(request, survey_slug, uuid): #, survey_slug, question_slug, uuid):
     if request.method == 'POST':
         survey = get_object_or_404(Survey, slug=survey_slug)
@@ -185,6 +183,7 @@ def complete(request, survey_slug, uuid, action=None, question_slug=None):
         return HttpResponse(simplejson.dumps({'success': True}))
     return HttpResponse(simplejson.dumps({'success': False}))
 
+
 def send_email(email, uuid):
     from django.contrib.sites.models import Site
 
@@ -205,6 +204,7 @@ def send_email(email, uuid):
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
 
 @csrf_exempt
 def register(request, template='survey/register.html'):

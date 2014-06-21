@@ -154,7 +154,7 @@ angular.module('askApp')
                     console.log("in watch");
                     console.log(newVal);
 
-                    if (newVal.id) {
+                    if (newVal && newVal.id) {
                         console.log('Surveys loaded');
                         scope.survey.loading = false;
                         console.log(scope.survey.loading);
