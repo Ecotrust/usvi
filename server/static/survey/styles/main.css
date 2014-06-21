@@ -38,8 +38,10 @@
     font-size: 4em;
     margin-top: 10px;
 }
+
 .stats .row .box{
   padding-bottom: 10px;
+
 }
 #side_completed {
     background: #FD7C6F;
@@ -48,6 +50,22 @@
     background: #F6C432;
 }
 
+
+.loader {
+  top:0;
+  left:0;
+  position:absolute;
+  height:100%;
+  width:100%;
+  background-color: rgba(200,200,200,0.5);
+  z-index:1000;
+}
+
+.loader i {
+  position:absolute;
+  top:50%;
+  left:45%;
+}
 
 .sidebar_nav {
     margin-top: 10px;

@@ -1,6 +1,7 @@
 
 angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils, survey) {
 
+    $scope.loadingSurveys = true;
     function initPage () {
         $scope.activePage = 'overview';
         $scope.user = app.user || {};
@@ -36,6 +37,13 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     surveyFactory.getSurvey(function (data) {
         data.questions.reverse();
         $scope.survey = data;
+    });
+
+    $scope.$watch('survey', function(newVal){
+        if (newVal) {
+            console.log("Surveys loaded");
+            $scope.loadingSurveys = false;
+        }
     });
 
     //

@@ -85,9 +85,32 @@ This will take whatever is in you local directory, i.e. it does not pull from gi
 fab staging:wilblack@tools-dev.oceanspaces.org deploy
 ```
 
-# 
 
-#Heroku
+#Phonegap 3.0
+Make sure that you have a recent version of node and install the phonegap node module.
+```bash
+brew upgrade node
+sudo npm install -g phonegap
+phonegap create mobile -n DigitalDeck -i com.pointnineseven.digitaldeck
+cd mobile && phonegap local plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git
+```
+
+To run the ios simulator
+```bash
+fab vagrant emulate_ios
+```
+
+To build and stage the android app
+```bash
+fab vagrant package_android_test
+```
+
+
+
+
+----
+
+#Heroku (old confuguration)
 ##requirements
 1. Install the heroku toolbelt.
 2. Install git > 1.8
@@ -162,23 +185,4 @@ Transfer the dump file to a web accessible space.  To find the database url, use
 ```bash
 heroku pg:info
 heroku pgbackups:restore HEROKU_POSTGRESQL_WHITE_URL 'http://www.example.org/latest.dump'
-```
-
-#Phonegap 3.0
-Make sure that you have a recent version of node and install the phonegap node module.
-```bash
-brew upgrade node
-sudo npm install -g phonegap
-phonegap create mobile -n DigitalDeck -i com.pointnineseven.digitaldeck
-cd mobile && phonegap local plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git
-```
-
-To run the ios simulator
-```bash
-fab vagrant emulate_ios
-```
-
-To build and stage the android app
-```bash
-fab vagrant package_android_test
 ```

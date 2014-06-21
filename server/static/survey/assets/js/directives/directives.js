@@ -130,6 +130,36 @@ angular.module('askApp')
 });
 
 
+angular.module('askApp')
+    .directive('loadingSurvey', function() {
+        'use strict';
+
+        return {
+            scope: {
+                survey:'='
+            },
+            link : function(scope, element) {
+
+                element.append("<div class='loader'><i class='icon-spinner icon-spin icon-3x'></i></div>");
+                element.css("position","relative");
+                
+                scope.$watch('survey', function(newVal){
+                    console.log("in watch");
+                    console.log(newVal);
+
+                    if (newVal.id) {
+                        console.log('Surveys loaded');
+                        scope.survey.loading = false;
+                        console.log(scope.survey.loading);
+                        element.find(".loader").hide();
+                    }
+                });
+            }
+        };
+    });
+
+
+
 
 angular.module('askApp')
     .directive('respondentstable', ['$http', '$location', 'surveyFactory', function(http, location, surveyFactory) {

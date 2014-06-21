@@ -1,5 +1,5 @@
-<div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants">
-    <div class="stats">
+<div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants" >
+    <div class="stats" loading-survey survey="survey">
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
                 <h1>{{survey.num_registered || 0}}</h1>
@@ -17,8 +17,11 @@
             </div>
         </div>
     </div>
-    <div class="sidebar_nav">
+
+
+    <div class="sidebar_nav" loading-survey survey="survey" >
         <ul class="nav">
+            
             <li>
                 <a ng-class="{'active': activePage == 'welcome'}" href="#/welcome/{{survey.slug}}">welcome</a>
             </li>
@@ -36,6 +39,7 @@
                 <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
             </li>
         </ul>
+        
     </div>
 
     <div class="sidebar_nav" ng-show="activePage == 'overview'" >

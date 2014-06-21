@@ -398,7 +398,7 @@ def migrate_db(app_name):
 
 @task
 def backup_db():
-    date = datetime.datetime.now().strftime("%Y-%m-%d%H%M")
+    date = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
     dump_name = "%s-geosurvey.dump" % date
     run("pg_dump geosurvey -n public -c -f /tmp/%s -Fc -O -no-acl -U postgres" % dump_name)
     get("/tmp/%s" % dump_name, "backups/%s" % dump_name)
