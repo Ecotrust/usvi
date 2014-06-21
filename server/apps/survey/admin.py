@@ -68,8 +68,8 @@ class OptionAdmin(admin.ModelAdmin):
 
 
 class PlanningUnitAnswerAdmin(admin.ModelAdmin):
-    list_display = ['response','answer', 'related_question_slug' ]
-
+    list_display = ['unit','response','answer', 'related_question_slug' ]
+    list_filter = ['unit', 'related_question_slug']
 
 class LocationAnswerAdmin(admin.ModelAdmin):
     list_display = ['answer', 'geojson' ]

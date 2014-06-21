@@ -521,6 +521,7 @@ class Location(caching.base.CachingMixin, models.Model):
 
 
 class PlanningUnitAnswer(caching.base.CachingMixin, models.Model):
+    unit = models.IntegerField(null=True, blank=True)
     answer = models.TextField(null=True, blank=True, default=None)
     response = models.ForeignKey('Response')
     respondant = models.ForeignKey('Respondant', null=True, blank=True)

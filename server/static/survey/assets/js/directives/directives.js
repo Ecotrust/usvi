@@ -131,6 +131,13 @@ angular.module('askApp')
 
 
 angular.module('askApp')
+    /*
+    This watches the survey object and when a survey is loaded it turns off the spinners.
+
+    It will create a elements that sits on top of the directives element and spinns until
+    the survey is loaded and a survey.id is present.
+    */
+
     .directive('loadingSurvey', function() {
         'use strict';
 
