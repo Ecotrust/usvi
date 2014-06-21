@@ -5,7 +5,7 @@ angular.module('askApp')
     // Service logic
     // ...
 
-    var survey, 
+    var survey,
         page,
         answers;
 
@@ -313,7 +313,6 @@ angular.module('askApp')
     };
 
     var ecosystemLabelToSlug = function(label) {
-        debugger
         var dict = {};
         dict['Rocky Intertidal Ecosystems'] = 'ef-rockyintertidal-collection-';
         dict['Kelp and Shallow (0-30m) Rock Ecosystems'] = 'ef-kelp-and-shallow-rock-collection-';
@@ -325,6 +324,8 @@ angular.module('askApp')
         dict['Nearshore Pelagic Ecosystems'] = 'ef-nearshore-collection-';
         dict['Consumptive Uses'] = 'ef-consumptive-collection-';
         dict['Non-consumptive Uses'] = 'ef-nonconsumptive-collection-';
+       
+
 
         return dict[label];
     }

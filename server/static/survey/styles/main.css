@@ -78,6 +78,13 @@
 .report-controls {
   margin-bottom: 10px;
 }
+#report-table td ul {
+  padding-left: 0;
+  font-size: 0.9em;
+}
+
+.leaflet
+
 .search-results {
   height: 200px; overflow-y: auto;
   margin: 10px 0;

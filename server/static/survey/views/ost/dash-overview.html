@@ -52,53 +52,6 @@
                 <div respondentstable respondents='respondents' resource='resource' meta='meta'></div>
             </div>
 
-
-
-<!--             <div class="row">
-                    
-                <h3>OLD Projects</h3>
-                <table id="report-table" class="table">
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Organization</th>
-                            <th>Ecosystem features monitored</th>
-                            <th>Duration</th>
-                            <th>Frequency</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="respondent in respondents">
-                        <td>{{ respondent.project_name }}</td>
-                        <td>{{ respondent.organization_name }}</td>
-                        <td>
-                            <ul>
-                                <li ng-repeat="ef in respondent.ecosystem_features.split(';')">{{ef}}</li>
-                            </ul>
-                        </td>
-                        <td>{{ respondent.duration }}</td>
-                        <td>{{ respondent.frequency }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="pull-left">
-                    Showing {{ meta.offset + 1 }}-{{ meta.offset + meta.limit }} of {{ meta.total_count }}
-                </div>
-                <div class="pull-right">
-                    <div pagination 
-                        total-items="meta.total_count" 
-                        items-per-page="8" 
-                        max-size="8" 
-                        page="currentPage"
-                        previous-text="&lsaquo;" 
-                        next-text="&rsaquo;" 
-                        first-text="&laquo;" 
-                        last-text="&raquo;" 
-                        on-select-page="goToPage(page)">
-                    </div>
-                </div>
-            </div> -->
-
         </div>
     </div>
 </div> 

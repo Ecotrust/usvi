@@ -34,24 +34,20 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
+                layer.bringToBack();
+
                 // Adding controls to L.controls
                 map.controls.addOverlay(layer, 'Boundary');
             });
             
             MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", function (layer) {
                 scope.puLayer = layer;
-                map.addLayer(layer)
+                map.addLayer(scope.puLayer)
                 .on('dblclick', function(e) {
                     map.setZoom(map.getZoom() + 1);
                 });
-                console.log("[addPlanningUnitGrid] Added planning units grid to map");
-                console.log(scope.puLayer);
-
-                _.each(scope.units, function(unit){
-                    var id = parseInt(unit.id, 10);
-                    scope.setCellActive(id);
-                });
-
+                scope.updatePuLayer();
+                
                 // Adding controls to L.controls
                 map.controls.addOverlay(scope.puLayer, 'Planning Units');
 
@@ -66,13 +62,15 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 return pu;
             };
 
-            scope.setCellActive = function(planningUnitId){
-                pu = scope.getLayerByID(scope.puLayer, planningUnitId);
+            scope.setCellActive = function(unit){
+                var id = parseInt(unit.id, 10);
+                pu = scope.getLayerByID(scope.puLayer, id);
                 pu.setStyle(
-                    {"color": "#0F0",
-                     "fillColor": "#0F0",
-                     "fillOpacity": 0.5}
+                    {"color": '#00FF00',
+                     "fillColor": '#00FF00',
+                     "fillOpacity": 0.7}
                 );
+                setPuPopup(pu, unit.popup);
             };
 
             scope.showBoundary = true;
@@ -86,55 +84,79 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 }
 
                 if (newVal) {
+
+                    if (_.find(map.controls._layers, function(l){return l.name === 'Points'}) ){
+                        map.controls.removeLayer(scope.markersLayer);
+                    }
+
                     // Add new markers to markersLayer
                     scope.markersLayer = addMarkers(newVal);
 
                     // Add to map and map controls
                     map.addLayer(scope.markersLayer);
+                    scope.markersLayer.bringToFront();
                     map.controls.addOverlay(scope.markersLayer, 'Points');
+                    
                 }
-                
             });
 
             scope.$watch('units', function(newVal, oldVal) {
                 console.log("[$watch units] planning units changed");
+                if (newVal){
+                    scope.updatePuLayer();
+                }
             });
         }
 
         function addMarkers(data){
             // Returns a LayerGroup containing all the markers.
-            var out = L.layerGroup();
+            var out = L.featureGroup();
             _.each(data, function(markerData){
                 markerData['draggable'] = false;
                 markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
                 var marker = MapUtils.createMarker(markerData);
                 if (marker) {
-                    //marker.addTo(map);
-                    //markers.push(marker);
                     setPopup(marker, markerData);
                 }
                 out.addLayer(marker);
             });
             return out;
-        }
+        };
 
-        function OLDdelMarker (marker) {
-            if (map.hasLayer(marker)) {
-                map.removeLayer(marker);
-            }
-        }
-
-        function OLDaddMarker (markerData) {
-            markerData['draggable'] = false;
-            markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
-            var marker = MapUtils.createMarker(markerData);
-            if (marker) {
-                marker.addTo(map);
-                markers.push(marker);
-                setPopup(marker, markerData);
+        scope.updatePuLayer = function(){
+            try {
+                scope.puLayer.bringToBack();
+            } catch(e) {
+                console.log(e);
+                return;
             }
 
+            // Turns off all cells
+            _.each(scope.puLayer._layers, function(sublayer){
+                sublayer.setStyle({
+                    fillOpacity: 0,
+                    color: '#E6D845'
+                });
+            });
+
+            // Add opacity to active cells.
+            _.each(scope.units, function(unit){
+                scope.setCellActive(unit);
+            });
+        };
+
+
+        function setPuPopup (layer, popup){
+            // Sets a pop for this planning unit.
+            console.log(popup)
+            layer.bindPopup(popup, { closeButton: true });
+            layer.on('click', function(e) {
+                if (map._popup) {
+                    $compile(angular.element(map._popup._contentNode))(scope);
+                }
+            });
         }
+
 
         function setPopup(marker, markerData) {
             var loading = '<p ng-show="responses == false" class="load-indicator">Loading...</p>', 

@@ -15,12 +15,10 @@ angular.module('askApp')
         },
 
         link: function postLink(scope, element, attrs) {
-
+            _.mixin(_.str.exports()); // Attach underscore.string to underscore so you can use _.startsWtih()
             scope.model = {};
 
-
             function setFilterOptions () {
-                
                 var removeHtml = function (html) {
                     var regex = /(<([^>]+)>)/ig,
                         noHtml = html.replace(regex, "");
@@ -37,6 +35,7 @@ angular.module('askApp')
                         vals = _.pluck(data.answer_domain, "answer_text");
                     // Remove 'other' answers.
                     vals = _.filter(vals, function(val){ return val.substring(0,7) !== '[Other]'; });
+                    vals = _.filter(vals, function(val){ return _.startsWith(val, 'Contextual Data Only') === false; });
                     // Sort, comparing by the value itself.
                     vals = _.sortBy(vals, function(item){
                         return item;
@@ -60,12 +59,9 @@ angular.module('askApp')
                 dashData.getDistribution(scope.surveySlug, scope.questionSlug,
                     '' /*no filter*/, onSuccess, onFail);
             }
-
-
             scope.selectionChanged = function (value) {
                 scope.selectedValues = scope.model.selectedValuesInternal;
             };
-
 
             setFilterOptions();
         }

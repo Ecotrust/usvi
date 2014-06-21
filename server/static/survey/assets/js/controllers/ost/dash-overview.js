@@ -16,12 +16,12 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         $scope.updateMap();
 
         $scope.$watch('filters.ecosystemFeatures', function(newVal, oldVal) {
-            console.log('filter changed: ' + $scope.filters.ecosystemFeatures);
             $scope.filtersJson = [];
+            
             _.each($scope.filters.ecosystemFeatures, function (label) {
                 var slug = ecosystemLabelToSlug(label);
                 console.log('eco label to slug: ' + slug);
-                $scope.filtersJson.push({'ecosystem-features': slug});
+                //$scope.filtersJson.push({'ecosystem-features': slug});
             });
 
             // Update respondent table
@@ -38,13 +38,39 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         $scope.survey = data;
     });
 
-
     //
     // Map
     // 
-    $scope.updateMap = function () {
-        var pointsUrl = pointsApiUrl($routeParams.surveySlug, '*-collection-points', $scope.filtersJson),
-            polysUrl = polysApiUrl($routeParams.surveySlug, '*-collection-areas', $scope.filtersJson);
+    $scope.updateMap = function (action) {
+        /*
+        Params:
+        - action - The only action this supports is 'clear'. This clears the map and the filters.
+
+        - builds the filtersJson based on the $scope.filters.ecosystemFeatures
+        - Builds URL's for points and polys (note: polys does not contain the geometry, only the ID of a grid cell).
+        - Calls getPoints and getPolys and defines their callbacks.
+        - Puts points on $scope.mapSettings.mapPoints
+        - Puts polys $scope.mapSettings.mapPlanningUnits
+
+        */
+        if (action === 'clear') {
+            $(".sidebar_nav .multi-select2").select2('data', null);
+            $scope.filters.ecosystemFeatures = [];
+            $scope.$apply();
+        }
+
+        var filtersJson = _.map($scope.filters.ecosystemFeatures, function (label) {
+            var slug = ecosystemLabelToSlug(label);
+            if (slug.length>0) {
+                return {'ecosystem-features': slug};
+            } else {
+                return null;
+            }
+        });
+        filtersJson = _.flatten(filtersJson);
+
+        var pointsUrl = pointsApiUrl($routeParams.surveySlug, '*-collection-points', filtersJson),
+            polysUrl = polysApiUrl($routeParams.surveySlug, '*-collection-areas', filtersJson);
         
         getPoints(pointsUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
@@ -58,10 +84,7 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         });
     
         getPolys(polysUrl, function (polys) {
-            
             $scope.mapSettings.mapPlanningUnits = polys;
-            console.log("settings ative planning units");
-            console.log(polys);
         });
     }
 
@@ -111,10 +134,11 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
 
     function getPolys (url, success_callback) {
         $http.get(url).success(function(data) {
-            // Set points collection (bound to directive)
+            
             var polys = [];
             _.each(data.answers, function (item) {
                 var feature = JSON.parse(item.answer);
+                feature.popup = item.popup;
                 polys.push(feature);
             });
             success_callback(polys);

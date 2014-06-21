@@ -67,8 +67,13 @@ class OptionAdmin(admin.ModelAdmin):
     prepopulated_fields = {'label':('text',),}
 
 
-class PlaningUnitAnswerAdmin(admin.ModelAdmin):
-    list_display = ['response','answer' ]
+class PlanningUnitAnswerAdmin(admin.ModelAdmin):
+    list_display = ['response','answer', 'related_question_slug' ]
+
+
+class LocationAnswerAdmin(admin.ModelAdmin):
+    list_display = ['answer', 'geojson' ]
+
 
 admin.site.register(Respondant, RespondantAdmin)
 admin.site.register(Question, QuestionAdmin)
@@ -77,9 +82,9 @@ admin.site.register(Option, OptionAdmin)
 admin.site.register(Response, ResponseAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(Location)
-admin.site.register(LocationAnswer)
+admin.site.register(LocationAnswer, LocationAnswerAdmin)
 admin.site.register(MultiAnswer)
 admin.site.register(GridAnswer)
-admin.site.register(PlanningUnitAnswer, PlaningUnitAnswerAdmin)
+admin.site.register(PlanningUnitAnswer, PlanningUnitAnswerAdmin)
 
 admin.site.register(Block, BlockAdmin)

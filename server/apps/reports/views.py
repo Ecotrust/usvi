@@ -8,7 +8,7 @@ from decimal import Decimal
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Avg, Count, Min, Max, Sum
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 
 from ordereddict import OrderedDict
 
@@ -61,7 +61,6 @@ def get_geojson(request, survey_slug, question_slug):
                                                           location__response__question__slug__contains=question_slug.replace('*', ''),
                                                           location__respondant__complete=True)
 
-
         filter_list = []
         filters = None
 
@@ -76,10 +75,12 @@ def get_geojson(request, survey_slug, question_slug):
                 #Filter Questions by question slug provided by the filter
                 slug = filter.keys()[0]
                 value = filter[slug]
+                related_questions = locations.filter(geojson__contains=value)
+
                 if merged_filtered_set is not None:
-                    merged_filtered_set = merged_filtered_set | locations.filter(geojson__contains=value)
+                    merged_filtered_set = merged_filtered_set | related_questions
                 else:
-                    merged_filtered_set = locations.filter(geojson__contains=value)
+                    merged_filtered_set = related_questions
             if merged_filtered_set is not None:
                 locations = merged_filtered_set
 
@@ -96,6 +97,36 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
      - respondant : The UUID of a respondant. Only answer from that respodant will be returned. 
 
     """
+
+    def flatten_answers(pu_answers):
+        """
+        Returns a dict whose keywords are planning unit ids and values are
+        a list containing dicts. 
+
+        {123:[
+            'project_name':'My Project'
+            'ecosystem_features':[]
+        ]}
+
+        """
+        out = {}
+        for obj in pu_answers:
+            ans = json.loads(obj.answer)
+            unit_id = int(ans['id'])
+            
+            proj = {'project_name':obj.respondant.project_name,
+                    'project_uuid':obj.respondant.uuid,
+                    'ecosystem_features':obj.ecosystem_feature_vebose,
+
+                    }
+            if unit_id in out.keys():
+                out[unit_id].append(proj)
+            else:
+                out.update({unit_id:[proj]})
+
+        return out
+
+
     survey = get_object_or_404(Survey, slug=survey_slug)
     
     if request.method == 'GET':
@@ -131,15 +162,39 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
             merged_filtered_set = None
             for filter in filter_list:
                 slug = filter.keys()[0]
-                value = filter[slug]
+                value = filter[slug]+"areas"
+                related_questions = pu_answers.filter(related_question_slug=value)
                 if merged_filtered_set is not None:
-                    merged_filtered_set = merged_filtered_set | pu_answers.filter(related_question_slug=value)
+                    merged_filtered_set = merged_filtered_set | related_questions
                 else:
-                    merged_filtered_set = pu_answers.filter(related_question_slug=value)
+                    merged_filtered_set = related_questions
+            
             if merged_filtered_set is not None:
                 pu_answers = merged_filtered_set
 
-        return HttpResponse(simplejson.dumps({'success': "true", 'answers': list(pu_answers.values('answer'))}))
+        answers = flatten_answers(pu_answers)
+        
+        new_answers = []
+        # Add the popup html
+        for obj in answers:
+            projects = answers[obj]
+            popup = render_to_response("reports/planning_unit_popup.html", {"projects":projects}).content
+            
+            # answer_list = [{'answer':obj.answer,
+            #                 'popup':popup,
+            #          }]
+            answer = {'popup':popup}
+
+            new_answers.append(answer)
+
+        out = {'success': "true", 
+               'answers': new_answers
+               }
+
+        return HttpResponse(simplejson.dumps(out))
+
+
+
 
 # @api_user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def get_distribution_json(request, survey_slug, question_slug):

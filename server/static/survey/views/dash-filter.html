@@ -1,7 +1,7 @@
 <div>
 
     <!-- single select -->
-    <select ng-if="allowMultiSelect != true"
+    <select ng-if="allowMultiSelect != true" class="single-select2"
         ui-select2 
         placeholder="{{placeholderText}}" 
         ng-model="model.selectedValuesInternal" 
@@ -13,8 +13,9 @@
     </select>
 
     <!-- multi select -->
-    <select ng-if="allowMultiSelect == true" 
+    <select ng-if="allowMultiSelect == true" class="multi-select2"
         ui-select2 
+        allowClear="true"
         placeholder="{{placeholderText}}" 
         multiple="true" 
         ng-model="model.selectedValuesInternal" 
