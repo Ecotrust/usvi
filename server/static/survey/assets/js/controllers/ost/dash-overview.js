@@ -144,10 +144,8 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         $http.get(url).success(function(data) {
             
             var polys = [];
-            _.each(data.answers, function (item) {
-                var feature = JSON.parse(item.answer);
-                feature.popup = item.popup;
-                polys.push(feature);
+            _.each(data.answers, function (unit_id) {
+                polys.push(unit_id);
             });
             success_callback(polys);
         });

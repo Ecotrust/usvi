@@ -99,7 +99,7 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
     """
 
     def flatten_answers(pu_answers):
-       return pu_answers.values("unit").distinct()
+       return [ ans['unit'] for ans in pu_answers.values("unit").distinct()]
 
 
     survey = get_object_or_404(Survey, slug=survey_slug)

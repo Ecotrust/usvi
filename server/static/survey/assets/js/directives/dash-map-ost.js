@@ -63,14 +63,16 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             };
 
             scope.setCellActive = function(unit){
-                var id = parseInt(unit.id, 10);
+                var id = unit
                 pu = scope.getLayerByID(scope.puLayer, id);
                 pu.setStyle(
                     {"color": '#00FF00',
                      "fillColor": '#00FF00',
                      "fillOpacity": 0.7}
                 );
-                setPuPopup(pu, unit.popup);
+
+                popup = "<p>"+unit+"</p>";
+                setPuPopup(pu, popup);
             };
 
             scope.showBoundary = true;
