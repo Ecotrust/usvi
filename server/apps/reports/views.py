@@ -99,66 +99,7 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
     """
 
     def flatten_answers(pu_answers):
-        """
-        Returns a dict whose keywords are planning unit ids and values are
-        a list containing dicts. 
-
-        { UNIT_ID : projects : {
-                uuid:{
-                    'project_name':'My Project'
-                    'ecosystem_features':[],
-                    'project_uuid'
-                },
-                uuid:{
-                    'project_name':'My Project'
-                    'ecosystem_features':[],
-                    'project_uuid'
-                }
-            }
-        }
-
-        """
-        out = {}
-        pu_answers = list(pu_answers.order_by('unit'))
-        count = len(pu_answers)
-
-        group=[]
-        for i, obj in enumerate(pu_answers):
-            if len(group) == 0:
-                group.append(obj)
-                unit_id = obj.id
-
-            
-
-            if count > 1 and i + 1 < count:
-                next_obj = pu_answers[i+1]
-                if next_obj.unit == obj.unit:
-                    # If the next_obj has the same unit add them to the group list
-                    group.append(next_obj)
-                    continue
-            
-            # process group
-            group_len = len(group)
-            projects = {}
-            print "Processing group for %s" %(unit_id)
-            for pua in group:
-                uuid = pua.respondant.uuid
-                
-                if uuid in projects.keys():
-                    projects[uuid]['ecosystem_features'].append(pua.ecosystem_feature_verbose)
-
-                else:
-                    proj = {'project_name':pua.respondant.project_name,
-                            'project_uuid':uuid,
-                            'ecosystem_features':[pua.ecosystem_feature_verbose],
-                    }
-                    projects.update({uuid:proj})
-            group = []
-
-
-            # Append to groups out dict
-            out.update({unit_id:projects})
-        return out
+       return pu_answers.values("unit").distinct()
 
 
     survey = get_object_or_404(Survey, slug=survey_slug)
