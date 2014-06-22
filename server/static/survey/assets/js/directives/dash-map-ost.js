@@ -71,13 +71,19 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                      "fillOpacity": 0.7}
                 );
 
-                popup = "<p>"+unit+"</p>";
-                setPuPopup(pu, popup);
+                setPuPopup(pu);
             };
 
             scope.showBoundary = true;
             scope.showPoints = true;
             scope.showUnits = false;
+            scope.planningUnit = {data:
+                                    {projects:[],
+                                     id:null}
+                                };
+
+
+
             scope.$watch('points', function(newVal, oldVal) {
                 // Clear scope.markersLayer
                 if (scope.markersLayer){
@@ -126,6 +132,12 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         };
 
         scope.updatePuLayer = function(){
+            /*
+            This clears and updated the cells based on the unit_id's in 
+            scope.units.
+
+            Call setCellActive to actaully activate the cell and set the popup.
+            */
             try {
                 scope.puLayer.bringToBack();
             } catch(e) {
@@ -148,11 +160,40 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         };
 
 
-        function setPuPopup (layer, popup){
-            // Sets a pop for this planning unit.
-            console.log(popup)
-            layer.bindPopup(popup, { closeButton: true });
-            layer.on('click', function(e) {
+        function setPuPopup (layer){
+            /*
+
+            Sets a pop for this planning unit.
+
+            planningUnit is an object returned from the planning-unit API resource
+            */ 
+
+            // Build popup based on the ajax data
+            var loading = '<p ng-show="!planningUnit.data.id" class="load-indicator">Loading...</p>';
+            var popup = '';
+            var list = '';
+        
+            list += '<h3>Projects</h3>';            
+            
+            list += '<dl ng-cloak>'; 
+            list += '<div ng-repeat="project in planningUnit.data.projects">';
+            list += '<dt><a href="#/RespondantDetail/monitoring-project/{{project.project_uuid}}">{{project.project_name}}</a></dt>';
+            list += '<dd class="margin-bottom">Ecosytem Features</dd>';
+            list += '</div>';
+            list += '</dl>';
+
+            var html = '<div class="popup-content planning-unit">' + loading + list + '</div>';
+
+            console.log(html)
+            layer.bindPopup(html, { closeButton: true });
+            
+            // Define the on click callback. 
+            layer.on('click', function(e) {    
+                var unit_id = e.target.feature.properties.ID;
+                getPlanningUnit(unit_id, function(res){
+                    scope.planningUnit.data = res;
+                });
+
                 if (map._popup) {
                     $compile(angular.element(map._popup._contentNode))(scope);
                 }
@@ -245,6 +286,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             });
         }
 
+
+
+
         function getRespondent (uuid, success_callback) {
             var url = app.server 
                   + '/api/v1/reportrespondantdetails/'
@@ -270,10 +314,24 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 debugger
             }); 
         }
-        
+
+
+        function getPlanningUnit (unit_id, success_callback) {
+            var url = app.server 
+                  + '/api/v1/planning-unit/'
+                  + unit_id 
+                  + '/?format=json';        
+
+            $http.get(url).success(function (data) {
+                success_callback(data);
+            }).error(function (err) {
+                debugger
+            }); 
+        }
+
+
 
         init();
-
     };
 
 

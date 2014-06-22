@@ -21,7 +21,11 @@ class PlanningUnit(object):
             uuid = obj['respondant__uuid']
             ans = puas.filter(respondant__uuid=uuid )
             ecosystem_features = []
+            
+            # Build the ecosystem feaures list from mutiply answers on the same unit.
+            ecosystem_features = []
             for a in ans:
+                
                 ecosystem_features.append(a.ecosystem_feature)
 
             proj = {'project_name': ans[0].respondant.project_name,

@@ -536,6 +536,12 @@ class PlanningUnitAnswer(caching.base.CachingMixin, models.Model):
         return self.response.question.label.split(" - ")[0].strip()
 
     @property
+    def ecosystem_feature(self):
+        # This is used on the planning unit popup
+        return self.response.question.slug
+
+
+    @property
     def project(self):
         return self.respondant.project_name
 
