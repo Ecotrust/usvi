@@ -1,4 +1,4 @@
-angular.module('askApp').directive('dashMapOst', function($http, $compile, $timeout, $routeParams) {
+angular.module('askApp').directive('dashMapOst', function($http, $compile, $timeout, $routeParams, survey) {
 
     var directive = {
         templateUrl: app.viewPath + 'views/ost/dashMapOst.html',
@@ -82,6 +82,18 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                                      id:null}
                                 };
 
+
+            scope.eecosystemLabelToSlug =function(label) {
+                return survey.ecosystemLabelToSlug(label);
+            };
+
+            scope.ecosystemSlugToLabel = function(slug) {
+                return survey.ecosystemSlugToLabel(slug);
+            };
+
+            scope.ecosystemSlugToColor = function (slug) {
+                return survey.ecosystemSlugToColor(slug);
+            };
 
 
             scope.$watch('points', function(newVal, oldVal) {
@@ -178,7 +190,17 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             list += '<dl ng-cloak>'; 
             list += '<div ng-repeat="project in planningUnit.data.projects">';
             list += '<dt><a href="#/RespondantDetail/monitoring-project/{{project.project_uuid}}">{{project.project_name}}</a></dt>';
-            list += '<dd class="margin-bottom">Ecosytem Features</dd>';
+            list += '<dd class="margin-bottom">Ecosytem Features';
+            
+            list += '<ul class=="list-unstyled">';
+            list += '<li ng-repeat="slug in project.ecosystem_features">';
+            list +=  'RAW: {{slug}}';
+
+            list += '<div class="circle pull-left" ng-style="{\'background-color\': ecosystemSlugToColor(slug)};">&nbsp;</div>{{ecosystemSlugToLabel(slug)}}';
+
+            list += '</li>';
+            list += '</ul></dd>';
+
             list += '</div>';
             list += '</dl>';
 
