@@ -61,6 +61,7 @@
 }
 
 .circle {
+    display:inline-block;
     border-radius: 50%;
     width: 13px;
     height: 12px;
@@ -71,3 +72,8 @@
     margin-right: 10px;
 }
 
+.popup-content.planning-unit h5{
+    margin-bottom:0;
+}
+
+}

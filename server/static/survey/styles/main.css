@@ -4,6 +4,10 @@
   margin-bottom:5px;
 }
 
+.margin-right {
+  margin-right: 5px;
+}
+
 #topnav {
     height: 90px;
     background: #01AABA;

@@ -185,23 +185,20 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             var popup = '';
             var list = '';
         
-            list += '<h3>Projects</h3>';            
+            list += '<h4>Projects</h4>';            
             
             list += '<dl ng-cloak>'; 
             list += '<div ng-repeat="project in planningUnit.data.projects">';
-            list += '<dt><a href="#/RespondantDetail/monitoring-project/{{project.project_uuid}}">{{project.project_name}}</a></dt>';
-            list += '<dd class="margin-bottom">Ecosytem Features';
+            list += '<h5><a href="#/RespondantDetail/monitoring-project/{{project.project_uuid}}">{{project.project_name}}</a></h5>';
+            list += '<dt>Ecosytem Features</dt>';
             
-            list += '<ul class=="list-unstyled">';
+            list += '<dd><ul class="list-unstyled">';
             list += '<li ng-repeat="slug in project.ecosystem_features">';
-            list +=  'RAW: {{slug}}';
-
-            list += '<div class="circle pull-left" ng-style="{\'background-color\': ecosystemSlugToColor(slug)};">&nbsp;</div>{{ecosystemSlugToLabel(slug)}}';
-
+            list += '<div class="circle margin-right" ng-style="{\'background-color\': ecosystemSlugToColor(slug)};">&nbsp;</div>{{ecosystemSlugToLabel(slug)}}';
             list += '</li>';
             list += '</ul></dd>';
 
-            list += '</div>';
+            list += '</div>'; // End ng-repeat: planningUnit.data.projects
             list += '</dl>';
 
             var html = '<div class="popup-content planning-unit">' + loading + list + '</div>';
