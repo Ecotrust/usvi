@@ -7,7 +7,7 @@ from survey.models import (Survey, Question, Option, Response, Respondant,
 class RespondantAdmin(admin.ModelAdmin):
     readonly_fields=('uuid', 'responses')
     list_display = ('uuid', 'ts', 'complete',)
-
+    search_fields = ['uuid']
 
 
 class ResponseAdmin(admin.ModelAdmin):

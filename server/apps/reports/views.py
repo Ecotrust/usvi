@@ -39,7 +39,6 @@ def get_geojson(request, survey_slug, question_slug):
 
         # Check for respondent filter
         uuid = request.GET.get('respondant', None)
-        
         if uuid:
             
             if question_slug.find('*') == -1:
@@ -103,7 +102,6 @@ def get_planning_unit_answers(request, survey_slug, question_slug):
 
 
     survey = get_object_or_404(Survey, slug=survey_slug)
-    
     if request.method == 'GET':
         
         uuid = request.GET.get('respondant', None)
