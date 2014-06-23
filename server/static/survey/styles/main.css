@@ -1,9 +1,12 @@
 /* Will be compiled down to a single stylesheet with your sass files */
 
-.amrgin-bottom {
+.margin-bottom {
   margin-bottom:5px;
 }
 
+.margin-top {
+  margin-top: 5px;
+}
 .margin-right {
   margin-right: 5px;
 }
@@ -78,7 +81,7 @@
 .sidebar_nav {
     margin-top: 10px;
     border-top: 10px solid #466B71;
-    border-bottom: 10px solid #466B71;
+    /*border-bottom: 10px solid #466B71;*/
     color: #195D68;
     text-transform: uppercase;
     font-weight: bold;

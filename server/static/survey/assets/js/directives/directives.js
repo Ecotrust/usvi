@@ -120,7 +120,6 @@ angular.module('askApp')
         });
 
             scope.search = function(){
-                console.log('WTF');
                 var val = element.find("input").val();
                 surveyFactory.searchRespondants(val)
             };

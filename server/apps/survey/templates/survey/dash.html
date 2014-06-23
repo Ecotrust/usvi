@@ -98,7 +98,9 @@
     var isAuthenticated = true;
     app.user = {
       username: "{{user.username}}",
-      is_staff: "{{user.is_staff}}"
+      is_staff: "{{user.is_staff}}",
+      is_superuser: {% if user.is_superuser %}true{% else %}false{% endif %}
+
     }
     {% else %}
     var isAuthenticated = false;

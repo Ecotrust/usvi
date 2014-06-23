@@ -5,7 +5,7 @@ angular.module('askApp')
             'Content-Type': 'application/json;charset=utf-8'
         }
     }])
-    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history) {
+    .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history, surveyFactory) {
 
     $scope.searchTerm = $location.search().q;
     $scope.resource = '/api/v1/dashrespondant/';
@@ -13,6 +13,11 @@ angular.module('askApp')
     $scope.busy = true;
     $scope.viewPath = app.server + '/static/survey/';
     $scope.activePage = 'responses';
+
+    surveyFactory.getSurvey(function (data) {
+        data.questions.reverse();
+        $scope.survey = data;
+    });
 
     if ($scope.searchTerm){
         var url = '/api/v1/dashrespondant/search/?format=json&q=' + $scope.searchTerm;
@@ -26,6 +31,8 @@ angular.module('askApp')
         $scope.responsesShown = $scope.respondents.length;
         $scope.busy = false;
     });
+
+
 
     $scope.OLDshowRespondent = function (respondent) {
         var path = ['/RespondantDetail', $routeParams.surveySlug, respondent.uuid].join('/');

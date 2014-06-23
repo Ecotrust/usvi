@@ -1,11 +1,9 @@
 //'use strict';
 
 angular.module('askApp')
-    .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history) {
+    .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history, surveyFactory) {
     $scope.viewPath = app.viewPath;
     $scope.uuid = $routeParams.uuidSlug;
-
-
 
     $scope.getRespondent = function (respondent_uuid, survey_slug, onSuccess) {
         var url = app.server 
@@ -23,6 +21,14 @@ angular.module('askApp')
             });
     };
 
+    //
+    // Fill survey stats blocks
+    //
+
+    surveyFactory.getSurvey(function (data) {
+        data.questions.reverse();
+        $scope.survey = data;
+    });
 
     $scope.parseResponses = function (respondent) {
         _.each(respondent.responses, function(response, index) {

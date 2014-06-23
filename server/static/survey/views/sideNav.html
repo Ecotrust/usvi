@@ -30,7 +30,7 @@
             <li>
                 <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">monitoring activity - overview</a>
             </li>
-            <li nh-hide="app.user.is_staff">
+            <li ng-show="app.user.is_superuser">
                 <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">projects</a>
             </li>
 
@@ -43,17 +43,19 @@
 
     <div class="sidebar_nav" ng-show="activePage == 'overview'" >
         <div dash-filter 
+             class="margin-top"
              placeholder-text="'all ecosystem features'"
              allow-multi-select="true"
              survey-slug="'monitoring-project'"
              question-slug="'ecosystem-features'"
              selected-values="filters.ecosystemFeatures"
              ></div>
-        <button type="button" class="btn btn-default" ng-click="updateMap()"><span class="glyphicon glyphicon-filter"></span>Filter</button>
-        <button type="button" class="btn btn-default" ng-click="updateMap('clear')"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
-
+        <div class="margin-top margin-bottom">
+            <button type="button" class="btn btn-default" ng-click="updateMap()"><span class="glyphicon glyphicon-filter"></span>Filter</button>
+            <button type="button" class="btn btn-default" ng-click="updateMap('clear')"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
+        </div>
     </div>
-    <div respondentsearch></div>
+    <div respondentsearch ></div>
 
     <div class="sidebar_nav">
         <ul class="nav">

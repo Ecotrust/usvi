@@ -60,6 +60,11 @@
     margin-bottom: 20px;
 }
 
+#map-legend li {
+    float:left;
+    margin-right:9px;
+}
+
 .circle {
     display:inline-block;
     border-radius: 50%;
@@ -69,7 +74,7 @@
 
 #map-legend ul .circle {
     margin-top: 3px;
-    margin-right: 10px;
+    margin-right: 3px;
 }
 
 .popup-content.planning-unit h5{
