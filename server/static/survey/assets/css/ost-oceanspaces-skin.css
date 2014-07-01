@@ -1,6 +1,7 @@
 /* Use oceanspaces background */
 body {
-	background: #9cb9bf url(/static/survey/assets/img/oceanspaces-background.jpg) no-repeat top center;
+    background-color: #f3f4f6;
+	/*background: #9cb9bf url(/static/survey/assets/img/oceanspaces-background.jpg) no-repeat top center;*/
 }
 
 .progress-container p.small-label {
@@ -122,7 +123,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	text-transform: none;
 }
 
-
+.navbar {
+    background-color: #004C72;
+}
 
 /*
  *  White background container around page.
@@ -328,3 +331,54 @@ body.map-question .container {
 .map-question #page-controls {
     padding-top: 20px;
 }
+
+
+
+/**
+ * Changes made day before launch to better 
+ * match the OceanSpaces.org that was also just 
+ * now launched.
+ */
+.os-red-link,
+.page-content p a,
+.modal-body ul a
+{
+    color: #c24118;
+}
+.os-red-link:hover,
+.os-red-link:focus,
+.page-content p a:hover,
+.page-content p a:focus
+.modal-body ul a:hover,
+.modal-body ul a:focus
+{
+    color: #70afb6;
+}
+
+.ef-descriptions-modal .def-container {
+    height: 130px;
+}
+
+.info-content p,
+.info-content span,
+.info-content ul {
+    font-family: MuseoSans-300, Arial;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 24px;
+    color: #002535;
+}
+.info-content li {
+    margin-bottom: 8px;
+}
+
+.or-auth-separator {
+    left: 17%;
+}
+.signin-form fieldset, .new-user-form fieldset
+{
+    margin-bottom: 20px;
+}
+
+.btn.eye { color: white; }
+.btn.eye:hover { color: #ddd; }
