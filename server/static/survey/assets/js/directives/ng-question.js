@@ -277,7 +277,7 @@ angular.module('askApp').directive('multiquestion', function($modal) {
                 /* Hacking this for the ecosystem-features question in OST to 
                    allow one of the options to clear all others. */
                 if (question.slug == 'ecosystem-features') {
-                    if (option.text === 'Contextual Data Only (No Ecological Monitoring)') {
+                    if (option.text === 'Contextual Data (No Ecological Monitoring)') {
                         // Unselect all except the one clicked.
                         scope.onSingleSelectClicked(option, question);
                     } else {
