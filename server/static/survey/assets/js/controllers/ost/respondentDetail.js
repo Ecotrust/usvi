@@ -90,21 +90,19 @@ angular.module('askApp')
 
 
 /*************************** MAP STUFF **********************************/
-    
+
     $scope.mapSettings = {
-        questionSlugPattern: '*-collection-points',
         lat: 35.8336630,
         lng: -122.0000000,
         zoom: 7,
         mapPoints: [],
         mapUnits: '',
-
     };
 
     $scope.updateMap = function () {
-        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson, $scope.uuid),
+        var apiUrl = pointsApiUrl($routeParams.surveySlug, '*-collection-points', $scope.filtersJson, $scope.uuid),
                      polysUrl = polysApiUrl($routeParams.surveySlug, '*-collection-areas');
-        
+
         getPoints(apiUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
             var uniq = [];
@@ -121,10 +119,10 @@ angular.module('askApp')
         });
 
     };
-    
+
     function pointsApiUrl (sSlug, qSlug, filtersJson, resp_uuid) {
         var url = ['/reports/geojson', sSlug, qSlug];
-        
+
         var del = '?';
         if (filtersJson && !_.isEmpty(filtersJson)) {
             url.push('?filters=' + JSON.stringify(filtersJson));
@@ -166,7 +164,7 @@ angular.module('askApp')
                             qSlug: qSlug});
                     }
                 };
-                
+
             });
 
             success_callback(points);

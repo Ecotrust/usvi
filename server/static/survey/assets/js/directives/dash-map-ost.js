@@ -6,7 +6,6 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         replace: true,
         transclude: true,
         scope: {
-            questionSlugPattern: '=',
             lat: "=",
             lng: "=",
             zoom: "=",
