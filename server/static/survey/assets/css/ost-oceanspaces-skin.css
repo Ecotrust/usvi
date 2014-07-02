@@ -361,7 +361,8 @@ body.map-question .container {
 
 .info-content p,
 .info-content span,
-.info-content ul {
+.info-content ul,
+.ost-map > p {
     font-family: MuseoSans-300, Arial;
     font-size: 18px;
     font-weight: normal;
