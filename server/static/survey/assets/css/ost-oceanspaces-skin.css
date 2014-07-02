@@ -12,103 +12,16 @@ body {
 	background-color: #005072;
 }
 
-/* Use oceanspaces font */
-@font-face {
-    font-family:'MuseoSans-700';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.ttf) 
-    format('truetype');
-}
 
-@font-face {
-    font-family:'MuseoSans-300';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-900Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-500';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-100';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-700Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-300Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-100Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-500Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-900';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.ttf) 
-    format('truetype');
-}
 
 body {
-	font-family: Arial,Verdana,MuseoSans-500 !important;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    /*font-family: Arial,Verdana,MuseoSans-500 !important;*/
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: MuseoSans-300, Arial;
+	font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B';
+    /*font-family: MuseoSans-300, Arial;*/
 }
 
 
@@ -363,7 +276,8 @@ body.map-question .container {
 .info-content span,
 .info-content ul,
 .ost-map > p {
-    font-family: MuseoSans-300, Arial;
+    font-family: font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /*font-family: MuseoSans-300, Arial;*/
     font-size: 18px;
     font-weight: normal;
     line-height: 24px;
@@ -383,3 +297,10 @@ body.map-question .container {
 
 .btn.eye { color: white; }
 .btn.eye:hover { color: #ddd; }
+
+.info-content h3,
+.block-title {
+    font-weight: normal;
+    /*letter-spacing: 1px;*/
+    text-transform: none;
+}
