@@ -117,6 +117,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     map.controls.addOverlay(scope.markersLayer, 'Points');
                     
                 }
+
             });
 
             scope.$watch('units', function(newVal, oldVal) {
@@ -125,7 +126,31 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     scope.updatePuLayer();
                 }
             });
+
+            updateMapSize();
+
+            $(window).resize(function(event) {
+                scope.$apply(function () {
+                    updateMapSize();
+                });
+            });
+
         }
+
+        function updateMapSize () {
+            /**
+             * Quickfix for now: for an unknown reason this directive's map was only
+             * showing one tile without manually forcing the map to resize or
+             * calling invalidateSize as we do here. Must be called after the
+             * map has fully loaded. Three full seconds seems to be necessary
+             * on my laptop.
+             */
+            scope.windowHeight = window.innerHeight - 300 + 'px';
+            $timeout(function () {
+                map.invalidateSize(false);
+            }, 3000);
+        }
+
 
         function addMarkers(data){
             // Returns a LayerGroup containing all the markers.
