@@ -5,39 +5,14 @@ angular.module('askApp')
         $http.defaults.headers.post['Content-Type'] = 'application/json';
 
         if (app.user) {
-            $scope.user = app.user;    
+            $scope.user = app.user;
         } else {
             $location.path('/');
         }
-        $scope.showErrorMessage = false;
 
+        $scope.showErrorMessage = false;
         $scope.path = $location.path().slice(1,5);
         $scope.viewPath = app.viewPath;
-
-        $http.get(app.server + '/reports/respondants_summary')
-            .success( function (data) {
-                $scope.start_time = data.start_time;
-                var date = new Date(),
-                    firstDayOfCurrentMonth = new Date(date.getFullYear(), date.getMonth(), 1),
-                    start_date = firstDayOfCurrentMonth.toString('yyyy-MM-dd');
-                    today = date.toString('yyyy-MM-dd');
-
-                $scope.surveyFilter = {start: start_date, end: today};
-                $scope.getSubmittedSurveysList($scope.surveyFilter);
-            }).error(function (err) {
-                console.log(JSON.stringify(err));
-                // debugger;
-                $scope.showSurveyList = false;
-                $scope.showErrorMessage = true;
-            });
-
-        $scope.$watch('surveyFilter', function(newValue) {
-            if (newValue) {
-                // $scope.getSubmittedSurveysList(newValue);
-                $scope.updateEnabled = true;
-            }
-        }, true);
-
         $scope.showSurveyList = false;
 
         $scope.updateSurveyList = function() {
@@ -236,4 +211,15 @@ angular.module('askApp')
                 });    
         };
 
+
+        $scope.start_time = '2014-07-01';
+        $scope.surveyFilter = {start: '2014-07-01', end: new Date().toString('yyyy-MM-dd')};
+        $scope.getSubmittedSurveysList($scope.surveyFilter);
+
+        $scope.$watch('surveyFilter', function(newValue) {
+            if (newValue) {
+                // $scope.getSubmittedSurveysList(newValue);
+                $scope.updateEnabled = true;
+            }
+        }, true);
 });

@@ -8,13 +8,13 @@
 
             <div style="margin-top: 20px;">
                 <a class="btn btn-main btn-default btn-lg btn-block" href="#/incompletes">
-                    Incomplete <span class="badge pull-right" style="top: 0px">{{incompletes.length}}</span>
+                    Incomplete <span class="badge pull-right" style="top: 0px">{{incompletes.length}}<i class="icon-spinner icon-spin" ng-hide="incompletes != undefined"></i></span>
                 </a>
             </div>
             
             <div>
                 <a class="btn btn-main btn-default btn-lg btn-block" href="#/completes" ng-class="{ 'disabled': !completes }">
-                    Completed <span class="badge pull-right" style="top: 0px">{{completes.length}}<i class="icon-spinner icon-spin" ng-hide="completes"></i></span>
+                    Completed <span class="badge pull-right" style="top: 0px">{{completes.length}}<i class="icon-spinner icon-spin" ng-hide="completes != undefined"></i></span>
                 </a>
             </div>
         </div>
