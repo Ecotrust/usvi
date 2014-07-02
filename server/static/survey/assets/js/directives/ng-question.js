@@ -358,13 +358,30 @@ angular.module('askApp').directive('multiquestion', function($modal) {
                 });
             }
 
+            function linebreak(rows) {
+                // For some reason a new font is uncovering that
+                // some of the multiple option sets contain the \r\n
+                // line break where as others contain only \n for
+                // line breaks. This was causing the \r\n sets to leave
+                // the \r in the option text and the new font displays this
+                // as an x inside a rectangle.
+                //
+                // http://www.fileformat.info/info/unicode/char/2327/index.htm
+                var linebreak = '\n';
+                if (_.str.contains(scope.question.rows, '\r')) {
+                    linebreak = '\r\n';
+                }
+                return linebreak;
+            }
+
             // get simple answers
             scope.question.answer = scope.getAnswer(scope.question.slug);
 
             // set up rows for selects
             if (scope.question.rows) {
                 scope.question.options = [];
-                _.each(scope.question.rows.split('\n'), function(row, index) {
+
+                _.each(scope.question.rows.split(linebreak(scope.question.rows)), function(row, index) {
                     var matches = [],
                         option;
                     if (_.isArray(scope.question.answer)) {
@@ -391,7 +408,7 @@ angular.module('askApp').directive('multiquestion', function($modal) {
                 // scope.question.answerSelected = false;
                 var groupName = "";
                 
-                _.each(scope.question.rows.split('\n'), function(row, index) {
+                _.each(scope.question.rows.split(linebreak(scope.question.rows)), function(row, index) {
                     var matches = [];
                     if (scope.question.answer && scope.question.answer.length) {
                         matches = _.filter(scope.question.answer, function(answer) {
