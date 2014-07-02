@@ -97,6 +97,7 @@ angular.module('askApp')
         zoom: 7,
         mapPoints: [],
         mapUnits: '',
+        showPopups: false
     };
 
     $scope.updateMap = function () {

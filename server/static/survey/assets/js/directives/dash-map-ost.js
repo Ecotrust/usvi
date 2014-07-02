@@ -12,6 +12,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             points: '=',
             units: '=',
             boundaryPath: '=',
+            showPopups: '=',
             slugToColor: '&',
             slugToLabel: '&'
         }
@@ -39,7 +40,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 map.controls.addOverlay(layer, 'Boundary');
             });
             
-            MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", function (layer) {
+            MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", map, function (layer) {
                 scope.puLayer = layer;
                 map.addLayer(scope.puLayer)
                 .on('dblclick', function(e) {
@@ -67,7 +68,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 pu.setStyle(
                     {"color": '#00FF00',
                      "fillColor": '#00FF00',
-                     "fillOpacity": 0.7}
+                     "fillOpacity": 0.7,
+                     "clickable": true}
                 );
 
                 setPuPopup(pu);
@@ -159,7 +161,10 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 markerData['draggable'] = false;
                 markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
                 var marker = MapUtils.createMarker(markerData);
-                if (marker) {
+                if (!scope.showPopups) {
+                    marker.setStyle({clickable: false});
+                }
+                if (marker && scope.showPopups) {
                     setPopup(marker, markerData);
                 }
                 out.addLayer(marker);
@@ -185,7 +190,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             _.each(scope.puLayer._layers, function(sublayer){
                 sublayer.setStyle({
                     fillOpacity: 0,
-                    color: '#E6D845'
+                    stroke: false // color: '#E6D845'
                 });
             });
 
@@ -418,7 +423,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 $http.get(geojsonPath).success(function(data) {
                     var boundaryStyle = {
                         "color": "#E6D845",
-                        "weight": 3,
+                        "weight": 2,
                         "opacity": 0.6,
                         "fillOpacity": 0.0,
                         "clickable": false
@@ -429,7 +434,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             }
         },
 
-        addPlanningUnitGrid: function (geojsonPath, success_callback) {
+        addPlanningUnitGrid: function (geojsonPath, map, success_callback) {
             // Add planning units grid with no borders from /static/survey/data/CentralCalifornia_PlanningUnits.json
             $http.get(geojsonPath).success(function(data) {
                 var geojsonLayer = L.geoJson(data, { 
@@ -452,6 +457,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                         //     });
                         // }
                         layer.on("click", function (e) {
+                            map.setZoom(map.getZoom() + 1);
+                        });
+                        layer.on("dblclick", function (e) {
                             console.log("Click layer "+id);
                             console.log(e)
                         });
