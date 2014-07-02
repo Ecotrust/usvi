@@ -83,7 +83,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                                 };
 
 
-            scope.eecosystemLabelToSlug =function(label) {
+            scope.ecosystemLabelToSlug =function(label) {
                 return survey.ecosystemLabelToSlug(label);
             };
 

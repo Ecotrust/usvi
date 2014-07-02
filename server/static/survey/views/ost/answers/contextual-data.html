@@ -1,24 +1,40 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12">
 
-        <div class="answer">
-            <strong>Contextual Data Types:</strong>
-            <span>{{ getAnswer('cde-types') }}</span>
+        <div ng-show="getAnswer('cde-types')">
+            <div class="answer">
+                <strong>Contextual Data Types:</strong>
+                <span>{{ getAnswer('cde-types') }}</span>
+            </div>
+            <div class="answer">
+                <strong>Collected at all sites: </strong>
+                <span>{{ getAnswer('cde-where') }}</span>
+            </div>
+            <div class="answer">
+                <strong>Notes:</strong>
+                <span>{{ getAnswer('cde-where-elaborated') }}</span>
+            </div>
         </div>
+        <!-- this section is only shown if cd-types is available rather than cde-types. -->
+        <div ng-show="getAnswer('cd-types')">
+            <div class="answer">
+                <strong>Contextual Data Types:</strong>
+                <span>{{ getAnswer('cd-types') }}</span>
+            </div>
+            <div class="answer">
+                <strong>Collected locations: </strong>
+                <span>{{ getAnswer('cd-where') }}</span>
+            </div>
+            <div class="answer">
+                <strong>Collected Timing: </strong>
+                <span>{{ getAnswer('cd-collection-timing') }}</span>
+            </div>
+            <div class="answer">
+                <strong>Collected Frequency: </strong>
+                <span>{{ getAnswer('cd-collection-frequency') }}</span>
+            </div>
 
-        <div class="answer">
-            <strong>Collected at all sites: </strong>
-            <span>{{ getAnswer('cde-where') }}</span>
         </div>
-<!--         <div class="answer">
-            <strong>Timing: </strong>
-            <span>{{ getAnswer('cd-collection-timing') }}</span>
-        </div> -->
-        <div class="answer">
-            <strong>Notes:</strong>
-            <span>{{ getAnswer('cde-where-elaborated') }}</span>
-        </div>
-
 
     </div>
 </div>

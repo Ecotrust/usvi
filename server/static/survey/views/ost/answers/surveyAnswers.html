@@ -5,26 +5,20 @@
         <dt>Organization</dt>
         <dd>
             {{getAnswer('org-name')}} ({{getAnswer('org-type')}})</br>
-            {{getAnswer('org-address-1')}}</br>
-            {{getAnswer('org-city')}}<span ng-show="getAnswer('org-city') && (getAnswer('org-state') || getAnswer('org-zipcode'))">,</span>  {{getAnswer('org-state')}} {{getAnswer('org-zipcode')}}</br>
-            <a target="_blank" class="dark" style="font-size:14px;" href="{{getAnswer('org-url')}}">{{getAnswer('org-url')}}</a></br>
+            <span ng-show="orgAddress1">{{orgAddress1}}</br></span>
+            <span ng-show="orgAddress2">{{orgAddress2}}</br></span>
+            <span ng-show="orgCity">{{orgCity}}</span><span ng-show="orgCity && orgState">,</span>  {{orgState}} {{orgZipcode}}<span ng-show="orgCity || orgState || orgZipcode"></br></span>
+            <span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="{{orgUrl}}">{{orgUrl}}</a></br></span>
         </dd>
         <dt>Duration:</dt>
         <dd>{{ getAnswer('proj-data-years') }}</dd>
-        <dt>Avg. Number of visits to a typical site:</dt>
+        <dt>Typical site # visits:</dt>
         <dd>{{ getAnswer('proj-data-frequency') }}</dd>
         <dt>Data availability:</dt>
         <dd>{{getAnswer('proj-data-availability')}}</dd>
-
     </dl>
 </div>
 
-
-<div class="row">
-    <dl class="dl-horizontal">
-        
-    </dl>
-</div>
 
 <div class="answer-panels">
 <div answers-panel 
@@ -141,12 +135,12 @@
     respondent="respondent"></div>
 
 
-<div answers-panel 
+<!-- <div answers-panel 
     title="'Financial Support'"
     html-content="viewPath + 'views/ost/answers/financial.html'"
     species-answer="''"
     respondent="respondent"></div>
-</div>
+</div> -->
 
 <!-- <div answers-panel 
     title="'Future Monitoring'"

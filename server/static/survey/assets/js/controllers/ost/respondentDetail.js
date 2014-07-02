@@ -80,6 +80,12 @@ angular.module('askApp')
         $scope.parseResponses(respondent);
         $scope.backPath = respondent.complete ? '/completes' : '/incompletes';
         $scope.showContent = true;
+        $scope.orgAddress1 = $scope.getAnswer('org-address-1');
+        $scope.orgAddress2 = $scope.getAnswer('org-address-2');
+        $scope.orgCity = $scope.getAnswer('org-city');
+        $scope.orgState = $scope.getAnswer('org-state');
+        $scope.orgZipcode = $scope.getAnswer('org-zipcode');
+        $scope.orgUrl = $scope.getAnswer('org-url');
     });
 
 

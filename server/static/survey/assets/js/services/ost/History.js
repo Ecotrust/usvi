@@ -117,7 +117,7 @@ angular.module('askApp')
                 answer = question.answer;
             }
 
-            if (answer === '') answer = 'Not Available';
+            //if (answer === '') answer = 'Not Available';
             
         } catch(e) {
             answer = '';
