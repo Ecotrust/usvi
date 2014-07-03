@@ -10,29 +10,32 @@
                 Welcome! The Ocean Science Trust is conducting a survey of monitoring activities in the Central Coast of California. Results will inform planning and implementation of MPA monitoring in this region, and will be available on OceanSpaces.org.
             </p>
 
-            <p style="margin: 0 20px 25px 20px; max-width: 500px;">
+            <p style="margin: 0 20px 25px 20px; max-width: 500px;" ng-hide="showLoginForm">
                 There are 2 ways to take the survey:
             </p>
-            <div class="login-container">
+            <div class="login-container" ng-hide="showLoginForm">
 
-                <div class="btn-container">
+                <div class="btn-container" style="max-width: 400px;">
                     <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Log in with your OceanSpaces Account</a>
+                    <!-- <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Log in with your OceanSpaces Account<p style="font-size: 12px; font-family: arial; line-height: 14px; margin-top: 10px; margin-bottom: 0;">register a new OceanSpaces account or use </p><p style="font-size: 12px; font-family: arial; line-height: 14px; ">an existing OceanSpaces account</p></a> -->
                 </div>
 
                 <!-- <p style="margin: 20px 0px 20px 0px; max-width: 500px;">Click the button above to either create a new OceanSpaces.org account or to use an existing OceanSpaces.org account.</p> -->
-                <p style="margin: 0px 5px 20px 15px; max-width: 500px; font-size:12px; font-family:arial;">You can register a new OceanSpaces account by clicking the button above or use an existing OceanSpaces account.</p>
+                <p style="margin: 0px 5px 10px 15px; max-width: 500px; font-size: 12px; font-family: arial;">You can register a new OceanSpaces account by clicking the button above or use an existing OceanSpaces account.</p>
 
                 <div class="auth-separator">
                     <div class="or-auth-separator">
                         OR
                     </div>
                 </div>
+
+                <p style="margin: 20px 0px 10px 10px; max-width: 500px;">Or <a href="/respond#/signup">create a Central Coast Monitoring Survey account</a>.</p>
+
+                <p ng-hide="showLoginForm" style="margin: 0px 0px 10px 10px; max-width: 500px;">Already have a Central Coast Monitoring Survey account? <a href="javascript:void(0)" ng-click="showLoginForm = true;">Login here</a>.</p>
+
             </div>
 
-
-            <div class="login-container">
-
-                <p style="margin: 20px 0px 10px 10px; max-width: 500px;">Or <a href="/respond#/signup">create a Central Coast Monitoring Survey account</a>. Use the button above to login with an Oceanspaces account.</p>
+            <div class="login-container" ng-show="showLoginForm">
 
                 <div class="new-user-form signin-form" ng-show="showForgotPassword">
                     <form ng-submit="forgotPassword(forgotUser)">
@@ -47,8 +50,8 @@
                             </div>
 
                         </fieldset>
-                        <button class="btn btn-main btn-default btn-block" ng-disable="forgotUser.email">Submit</button>
-                        <a class="btn btn-main btn-default btn-block" ng-click="showForgotPassword = false">Cancel</a>
+                        <button class="btn btn-main btn-default" ng-disable="forgotUser.email">Submit</button>
+                        <a class="btn btn-main btn-default" ng-click="showForgotPassword = false">Cancel</a>
                     </form>
                 </div>
                 <div class="new-user-form signin-form" ng-show="showForgotPasswordDone">
@@ -57,8 +60,18 @@
                     <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">Ok</a>
                 </div>
 
-                <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
+                <div class="new-user-form signin-form" ng-hide="!showLoginForm || working || showForgotPassword || showForgotPasswordDone || showTempUser">
                     <form ng-submit="authenticateUser(authUser)">
+                        <!-- <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="question-title">Username</h4>
+                                <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <h4 class="question-title">Password</h4>
+                                <password password-text="authUser.password"></password>
+                            </div>
+                        </div> -->
                         <fieldset ng-disabled="working">
                             <h4 class="question-title">Username</h4>
                             <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
@@ -66,6 +79,7 @@
                             <password password-text="authUser.password"></password>
                         </fieldset>
                         <button class="btn btn-main" ng-disabled="! (authUser.username &&  authUser.password)">Login</button>
+                        <button class="btn btn-main" ng-click="showLoginForm = false">Cancel</button>
 
                         <div class="alert alert-danger" ng-show="showError == 'auth-error'">
                             <i class="icon-exclamation-sign"></i> There was a problem authenticating. Please try again.
@@ -90,7 +104,7 @@
                 </div>
             </div>
 
-            <p style="margin: 0 20px 35px 20px; max-width: 500px;">
+            <p style="margin: 20px 20px 35px 20px; max-width: 500px;" ng-hide="showLoginForm">
                 <a class="signin-link" href="/respond#/about">Learn more about this survey&nbsp;&raquo;</a>
             </p>
         </div>

@@ -147,6 +147,10 @@ p.intro {
 	top: -9px;
 }
 
+.auth-separator {
+    margin-top: 30px;
+}
+
 .sign-up a,
 .forgot-password {
 	color: #005A84;
