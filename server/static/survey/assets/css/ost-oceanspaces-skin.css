@@ -288,7 +288,8 @@ body.map-question .container {
 }
 
 .or-auth-separator {
-    left: 17%;
+    left: 41%;
+    font-weight: bold;
 }
 .signin-form fieldset, .new-user-form fieldset
 {
