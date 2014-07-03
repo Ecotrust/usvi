@@ -457,9 +457,11 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                         //     });
                         // }
                         layer.on("click", function (e) {
-                            map.setZoom(map.getZoom() + 1);
+                            console.log("Click layer "+id);
+                            console.log(e)
                         });
                         layer.on("dblclick", function (e) {
+                            map.setZoom(map.getZoom() + 1);
                             console.log("Click layer "+id);
                             console.log(e)
                         });
