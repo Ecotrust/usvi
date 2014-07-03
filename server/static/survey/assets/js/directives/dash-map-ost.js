@@ -237,14 +237,16 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             
             // Define the on click callback. 
             layer.on('click', function(e) {    
-                var unit_id = e.target.feature.properties.ID;
-                getPlanningUnit(unit_id, function(res){
-                    scope.planningUnit.data = res;
-                });
+                scope.$apply(function () {
+                    var unit_id = e.target.feature.properties.ID;
+                    getPlanningUnit(unit_id, function(res){
+                        scope.planningUnit.data = res;
+                    });
 
-                if (map._popup) {
-                    $compile(angular.element(map._popup._contentNode))(scope);
-                }
+                    if (map._popup) {
+                        $compile(angular.element(map._popup._contentNode))(scope);
+                    }
+                });
             });
         }
 
