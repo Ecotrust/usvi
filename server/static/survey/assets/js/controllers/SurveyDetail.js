@@ -240,12 +240,22 @@ angular.module('askApp')
             });
             $scope.gotoNextPage();
         } else {
+            var filterSpecialChars = function (questionType, answer) {
+                if (_.contains(['text', 'textarea', 'url', 'phone'], questionType)) {
+                    // In rushed response to bug #245, these characters are
+                    // causing an issue when in a text answer: ;&=
+                    var cleanString = answer.replace(/[;&=]/g, "");
+                    return cleanString;
+                } else {
+                    return answer;
+                }
+            };
             var url = ['/respond/submitPage', $scope.survey.slug, $routeParams.uuidSlug].join('/');
             var data = {
                         'answers': _.map(answers, function (answer) {
                             return {
                                 slug: answer.question.slug,
-                                answer: answer.answer
+                                answer: filterSpecialChars(answer.question.type, answer.answer)
                             }
                         })
                     };
