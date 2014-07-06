@@ -19,6 +19,21 @@
             </div>
             <div class="new-user-form" ng-hide="working || showTempUser">
                 <h3>Create New Survey Account</h3>
+                <div class="alert alert-danger" ng-show="showError == 'duplicate-user'">
+                    That username is already registered. Please try another.
+                </div>
+                <div class="alert alert-danger" ng-show="showError == 'duplicate-email'">
+                    That email address is already registered.
+                </div>
+                <div class="alert alert-danger" ng-show="showError == 'password-mismatch'">
+                    Passwords do not match. Please try again.
+                </div>
+                <div class="alert alert-danger" ng-show="showError == 'email-mismatch'">
+                    Email addresses do not match. Please try again.
+                </div>
+                <div class="alert alert-danger" ng-show="showError == 'invalid-email'">
+                    Invalid email address. Please try again.
+                </div>
                 <form ng-submit="createUser(newUser)">
                     <fieldset>
                         <h4 class="question-title">Username</h4>
@@ -32,18 +47,6 @@
                     </fieldset>
                     <button class="btn btn-main btn-default btn-block" ng-disabled="! newUser.password">Create Survey Account</button>
                     <a class="btn btn-main btn-default btn-block" href="/respond">Cancel</a>
-                    <div class="alert alert-danger" ng-show="showError == 'duplicate-user'">
-                        That username is already registered. Please try another.
-                    </div>
-                    <div class="alert alert-danger" ng-show="showError == 'password-mismatch'">
-                        Passwords do not match. Please try again.
-                    </div>
-                    <div class="alert alert-danger" ng-show="showError == 'email-mismatch'">
-                        Email addresses do not match. Please try again.
-                    </div>
-                    <div class="alert alert-danger" ng-show="showError == 'invalid-email'">
-                        Invalid email address. Please try again.
-                    </div>
                 </form>
             </div>
         </div>

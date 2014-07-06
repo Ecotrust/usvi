@@ -56,6 +56,9 @@ def createUser(request):
     if request.POST:
         param = simplejson.loads(request.POST.keys()[0])
         email = param.get('emailaddress1', None)
+        username = param.get('username', None)
+
+        # Valid email address format?
         if email is not None:
             email = email.replace(' ', '+')
             if email_re.match(email) is None:
@@ -63,31 +66,38 @@ def createUser(request):
                     return HttpResponse("invalid-email", status=500)
         else:
             return HttpResponse("invalid-email", status=500)
-        try:
-            user, created = User.objects.get_or_create(
-                username=param.get('username', None), email=email)
-        except IntegrityError:
+
+        # Username already used?
+        if User.objects.filter(username=username).count() > 0:
             return HttpResponse("duplicate-user", status=500)
-        if created:
-            user.set_password(param.get('password'))
-            user.save()
-            profile, created = UserProfile.objects.get_or_create(user=user)
-            profile.registration = '{}'
-            profile.save()
-            user.save()
-            user = authenticate(
-                username=user.username, password=param.get('password'))
-            login(request, user)
-            user_dict = {
-                'username': user.username,
-                'name': ' '.join([user.first_name, user.last_name]),
-                'email': user.email,
-                'is_staff': user.is_staff,
-                'registration': profile.registration
-            }
-            return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
-        else:
+
+        # Email address already used?
+        if User.objects.filter(email=email).count() > 0:
+            return HttpResponse("duplicate-email", status=500)
+
+        user, created = User.objects.get_or_create(username=username, email=email)
+
+        if not created:
             return HttpResponse("duplicate-user", status=500)
+
+        # Okay, all's well. Create the user.
+        user.set_password(param.get('password'))
+        user.save()
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        profile.registration = '{}'
+        profile.save()
+        user.save()
+        user = authenticate(username=user.username, password=param.get('password'))
+        login(request, user)
+        user_dict = {
+            'username': user.username,
+            'name': ' '.join([user.first_name, user.last_name]),
+            'email': user.email,
+            'is_staff': user.is_staff,
+            'registration': profile.registration
+        }
+        return HttpResponse(simplejson.dumps({'success': True, 'user': user_dict}))
+
     else:
         return HttpResponse("error", status=500)
 
