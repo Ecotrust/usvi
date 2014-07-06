@@ -193,7 +193,9 @@ p.intro {
 .multi-select .select-checked .select-content,
 .multi-select .select-checked .select-content .select-name,
 	  .select .option-checked .select-checked .select-content,
-      .select .option-checked .select-checked .select-content .select-name {
+      .select .option-checked .select-checked .select-content .select-name,
+      .select .single-select-other:focus,
+      .select .option-checked .other-option .single-select-other:focus {
 	background-color: #72AFB6 !important;
 }
 
