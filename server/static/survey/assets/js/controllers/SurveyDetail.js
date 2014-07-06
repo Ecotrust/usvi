@@ -219,6 +219,12 @@ angular.module('askApp')
             return;
         }
         $scope.pageSubmitted = true;
+        try {
+            var l = Ladda.create( document.getElementById('next-button') );
+            l.start();
+        } catch (e) {
+            if (console) { console.log('Error showing next button spinner.'); }
+        }
 
         var firstNonProfilePage = 2;
         if (page.order === firstNonProfilePage) {
