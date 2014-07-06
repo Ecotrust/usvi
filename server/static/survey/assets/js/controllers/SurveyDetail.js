@@ -214,6 +214,12 @@ angular.module('askApp')
             return false;
         }
 
+        /* prevent multi-submit */
+        if ($scope.pageSubmitted) {
+            return;
+        }
+        $scope.pageSubmitted = true;
+
         var firstNonProfilePage = 2;
         if (page.order === firstNonProfilePage) {
             _setProfileAnswers($scope.survey.slug, $routeParams.uuidSlug);
@@ -266,6 +272,7 @@ angular.module('askApp')
                 $scope.gotoNextPage();
             }).error(function(data, status){
                 console.log(status)
+                $scope.pageSubmitted = false;
             });
         }
         
