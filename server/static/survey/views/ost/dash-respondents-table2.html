@@ -1,25 +1,16 @@
-<table id="report-table" class="table" >
-    <thead>
-    <tr>
-        <th>Project</th>
-        <th>Organization</th>
-        <th>Ecosystem features monitored</th>
-        <th>Duration</th>
-        <th>Frequency</th>
-    </tr>
-    </thead>
+<table id="report-table" class="table" ng-table="tableParams">
     <tbody>
     <tr class='respondent' ng-repeat="respondent in respondents" ng-click='showRespondent(respondent)'>
-        <td>{{ respondent.project_name }}</td>
-        <td>{{ respondent.organization_name }}</td> <!-- link if availble? -->
+        <td data-title="'Project'" >{{ respondent.project_name }}</td>
+        <td data-title="'Organization'">{{ respondent.organization_name }}</td> <!-- link if availble? -->
         <!-- <td>{{ respondent.ecosystem_features }}</td> -->
-        <td>
+        <td data-title="'Ecosystem features monitored'" >
             <ul>
                 <li ng-repeat="ef in respondent.ecosystem_features.split(';')">{{ef}}</li>
             </ul>
         </td>
-        <td>{{ respondent.duration }}</td>
-        <td>{{ respondent.frequency }}</td>
+        <td data-title="'Duration'">{{ respondent.duration }}</td>
+        <td data-title="'Frequency'">{{ respondent.frequency }}</td>
     </tr>
     </tbody>
 </table>
