@@ -20,6 +20,24 @@ fab staging:root@hostname prepare
 fab staging:username@hostname deploy
 ```
 
+Then install Elastic Search -
+    
+    * TIM TO ADD CONTENT
+
+    * Adjust the elasticesearch.yml file by adding the folliwing lines
+
+    ```
+    script.disable_dynamic: true
+    network.host: 127.0.0.1
+    ```
+
+    * Restart Elastic Search 
+
+    ```
+    sudo /etc/init.d/elasticsearch restart
+    ```
+
+
 ###Sample config file
 ```javascript
 {
@@ -44,8 +62,8 @@ fab staging:username@hostname deploy
     ]
 }
 ```
-
-After the prepare command runs you will no longer be able to login as root with a password.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file.
+When first creating a new droplet on digital ocean, you can add ssh keys for users. This will
+allows those users to log in as root from there machines with `ssh USERNAME@IP_ADDRESS`.  After the prepare command runs users will no longer have access to the root login. Instead users will be loggin in to their own acocunts.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file. If you need to log in as root you will need to reuqest the root password from Digital Ocean. 
 
 # Backing up and restoring databases
 
@@ -71,7 +89,7 @@ grunt c-e2e
 ```
 
 
-# Running managment commands on toold-dev
+# Running managment commands on tools-dev (ost-dev5)
 Log into `tools-dev.oceanspaces.org` and run
 
 ```
