@@ -37,6 +37,12 @@ Then install Elastic Search -
     sudo /etc/init.d/elasticsearch restart
     ```
 
+    * Thenbuild the index
+
+    ```
+    ./manage.py rebuild_index --settings=config.environments.staging
+    ```
+
 
 ###Sample config file
 ```javascript
