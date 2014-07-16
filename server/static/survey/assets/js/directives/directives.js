@@ -17,9 +17,6 @@ angular.module('askApp')
             
             scope.toggleVisible = function () {
                 scope.visible = ! scope.visible;
-
-                
-                
             }
         }
     }

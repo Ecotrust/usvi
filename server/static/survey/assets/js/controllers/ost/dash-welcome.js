@@ -1,6 +1,8 @@
 
-angular.module('askApp').controller('DashWelcomeCtrl', function($scope, $routeParams, surveyFactory) {
+angular.module('askApp').controller('DashWelcomeCtrl', function($scope, $routeParams, $window, surveyFactory) {
     
+    //$scope.screen_height = angular.element($window).height();
+
     $scope.activePage = 'welcome';
     $scope.user = app.user || {};
     $scope.filters = {};
