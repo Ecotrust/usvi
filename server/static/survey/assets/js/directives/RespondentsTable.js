@@ -18,13 +18,14 @@ angular.module('askApp')
 
     return {
         restrict: 'EA',
-        templateUrl : app.viewPath +'views/ost/dash-respondents-table2.html',
+        templateUrl : app.viewPath +'views/ost/dash-respondents-table.html',
         scope: {respondents: '=',
                 resource:'=',
                 meta:'='
             },
 
         link: function (scope, element, attrs) {
+            scope.orderBy = null;
             scope.meta = null;
             scope.http = http;
             scope.surveySlug = surveyFactory.survey.slug;
@@ -56,6 +57,16 @@ angular.module('askApp')
             if (scope.resource === '/api/v1/completerespondant/'){
                 scope.goToPage(1);
             }
+
+            scope.setOrderBy = function(field){
+                if (scope.orderBy === field){
+                    scope.orderBy = "-"+field;
+                } else if (scope.orderBy === '-'+field){
+                    scope.orderBy = null;
+                } else {
+                    scope.orderBy = field;
+                }
+            };
 
         }
     };

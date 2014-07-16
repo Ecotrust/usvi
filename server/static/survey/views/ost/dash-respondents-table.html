@@ -1,15 +1,32 @@
 <table id="report-table" class="table" >
     <thead>
     <tr>
-        <th>Project</th>
-        <th>Organization</th>
+        <th ng-click="setOrderBy('project_name');" >Project 
+            <span class="glyphicon" 
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'project_name', 'glyphicon-sort-by-alphabet-alt':orderBy === '-project_name'}">
+            </span>
+        </th>
+        
+        <th ng-click="setOrderBy('organization_name');">Organization 
+            <span class="glyphicon" 
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'organization_name', 'glyphicon-sort-by-alphabet-alt':orderBy === '-organization_name'}">
+            </span>
+        </th>
         <th>Ecosystem features monitored</th>
-        <th>Duration</th>
-        <th>Frequency</th>
+        <th ng-click="setOrderBy('duration');" >Duration
+            <span class="glyphicon" 
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'duration', 'glyphicon-sort-by-alphabet-alt':orderBy === '-duration'}">
+            </span>
+        </th>
+        <th ng-click="setOrderBy('frequency');" >Frequency
+            <span class="glyphicon" 
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'frequency', 'glyphicon-sort-by-alphabet-alt':orderBy === '-frequency'}">
+            </span>
+        </th>
     </tr>
     </thead>
     <tbody>
-    <tr class='respondent' ng-repeat="respondent in respondents" ng-click='showRespondent(respondent)'>
+    <tr class='respondent' ng-repeat="respondent in respondents | orderBy:orderBy" ng-click='showRespondent(respondent)'>
         <td>{{ respondent.project_name }}</td>
         <td>{{ respondent.organization_name }}</td> <!-- link if availble? -->
         <!-- <td>{{ respondent.ecosystem_features }}</td> -->
