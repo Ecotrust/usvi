@@ -82,6 +82,12 @@ to build it.
 .popup-content.planning-unit h5 {
   margin-bottom: 0; }
 
+/**********************************
+General Surgical Classes Go Here 
+***********************************/
+.centered {
+  text-align: center; }
+
 /*
 
 These styles are taken from oceanspaces.org and are used on the dash board.
@@ -100,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .os-btn {
   color: #c04504;
-  font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+  font-size: 1.5em;
   line-height: 1;
   border: 3px solid #d6d6d6;
   border-radius: 25px;
@@ -112,6 +118,11 @@ h1, h2, h3, h4, h5, h6 {
   background-image: none; }
   .os-btn .default {
     background-color: #f7f7f7; }
+
+.os-btn:hover {
+  background-color: #fbf8f2;
+  text-decoration: none;
+  color: #c04504; }
 
 /******************************************************
 Respondent Table Styles
