@@ -1,84 +1,126 @@
-#topnav {
-    background: #005072;
-}
-.oceanspaces-logo {
-    height: 60px;
-    padding-top: 0;
-}
-.point97-logo {
-    height: 20px;
-    margin-top: 20px;
-}
+/*
 
-.dash-map-ost { 
-    height: 500px;
-}
+DO NOT EDIT THE .CSS VERSION OF THIS FILE. Instead run
+`sass ost-dash.scss > ast-dash.css` in this file's directory 
+to build it. 
+
+*/
+#topnav {
+  background: #005072; }
+
+.oceanspaces-logo {
+  height: 60px;
+  padding-top: 0; }
+
+.point97-logo {
+  height: 20px;
+  margin-top: 20px; }
+
+.dash-map-ost {
+  height: 500px; }
+
 .leaflet-control-zoom a {
-    background-color: white !important;
-}
+  background-color: white !important; }
+
 .leaflet-control-zoom a.leaflet-control-zoom-in {
-    -moz-border-top-left-radius: 2px !important;
-    -webkit-border-top-left-radius: 2px !important;
-    border-top-left-radius: 2px !important;    
-    -moz-border-top-right-radius: 2px !important;
-    -webkit-border-top-right-radius: 2px !important;
-    border-top-right-radius: 2px !important;    
-}
+  -moz-border-top-left-radius: 2px !important;
+  -webkit-border-top-left-radius: 2px !important;
+  border-top-left-radius: 2px !important;
+  -moz-border-top-right-radius: 2px !important;
+  -webkit-border-top-right-radius: 2px !important;
+  border-top-right-radius: 2px !important; }
+
 .leaflet-control-zoom a.leaflet-control-zoom-out {
-    -moz-border-bottom-left-radius: 2px !important;
-    -webkit-border-bottom-left-radius: 2px !important;
-    border-bottom-left-radius: 2px !important;    
-    -moz-border-bottom-right-radius: 2px !important;
-    -webkit-border-bottom-right-radius: 2px !important;
-    border-bottom-right-radius: 2px !important;    
-}
+  -moz-border-bottom-left-radius: 2px !important;
+  -webkit-border-bottom-left-radius: 2px !important;
+  border-bottom-left-radius: 2px !important;
+  -moz-border-bottom-right-radius: 2px !important;
+  -webkit-border-bottom-right-radius: 2px !important;
+  border-bottom-right-radius: 2px !important; }
+
 .map-controls {
-	position: absolute;
-	top: 12px;
-	right: 10px;
-    z-index: 1000;
-}
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  z-index: 1000; }
+
 .leaflet-popup-content-wrapper {
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    min-width: 250px;
-    min-height: 225px;
-}
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  min-width: 250px;
+  min-height: 225px; }
 
 .leaflet-popup-content .load-indicator {
-    text-align: center;
-    font-size: 16px;
-    margin-top: 50px;
-}
-
+  text-align: center;
+  font-size: 16px;
+  margin-top: 50px; }
 
 /*
     MAP LEGEND
  */
 #map-legend {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 #map-legend li {
-    float:left;
-    margin-right:9px;
-}
+  float: left;
+  margin-right: 9px; }
 
 .circle {
-    display:inline-block;
-    border-radius: 50%;
-    width: 13px;
-    height: 12px;
-}
+  display: inline-block;
+  border-radius: 50%;
+  width: 13px;
+  height: 12px; }
 
 #map-legend ul .circle {
-    margin-top: 3px;
-    margin-right: 3px;
-}
+  margin-top: 3px;
+  margin-right: 3px; }
 
-.popup-content.planning-unit h5{
-    margin-bottom:0;
-}
+.popup-content.planning-unit h5 {
+  margin-bottom: 0; }
 
-}
+/*
+
+These styles are taken from oceanspaces.org and are used on the dash board.
+
+*/
+.os-btn {
+  color: #c04504;
+  font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+  line-height: 1;
+  border: 3px solid #d6d6d6;
+  border-radius: 25px;
+  padding: 11px 18px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none; }
+  .os-btn .default {
+    background-color: #f7f7f7; }
+
+/******************************************************
+Respondent Table Styles
+******************************************************/
+th {
+  text-align: center;
+  color: #c04504;
+  background: #f7f7f7; }
+
+th.orderable:hover {
+  cursor: pointer;
+  background: #AEDAE0; }
+
+tr.respondent:nth-child(odd) {
+  background: white; }
+
+tr.respondent:nth-child(even) {
+  background: #EEEEFF; }
+
+tr.respondent:hover {
+  background: #AEDAE0;
+  cursor: pointer; }
+
+/******************************************************
+End Respondent Table Styles
+******************************************************/

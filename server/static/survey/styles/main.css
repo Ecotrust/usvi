@@ -164,38 +164,6 @@
 }
 
 
-/******************************************************
-Respondent Table Styles
-******************************************************/
-
-th {
-  text-align:center;
-}
-
-th.orderable:hover {
-  cursor:pointer;
-  background: #AEDAE0;
-}
-tr.respondent:nth-child(odd){
-  background:white;
-}
-
-tr.respondent:nth-child(even){
-  background:#EEEEFF;
-}
-
-
-tr.respondent:hover {
-  background: #AEDAE0;
-  cursor: pointer;
-}
-
-
-
-/******************************************************
-End Respondent Table Styles
-******************************************************/
-
 
 
 .darkSalmonBackground {

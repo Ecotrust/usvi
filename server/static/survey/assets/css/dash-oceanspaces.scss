@@ -1,0 +1,27 @@
+/*
+
+These styles are taken from oceanspaces.org and are used on the dash board.
+
+*/
+
+$os-red: #c04504;   // This is used for highlight fonts
+$os-grey: #F7F7F7;  // This is the background color of the button.
+$os-border-grey: #D6D6D6;  // This is the color of the button border.
+
+.os-btn {
+    color: $os-red;
+    font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+    line-height: 1;
+    border: 3px solid $os-border-grey;
+    border-radius: 25px;
+    padding: 11px 18px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+
+    .default{
+      background-color: $os-grey;
+    }
+}
