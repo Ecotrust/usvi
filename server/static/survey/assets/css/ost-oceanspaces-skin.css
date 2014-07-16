@@ -1,6 +1,7 @@
 /* Use oceanspaces background */
 body {
-	background: #9cb9bf url(/static/survey/assets/img/oceanspaces-background.jpg) no-repeat top center;
+    background-color: #f3f4f6;
+	/*background: #9cb9bf url(/static/survey/assets/img/oceanspaces-background.jpg) no-repeat top center;*/
 }
 
 .progress-container p.small-label {
@@ -11,103 +12,16 @@ body {
 	background-color: #005072;
 }
 
-/* Use oceanspaces font */
-@font-face {
-    font-family:'MuseoSans-700';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_0_0.ttf) 
-    format('truetype');
-}
 
-@font-face {
-    font-family:'MuseoSans-300';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_1_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-900Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_2_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-500';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_3_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-100';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_4_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-700Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_5_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-300Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_6_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-100Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_7_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-500Italic';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_8_0.ttf) 
-    format('truetype');
-}
-
-@font-face {
-    font-family:'MuseoSans-900';
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.eot);
-    src:url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.eot?#iefix) 
-    format('embedded-opentype'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.woff) 
-    format('woff'),url(http://oceanspaces.org/sites/all/themes/ost_panels/css/webfonts/2384BD_9_0.ttf) 
-    format('truetype');
-}
 
 body {
-	font-family: Arial,Verdana,MuseoSans-500 !important;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    /*font-family: Arial,Verdana,MuseoSans-500 !important;*/
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: MuseoSans-300, Arial;
+	font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B';
+    /*font-family: MuseoSans-300, Arial;*/
 }
 
 
@@ -122,7 +36,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	text-transform: none;
 }
 
-
+.navbar {
+    background-color: #004C72;
+}
 
 /*
  *  White background container around page.
@@ -231,6 +147,10 @@ p.intro {
 	top: -9px;
 }
 
+.auth-separator {
+    margin-top: 30px;
+}
+
 .sign-up a,
 .forgot-password {
 	color: #005A84;
@@ -273,7 +193,9 @@ p.intro {
 .multi-select .select-checked .select-content,
 .multi-select .select-checked .select-content .select-name,
 	  .select .option-checked .select-checked .select-content,
-      .select .option-checked .select-checked .select-content .select-name {
+      .select .option-checked .select-checked .select-content .select-name,
+      .select .single-select-other:focus,
+      .select .option-checked .other-option .single-select-other:focus {
 	background-color: #72AFB6 !important;
 }
 
@@ -327,4 +249,140 @@ body.map-question .container {
 
 .map-question #page-controls {
     padding-top: 20px;
+}
+
+
+
+/**
+ * Changes made day before launch to better 
+ * match the OceanSpaces.org that was also just 
+ * now launched.
+ */
+.os-red-link,
+.page-content p a,
+.modal-body ul a
+{
+    color: #c24118;
+}
+.os-red-link:hover,
+.os-red-link:focus,
+.page-content p a:hover,
+.page-content p a:focus
+.modal-body ul a:hover,
+.modal-body ul a:focus
+{
+    color: #70afb6;
+}
+
+.ef-descriptions-modal .def-container {
+    height: 130px;
+}
+
+.info-content p,
+.info-content span,
+.info-content ul,
+.ost-map > p {
+    font-family: font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /*font-family: MuseoSans-300, Arial;*/
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 24px;
+    color: #002535;
+}
+.info-content li {
+    margin-bottom: 8px;
+}
+
+.or-auth-separator {
+    left: 41%;
+    font-weight: bold;
+}
+.signin-form fieldset, .new-user-form fieldset
+{
+    margin-bottom: 20px;
+}
+
+.btn.eye { color: white; }
+.btn.eye:hover { color: #ddd; }
+
+.info-content h3,
+.block-title {
+    font-weight: normal;
+    /*letter-spacing: 1px;*/
+    text-transform: none;
+}
+
+
+
+
+
+.dash-map-ost { 
+    height: 500px;
+}
+.dash-map-ost .leaflet-control-zoom a {
+    background-color: white !important;
+}
+.dash-map-ost .leaflet-control-zoom a.leaflet-control-zoom-in {
+    -moz-border-top-left-radius: 2px !important;
+    -webkit-border-top-left-radius: 2px !important;
+    border-top-left-radius: 2px !important;    
+    -moz-border-top-right-radius: 2px !important;
+    -webkit-border-top-right-radius: 2px !important;
+    border-top-right-radius: 2px !important;    
+}
+.dash-map-ost .leaflet-control-zoom a.leaflet-control-zoom-out {
+    -moz-border-bottom-left-radius: 2px !important;
+    -webkit-border-bottom-left-radius: 2px !important;
+    border-bottom-left-radius: 2px !important;    
+    -moz-border-bottom-right-radius: 2px !important;
+    -webkit-border-bottom-right-radius: 2px !important;
+    border-bottom-right-radius: 2px !important;    
+}
+.dash-map-ost .map-controls {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    z-index: 1000;
+}
+.dash-map-ost .leaflet-popup-content-wrapper {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    min-width: 250px;
+    min-height: 225px;
+}
+
+.dash-map-ost .leaflet-popup-content .load-indicator {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 50px;
+}
+
+
+/*
+    MAP LEGEND
+ */
+#map-legend {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#map-legend li {
+    float:left;
+    margin-right:9px;
+}
+
+.circle {
+    display:inline-block;
+    border-radius: 50%;
+    width: 13px;
+    height: 12px;
+}
+
+#map-legend ul .circle {
+    margin-top: 3px;
+    margin-right: 3px;
+}
+
+.popup-content.planning-unit h5{
+    margin-bottom:0;
 }

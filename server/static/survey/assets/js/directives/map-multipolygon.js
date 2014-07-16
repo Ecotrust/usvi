@@ -59,7 +59,7 @@ angular.module('askApp')
 
                 var isLayerSelected = function (layer) {
                     return layer.options.fillOpacity !== 0;
-                }; 
+                };
 
                 var selectLayer = function (layer) {
                     if (!isLayerSelected(layer)) {
@@ -69,13 +69,13 @@ angular.module('askApp')
                         });
                         scope.question.answer.push({
                             id: id,
-                            uuid: $routeParams.uuidSlug, 
+                            uuid: $routeParams.uuidSlug,
                             qSlug: scope.question.slug
                         });
                         scope.selectionCount++;
                     }
                 };
-                
+
                 var deselectLayer = function (layer) {
                     if (isLayerSelected(layer)) {
                         var id = layer.feature.properties.ID;
@@ -83,7 +83,7 @@ angular.module('askApp')
                             fillOpacity: 0
                         });
                         scope.question.answer = _.reject(scope.question.answer, function(item) {
-                            return item.id == id; 
+                            return item.id == id;
                         });
                         scope.selectionCount--;
                     }
@@ -106,10 +106,10 @@ angular.module('askApp')
                         selectLayer(layer);
                     });
                 };
-                
+
                 // Add planning units grid
                 $http.get("/static/survey/data/CentralCalifornia_PlanningUnits.json").success(function(data) {
-                    var geojsonLayer = L.geoJson(data, { 
+                    var geojsonLayer = L.geoJson(data, {
                         style: function(feature) {
                             return {
                                 "color": "#E6D845",
@@ -127,10 +127,11 @@ angular.module('askApp')
                                 layer.setStyle( {
                                     fillOpacity: .6
                                 });
+                                scope.selectionCount++;
                             }
                             layer.on("click", function (e) {
                                 scope.$apply(function () {
-                                    layerClick(layer);                                    
+                                    layerClick(layer);
                                 });
                             });
                             scope.allPloygons.push(layer);
@@ -138,10 +139,10 @@ angular.module('askApp')
                     });
                     geojsonLayer.addTo(map);
                 });
-                
+
                 $('.leaflet-label').removeClass('leaflet-label-right');
 
-                
+
                 scope.hoverLatLng = null;
 
                 scope.onMouseMove = function (e /*Leaflet MouseEvent */) {
@@ -160,7 +161,7 @@ angular.module('askApp')
 
                 scope.onBaseLayerChange = function (e /*Leavelet LayersControlEvent*/) {
                     var colors = [];
-                    colors['Nautical Charts'] = 'blue';//'#005072';
+                    colors['Nautical Charts'] = 'blue';
                     colors['Satellite'] = '#E6D845';
                     colors[e.name]
 
@@ -170,7 +171,7 @@ angular.module('askApp')
 
                     _.each(scope.allPloygons, function (layer) {
                         layer.setStyle(style);
-                    });                    
+                    });
                 };
 
                 map.on('mousemove', scope.onMouseMove);
@@ -181,7 +182,7 @@ angular.module('askApp')
                     scope.windowHeight = window.innerHeight - 300 + 'px';
                     $timeout(function () {
                         map.invalidateSize(false);
-                    });                   
+                    });
                 };
 
                 scope.updateMapSize();

@@ -80,25 +80,30 @@ angular.module('askApp')
         $scope.parseResponses(respondent);
         $scope.backPath = respondent.complete ? '/completes' : '/incompletes';
         $scope.showContent = true;
+        $scope.orgAddress1 = $scope.getAnswer('org-address-1');
+        $scope.orgAddress2 = $scope.getAnswer('org-address-2');
+        $scope.orgCity = $scope.getAnswer('org-city');
+        $scope.orgState = $scope.getAnswer('org-state');
+        $scope.orgZipcode = $scope.getAnswer('org-zipcode');
+        $scope.orgUrl = $scope.getAnswer('org-url');
     });
 
 
 /*************************** MAP STUFF **********************************/
-    
+
     $scope.mapSettings = {
-        questionSlugPattern: '*-collection-points',
         lat: 35.8336630,
         lng: -122.0000000,
         zoom: 7,
         mapPoints: [],
         mapUnits: '',
-
+        showPopups: false
     };
 
     $scope.updateMap = function () {
-        var apiUrl = pointsApiUrl($routeParams.surveySlug, $scope.mapSettings.questionSlugPattern, $scope.filtersJson, $scope.uuid),
+        var apiUrl = pointsApiUrl($routeParams.surveySlug, '*-collection-points', $scope.filtersJson, $scope.uuid),
                      polysUrl = polysApiUrl($routeParams.surveySlug, '*-collection-areas');
-        
+
         getPoints(apiUrl, function (points) {
             $scope.mapSettings.mapPoints = points;
             var uniq = [];
@@ -115,10 +120,10 @@ angular.module('askApp')
         });
 
     };
-    
+
     function pointsApiUrl (sSlug, qSlug, filtersJson, resp_uuid) {
         var url = ['/reports/geojson', sSlug, qSlug];
-        
+
         var del = '?';
         if (filtersJson && !_.isEmpty(filtersJson)) {
             url.push('?filters=' + JSON.stringify(filtersJson));
@@ -160,7 +165,7 @@ angular.module('askApp')
                             qSlug: qSlug});
                     }
                 };
-                
+
             });
 
             success_callback(points);

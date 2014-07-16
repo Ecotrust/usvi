@@ -4,30 +4,47 @@
             <div class="page-header">
                 <img src="static/survey/assets/img/oceanspaces-logo.png" class="center oceanspaces-logo logo" />
                 <h1 class="ost-title">Central Coast Monitoring Survey</h1>
-                <!--<h2 class="ost-title">Assessing Research &amp; Monitoring</h2>-->
             </div>
-            <!-- <p class="intro">
-                Short blurb of survey mission and why someone might want to contribute.
-            </p> -->
 
-            <p style="margin: 0 20px 10px 20px; max-width: 500px;">
-                Welcome! The Ocean Science Trust is conducting a survey of research and monitoring activities in the Central Coast of California. Results will inform planning and implementation of MPA monitoring in this region, and will be available on OceanSpaces.org.</p>
-                <p style="margin: 0 20px 35px 20px; max-width: 500px;">
-                <a class="signin-link" href="/respond#/about">Learn more (privacy / support information) &nbsp;&raquo;</a>
+            <p style="margin: 0 20px 25px 20px; max-width: 500px;">
+                Welcome! The Ocean Science Trust is conducting a survey of monitoring activities in the Central Coast of California. Results will inform planning and implementation of MPA monitoring in this region, and will be available on OceanSpaces.org.
             </p>
-            <p style="margin: 0 20px 10px 20px; max-width: 500px;"><strong>Login to take the survey.</strong> Don’t have an OceanSpaces.org account? You can still take the survey, but please <a href="/respond#/signup">sign up</a> to create a username and password so that you can revisit your work. If you already have a survey username and password, sign in below.</p>
 
-            <div class="login-container">
+            <div class="login-container" ng-hide="showLoginForm">
+                <p style="margin: 20px 0px 10px 10px; max-width: 500px;">
+                    To take the survey, <a href="/respond#/signup">create a username and password by clicking here</a>. This will allow you to revisit the survey and allow us to track participation.
+                </p>
 
-                <div class="btn-container">
-                    <a class="btn btn-main btn-default" href="/login/ost/?next=/respond">Log in with OceanSpaces Account</a>
+                <p style="margin: 20px 0px 10px 10px; max-width: 500px;">
+                    Already have a username and password? <a href="javascript:void(0)" ng-click="showLoginForm = true;">Login here</a>
+                </p>
+
+<!--                 <div class="btn-container" style="max-width: 400px;">
+                    <a class="btn btn-main btn-default" href="/respond#/signup">Create Survey Account</a>
                 </div>
 
+                <p style="margin: 0px 55px 10px 70px; max-width: 500px; font-size: 12px; font-family: arial;">
+                    This will allow you to take the survey and revisit the survey and will allow us to track participation.
+                </p>
+
+                <p style="margin: 20px 0px 10px 10px; max-width: 500px;">
+                    Already have a survey account? <a href="javascript:void(0)" ng-click="showLoginForm = true;">Login here</a>
+                </p>
+-->
+
+<!--
                 <div class="auth-separator">
                     <div class="or-auth-separator">
-                        OR SURVEY ACCOUNT
+                        OR
                     </div>
                 </div>
+ -->
+
+                <!-- <p ng-hide="showLoginForm" style="margin: 0px 0px 10px 10px; max-width: 500px;">Already have a Central Coast Monitoring Survey account? .</p> -->
+
+            </div>
+
+            <div class="login-container" ng-show="showLoginForm">
 
                 <div class="new-user-form signin-form" ng-show="showForgotPassword">
                     <form ng-submit="forgotPassword(forgotUser)">
@@ -42,8 +59,8 @@
                             </div>
 
                         </fieldset>
-                        <button class="btn btn-main btn-default btn-block" ng-disable="forgotUser.email">Submit</button>
-                        <a class="btn btn-main btn-default btn-block" ng-click="showForgotPassword = false">Cancel</a>
+                        <button class="btn btn-main btn-default" ng-disable="forgotUser.email">Submit</button>
+                        <a class="btn btn-main btn-default" ng-click="showForgotPassword = false">Cancel</a>
                     </form>
                 </div>
                 <div class="new-user-form signin-form" ng-show="showForgotPasswordDone">
@@ -52,8 +69,18 @@
                     <a class="btn btn-main btn-default btn-block" ng-click="showForgotPasswordDone = false">Ok</a>
                 </div>
 
-                <div class="new-user-form signin-form" ng-hide="working || showForgotPassword || showForgotPasswordDone || showTempUser">
+                <div class="new-user-form signin-form" ng-hide="!showLoginForm || working || showForgotPassword || showForgotPasswordDone || showTempUser">
                     <form ng-submit="authenticateUser(authUser)">
+                        <!-- <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="question-title">Username</h4>
+                                <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <h4 class="question-title">Password</h4>
+                                <password password-text="authUser.password"></password>
+                            </div>
+                        </div> -->
                         <fieldset ng-disabled="working">
                             <h4 class="question-title">Username</h4>
                             <input type="text" class="form-control username" ng-model="authUser.username" autocapitalize="off" required>
@@ -61,12 +88,13 @@
                             <password password-text="authUser.password"></password>
                         </fieldset>
                         <button class="btn btn-main" ng-disabled="! (authUser.username &&  authUser.password)">Login</button>
+                        <button class="btn btn-main" ng-click="showLoginForm = false">Cancel</button>
 
                         <div class="alert alert-danger" ng-show="showError == 'auth-error'">
                             <i class="icon-exclamation-sign"></i> There was a problem authenticating. Please try again.
                         </div>
 
-                        <a ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
+                        <a class="os-red-link" style="margin-left: 10px;" ng-click="showForgotPassword = true" href="javascript:void(0)">Forgot your password?</a>
                     </form>
                 </div>
 
@@ -84,6 +112,10 @@
                     </div>
                 </div>
             </div>
+
+            <p style="margin: 20px 20px 35px 20px; max-width: 500px;" ng-hide="showLoginForm">
+                <a class="signin-link" href="/respond#/about">Learn more about this survey&nbsp;&raquo;</a>
+            </p>
         </div>
     </div>
 </div>

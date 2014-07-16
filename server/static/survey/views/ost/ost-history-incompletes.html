@@ -20,12 +20,12 @@
 
         <div ng-show="showSurveyList">
             <div class="row">
-                <h3>Incomplete Reports</h3>
+                <h3>Incomplete Surveys</h3>
             </div>
     
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-1">
-                    <span class="label">From:</span>
+                    <span class="label" style="color: black;">From:</span>
                 </div>
                 <div class="col-md-4 input-group">
                     <input class="form-control datepicker" type="date" ng-model="surveyFilter.start" />
@@ -33,7 +33,7 @@
             </div>
             <div class="row" style="margin-top: 3px">
                 <div class="col-md-1">
-                    <span class="label">To:</span>
+                    <span class="label" style="color: black;">To:</span>
                 </div>
                 <div class="col-md-4 input-group">
                     <input class="form-control datepicker" type="date" ng-model="surveyFilter.end" />
@@ -46,6 +46,8 @@
             </div>
 
             <div style="margin-top: 20px">
+
+                <h4 ng-hide="respondentList.length > 0">No surveys found. Try adjusting the date filter.</h4>
 
                 <div class="row" ng-repeat="respondent in respondentList | orderBy: 'ts':true">
                     <div class="col-xs-6 col-sm-6 col-md-6">

@@ -74,7 +74,7 @@ angular.module('askApp')
 
     $scope.logout = function () {
         app.user = false;
-        storage.saveState(app);
+        //storage.saveState(app);
 
         var url = app.server + "/account/logoutUser";
         $scope.working = true;

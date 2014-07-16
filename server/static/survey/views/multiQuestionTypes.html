@@ -19,7 +19,7 @@
             <div class="select-wrapper form-control" ng-class="{ 'unit-selected': question.unit }">
                 <select ng-model="question.unit" class="unit-select" placeholder="">
                     <option value="">Select Units</option>
-                    <option ng-repeat="option in question.options">{{ option.text }}</option>
+                    <option ng-repeat="option in question.options">{{option.text}}</option>
                 </select>
                 <span class="down glyphicon glyphicon-chevron-down"></span>
             </div>
@@ -34,9 +34,7 @@
         <div class="question">
             <select ui-select2 ng-model="question.answer" placeholder="" required>
                 <option value=""></option>
-                <option ng-repeat="option in question.options" value="{{ option.text || option.name }}">
-                    {{ option.text || option.name }}
-                </option>
+                <option ng-repeat="option in question.options" value="{{ option.text || option.name }}">{{ option.text || option.name }}</option>
                 <option selected value="other">Other</option>
             </select>
             <input class="form-control" type="text" placeholder="" ng-show="answer == 'other'" ng-model="otherAnswer" />
@@ -114,9 +112,7 @@
                         <div class="select-content">
                             <!-- <div class="checkbox"></div> -->
                             <i class="glyphicon glyphicon-remove pull-right" ng-show="option.checked"></i>
-                            <h4 class="select-name option-name">
-                                {{ option.text || option.name }}
-                            </h4>
+                            <h4 class="select-name option-name">{{ option.text || option.name }}</h4>
                         </div>
                     </li>
                 </ul>
@@ -148,9 +144,7 @@
                                         <div class="select-content">
                                             <!-- <div class="checkbox"></div> -->
                                             <i class="glyphicon glyphicon-remove pull-right" ng-show="option.checked"></i>
-                                            <h4 class="select-name option-name">
-                                                {{option.text}}
-                                            </h4>
+                                            <h4 class="select-name option-name">{{option.text}}</h4>
                                         </div>
                                     </li>
                                 </ul>
@@ -198,9 +192,7 @@
                             <div class="select-content">
                                 <!-- <div class="checkbox"></div> -->
                                 <i class="glyphicon glyphicon-remove pull-right" ng-show="option.checked"></i>
-                                <h4 class="select-name option-name">
-                                    {{ option.text || option.name }}
-                                </h4>
+                                <h4 class="select-name option-name">{{ option.text || option.name }}</h4>
 
                             </div>
                         </li>
@@ -320,7 +312,7 @@
             <!-- show if groupedOptions are NOT present -->
             <div ng-show="question.groupedOptions.length == 0">
                 <div style="padding: 24px 0;" ng-show="{{question.slug == 'ecosystem-features'}}">
-                    <a href="javascript:void(0)" class="btn btn-default" ng-click="showEcosysFeatDescs()"><i class="icon icon-info-sign" style="color: black; font-size: 20px;"></i>&nbsp;Click here to view descriptions</a>
+                    <a href="javascript:void(0)" class="btn btn-default" ng-click="showEcosysFeatDescs()"><i class="icon icon-info-sign" style="color: black; font-size: 20px;"></i>&nbsp;Ecosystem Feature Definitions</a>
                 </div>
                 <h3 ng-show="question.hoisted_options.length > 0">Other Activities</h3>
                 <ul  ng-class="{'option-checked': question.answerSelected, 'option-unchecked': !question.answerSelected  }" class="select choices list-unstyled">
@@ -328,9 +320,7 @@
                         <div class="select-content">
                             <!-- <div class="checkbox"></div> -->
                             <i class="glyphicon glyphicon-remove pull-right" ng-show="option.checked"></i>
-                            <h4 class="select-name option-name">
-                                {{option.text}}
-                            </h4>   
+                            <h4 class="select-name option-name">{{option.text}}</h4>
 
                         </div>
                     </li>

@@ -214,6 +214,18 @@ angular.module('askApp')
             return false;
         }
 
+        /* prevent multi-submit */
+        if ($scope.pageSubmitted) {
+            return;
+        }
+        $scope.pageSubmitted = true;
+        try {
+            var l = Ladda.create( document.getElementById('next-button') );
+            l.start();
+        } catch (e) {
+            if (console) { console.log('Error showing next button spinner.'); }
+        }
+
         var firstNonProfilePage = 2;
         if (page.order === firstNonProfilePage) {
             _setProfileAnswers($scope.survey.slug, $routeParams.uuidSlug);
@@ -228,12 +240,22 @@ angular.module('askApp')
             });
             $scope.gotoNextPage();
         } else {
+            var filterSpecialChars = function (questionType, answer) {
+                if (_.contains(['text', 'textarea', 'url', 'phone'], questionType)) {
+                    // In rushed response to bug #245, these characters are
+                    // causing an issue when in a text answer: ;&=
+                    var cleanString = answer.replace(/[;&=]/g, "");
+                    return cleanString;
+                } else {
+                    return answer;
+                }
+            };
             var url = ['/respond/submitPage', $scope.survey.slug, $routeParams.uuidSlug].join('/');
             var data = {
                         'answers': _.map(answers, function (answer) {
                             return {
                                 slug: answer.question.slug,
-                                answer: answer.answer
+                                answer: filterSpecialChars(answer.question.type, answer.answer)
                             }
                         })
                     };
@@ -266,6 +288,7 @@ angular.module('askApp')
                 $scope.gotoNextPage();
             }).error(function(data, status){
                 console.log(status)
+                $scope.pageSubmitted = false;
             });
         }
         

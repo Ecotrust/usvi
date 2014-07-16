@@ -6,13 +6,13 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
         replace: true,
         transclude: true,
         scope: {
-            questionSlugPattern: '=',
             lat: "=",
             lng: "=",
             zoom: "=",
             points: '=',
             units: '=',
             boundaryPath: '=',
+            showPopups: '=',
             slugToColor: '&',
             slugToLabel: '&'
         }
@@ -40,7 +40,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 map.controls.addOverlay(layer, 'Boundary');
             });
             
-            MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", function (layer) {
+            MapUtils.addPlanningUnitGrid("/static/survey/data/CentralCalifornia_PlanningUnits.json", map, function (layer) {
                 scope.puLayer = layer;
                 map.addLayer(scope.puLayer)
                 .on('dblclick', function(e) {
@@ -68,7 +68,8 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 pu.setStyle(
                     {"color": '#00FF00',
                      "fillColor": '#00FF00',
-                     "fillOpacity": 0.7}
+                     "fillOpacity": 0.7,
+                     "clickable": true}
                 );
 
                 setPuPopup(pu);
@@ -83,7 +84,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                                 };
 
 
-            scope.eecosystemLabelToSlug =function(label) {
+            scope.ecosystemLabelToSlug =function(label) {
                 return survey.ecosystemLabelToSlug(label);
             };
 
@@ -118,6 +119,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     map.controls.addOverlay(scope.markersLayer, 'Points');
                     
                 }
+
             });
 
             scope.$watch('units', function(newVal, oldVal) {
@@ -126,7 +128,31 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     scope.updatePuLayer();
                 }
             });
+
+            updateMapSize();
+
+            $(window).resize(function(event) {
+                scope.$apply(function () {
+                    updateMapSize();
+                });
+            });
+
         }
+
+        function updateMapSize () {
+            /**
+             * Quickfix for now: for an unknown reason this directive's map was only
+             * showing one tile without manually forcing the map to resize or
+             * calling invalidateSize as we do here. Must be called after the
+             * map has fully loaded. Three full seconds seems to be necessary
+             * on my laptop.
+             */
+            scope.windowHeight = window.innerHeight - 300 + 'px';
+            $timeout(function () {
+                map.invalidateSize(false);
+            }, 3000);
+        }
+
 
         function addMarkers(data){
             // Returns a LayerGroup containing all the markers.
@@ -135,7 +161,10 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 markerData['draggable'] = false;
                 markerData['color'] = scope.slugToColor({slug: markerData.qSlug});
                 var marker = MapUtils.createMarker(markerData);
-                if (marker) {
+                if (!scope.showPopups) {
+                    marker.setStyle({clickable: false});
+                }
+                if (marker && scope.showPopups) {
                     setPopup(marker, markerData);
                 }
                 out.addLayer(marker);
@@ -161,7 +190,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             _.each(scope.puLayer._layers, function(sublayer){
                 sublayer.setStyle({
                     fillOpacity: 0,
-                    color: '#E6D845'
+                    stroke: false // color: '#E6D845'
                 });
             });
 
@@ -208,14 +237,16 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             
             // Define the on click callback. 
             layer.on('click', function(e) {    
-                var unit_id = e.target.feature.properties.ID;
-                getPlanningUnit(unit_id, function(res){
-                    scope.planningUnit.data = res;
-                });
+                scope.$apply(function () {
+                    var unit_id = e.target.feature.properties.ID;
+                    getPlanningUnit(unit_id, function(res){
+                        scope.planningUnit.data = res;
+                    });
 
-                if (map._popup) {
-                    $compile(angular.element(map._popup._contentNode))(scope);
-                }
+                    if (map._popup) {
+                        $compile(angular.element(map._popup._contentNode))(scope);
+                    }
+                });
             });
         }
 
@@ -394,7 +425,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 $http.get(geojsonPath).success(function(data) {
                     var boundaryStyle = {
                         "color": "#E6D845",
-                        "weight": 3,
+                        "weight": 2,
                         "opacity": 0.6,
                         "fillOpacity": 0.0,
                         "clickable": false
@@ -405,7 +436,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
             }
         },
 
-        addPlanningUnitGrid: function (geojsonPath, success_callback) {
+        addPlanningUnitGrid: function (geojsonPath, map, success_callback) {
             // Add planning units grid with no borders from /static/survey/data/CentralCalifornia_PlanningUnits.json
             $http.get(geojsonPath).success(function(data) {
                 var geojsonLayer = L.geoJson(data, { 
@@ -428,6 +459,11 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                         //     });
                         // }
                         layer.on("click", function (e) {
+                            console.log("Click layer "+id);
+                            console.log(e)
+                        });
+                        layer.on("dblclick", function (e) {
+                            map.setZoom(map.getZoom() + 1);
                             console.log("Click layer "+id);
                             console.log(e)
                         });
