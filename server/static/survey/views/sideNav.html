@@ -1,4 +1,8 @@
-<div class="col-md-3 col-sm-3 print-hide" id="sidenav_respondants" >
+<div class="col-md-3 col-sm-3 print-hide" id="sidenav" >
+
+    <a href="http://oceanspaces.org">
+        <img src="/static/survey/assets/img/ost/oceanspaces_logo.png">
+    </a>
     <div class="stats" loading-survey survey="survey">
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
@@ -18,24 +22,29 @@
         </div>
     </div>
 
+    <div respondentsearch ></div>
     <div class="sidebar_nav" loading-survey survey="survey" >
-        <ul class="nav">
+        <ul class="">
             
             <li>
-                <a ng-class="{'active': activePage == 'welcome'}" href="#/welcome/{{survey.slug}}">welcome</a>
+                <a ng-class="{'active': activePage == 'welcome'}" href="#/welcome/{{survey.slug}}">Welcome</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'explore'}" href="#/explore/{{survey.slug}}">explore community</a>
+                <a ng-class="{'active': activePage == 'explore'}" href="#/explore/{{survey.slug}}">Explore Community</a>
             </li>
             <li>
-                <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">monitoring activity - overview</a>
+                <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">Monitoring Activity</a>
             </li>
             <li ng-show="app.user.is_superuser">
-                <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">projects</a>
+                <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">Projects</a>
             </li>
 
             <li ng-hide="user.is_staff != 'True'">
                 <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
+            </li>
+
+            <li>
+                <a href="http://oceanspaces.org/program/central-coast-ongoing-mpa-monitoring-program">About</a>
             </li>
         </ul>
         
@@ -55,13 +64,5 @@
             <button type="button" class="btn btn-default" ng-click="updateMap('clear')"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
         </div>
     </div>
-    <div respondentsearch ></div>
 
-    <div class="sidebar_nav">
-        <ul class="nav">
-            <li>
-                <a href="http://oceanspaces.org/program/central-coast-ongoing-mpa-monitoring-program">more about Central Coast Monitoring</a>
-            </li>
-        </ul>
-    </div>
 </div>
