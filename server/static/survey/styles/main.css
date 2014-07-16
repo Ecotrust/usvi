@@ -155,16 +155,47 @@
     font-size: 24px;
 }
 
+
+
 .respondent-header {
     background-color: rgb(251, 169, 152) !important;
     cursor: pointer; 
     cursor: hand;
 }
 
+
+/******************************************************
+Respondent Table Styles
+******************************************************/
+
+th {
+  text-align:center;
+}
+
+th.orderable:hover {
+  cursor:pointer;
+  background: #AEDAE0;
+}
+tr.respondent:nth-child(odd){
+  background:white;
+}
+
+tr.respondent:nth-child(even){
+  background:#EEEEFF;
+}
+
+
 tr.respondent:hover {
   background: #AEDAE0;
   cursor: pointer;
 }
+
+
+
+/******************************************************
+End Respondent Table Styles
+******************************************************/
+
 
 
 .darkSalmonBackground {
