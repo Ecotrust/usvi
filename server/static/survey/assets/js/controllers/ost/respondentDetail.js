@@ -5,6 +5,9 @@ angular.module('askApp')
     $scope.viewPath = app.viewPath;
     $scope.uuid = $routeParams.uuidSlug;
 
+    $scope.survey = {};
+    $scope.survey.slug = $routeParams.survey_slug;
+    
     $scope.getRespondent = function (respondent_uuid, survey_slug, onSuccess) {
         var url = app.server 
               + '/api/v1/reportrespondantdetails/'

@@ -16,6 +16,9 @@ to build it.
   height: 20px;
   margin-top: 20px; }
 
+.dashboard {
+  margin: 0; }
+
 .dash-map-ost {
   height: 500px; }
 
@@ -84,6 +87,11 @@ to build it.
 These styles are taken from oceanspaces.org and are used on the dash board.
 
 */
+.container-padding {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px; }
+
 header {
   border-bottom: 1px solid #cccccc; }
 
@@ -133,7 +141,12 @@ End Respondent Table Styles
 #sidenav {
   color: white;
   text-align: center;
-  font: "HelveticaNeue-Light,"; }
+  border-right: 1px solid #bbb;
+  padding-right: 0;
+  padding-left: 0;
+  z-index: 800;
+  -webkit-box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.3); }
   #sidenav .row {
     margin-right: 0;
     margin-left: 0; }
@@ -152,7 +165,10 @@ End Respondent Table Styles
     font-size: 4em;
     margin-top: 10px; }
 
-.stats .row .box {
+.stats {
+  border-bottom: 1px solid #d6d6d6; }
+
+.row .box {
   padding-bottom: 10px; }
 
 #side_completed {
@@ -163,8 +179,6 @@ End Respondent Table Styles
 
 .sidebar_nav {
   background-color: #FFF;
-  margin-top: 10px;
-  /*border-bottom: 10px solid #466B71;*/
   color: #195D68; }
   .sidebar_nav ul {
     padding-left: 0; }
@@ -186,5 +200,19 @@ End Respondent Table Styles
   .sidebar_nav a.active {
     color: #70afb6; }
 
-.search input {
-  border: none; }
+form.search {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: whitesmoke;
+  border-bottom: 1px solid #d6d6d6;
+  margin-bottom: 0; }
+  form.search input {
+    border: none;
+    background: none;
+    box-shadow: none;
+    border-right: 2px solid #d6d6d6; }
+  form.search .input-group-addon, form.search .input-group-btn button {
+    background-color: whitesmoke;
+    border: none; }
+  form.search .input-group-btn button:hover {
+    color: #70afb6 !important; }

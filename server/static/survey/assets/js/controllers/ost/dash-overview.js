@@ -34,6 +34,10 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
     //
     // Fill survey stats blocks
     //
+
+    $scope.survey = {};
+    $scope.survey.slug = $routeParams.survey_slug;
+    
     surveyFactory.getSurvey(function (data) {
         data.questions.reverse();
         $scope.survey = data;

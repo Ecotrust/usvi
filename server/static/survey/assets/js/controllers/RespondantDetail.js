@@ -20,6 +20,9 @@ angular.module('askApp')
     $scope.uuid = $routeParams.uuidSlug;
     $scope.surveySlug = $routeParams.surveySlug;
 
+    $scope.survey = {};
+    $scope.survey.slug = $routeParams.survey_slug;
+    
     $scope.map = {
         center: {
             lat: 47,
