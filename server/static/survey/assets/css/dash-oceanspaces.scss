@@ -12,6 +12,8 @@ $os-lightred: #FBF8F2; // Used on button hover
 $os-grey: #F7F7F7;  // This is the background color of the button.
 $os-border-grey: #D6D6D6;  // This is the color of the button border.
 $os-darkgrey:#CCCCCC;
+$os-footergrey:#373e48;  // Used in the footer.
+
 
 $os-darkblue: #004c72;
 $os-lightblue: #70afb6; // Used on sideNav text hover over
@@ -30,6 +32,21 @@ $vertical-gutter:15px;
 
 header {
     border-bottom:1px solid $os-darkgrey;
+}
+
+footer {
+    background-color:$os-footergrey;
+
+    .nav-pills {
+        a {
+            color:#fff;
+        }
+        a:hover {
+            color: #c24118;
+            background: none;
+            border: none;
+        }
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
