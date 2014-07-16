@@ -241,8 +241,7 @@ angular.module('askApp')
             $scope.gotoNextPage();
         } else {
             var filterSpecialChars = function (questionType, answer) {
-                if (_.contains(['text', 'textarea', 'url', 'phone'], questionType)
-                    && typeof answer === 'string') {
+                if (_.contains(['text', 'textarea', 'url', 'phone'], questionType)) {
                     // In rushed response to bug #245, these characters are
                     // causing an issue when in a text answer: ;&=
                     var cleanString = answer.replace(/[;&=]/g, "");
