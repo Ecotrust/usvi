@@ -5,49 +5,53 @@
             <div class="row">
                 <div ng-include="'/static/survey/views/ost/dash-header.html'"></div>
             </div>
+            <div>
             <div class="row">
                 <div class="col-sm-12">
                     <p>TEXT NEEDED</p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>Explore results by filtering for specific ecosystems or project lengths to the left.</p>
+            </div>    
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Explore results by filtering for specific ecosystems or project lengths to the left.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div dash-map-ost
-                         lat="mapSettings.lat"
-                         lng="mapSettings.lng"
-                         zoom="mapSettings.zoom"
-                         points="mapSettings.mapPoints"
-                         units="mapSettings.mapPlanningUnits"
-                         boundary-path="'/static/survey/data/oceanspaces_ca_cc_boundary.json?v=2'"
-                         slug-to-color="ecosystemSlugToColor(slug)"
-                         slug-to-label="ecosystemSlugToLabel(slug)"
-                         ></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div dash-map-ost
+                             lat="mapSettings.lat"
+                             lng="mapSettings.lng"
+                             zoom="mapSettings.zoom"
+                             points="mapSettings.mapPoints"
+                             units="mapSettings.mapPlanningUnits"
+                             boundary-path="'/static/survey/data/oceanspaces_ca_cc_boundary.json?v=2'"
+                             slug-to-color="ecosystemSlugToColor(slug)"
+                             slug-to-label="ecosystemSlugToLabel(slug)"
+                             ></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row" id="map-legend">
-                <div class="col-sm-12">
-                    <h4>Ecosystem Feature</h4>
-                    <ul class="list-unstyled">
-                        <li ng-repeat="slug in uniqueEcosystemFeatureSlugs">
-                            <div class="circle pull-left" ng-style="{'background-color': ecosystemSlugToColor(slug)};">&nbsp;</div> 
-                            {{ecosystemSlugToLabel(slug)}}
-                        </li>
-                    </ul>
+                <div class="row" id="map-legend">
+                    <div class="col-sm-12">
+                        <h4>Ecosystem Feature</h4>
+                        <ul class="list-unstyled">
+                            <li ng-repeat="slug in uniqueEcosystemFeatureSlugs">
+                                <div class="circle pull-left" ng-style="{'background-color': ecosystemSlugToColor(slug)};">&nbsp;</div> 
+                                {{ecosystemSlugToLabel(slug)}}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="row">
-                <h3>Projects</h3>
-                <div respondents-table respondents='respondents' resource='resource' meta='meta'></div>
-            </div>
-
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Projects</h3>
+                        <div respondents-table respondents='respondents' resource='resource' meta='meta'></div>
+                    </div>
+                </div>
+            </div><!-- main-content -->
             <div class="row">
                 <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
             </div>

@@ -61,10 +61,6 @@ to build it.
 /*
     MAP LEGEND
  */
-#map-legend {
-  margin-top: 20px;
-  margin-bottom: 20px; }
-
 #map-legend li {
   float: left;
   margin-right: 9px; }
@@ -146,10 +142,10 @@ th.orderable:hover {
   background: #AEDAE0; }
 
 tr.respondent:nth-child(odd) {
-  background: white; }
+  background: whitesmoke; }
 
 tr.respondent:nth-child(even) {
-  background: #EEEEFF; }
+  background: #fbf8f2; }
 
 tr.respondent:hover {
   background: #AEDAE0;
