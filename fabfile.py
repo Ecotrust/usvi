@@ -214,9 +214,8 @@ def restart():
     Reload nginx/gunicorn
     """
     with settings(warn_only=True):
-        sudo('initctl restart app')
-        # sudo('initctl stop app')
-        # sudo('initctl start app')
+        sudo('initctl stop app')
+        sudo('initctl start app')
         sudo('/etc/init.d/nginx reload')
 @task
 def restore(file=None):
