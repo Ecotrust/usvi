@@ -13,8 +13,12 @@
 
             <div class="row" ng-hide="busy">
                 <h3>Matching Reports for '{{searchTerm}}'</h3>
-                <div respondentstable respondents='respondents' resource='resource' meta='meta'></div>
+                <div respondents-table respondents='respondents' resource='resource' meta='meta'></div>
 
+            </div>
+
+            <div class="row">
+                <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
             </div>
                 
         </div>

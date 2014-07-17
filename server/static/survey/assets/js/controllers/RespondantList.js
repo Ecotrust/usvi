@@ -9,6 +9,9 @@ angular.module('askApp')
 
     $scope.searchTerm = $location.search().q;
     $scope.resource = '/api/v1/dashrespondant/';
+    
+    $scope.survey = {};
+    $scope.survey.slug = $routeParams.survey_slug;    
 
     $scope.busy = true;
     $scope.viewPath = app.server + '/static/survey/';

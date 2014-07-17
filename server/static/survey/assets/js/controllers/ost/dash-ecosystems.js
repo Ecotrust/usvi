@@ -4,7 +4,8 @@ angular.module('askApp').controller('DashEcosystemsCtrl', function($scope, $http
     $scope.activePage = 'ecosystems';
     $scope.filters = {};
     $scope.filtersJson = '';
-
+    $scope.survey = {};
+    $scope.survey.slug = $routeParams.survey_slug;
 
     function filtersChanged(newFilters) {
         var filters = [],

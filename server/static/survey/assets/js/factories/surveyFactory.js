@@ -4,7 +4,7 @@ angular.module('askApp').factory('surveyFactory', function($http, $routeParams, 
         getSurvey: function(callback) {
             var self = this;
             if ($routeParams.surveySlug) {
-                $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json').success(function(data) {
+                $http.get('/api/v1/surveyreport/' + $routeParams.surveySlug + '/?format=json', {cache:true}).success(function(data) {
                     self.survey = data;
                 }).success(callback);
             } else {

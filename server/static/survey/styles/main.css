@@ -26,40 +26,7 @@
   color: rgb(24,24,24);
 }
 
-#sidenav_respondants {
-    color: white;
-    text-align: center;
-}
-#sidenav_respondants .row {
-  margin-right: 0;
-  margin-left: 0;
-}
-#sidenav_respondants h1 {
-    font-weight: bold;
-    margin-bottom: 2px;
-}
-#sidenav_respondants p {
-    font-weight: bold;
-    font-size: 0.85em;
-}
-#side_total {
-    background: #5B9AA9;
-}
-#side_total h1 {
-    font-size: 4em;
-    margin-top: 10px;
-}
 
-.stats .row .box{
-  padding-bottom: 10px;
-
-}
-#side_completed {
-    background: #FD7C6F;
-}
-#side_started {
-    background: #F6C432;
-}
 
 
 .loader {
@@ -78,24 +45,7 @@
   left:45%;
 }
 
-.sidebar_nav {
-    margin-top: 10px;
-    border-top: 10px solid #466B71;
-    /*border-bottom: 10px solid #466B71;*/
-    color: #195D68;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-.sidebar_nav a {
-    color: inherit;
-    background: #EEEEEE;
-}
-.sidebar_nav a:hover {
-    background: #AEDAE0 !important;
-}
-.sidebar_nav a.active {
-    background: #8BC9D2;
-}
+
 
 
 .filter-box {
@@ -112,7 +62,7 @@
   font-size: 0.9em;
 }
 
-.leaflet
+
 
 .search-results {
   height: 200px; overflow-y: auto;
@@ -155,16 +105,15 @@
     font-size: 24px;
 }
 
+
+
 .respondent-header {
     background-color: rgb(251, 169, 152) !important;
     cursor: pointer; 
     cursor: hand;
 }
 
-tr.respondent:hover {
-  background: #AEDAE0;
-  cursor: pointer;
-}
+
 
 
 .darkSalmonBackground {

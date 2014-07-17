@@ -1,84 +1,238 @@
-#topnav {
-    background: #005072;
-}
-.oceanspaces-logo {
-    height: 60px;
-    padding-top: 0;
-}
-.point97-logo {
-    height: 20px;
-    margin-top: 20px;
-}
+/*
 
-.dash-map-ost { 
-    height: 500px;
-}
+DO NOT EDIT THE .CSS VERSION OF THIS FILE. Instead run
+`sass ost-dash.scss > ast-dash.css` in this file's directory 
+to build it. 
+
+*/
+#topnav {
+  background: #005072; }
+
+.oceanspaces-logo {
+  height: 60px;
+  padding-top: 0; }
+
+.point97-logo {
+  height: 20px;
+  margin-top: 20px; }
+
+.dashboard {
+  margin: 0; }
+
+.dash-map-ost {
+  height: 500px; }
+
 .leaflet-control-zoom a {
-    background-color: white !important;
-}
+  background-color: white !important; }
+
 .leaflet-control-zoom a.leaflet-control-zoom-in {
-    -moz-border-top-left-radius: 2px !important;
-    -webkit-border-top-left-radius: 2px !important;
-    border-top-left-radius: 2px !important;    
-    -moz-border-top-right-radius: 2px !important;
-    -webkit-border-top-right-radius: 2px !important;
-    border-top-right-radius: 2px !important;    
-}
+  -moz-border-top-left-radius: 2px !important;
+  -webkit-border-top-left-radius: 2px !important;
+  border-top-left-radius: 2px !important;
+  -moz-border-top-right-radius: 2px !important;
+  -webkit-border-top-right-radius: 2px !important;
+  border-top-right-radius: 2px !important; }
+
 .leaflet-control-zoom a.leaflet-control-zoom-out {
-    -moz-border-bottom-left-radius: 2px !important;
-    -webkit-border-bottom-left-radius: 2px !important;
-    border-bottom-left-radius: 2px !important;    
-    -moz-border-bottom-right-radius: 2px !important;
-    -webkit-border-bottom-right-radius: 2px !important;
-    border-bottom-right-radius: 2px !important;    
-}
+  -moz-border-bottom-left-radius: 2px !important;
+  -webkit-border-bottom-left-radius: 2px !important;
+  border-bottom-left-radius: 2px !important;
+  -moz-border-bottom-right-radius: 2px !important;
+  -webkit-border-bottom-right-radius: 2px !important;
+  border-bottom-right-radius: 2px !important; }
+
 .map-controls {
-	position: absolute;
-	top: 12px;
-	right: 10px;
-    z-index: 1000;
-}
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  z-index: 1000; }
+
 .leaflet-popup-content-wrapper {
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    min-width: 250px;
-    min-height: 225px;
-}
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  min-width: 250px;
+  min-height: 225px; }
 
 .leaflet-popup-content .load-indicator {
-    text-align: center;
-    font-size: 16px;
-    margin-top: 50px;
-}
-
+  text-align: center;
+  font-size: 16px;
+  margin-top: 50px; }
 
 /*
     MAP LEGEND
  */
 #map-legend {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 #map-legend li {
-    float:left;
-    margin-right:9px;
-}
+  float: left;
+  margin-right: 9px; }
 
 .circle {
-    display:inline-block;
-    border-radius: 50%;
-    width: 13px;
-    height: 12px;
-}
+  display: inline-block;
+  border-radius: 50%;
+  width: 13px;
+  height: 12px; }
 
 #map-legend ul .circle {
-    margin-top: 3px;
-    margin-right: 3px;
-}
+  margin-top: 3px;
+  margin-right: 3px; }
 
-.popup-content.planning-unit h5{
-    margin-bottom:0;
-}
+.popup-content.planning-unit h5 {
+  margin-bottom: 0; }
 
-}
+/**********************************
+General Surgical Classes Go Here 
+***********************************/
+.centered {
+  text-align: center; }
+
+/*
+
+These styles are taken from oceanspaces.org and are used on the dash board.
+
+*/
+.container-padding {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px; }
+
+header {
+  border-bottom: 1px solid #cccccc; }
+
+footer {
+  background-color: #373e48; }
+  footer .nav-pills a {
+    color: #fff; }
+  footer .nav-pills a:hover {
+    color: #c24118;
+    background: none;
+    border: none; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #004c72; }
+
+.os-btn {
+  color: #c04504;
+  font-size: 1.5em;
+  line-height: 1;
+  border: 3px solid #d6d6d6;
+  border-radius: 25px;
+  padding: 11px 18px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none; }
+  .os-btn .default {
+    background-color: #f7f7f7; }
+
+.os-btn:hover {
+  background-color: #fbf8f2;
+  text-decoration: none;
+  color: #c04504; }
+
+/******************************************************
+Respondent Table Styles
+******************************************************/
+th {
+  text-align: center;
+  color: #c04504;
+  background: #f7f7f7; }
+
+th.orderable:hover {
+  cursor: pointer;
+  background: #AEDAE0; }
+
+tr.respondent:nth-child(odd) {
+  background: white; }
+
+tr.respondent:nth-child(even) {
+  background: #EEEEFF; }
+
+tr.respondent:hover {
+  background: #AEDAE0;
+  cursor: pointer; }
+
+/******************************************************
+End Respondent Table Styles
+******************************************************/
+#sidenav {
+  color: white;
+  text-align: center;
+  border-right: 1px solid #bbb;
+  padding-right: 0;
+  padding-left: 0;
+  z-index: 800;
+  -webkit-box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.3); }
+  #sidenav .row {
+    margin-right: 0;
+    margin-left: 0; }
+  #sidenav img {
+    width: 100%; }
+  #sidenav h1 {
+    font-weight: bold;
+    margin-bottom: 2px; }
+  #sidenav p {
+    font-weight: bold;
+    font-size: 0.85em; }
+
+#side_total {
+  background: #5B9AA9; }
+  #side_total h1 {
+    font-size: 4em;
+    margin-top: 10px; }
+
+.stats {
+  border-bottom: 1px solid #d6d6d6; }
+
+.row .box {
+  padding-bottom: 10px; }
+
+#side_completed {
+  background: #FD7C6F; }
+
+#side_started {
+  background: #F6C432; }
+
+.sidebar_nav {
+  background-color: #FFF;
+  color: #195D68; }
+  .sidebar_nav ul {
+    padding-left: 0; }
+  .sidebar_nav li {
+    list-style: none outside none !important;
+    height: 50px;
+    min-height: 50px;
+    border-bottom: 1px solid #d6d6d6;
+    text-align: left; }
+  .sidebar_nav a {
+    display: block;
+    padding: 12px 25px;
+    min-height: 50px;
+    font-size: 19px;
+    color: inherit; }
+  .sidebar_nav a:hover {
+    color: #70afb6 !important;
+    text-decoration: none; }
+  .sidebar_nav a.active {
+    color: #70afb6; }
+
+form.search {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: whitesmoke;
+  border-bottom: 1px solid #d6d6d6;
+  margin-bottom: 0; }
+  form.search input {
+    border: none;
+    background: none;
+    box-shadow: none;
+    border-right: 2px solid #d6d6d6; }
+  form.search .input-group-addon, form.search .input-group-btn button {
+    background-color: whitesmoke;
+    border: none; }
+  form.search .input-group-btn button:hover {
+    color: #70afb6 !important; }
