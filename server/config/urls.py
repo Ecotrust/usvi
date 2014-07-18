@@ -68,7 +68,7 @@ urlpatterns = patterns('',
     # IF NOT COMMENTED OUT THIS WILL PREVENT USERS FROM BEING
     # ABLE TO ACCESS THE SURVEY.
     #
-    url(r'^respond', 'apps.survey.views.outage'),
+    #url(r'^respond', 'apps.survey.views.outage'),
 
     #anon survey user for specific survey
     url(r'^respond/(?P<survey_slug>[\w\d-]+)$', 'apps.survey.views.survey'),
