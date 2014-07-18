@@ -192,7 +192,7 @@ def deploy(branch="master"):
     set_env_for_user(env.user)
     env.branch = branch
     push()
-    sudo('chmod -R 0770 %s' %view env.virtualenv)
+    sudo('chmod -R 0770 %s' % env.virtualenv)
 
     with cd(env.code_dir):
         with _virtualenv():
