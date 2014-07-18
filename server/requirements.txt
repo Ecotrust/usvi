@@ -32,5 +32,4 @@ static==0.4
 wsgiref==0.1.2
 ordereddict==1.1
 django-registration==1.0
--e git+https://github.com/point97/python-social-auth.git@p97#egg=python-social-auth
 pyelasticsearch==0.6.1
