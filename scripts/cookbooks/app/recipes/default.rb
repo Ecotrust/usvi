@@ -179,13 +179,17 @@ remote_file "/tmp/elasticsearch-1.2.2.deb" do
     checksum "a3ec3c05ffabf8048642aa431b675f3c132b4fae755e1b7aee0cb9fe3f2a37ba" # PUT THE SHA256 CHECKSUM HERE
 end
 
+# To undo this you can run a dpkg purge.  
 dpkg_package "elastic search" do
     #source "/tmp/elasticsearch-0.90.7.deb"
     source "/tmp/elasticsearch-1.2.2.deb"
     action :install
 end
 
-
+# And finally start the elastic search server
+execute "start elasticsearch server" do
+    command 'sudo /etc/init.d/elasticsearch start'
+end
 
 
 
