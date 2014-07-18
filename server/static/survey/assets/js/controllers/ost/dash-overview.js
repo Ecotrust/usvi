@@ -21,7 +21,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
             
             _.each($scope.filters.ecosystemFeatures, function (label) {
                 var slug = ecosystemLabelToSlug(label);
-                console.log('eco label to slug: ' + slug);
                 //$scope.filtersJson.push({'ecosystem-features': slug});
             });
 
@@ -45,7 +44,6 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
 
     $scope.$watch('survey', function(newVal){
         if (newVal) {
-            console.log("Surveys loaded");
             $scope.loadingSurveys = false;
         }
     });

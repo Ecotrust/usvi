@@ -66,9 +66,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 var id = unit
                 pu = scope.getLayerByID(scope.puLayer, id);
                 pu.setStyle(
-                    {"color": '#00FF00',
-                     "fillColor": '#00FF00',
-                     "fillOpacity": 0.7,
+                    {"color": '#FFFF00',
+                     "fillColor": '#FFFF00',
+                     "fillOpacity": 0.5,
                      "clickable": true}
                 );
 
@@ -252,6 +252,9 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
 
         function setPopup(marker, markerData) {
+            /*
+            This is the popup for a marker.
+            */ 
             var loading = '<p ng-show="responses == false" class="load-indicator">Loading...</p>', 
                 popup = '',
                 list = '';
