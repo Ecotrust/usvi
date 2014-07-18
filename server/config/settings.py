@@ -154,16 +154,6 @@ INSTALLED_APPS = (
 )
 
 
-AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'apps.account.auth.OSTOpenId',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -241,16 +231,6 @@ ANALYTICS_ID = ""
 #TEST_RUNNER = 'discover_runner.DiscoverRunner'
 
 LOGIN_URL = '/admin/login'
-
-# social auth
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL    = '/user/login-error/'
-SOCIAL_AUTH_BACKEND_ERROR_URL = LOGIN_ERROR_URL
-#SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
-#SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
-if DEBUG == False:
-    SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 HAYSTACK_CONNECTIONS = {
     'default': {
