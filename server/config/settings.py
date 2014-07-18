@@ -139,7 +139,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 
     # 3rd party apps
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
 
     'south',
     'django_extensions',
@@ -155,10 +155,10 @@ INSTALLED_APPS = (
 
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
+    # 'social.backends.open_id.OpenIdAuth',
+    # 'social.backends.google.GoogleOpenId',
+    # 'social.backends.google.GoogleOAuth2',
+    # 'social.backends.google.GoogleOAuth',
     'apps.account.auth.OSTOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )

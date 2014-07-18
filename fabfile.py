@@ -186,6 +186,9 @@ def push():
         sudo('chmod -R g+w *')
 
 
+
+
+
 @task
 def deploy(branch="master"):
     set_env_for_user(env.user)
@@ -204,8 +207,9 @@ def deploy(branch="master"):
             sudo('chown -R www-data:deploy %s' % env.root_dir)
             sudo('chmod -R g+w %s' % env.root_dir)
 
-
     restart()
+
+
 
 
 @task
