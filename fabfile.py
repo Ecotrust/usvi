@@ -4,6 +4,7 @@ from contextlib import contextmanager
 
 from fabric.operations import put
 from fabric.api import env, local, sudo, run, cd, prefix, task, settings, get, put
+from fabric.utils import warn
 
 import datetime
 
@@ -191,7 +192,7 @@ def deploy(branch="master"):
     set_env_for_user(env.user)
     env.branch = branch
     push()
-    sudo('chmod -R 0770 %s' % env.virtualenv)
+    sudo('chmod -R 0770 %s' %view env.virtualenv)
 
     with cd(env.code_dir):
         with _virtualenv():
@@ -217,6 +218,10 @@ def restart():
         sudo('initctl stop app')
         sudo('initctl start app')
         sudo('/etc/init.d/nginx reload')
+        #sudo('/etc/init.d/elasticsearch stop')
+        sudo('/etc/init.d/elasticsearch start')
+        warn('YOU MIGHT STILL NEED TO REBUILD THE ELASICSEARCH INDEX:\n\t\t\tSSH into the environment and run the following to rebuild the index:\n\t\t\tcd /usr/local/apps/geosurvey/server\n\t\t./manage.py rebuild_index --settings=config.environments.staging')
+
 @task
 def restore(file=None):
     if file is not None:
