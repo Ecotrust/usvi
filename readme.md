@@ -47,25 +47,8 @@ fab staging:<username>@<hostname> prepare
 fab staging:<username>@<hostname> deploy
 ```
 ## ElasticSearch
-This step has not yet been automated.
-### Install ElasticSearch
-```bash
-ssh username@tools-dev.oceanspaces.org 
-cd ~ 
-sudo apt-get update 
-sudo apt-get install openjdk-7-jre-headless -y 
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
-sudo dpkg -i elasticsearch-1.2.1.deb
-```
-### Configure ElasticSearch to start on reboot
-```bash
-sudo update-rc.d elasticsearch defaults 95 10 
-```
-### Adjust the elasticesearch.yml file by adding the folliwing lines
-```
-script.disable_dynamic: true
-network.host: 127.0.0.1
-```
+Installation is defined in scripts/cookbooks/app/recipes/default.rb
+
 ### Start ElasticSearch
 ```bash
 sudo /etc/init.d/elasticsearch start
