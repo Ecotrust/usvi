@@ -6,14 +6,20 @@ th {
   text-align:center;
   color:$os-red;
   background:$os-grey;
+
+  .glyphicon {
+      color:$os-darkgrey;
+  }
+
 }
 
 th.orderable:hover {
   cursor:pointer;
-  background: #AEDAE0;
+  color: $os-lightblue;
+
 }
 tr.respondent:nth-child(odd){
-  background:$os-bg-color;
+  background:#fff;
 }
 
 tr.respondent:nth-child(even){
@@ -22,7 +28,7 @@ tr.respondent:nth-child(even){
 
 
 tr.respondent:hover {
-  background: #AEDAE0;
+  background:  $os-lightblue;
   cursor: pointer;
 }
 

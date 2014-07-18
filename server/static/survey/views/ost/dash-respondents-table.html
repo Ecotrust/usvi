@@ -3,24 +3,36 @@
     <tr>
         <th class="orderable" ng-click="setOrderBy('project_name');" >Project 
             <span class="glyphicon" 
-                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'project_name', 'glyphicon-sort-by-alphabet-alt':orderBy === '-project_name'}">
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'project_name', 
+                             'glyphicon-sort-by-alphabet-alt':orderBy === '-project_name',
+                             'glyphicon-sort':orderBy !== 'project_name'
+                             }">
             </span>
         </th>
         
         <th class="orderable" ng-click="setOrderBy('organization_name');">Organization 
             <span class="glyphicon" 
-                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'organization_name', 'glyphicon-sort-by-alphabet-alt':orderBy === '-organization_name'}">
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'organization_name', 
+                             'glyphicon-sort-by-alphabet-alt':orderBy === '-organization_name',
+                             'glyphicon-sort':orderBy !== 'organization_name'
+                             }">
             </span>
         </th>
         <th>Ecosystem Features</th>
         <th class="orderable" ng-click="setOrderBy('duration');" >Duration
             <span class="glyphicon" 
-                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'duration', 'glyphicon-sort-by-alphabet-alt':orderBy === '-duration'}">
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'duration',
+                             'glyphicon-sort-by-alphabet-alt':orderBy === '-duration',
+                             'glyphicon-sort':orderBy !== 'duration'
+                             }">
             </span>
         </th>
         <th class="orderable" ng-click="setOrderBy('frequency');" >Frequency
             <span class="glyphicon" 
-                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'frequency', 'glyphicon-sort-by-alphabet-alt':orderBy === '-frequency'}">
+                  ng-class="{'glyphicon-sort-by-alphabet':orderBy === 'frequency',
+                             'glyphicon-sort-by-alphabet-alt':orderBy === '-frequency',
+                             'glyphicon-sort':orderBy !== 'frequency '
+                             }">
             </span>
         </th>
     </tr>

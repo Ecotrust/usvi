@@ -1,3 +1,4 @@
+var map;
 angular.module('askApp').directive('dashMapOst', function($http, $compile, $timeout, $routeParams, survey) {
 
     var directive = {
@@ -48,8 +49,11 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                 });
                 scope.updatePuLayer();
                 
+                
                 // Adding controls to L.controls
+                scope.puLayer.bringToBack();
                 map.controls.addOverlay(scope.puLayer, 'Planning Units');
+
 
             });
 
@@ -232,7 +236,7 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
 
             var html = '<div class="popup-content planning-unit">' + loading + list + '</div>';
 
-            console.log(html)
+
             layer.bindPopup(html, { closeButton: true });
             
             // Define the on click callback. 
@@ -453,18 +457,6 @@ angular.module('askApp').directive('dashMapOst', function($http, $compile, $time
                     },
                     onEachFeature: function(feature, layer) {
                         var id = layer.feature.properties.ID
-                        //     item = _.find(scope.question.answer, function(item) {
-                        //         return item.id == id;
-                        //     });
-                        // if (item !== undefined) {
-                        //     layer.setStyle( {
-                        //         fillOpacity: .6
-                        //     });
-                        // }
-                        layer.on("click", function (e) {
-                            console.log("Click layer "+id);
-                            console.log(e)
-                        });
                         layer.on("dblclick", function (e) {
                             map.setZoom(map.getZoom() + 1);
                             console.log("Click layer "+id);

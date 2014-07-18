@@ -6,7 +6,8 @@ to build it.
 
 */
 #topnav {
-  background: #005072; }
+  background: #005072;
+  margin-top: 0; }
 
 .oceanspaces-logo {
   height: 60px;
@@ -136,10 +137,12 @@ th {
   text-align: center;
   color: #c04504;
   background: #f7f7f7; }
+  th .glyphicon {
+    color: #cccccc; }
 
 th.orderable:hover {
   cursor: pointer;
-  background: #AEDAE0; }
+  color: #70afb6; }
 
 tr.respondent:nth-child(odd) {
   background: whitesmoke; }
@@ -148,7 +151,7 @@ tr.respondent:nth-child(even) {
   background: #fbf8f2; }
 
 tr.respondent:hover {
-  background: #AEDAE0;
+  background: #70afb6;
   cursor: pointer; }
 
 /******************************************************
