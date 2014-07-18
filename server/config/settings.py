@@ -139,7 +139,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 
     # 3rd party apps
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
 
     'south',
     'django_extensions',
@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'apps.survey',
     'apps.reports'
 )
+
 
 
 # A sample logging configuration. The only tangible logging

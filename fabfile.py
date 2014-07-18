@@ -187,6 +187,9 @@ def push():
         sudo('chmod -R g+w *')
 
 
+
+
+
 @task
 def deploy(branch="master"):
     set_env_for_user(env.user)
@@ -201,12 +204,13 @@ def deploy(branch="master"):
             _manage_py('syncdb --noinput --settings=config.environments.staging')
             # _manage_py('add_srid 99996')
             _manage_py('migrate --settings=config.environments.staging')
-            # _manage_py('enable_sharing')
+            _manage_py('rebuild_index --noinput --settings=config.environments.staging')
             sudo('chown -R www-data:deploy %s' % env.root_dir)
             sudo('chmod -R g+w %s' % env.root_dir)
 
-
     restart()
+
+
 
 
 @task
@@ -215,12 +219,12 @@ def restart():
     Reload nginx/gunicorn
     """
     with settings(warn_only=True):
-        sudo('initctl stop app')
+        result = sudo('initctl restart app')
+    if result.failed:
+        print "Trying to start app"
         sudo('initctl start app')
-        sudo('/etc/init.d/nginx reload')
-        #sudo('/etc/init.d/elasticsearch stop')
-        sudo('/etc/init.d/elasticsearch start')
-        warn('YOU MIGHT STILL NEED TO REBUILD THE ELASICSEARCH INDEX:\n\t\t\tSSH into the environment and run the following to rebuild the index:\n\t\t\tcd /usr/local/apps/geosurvey/server\n\t\t./manage.py rebuild_index --settings=config.environments.staging')
+    sudo('/etc/init.d/nginx reload')
+
 
 @task
 def restore(file=None):

@@ -13,11 +13,11 @@ th.orderable:hover {
   background: #AEDAE0;
 }
 tr.respondent:nth-child(odd){
-  background:white;
+  background:$os-bg-color;
 }
 
 tr.respondent:nth-child(even){
-  background:#EEEEFF;
+  background:$os-lightred;
 }
 
 

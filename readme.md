@@ -41,31 +41,14 @@ Create a node file with the name scripts/cookbook/node_staging.json from the tem
 When first creating a new droplet on digital ocean, you can add ssh keys for users. This will
 allows those users to log in as root from there machines with `ssh USERNAME@IP_ADDRESS`.  After the prepare command (see below) runs users will no longer have access to the root login. Instead users will be logged into their own acocunts.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file. If you need to log in as root you will need to reuqest the root password from Digital Ocean. 
 ### Install Prerequisites and Deploy
-These commands install all the prerequisites, including postgresql, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files.
+These commands install all the prerequisites, including postgresql, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files. Try running with 'root' if your username doens't work.
 ```bash
-fab staging:root@hostname prepare
-fab staging:username@hostname deploy
+fab staging:<username>@<hostname> prepare
+fab staging:<username>@<hostname> deploy
 ```
 ## ElasticSearch
-This step has not yet been automated.
-### Install ElasticSearch
-```bash
-ssh username@tools-dev.oceanspaces.org 
-cd ~ 
-sudo apt-get update 
-sudo apt-get install openjdk-7-jre-headless -y 
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
-sudo dpkg -i elasticsearch-1.2.1.deb
-```
-### Configure ElasticSearch to start on reboot
-```bash
-sudo update-rc.d elasticsearch defaults 95 10 
-```
-### Adjust the elasticesearch.yml file by adding the folliwing lines
-```
-script.disable_dynamic: true
-network.host: 127.0.0.1
-```
+Installation is defined in scripts/cookbooks/app/recipes/default.rb
+
 ### Start ElasticSearch
 ```bash
 sudo /etc/init.d/elasticsearch start
