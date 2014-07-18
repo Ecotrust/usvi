@@ -219,3 +219,6 @@ def register(request, template='survey/register.html'):
             return render_to_response('survey/thankyou.html', RequestContext(request, {}))
 
     return render_to_response(template, RequestContext(request, {}))
+
+def outage(request, template='survey/outage.html'):
+    return render_to_response(template, RequestContext(request, {}))

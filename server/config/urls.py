@@ -62,6 +62,14 @@ urlpatterns = patterns('',
     url(r'^mobile/', include('apps.mobile.urls')),
     url(r'^report/', include(report_urls)),
     url(r'^reports', include(report_urls)),
+
+    #
+    # Temporary Outage message
+    # IF NOT COMMENTED OUT THIS WILL PREVENT USERS FROM BEING
+    # ABLE TO ACCESS THE SURVEY.
+    #
+    url(r'^respond', 'apps.survey.views.outage'),
+
     #anon survey user for specific survey
     url(r'^respond/(?P<survey_slug>[\w\d-]+)$', 'apps.survey.views.survey'),
     #survey responder with preassigned uuid
