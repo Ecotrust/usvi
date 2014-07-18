@@ -218,10 +218,13 @@ def restart():
     Reload nginx/gunicorn
     """
     with settings(warn_only=True):
-        sudo('initctl restart app')
-        # sudo('initctl stop app')
-        # sudo('initctl start app')
-        sudo('/etc/init.d/nginx reload')
+        result = sudo('initctl restart app')
+    if result.failed:
+        print "Trying to start app"
+        sudo('initctl start app')
+    sudo('/etc/init.d/nginx reload')
+
+
 @task
 def restore(file=None):
     if file is not None:
