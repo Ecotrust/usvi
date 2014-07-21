@@ -172,3 +172,16 @@ angular.module('askApp')
             }
         };
     }]);
+
+angular.module('askApp')
+    .directive('ostHeader', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            templateUrl : app.viewPath + 'views/ost/dash-header.html',
+            link: function (scope, elem, attrs) {
+                console.log("WTF");
+                debugger;
+            }
+        };
+    }]);
+

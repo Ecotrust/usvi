@@ -1,5 +1,19 @@
 <header>
+    WTF{{user}}
+    <div class="user-menu">
+        <div ng-show="user.username">
+            <p class="navbar-text navbar-right">Welcome {{user.username}} (<a href="#/admin">admin</a>)</p>
+            <a href="/logout" class="navbar-btn navbar-right btn btn-default">LOG OUT</a>
+        </div>
+        <div ng-hide="user.username">
+            <a href="/admin" class="navbar-btn navbar-right btn btn-default">LOGIN</a>          
+        </div>    
+    </div>
+
     <div class="container-padding">
         <h1>Central Coast Monitoring Efforts</h1>
+        
     </div>
+
+
 </header>
