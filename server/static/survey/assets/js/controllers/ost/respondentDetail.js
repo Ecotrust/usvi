@@ -7,7 +7,8 @@ angular.module('askApp')
 
     $scope.survey = {};
     $scope.survey.slug = $routeParams.survey_slug;
-    
+    $scope.backButton
+
     $scope.getRespondent = function (respondent_uuid, survey_slug, onSuccess) {
         var url = app.server 
               + '/api/v1/reportrespondantdetails/'

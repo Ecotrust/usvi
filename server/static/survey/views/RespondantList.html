@@ -2,19 +2,17 @@
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9 col-sm-9">
-            <div ng-hide="busy" class="row">
-                <div class="col-md-12 col-sm-12">  
-                    <h3>central coast monitoring efforts</h3>
-                </div>
+            
+            <div class="row">
+                <div ng-include="'/static/survey/views/ost/dash-header.html'"></div>
             </div>
-            <div ng-show="busy" ng-include="viewPath + 'views/spinner.html'"></div>
 
-            <!-- <div ng-hide="busy" class="row" ng-include="'/static/survey/views/dash-top-filters.html'"></div> -->
-
+            
             <div class="row" ng-hide="busy">
+                <div class="col-md-12 col-sm-12">
                 <h3>Matching Reports for '{{searchTerm}}'</h3>
                 <div respondents-table respondents='respondents' resource='resource' meta='meta'></div>
-
+                </div>
             </div>
 
             <div class="row">

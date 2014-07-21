@@ -69,9 +69,13 @@ to build it.
     MAP LEGEND
  */
 
-#map-legend li {
-    float:left;
-    margin-right:9px;
+#map-legend {
+    margin-bottom:15px;
+
+    li {
+        float:left;
+        margin-right:9px;
+    }
 }
 
 .circle {
@@ -90,7 +94,8 @@ to build it.
     margin-bottom:0;
 }
 
-@import 'surgical';
+
 @import 'dash-oceanspaces';
+@import 'surgical';
 @import 'respondents-table';
 @import 'side-nav';

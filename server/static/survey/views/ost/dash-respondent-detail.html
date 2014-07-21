@@ -1,56 +1,40 @@
 <!-- 
-    THIS IS NOT USED. Using ost-respondent-detail.html
-    This is the public facing respondent view. It is used by the dashboard. I calls surveyAnswerPublic.html to show the answers 
--->
+    
+    This is the public facing respondent view. 
+    It is used by the dashboard. It calls surveyAnswerPublic.html to show the answers 
+    
+    If you want to edit the survey one use ost-respondent-datail.html instead
 
+-->
 <div class="container dash-ecosystems" ng-cloak>
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9 col-sm-9">
             <div class="row">
-                <div ng-include="'/static/survey/views/ost/dash-header.html'"></div>
+                <div class="col-md-12 col-sm-12">
+                    <div ng-include="'/static/survey/views/ost/dash-header.html'"></div>
+                </div>
             </div>
-        
-            <div class="row" ng-hide="respondent.complete"> 
+            <div class="row">
+                <div class="col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9">
+                    <a back class="os-btn default margin-top"><span class="glyphicon glyphicon-chevron-left"></span>  Back</a>
+                </div>
+            </div>
+
+          <!--   <div class="row" ng-hide="respondent.complete"> 
                 <div class="col-xs-2 col-sm-2 col-md-2">
                     <a href="javascript:void(0)" ng-click="resumeSurvey(respondent); $event.stopPropagation();" class="btn btn-primary btn-main btn-resume">Resume</a>
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
                     <a href="javascript:void(0)" ng-click="deleteRespondent(respondent); $event.stopPropagation();" class="btn btn-primary btn-main btn-resume">Delete</a>
                 </div>
-            </div>
+            </div> -->
             
-
             <div class="row">
-                <div class="col-sm-12">
-                    <div dash-map-ost
-                         question-slug-pattern="mapSettings.questionSlugPattern"
-                         lat="mapSettings.lat"
-                         lng="mapSettings.lng"
-                         zoom="mapSettings.zoom"
-                         points="mapSettings.mapPoints"
-                         units="mapSettings.mapPlanningUnits"
-                         boundary-path="'/static/survey/data/oceanspaces_ca_cc_boundary.json?v=2'"
-                         slug-to-color="ecosystemSlugToColor(slug)"
-                         slug-to-label="ecosystemSlugToLabel(slug)"
-                         ></div>
+                <div class="col-md-12 col-sm-12">
+                    <div ng-include="viewPath + 'views/ost/answers/surveyAnswers.html'"></div>
                 </div>
-            </div>
-
-            <div class="row" id="map-legend">
-                <div class="col-sm-12">
-                    <h4>Ecosystem Feature</h4>
-                    <ul class="list-unstyled">
-                        <li ng-repeat="slug in uniqueEcosystemFeatureSlugs">
-                            <div class="circle pull-left" ng-style="{'background-color': ecosystemSlugToColor(slug)};">&nbsp;</div> 
-                            {{ecosystemSlugToLabel(slug)}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div ng-include="viewPath + 'views/ost/answers/surveyAnswers.html'"></div>
-
+            </div> 
             <div class="row">
                 <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
             </div>

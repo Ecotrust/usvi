@@ -28,18 +28,14 @@ to build it.
 
 .leaflet-control-zoom a.leaflet-control-zoom-in {
   -moz-border-top-left-radius: 2px !important;
-  -webkit-border-top-left-radius: 2px !important;
   border-top-left-radius: 2px !important;
   -moz-border-top-right-radius: 2px !important;
-  -webkit-border-top-right-radius: 2px !important;
   border-top-right-radius: 2px !important; }
 
 .leaflet-control-zoom a.leaflet-control-zoom-out {
   -moz-border-bottom-left-radius: 2px !important;
-  -webkit-border-bottom-left-radius: 2px !important;
   border-bottom-left-radius: 2px !important;
   -moz-border-bottom-right-radius: 2px !important;
-  -webkit-border-bottom-right-radius: 2px !important;
   border-bottom-right-radius: 2px !important; }
 
 .map-controls {
@@ -49,7 +45,6 @@ to build it.
   z-index: 1000; }
 
 .leaflet-popup-content-wrapper {
-  -webkit-border-radius: 0;
   border-radius: 0;
   min-width: 250px;
   min-height: 225px; }
@@ -62,9 +57,11 @@ to build it.
 /*
     MAP LEGEND
  */
-#map-legend li {
-  float: left;
-  margin-right: 9px; }
+#map-legend {
+  margin-bottom: 15px; }
+  #map-legend li {
+    float: left;
+    margin-right: 9px; }
 
 .circle {
   display: inline-block;
@@ -79,12 +76,6 @@ to build it.
 .popup-content.planning-unit h5 {
   margin-bottom: 0; }
 
-/**********************************
-General Surgical Classes Go Here 
-***********************************/
-.centered {
-  text-align: center; }
-
 /*
 
 These styles are taken from oceanspaces.org and are used on the dash board.
@@ -96,7 +87,7 @@ These styles are taken from oceanspaces.org and are used on the dash board.
   padding-left: 30px; }
 
 header {
-  border-bottom: 1px solid #cccccc; }
+  border-bottom: 1px solid #CCCCCC; }
 
 footer {
   background-color: #373e48; }
@@ -114,7 +105,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #c04504;
   font-size: 1.5em;
   line-height: 1;
-  border: 3px solid #d6d6d6;
+  border: 3px solid #D6D6D6;
   border-radius: 25px;
   padding: 11px 18px;
   display: inline-block;
@@ -123,12 +114,18 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   background-image: none; }
   .os-btn .default {
-    background-color: #f7f7f7; }
+    background-color: #F7F7F7; }
 
 .os-btn:hover {
-  background-color: #fbf8f2;
+  background-color: #FBF8F2;
   text-decoration: none;
   color: #c04504; }
+
+/**********************************
+General Surgical Classes Go Here 
+***********************************/
+.centered {
+  text-align: center; }
 
 /******************************************************
 Respondent Table Styles
@@ -136,19 +133,19 @@ Respondent Table Styles
 th {
   text-align: center;
   color: #c04504;
-  background: #f7f7f7; }
+  background: #F7F7F7; }
   th .glyphicon {
-    color: #cccccc; }
+    color: #CCCCCC; }
 
 th.orderable:hover {
   cursor: pointer;
   color: #70afb6; }
 
 tr.respondent:nth-child(odd) {
-  background: whitesmoke; }
+  background: #fff; }
 
 tr.respondent:nth-child(even) {
-  background: #fbf8f2; }
+  background: #FBF8F2; }
 
 tr.respondent:hover {
   background: #70afb6;
@@ -164,7 +161,6 @@ End Respondent Table Styles
   padding-right: 0;
   padding-left: 0;
   z-index: 800;
-  -webkit-box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.3); }
   #sidenav .row {
     margin-right: 0;
@@ -185,7 +181,7 @@ End Respondent Table Styles
     margin-top: 10px; }
 
 .stats {
-  border-bottom: 1px solid #d6d6d6; }
+  border-bottom: 1px solid #D6D6D6; }
 
 .row .box {
   padding-bottom: 10px; }
@@ -205,7 +201,7 @@ End Respondent Table Styles
     list-style: none outside none !important;
     height: 50px;
     min-height: 50px;
-    border-bottom: 1px solid #d6d6d6;
+    border-bottom: 1px solid #D6D6D6;
     text-align: left; }
   .sidebar_nav a {
     display: block;
@@ -222,16 +218,16 @@ End Respondent Table Styles
 form.search {
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: whitesmoke;
-  border-bottom: 1px solid #d6d6d6;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #D6D6D6;
   margin-bottom: 0; }
   form.search input {
     border: none;
     background: none;
     box-shadow: none;
-    border-right: 2px solid #d6d6d6; }
+    border-right: 2px solid #D6D6D6; }
   form.search .input-group-addon, form.search .input-group-btn button {
-    background-color: whitesmoke;
+    background-color: #f5f5f5;
     border: none; }
   form.search .input-group-btn button:hover {
     color: #70afb6 !important; }
