@@ -40,11 +40,19 @@ Create a node file with the name scripts/cookbook/node_staging.json from the tem
 ```
 When first creating a new droplet on digital ocean, you can add ssh keys for users. This will
 allows those users to log in as root from there machines with `ssh USERNAME@IP_ADDRESS`.  After the prepare command (see below) runs users will no longer have access to the root login. Instead users will be logged into their own acocunts.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file. If you need to log in as root you will need to reuqest the root password from Digital Ocean. 
+
 ### Install Prerequisites and Deploy
 These commands install all the prerequisites, including postgresql, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files. Try running with 'root' if your username doens't work.
 ```bash
 fab staging:<username>@<hostname> prepare
+
+# Deploy to staging site (by default uses the staging branch)
 fab staging:<username>@<hostname> deploy
+
+# Deploy to live site
+fab staging:<username>@<hostname> deploy:master
+
+
 ```
 ## ElasticSearch
 Installation is defined in scripts/cookbooks/app/recipes/default.rb

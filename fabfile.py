@@ -191,7 +191,7 @@ def push():
 
 
 @task
-def deploy(branch="master"):
+def deploy(branch="staging"):
     set_env_for_user(env.user)
     env.branch = branch
     push()
