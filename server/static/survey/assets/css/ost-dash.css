@@ -73,6 +73,11 @@ to build it.
   margin-top: 3px;
   margin-right: 3px; }
 
+.pie-chart h3 {
+  height: 53px; }
+.pie-chart .download_cog {
+  top: 70px; }
+
 .popup-content.planning-unit h5 {
   margin-bottom: 0; }
 

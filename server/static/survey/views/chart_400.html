@@ -1,9 +1,9 @@
-<div style="position: relative; height: 400px">
+<div style="position: relative;">
     <style type="text/css">
         .download_cog {
             position: absolute;
             z-index: 10;
-            right: 1.5em;
+            right: 45px;
             top: 3.5em;
         }
         .chart {
@@ -16,6 +16,6 @@
 
     <h3>{{ chart.title }}</h3>
     <div class="error">{{ chart.message }}</div>
-    <a class="download_cog print-hide" ng-show="chart.download_url" href="{{chart.download_url}}"><i class="icon-download icon-2x"></i></a>
+    <a  class="download_cog print-hide" ng-show="chart.download_url" href="{{chart.download_url}}"><i title="Download as .CSV" class="icon-download icon-2x"></i></a>
     <div class="chart"></div>
 </div>
