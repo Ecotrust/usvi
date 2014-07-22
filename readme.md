@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/Ecotrust/geosurvey.png?branch=master)](https://travis-ci.org/Ecotrust/geosurvey)
 
 
+
 # Setup Local Vagrant Server
 ```bash
 vagrant up
