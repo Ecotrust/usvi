@@ -232,6 +232,7 @@ ANALYTICS_ID = ""
 #TEST_RUNNER = 'discover_runner.DiscoverRunner'
 
 LOGIN_URL = '/admin/login'
+LOGIN_REDIRECT = '/dash/'
 
 HAYSTACK_CONNECTIONS = {
     'default': {

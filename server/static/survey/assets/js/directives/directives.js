@@ -174,14 +174,23 @@ angular.module('askApp')
     }]);
 
 angular.module('askApp')
-    .directive('ostHeader', ['$window', function($window) {
+    .directive('ostHeader', ['$window', 'AuthService', function($window, AuthService) {
+        AuthService = AuthService;
         return {
             restrict: 'A',
             templateUrl : app.viewPath + 'views/ost/dash-header.html',
             link: function (scope, elem, attrs) {
-                console.log("WTF");
-                debugger;
+                scope.AuthService = AuthService;
+                console.log("Using ost-header");
+                scope.authenticate_user = function(){
+                    
+                    console.log("WTF2 Authenticate");
+                    scope.AuthService.login({'username':'p97dev', password:'p97dev'});
+                };
+
             }
         };
     }]);
+
+
 

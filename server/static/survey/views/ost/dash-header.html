@@ -1,14 +1,39 @@
 <header>
-    WTF{{user}}
-    <div class="user-menu">
-        <div ng-show="user.username">
-            <p class="navbar-text navbar-right">Welcome {{user.username}} (<a href="#/admin">admin</a>)</p>
-            <a href="/logout" class="navbar-btn navbar-right btn btn-default">LOG OUT</a>
-        </div>
-        <div ng-hide="user.username">
-            <a href="/admin" class="navbar-btn navbar-right btn btn-default">LOGIN</a>          
-        </div>    
-    </div>
+    <nav class="user-menu">
+        <ul class="nav nav-tabs-inverse">
+            <li ng-show="user.username">
+                <span class="greeting">Welcome {{user.username}} </span>
+            </li>
+            <li ng-show="user.username">
+                <a href="#/admin" class="os-btn default">ADMIN</a>
+            </li>
+            <li ng-show="user.username">
+                <a href="/logout" class="os-btn default">LOG OUT</a>
+            </li>
+            <li ng-hide="user.username" class="dropdown">
+                <a href="/admin?next=dash" data-toggle="dropdown"class="dropdown-toggle os-btn default">LOGIN</a>
+                <ul class="dropdown-menu" role="menu">
+                <form>
+                    <div>
+                        <div>
+                            <label>USERNAME <span class="form-required">*</span></label>
+                            <input type="text" name="username">
+                        </div>
+                        <div>
+                            <label>PASSWORD <span class="form-required">*</span></label>
+                            <input type="password" name="password">
+                        </div>
+                        <div>
+                            <a class="os-btn default" ng-click="authenticate_user();">LOG IN</a>
+                        </div>
+                    </div>
+                </form>
+
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
 
     <div class="container-padding">
         <h1>Central Coast Monitoring Efforts</h1>

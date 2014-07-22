@@ -21,4 +21,5 @@ angular.module('askApp').controller('DashWelcomeCtrl', function($scope, $routePa
     $scope.search = function(searchTerm){
         surveyFactory.searchRespondants(searchTerm);
     };
+
 });
