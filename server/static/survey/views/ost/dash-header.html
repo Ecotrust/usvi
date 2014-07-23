@@ -4,14 +4,14 @@
             <li ng-show="user.username">
                 <span class="greeting">Welcome {{user.username}} </span>
             </li>
-            <li ng-show="user.username">
-                <a href="#/admin" class="os-btn default">ADMIN</a>
+            <li ng-show="user.username && user.is_superuser">
+                <a href="/admin" class="os-btn default">ADMIN</a>
             </li>
             <li ng-show="user.username">
                 <a href="/logout" class="os-btn default">LOG OUT</a>
             </li>
             <li ng-hide="user.username" class="dropdown">
-                <a href="/admin?next=dash" data-toggle="dropdown"class="dropdown-toggle os-btn default">LOGIN</a>
+                <a href="/admin?next=dash" data-toggle="dropdown" class="dropdown-toggle os-btn default">LOGIN</a>
                 <ul class="dropdown-menu" role="menu">
                 <form novalidate>
                     <div>
@@ -24,7 +24,11 @@
                             <input type="password" ng-model="credentials.password" required>
                         </div>
                         <div>
-                            <button class="os-btn default" ng-click="authenticate_user(credentials);">LOG IN</button>
+                            <button class="os-btn default" 
+                                    ng-click="authenticate_user(credentials);"
+                                    ng-disabled="!credentials.username || !credentials.password"
+                                    >LOG IN</button>
+                            <span ng-show="credentials.failed" class="form-required">Login failed.</span>
                         </div>
                     </div>
                 </form>

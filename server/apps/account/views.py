@@ -19,7 +19,10 @@ import datetime
 @csrf_exempt
 def authenticateUser(request):
     """
-    This is probably for the survey.
+    Inputs:
+        username
+        password
+
     """
     if request.method == 'POST':
         try_again = False
