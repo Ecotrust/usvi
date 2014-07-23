@@ -28,6 +28,10 @@
         font-weight: bold;
         font-size: 0.85em;
     }
+
+    .select2-container  {
+        width:90%;
+    }
 }
 
 
@@ -61,9 +65,9 @@
     color: #195D68;
     // text-transform: uppercase;
     
-
     ul {
         padding-left:0;
+        margin-bottom: 0;
     }
     li {
         list-style: none outside none !important;
@@ -112,4 +116,6 @@ form.search {
         color: $os-lightblue !important;
     }
 }
+
+
 

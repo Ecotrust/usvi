@@ -174,6 +174,12 @@ General Surgical Classes Go Here
 .centered {
   text-align: center; }
 
+.padding-top {
+  padding-top: 10px; }
+
+.padding-bottom {
+  padding-bottom: 10px; }
+
 /******************************************************
 Respondent Table Styles
 ******************************************************/
@@ -220,6 +226,8 @@ End Respondent Table Styles
   #sidenav p {
     font-weight: bold;
     font-size: 0.85em; }
+  #sidenav .select2-container {
+    width: 90%; }
 
 #side_total {
   background: #5B9AA9; }
@@ -243,7 +251,8 @@ End Respondent Table Styles
   background-color: #FFF;
   color: #195D68; }
   .sidebar_nav ul {
-    padding-left: 0; }
+    padding-left: 0;
+    margin-bottom: 0; }
   .sidebar_nav li {
     list-style: none outside none !important;
     height: 50px;

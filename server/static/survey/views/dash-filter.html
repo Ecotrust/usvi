@@ -6,7 +6,7 @@
         placeholder="{{placeholderText}}" 
         ng-model="model.selectedValuesInternal" 
         ng-change="selectionChanged(value)"
-        style="width: 200px">
+        >
         <option value="{{option.value}}" ng-repeat="option in filterOptions">
             <strong>{{option.displayLabel}}</strong>
         </option>
@@ -20,18 +20,15 @@
         multiple="true" 
         ng-model="model.selectedValuesInternal" 
         ng-change="selectionChanged(value)"
-        style="width: 200px">
+        >
         <option value="{{option.value}}" ng-repeat="option in filterOptions">
             <strong>{{option.displayLabel}}</strong>
         </option>
     </select>
 
-    <!-- <button type="button" class="btn btn-default" data-html="1" data-multiple="1" data-animation="am-flip-x" 
-        ng-model="selectedValuesInternal"
-        ng-change="selectionChanged()"
-        ng-options="answer as answer for answer in filterOptions" 
-        bs-select>
-      {{placeholderText}}  <span class="caret"></span>
-    </button> -->
+
+    <div class="margin-top margin-bottom">
+        <button type="button" class="btn btn-default" ng-click="updateMap('clear')"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
+    </div>
 
 </div>

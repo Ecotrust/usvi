@@ -39,7 +39,7 @@
                 <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">Projects</a>
             </li>
 
-            <li ng-hide="user.is_staff != 'True'">
+            <li ng-show="user.is_staff = 'True'">
                 <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
             </li>
 
@@ -50,19 +50,15 @@
         
     </div>
 
-    <div class="sidebar_nav" ng-show="activePage == 'overview'" >
+    <div class="padding-top" ng-show="activePage == 'overview'" >
         <div dash-filter 
-             class="margin-top"
+             class=""
              placeholder-text="'all ecosystem features'"
              allow-multi-select="true"
              survey-slug="'monitoring-project'"
              question-slug="'ecosystem-features'"
              selected-values="filters.ecosystemFeatures"
              ></div>
-        <div class="margin-top margin-bottom">
-            <button type="button" class="btn btn-default" ng-click="updateMap()"><span class="glyphicon glyphicon-filter"></span>Filter</button>
-            <button type="button" class="btn btn-default" ng-click="updateMap('clear')"><span class="glyphicon glyphicon-remove-circle"></span>Clear</button>
-        </div>
     </div>
 
 </div>

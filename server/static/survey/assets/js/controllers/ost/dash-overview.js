@@ -66,7 +66,7 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
         if (action === 'clear') {
             $(".sidebar_nav .multi-select2").select2('data', null);
             $scope.filters.ecosystemFeatures = [];
-            $scope.$apply();
+            //$scope.$apply();
         }
 
         var filtersJson = _.map($scope.filters.ecosystemFeatures, function (label) {
