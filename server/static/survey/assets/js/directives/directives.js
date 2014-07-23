@@ -182,10 +182,13 @@ angular.module('askApp')
             link: function (scope, elem, attrs) {
                 scope.AuthService = AuthService;
                 console.log("Using ost-header");
-                scope.authenticate_user = function(){
+                scope.authenticate_user = function(credentials){
                     
                     console.log("WTF2 Authenticate");
-                    scope.AuthService.login({'username':'p97dev', password:'p97dev'});
+                    console.log(credentials);
+                    scope.AuthService.login({'username':credentials.username, password:credentials.password}, function(){
+                        console.log('in login callback on ost-Header');
+                    });
                 };
 
             }

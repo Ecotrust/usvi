@@ -120,6 +120,8 @@ form label {
   color: #6C6C71; }
 form input {
   width: 100%; }
+form input.ng-invalid.ng-dirty {
+  background-color: #FF9999; }
 
 .os-btn {
   color: #c04504;

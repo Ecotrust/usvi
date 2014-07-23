@@ -3,7 +3,7 @@ angular.module('askApp')
   var user = null;
 
 
-  function login( data ) { 
+  function login(data, callback) { 
     /*
     Inputs:
         data : object with keywords username, password
@@ -14,6 +14,7 @@ angular.module('askApp')
     $http.post(url, data).success(function(data, status){
         user = data;
         console.log(user)
+        callback(data, status);
     }).error(function(data, status){
 
     });

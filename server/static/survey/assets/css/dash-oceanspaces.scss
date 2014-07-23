@@ -9,6 +9,7 @@ $os-font-grey:#6C6C71;
 
 $os-red: #c04504;   // This is used for highlight fonts
 $os-lightred: #FBF8F2; // Used on button hover
+$os-error-red: #FF9999;
 
 $os-grey: #F7F7F7;  // This is the background color of the button.
 $os-border-grey: #D6D6D6;  // This is the color of the button border.
@@ -81,6 +82,12 @@ form {
         width:100%;
     }
 
+    input.ng-invalid.ng-dirty {
+        background-color: $os-error-red;
+    }
+
+    input.ng-valid.ng-dirty {
+    }
 }
 
 .os-btn {

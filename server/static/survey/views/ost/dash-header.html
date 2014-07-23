@@ -13,18 +13,18 @@
             <li ng-hide="user.username" class="dropdown">
                 <a href="/admin?next=dash" data-toggle="dropdown"class="dropdown-toggle os-btn default">LOGIN</a>
                 <ul class="dropdown-menu" role="menu">
-                <form>
+                <form novalidate>
                     <div>
                         <div>
                             <label>USERNAME <span class="form-required">*</span></label>
-                            <input type="text" name="username">
+                            <input type="text" ng-model="credentials.username" required>
                         </div>
                         <div>
                             <label>PASSWORD <span class="form-required">*</span></label>
-                            <input type="password" name="password">
+                            <input type="password" ng-model="credentials.password" required>
                         </div>
                         <div>
-                            <a class="os-btn default" ng-click="authenticate_user();">LOG IN</a>
+                            <button class="os-btn default" ng-click="authenticate_user(credentials);">LOG IN</button>
                         </div>
                     </div>
                 </form>

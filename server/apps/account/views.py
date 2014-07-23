@@ -21,7 +21,6 @@ def authenticateUser(request):
     """
     This is probably for the survey.
     """
-    import pdb; pdb.set_trace()
     if request.method == 'POST':
         try_again = False
         try:

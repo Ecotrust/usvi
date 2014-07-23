@@ -352,7 +352,10 @@ class Question(caching.base.CachingMixin, models.Model):
     type = models.CharField(max_length=20,choices=QUESTION_TYPE_CHOICES,default='text')
     options = models.ManyToManyField(Option, null=True, blank=True)
     options_json = models.TextField(null=True, blank=True)
-    rows = models.TextField(null=True, blank=True)
+    rows = models.TextField(null=True, blank=True,
+        help_text="""A newline seperated list of options. These can be placed 
+            an categories by starting a category with a '*'. DO NOT USE THE '&' 
+            character anywhere in here. """)
     cols = models.TextField(null=True, blank=True)
     info = models.CharField(max_length=254, null=True, blank=True)
     grid_cols = models.ManyToManyField(Option, null=True, blank=True, related_name="grid_cols")
