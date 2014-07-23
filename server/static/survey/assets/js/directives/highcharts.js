@@ -2,7 +2,7 @@ angular.module('askApp')
     .directive('stackedBar', function() {
 
         return {
-            template: '<div class="stacked-bar" style="min-width: 100%; height: 400px; margin: 0 auto"></div>',
+            template: '<div class="stacked-bar" style="min-width: 100%; margin: 0 auto"></div>',
             restrict: 'EA',
             replace: true,
             transclude: true,
@@ -42,7 +42,6 @@ angular.module('askApp')
                             point: {
                                 events: {
                                     click: function(e) {
-                                        debugger;
                                         scope.$apply(function(s) {
                                             s.filter.category = e.point.category;
                                             s.filter.name = e.point.series.name;

@@ -73,6 +73,11 @@ to build it.
   margin-top: 3px;
   margin-right: 3px; }
 
+.pie-chart h3 {
+  height: 53px; }
+.pie-chart .download_cog {
+  top: 70px; }
+
 .popup-content.planning-unit h5 {
   margin-bottom: 0; }
 
@@ -101,6 +106,23 @@ footer {
 h1, h2, h3, h4, h5, h6 {
   color: #004c72; }
 
+ul.dropdown-menu {
+  background-color: white;
+  width: 400px;
+  left: auto;
+  right: 0;
+  padding: 20px; }
+
+form .form-required {
+  color: red; }
+form label {
+  display: block;
+  color: #6C6C71; }
+form input {
+  width: 100%; }
+form input.ng-invalid.ng-dirty {
+  background-color: #FF9999; }
+
 .os-btn {
   color: #c04504;
   font-size: 1.5em;
@@ -115,6 +137,31 @@ h1, h2, h3, h4, h5, h6 {
   background-image: none; }
   .os-btn .default {
     background-color: #F7F7F7; }
+
+.user-menu {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  z-index: 800;
+  margin: 0; }
+  .user-menu .greeting {
+    color: #c04504;
+    font-size: 1.5em;
+    line-height: 1;
+    border-top: none;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 11px 18px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle; }
+  .user-menu li > .os-btn {
+    border: 1px solid #D6D6D6;
+    border-top: none;
+    border-radius: 0;
+    font-size: 14px; }
+  .user-menu .nav-tabs-inverse li {
+    float: left; }
 
 .os-btn:hover {
   background-color: #FBF8F2;

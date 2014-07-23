@@ -172,3 +172,28 @@ angular.module('askApp')
             }
         };
     }]);
+
+angular.module('askApp')
+    .directive('ostHeader', ['$window', 'AuthService', function($window, AuthService) {
+        AuthService = AuthService;
+        return {
+            restrict: 'A',
+            templateUrl : app.viewPath + 'views/ost/dash-header.html',
+            link: function (scope, elem, attrs) {
+                scope.AuthService = AuthService;
+                console.log("Using ost-header");
+                scope.authenticate_user = function(credentials){
+                    
+                    console.log("WTF2 Authenticate");
+                    console.log(credentials);
+                    scope.AuthService.login({'username':credentials.username, password:credentials.password}, function(){
+                        console.log('in login callback on ost-Header');
+                    });
+                };
+
+            }
+        };
+    }]);
+
+
+

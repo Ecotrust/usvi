@@ -1,5 +1,44 @@
 <header>
+    <nav class="user-menu">
+        <ul class="nav nav-tabs-inverse">
+            <li ng-show="user.username">
+                <span class="greeting">Welcome {{user.username}} </span>
+            </li>
+            <li ng-show="user.username">
+                <a href="#/admin" class="os-btn default">ADMIN</a>
+            </li>
+            <li ng-show="user.username">
+                <a href="/logout" class="os-btn default">LOG OUT</a>
+            </li>
+            <li ng-hide="user.username" class="dropdown">
+                <a href="/admin?next=dash" data-toggle="dropdown"class="dropdown-toggle os-btn default">LOGIN</a>
+                <ul class="dropdown-menu" role="menu">
+                <form novalidate>
+                    <div>
+                        <div>
+                            <label>USERNAME <span class="form-required">*</span></label>
+                            <input type="text" ng-model="credentials.username" required>
+                        </div>
+                        <div>
+                            <label>PASSWORD <span class="form-required">*</span></label>
+                            <input type="password" ng-model="credentials.password" required>
+                        </div>
+                        <div>
+                            <button class="os-btn default" ng-click="authenticate_user(credentials);">LOG IN</button>
+                        </div>
+                    </div>
+                </form>
+
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+
     <div class="container-padding">
         <h1>Central Coast Monitoring Efforts</h1>
+        
     </div>
+
+
 </header>

@@ -1,9 +1,9 @@
-<div class="container dash-ecosystems" ng-cloak>
+<div class="dash-ecosystems container" ng-cloak>
     <div class="row">
         <div ng-include="'/static/survey/views/sideNav.html'"></div>
         <div class="col-md-9 col-sm-9">
-            <div class="row">
-                <div ng-include="'/static/survey/views/ost/dash-header.html'"></div>
+            <div class="row" ost-header>
+                <!-- <div ng-include="'/static/survey/views/ost/dash-header.html'"></div> -->
             </div>
             <div class="row">
                 <div class="col-sm-12">
@@ -12,20 +12,20 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <div pie-chart chart="charts['org-type']"></div>
+                    <div pie-chart chart="charts['org-type']" class="pie-chart"></div>
                 </div>
                 <div class="col-sm-6">
-                    <div pie-chart chart="charts['proj-num-people']"></div>
+                    <div pie-chart chart="charts['proj-num-people']" class="pie-chart"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <div bar-chart chart="charts['proj-data-years']"></div>
+                    <div bar-chart chart="charts['proj-data-years']" class="bar-chart"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <div bar-chart chart="charts['proj-data-frequency']"></div>
+                    <div bar-chart chart="charts['proj-data-frequency']" class="bar-chart"></div>
                 </div>
             </div>
         
