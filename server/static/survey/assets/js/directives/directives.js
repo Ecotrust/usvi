@@ -201,5 +201,39 @@ angular.module('askApp')
         };
     }]);
 
+angular.module('askApp')
+    .directive('helpModal', ['$modal', function($modal){
+        return {
+            template:"<div class='help-link' ng-click='open()'>Info & Help <span class='glyphicon glyphicon-info-sign'></span></div>",
+            link : function(scope){
+                scope.open = function () {
+                    var modalInstance = $modal.open({
+                      templateUrl: app.viewPath + 'views/ost/helpModalContent.html',
+                      controller: HelpModalInstanceCtrl,
+                      size: 'lg',
+                      resolve: {}
+                    });
+
+                    modalInstance.result.then(function () {
+                      
+                    }, function () {
+                      $log.info('Modal dismissed at: ' + new Date());
+                    });
+                  };
+            }
+        }
+}]);
+
+
+var HelpModalInstanceCtrl = function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
 
 

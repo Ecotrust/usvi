@@ -77,7 +77,7 @@
         text-align: left;
     }
 
-    a {
+    a, .help-link {
         display: block;
         padding: 12px 25px;
         min-height: 50px;
@@ -85,9 +85,10 @@
         color: inherit;
     }
 
-    a:hover {
+    a:hover, .help-link:hover {
         color: $os-lightblue !important;
         text-decoration: none;
+        cursor: pointer;
     }
 
     a.active {

@@ -259,15 +259,16 @@ End Respondent Table Styles
     min-height: 50px;
     border-bottom: 1px solid #D6D6D6;
     text-align: left; }
-  .sidebar_nav a {
+  .sidebar_nav a, .sidebar_nav .help-link {
     display: block;
     padding: 12px 25px;
     min-height: 50px;
     font-size: 19px;
     color: inherit; }
-  .sidebar_nav a:hover {
+  .sidebar_nav a:hover, .sidebar_nav .help-link:hover {
     color: #70afb6 !important;
-    text-decoration: none; }
+    text-decoration: none;
+    cursor: pointer; }
   .sidebar_nav a.active {
     color: #70afb6; }
 
