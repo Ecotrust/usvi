@@ -222,7 +222,7 @@ angular.module('askApp')
                   };
             }
         }
-}]);
+    }]);
 
 
 var HelpModalInstanceCtrl = function ($scope, $modalInstance) {

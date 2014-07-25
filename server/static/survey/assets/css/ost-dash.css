@@ -92,7 +92,8 @@ These styles are taken from oceanspaces.org and are used on the dash board.
   padding-left: 30px; }
 
 header {
-  border-bottom: 1px solid #CCCCCC; }
+  border-bottom: 1px solid #CCCCCC;
+  font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B'; }
 
 footer {
   background-color: #373e48; }
