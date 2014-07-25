@@ -1,0 +1,21 @@
+<div ng-include="'/static/survey/views/sideNav.html'"></div>
+<div class="container-fluid dash-responses" ng-cloak>
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8">
+                        
+            <div class="row" ost-header></div>
+            <div class="main-content">
+                <div class="row" ng-hide="busy">
+                    <div class="col-md-12 col-sm-12">
+                    <h3>Matching Reports for '{{searchTerm}}'</h3>
+                    <div respondents-table respondents='respondents' resource='resource' meta='meta'></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
+            </div>
+                
+        </div>
+    </div>
+</div>

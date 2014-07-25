@@ -17,6 +17,10 @@ to build it.
   height: 20px;
   margin-top: 20px; }
 
+img.welcome {
+  width: 100%;
+  max-width: 700px; }
+
 .dashboard {
   margin: 0; }
 
@@ -107,6 +111,11 @@ footer {
 h1, h2, h3, h4, h5, h6 {
   color: #004c72; }
 
+.main-content {
+  margin-left: 4px; }
+  .main-content .row {
+    background-color: white; }
+
 ul.dropdown-menu {
   background-color: white;
   width: 400px;
@@ -172,7 +181,7 @@ form input.ng-invalid.ng-dirty {
 /**********************************
 General Surgical Classes Go Here 
 ***********************************/
-.centered {
+.centered, .center {
   text-align: center; }
 
 .padding-top {
@@ -209,6 +218,8 @@ tr.respondent:hover {
 End Respondent Table Styles
 ******************************************************/
 #sidenav {
+  width: 275px;
+  float: left;
   color: white;
   text-align: center;
   border-right: 1px solid #bbb;

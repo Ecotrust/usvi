@@ -1,41 +1,43 @@
-<div class="container dash-welcome" ng-cloak>
+<div ng-include="'/static/survey/views/sideNav.html'"></div>
+<div class="container-fluid dash-welcome" ng-cloak>
    
     <div class="row">
-        <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9 col-sm-9">
-
+        <div class="col-lg-9 col-md-8 col-sm-8">
             <div class="row" ost-header></div>
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <h4>Welcome!</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-7">
-                    <p>Content that helps descrive, introduce and orient site visitors to the background of the survey and it's purpose so that they are encouraged to explore the dashbaord.</p>
-                    <p>And even more text.....etc.</p>
-                </div>
-                <div class="col-sm-5">
-                    <img width="100%" src="http://placehold.it/300x200" alt="placeholder">
-                    <div class="centered margin-top">
-                        <a href="#" class="os-btn default">
-                            Learn More - CC Community
-                        </a>
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>Welcome!</h4>
                     </div>
                 </div>
-            </div>
-
-            <div class="row centered">
-                <div class="col-sm-12">
-                    <img width="100%" src="/static/survey/assets/img/oceanspaces_ca_cc_region.jpg" alt="">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <p>Content that helps descrive, introduce and orient site visitors to the background of the survey and it's purpose so that they are encouraged to explore the dashbaord.</p>
+                        <p>And even more text.....etc.</p>
+                    </div>
+                    <div class="col-sm-5 center">
+                        <img src="http://placehold.it/300x200" alt="placeholder">
+                        <div class="centered margin-top">
+                            <a href="#" class="os-btn default">
+                                Learn More - CC Community
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="row centered">
+                    <div class="col-sm-12">
+                        <img class="welcome" src="/static/survey/assets/img/oceanspaces_ca_cc_region.jpg" alt="">
+                    </div>
+                </div>
+                </div> <!-- End main content -->
             <div class="row">
                 <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
             </div>
+            
 
-        </div> <!-- End main content -->
+        </div>
 
 
 
