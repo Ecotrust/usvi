@@ -10,6 +10,18 @@ angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $
     
     $scope.charts = {};
     $scope.filtersJson = '';
+    
+    // Get or load survey
+    $scope.survey = {};
+    $scope.survey.slug = $routeParams.survey_slug;
+
+    $scope.survey.loading = true;
+    surveyFactory.getSurvey(function (data) {
+        data.questions.reverse();
+        $scope.survey = data;
+    });
+
+
     function buildChart(questionSlug, options) {
         var options, onFail, onSuccess;
         
