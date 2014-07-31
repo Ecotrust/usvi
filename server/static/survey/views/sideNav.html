@@ -35,7 +35,7 @@
             <li>
                 <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">Monitoring Activity</a>
             </li>
-            <li ng-show="app.user.is_superuser">
+            <li ng-show="user.is_superuser">
                 <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">Projects</a>
             </li>
 
