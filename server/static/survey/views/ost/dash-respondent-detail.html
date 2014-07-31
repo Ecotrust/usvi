@@ -16,7 +16,6 @@
             {{getAnswer('proj-title')}}
 
             <div class="main-content">
-                User {{user}}
                 <div class="row">
                     <div class="col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9">
                         <a back class="os-btn default margin-top"><span class="glyphicon glyphicon-chevron-left"></span>  Back</a>
@@ -29,6 +28,14 @@
                     </div>
                 </div> 
             </div>
+
+            <div class="row" ng-show="user.is_superuser">
+                Responses Questions
+                <div ng-repeat="res in respondent.responses">
+                    {{res.question}}                    
+                </div>
+            </div>
+
 
             <div class="row">
                 <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
