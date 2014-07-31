@@ -249,13 +249,26 @@ class Survey(caching.base.CachingMixin, models.Model):
     @property
     def completes(self):
         return self.respondant_set.filter(complete=True).count()
-
+        
     def incompletes(self):
         return self.respondant_set.filter(complete=False).count()
 
     @property
     def activity_points(self):
         return Location.objects.filter(response__respondant__in=self.respondant_set.filter(complete=True)).count()
+
+    @property
+    def total_sites(self):
+        """
+        The sum of all points and unique planning unit ids. 
+
+        Returns and integer
+        """
+        num_pus = PlanningUnitAnswer.objects.filter(respondant__in=self.respondant_set.filter(complete=True)).values('unit').distinct().count()
+        num_points = Location.objects.filter(response__respondant__in=self.respondant_set.filter(complete=True)).count()
+
+        return num_points + num_pus
+    
 
     def generate_field_names(self):
         fields = OrderedDict()

@@ -6,18 +6,18 @@
     <div class="stats" loading-survey survey="survey">
         <div class="row">
             <div id="side_total" class="col-sm-12 col-md-12 box">
-                <h1>{{survey.num_registered || 0}}</h1>
-                <p>REGISTERED</p>
+                <h1>{{survey.completes || 0}}</h1>
+                <p>Total Projects</p>
             </div>
         </div>
         <div class="row">
             <div id="side_started" class="col-sm-6 col-md-6 box">
                 <h1>{{survey.incompletes || 0}}</h1>
-                <p>INCOMPLETE</p>
+                <p>Respondents</p>
             </div>
             <div id="side_completed" class="col-sm-6 col-md-6 box">
-                <h1>{{survey.completes || 0}}</h1>
-                <p>COMPLETED</p>
+                <h1>{{survey.total_sites || 0}}</h1>
+                <p>Total Sites</p>
             </div>
         </div>
     </div>

@@ -459,8 +459,6 @@ class SurveyResource(SurveyModelResource):
         }
 
 
-    # def save_m2m(self, bundle):
-    #     pass
 
 class SurveyReportResource(SurveyResource):
     questions = fields.ToManyField(QuestionResource, 'questions', null=True, blank=True)
@@ -469,3 +467,6 @@ class SurveyReportResource(SurveyResource):
     incompletes = fields.IntegerField(attribute='incompletes', readonly=True)
     survey_responses = fields.IntegerField(attribute='survey_responses', readonly=True)
     activity_points = fields.IntegerField(attribute='activity_points', readonly=True)
+    total_sites = fields.IntegerField(attribute='total_sites', readonly=True)
+
+
