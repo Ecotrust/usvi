@@ -13,18 +13,19 @@
 
         <div class="col-lg-9 col-md-8 col-sm-8">
             <div class="row" ost-header></div>
+            {{getAnswer('proj-title')}}
 
             <div class="main-content">
+                User {{user}}
                 <div class="row">
                     <div class="col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9">
                         <a back class="os-btn default margin-top"><span class="glyphicon glyphicon-chevron-left"></span>  Back</a>
                     </div>
                 </div>
 
-                
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <div ng-include="viewPath + 'views/ost/answers/surveyAnswers.html'"></div>
+                        <div ng-include="viewPath + 'views/ost/answers/dash-survey-answers.html'"></div>
                     </div>
                 </div> 
             </div>

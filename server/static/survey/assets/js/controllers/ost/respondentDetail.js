@@ -5,6 +5,8 @@ angular.module('askApp')
     $scope.viewPath = app.viewPath;
     $scope.uuid = $routeParams.uuidSlug;
 
+    $scope.user = app.user || {};
+
     $scope.survey = {};
     $scope.survey.slug = $routeParams.survey_slug;
     $scope.backButton
