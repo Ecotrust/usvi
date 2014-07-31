@@ -351,16 +351,16 @@ angular.module('askApp')
     var ecosystemSlugToColor = function(slug){
         var key = generalizeEcosystemSlug(slug),
             dict = {};
-            dict['ef-rockyintertidal-collection-'] = '#FF0000';
-            dict['ef-kelp-and-shallow-rock-collection-'] = '#00FF00';
-            dict['ef-middepthrock-collection-'] = '#0000FF';
-            dict['ef-estuarine-collection-'] = '#77FF00';
-            dict['ef-softbottomintertidal-collection-'] = '#FF00FF';
-            dict['ef-softbottomsubtidal-collection-'] = '#00FFFF';
-            dict['ef-deep-collection-'] = '#7777FF';
-            dict['ef-nearshore-collection-'] = '#FF7777';
-            dict['ef-consumptive-collection-'] = '#77FF77';
-            dict['ef-nonconsumptive-collection-'] = '#0077FF';
+            dict['ef-rockyintertidal-collection-'] = '#E85E47';
+            dict['ef-kelp-and-shallow-rock-collection-'] = '#3EE8D4';
+            dict['ef-middepthrock-collection-'] = '#68C6FF';
+            dict['ef-estuarine-collection-'] = '#28E85B';
+            dict['ef-softbottomintertidal-collection-'] = '#ff973f';
+            dict['ef-softbottomsubtidal-collection-'] = '#e8cd2b';
+            dict['ef-deep-collection-'] = '#4480FF';
+            dict['ef-nearshore-collection-'] = '#6347E8';
+            dict['ef-consumptive-collection-'] = '#317139';
+            dict['ef-nonconsumptive-collection-'] = '#FE5BFF';
 
             return dict[key];
     };
