@@ -1,34 +1,41 @@
 <div class="row">
+    
     <div class="col-xs-12 col-sm-12">
 
         <div class="answer">
-            <strong>Ecosystem features monitored:</strong>
-            <span>{{ getAnswer('ecosystem-features') }}</span>
+            <strong>How many sites in the Central Coast region: </strong>
+            <span>{{ getAnswer('proj-num-sites') }}</span>
         </div>
 
-
-        <h4>Learning more about the data</h4>
         <div class="answer">
             <strong>Years of data collection: </strong>
             <span>{{ getAnswer('proj-data-years') }}</span>
         </div>
+
         <div class="answer">
-            <strong>Frequency of data collection: </strong>
+            <strong>Number of times per year data is collected at a typical site: </strong>
             <span>{{ getAnswer('proj-data-frequency') }}</span>
         </div>
+
         <div class="answer">
-            <strong>Number of sites: </strong>
-            <span>{{ getAnswer('proj-num-sites') }}</span>
-        </div>
-        <div class="answer">
-            <strong>Availability of collected data:</strong>
-            <span>{{ getAnswer('proj-data-availability') }}</span>
-        </div>
-        <div class="answer" ng-show="getAnswer('proj-public-data')">
-            <strong>Data URL:</strong>
-            <span>{{ getAnswer('proj-public-data') }}</span>
+            <strong>Number of data collectors over the last year: </strong>
+            <span>{{ getAnswer('proj-num-people') }}</span>
         </div>
 
+        <div class="answer">
+            <strong>Data collector qualifications / training: </strong>
+            <span>{{ getAnswer('proj-participant-qualifications') }}</span>
+        </div>
+
+        <div class="answer">
+            <strong>Data recording and QA procedures: </strong>
+            <span>{{ getAnswer('proj-data-people') }}</span>
+        </div> 
+
+        <div class="answer">
+            <strong>Additional data collection information: </strong>
+            <span>{{ getAnswer('proj-additional-info') }}</span>
+        </div> 
 
     </div>
 </div>

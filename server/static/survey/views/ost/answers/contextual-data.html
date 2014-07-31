@@ -2,36 +2,60 @@
     <div class="col-xs-12 col-sm-12">
 
         <div ng-show="getAnswer('cde-types')">
+            <span ng-show='user.is_superuser'>CDE</span>
             <div class="answer">
-                <strong>Contextual Data Types:</strong>
+                <strong>What contextual data is collected: </strong>
                 <span>{{ getAnswer('cde-types') }}</span>
             </div>
+
             <div class="answer">
-                <strong>Collected at all sites: </strong>
+                <strong>Is this data collected at sampling sites? </strong>
                 <span>{{ getAnswer('cde-where') }}</span>
             </div>
-            <div class="answer">
-                <strong>Notes:</strong>
+
+            <div class="answer" >
+                <strong>If not, why:</strong>
                 <span>{{ getAnswer('cde-where-elaborated') }}</span>
             </div>
+
         </div>
+
         <!-- this section is only shown if cd-types is available rather than cde-types. -->
         <div ng-show="getAnswer('cd-types')">
+            <span ng-show='user.is_superuser'>CD</span>
             <div class="answer">
-                <strong>Contextual Data Types:</strong>
+                <strong>What contextual data is collected:</strong>
                 <span>{{ getAnswer('cd-types') }}</span>
             </div>
+
             <div class="answer">
-                <strong>Collected locations: </strong>
+                <strong>Is this data collected at sampling sites? </strong>
                 <span>{{ getAnswer('cd-where') }}</span>
             </div>
+            
             <div class="answer">
-                <strong>Collected Timing: </strong>
+                <strong>If not, why:</strong>
+                <span>{{ getAnswer('cd-where-elaborated') }}</span>
+            </div>
+
+            <div class="answer">
+                <strong>Length and duration of contextual data only collection: </strong>
                 <span>{{ getAnswer('cd-collection-timing') }}</span>
             </div>
+
             <div class="answer">
-                <strong>Collected Frequency: </strong>
+                <strong>Frequency of contextual data only collection: </strong>
                 <span>{{ getAnswer('cd-collection-frequency') }}</span>
+            </div>
+
+            <div class="answer">
+                <strong>Has data been used in ocean ecological assessments: </strong>
+                <span>{{ getAnswer('cd-use') }}</span>
+            </div>
+
+            <div class="answer" ng-show=" getAnswer('cd-use') === 'Yes' ">
+                <strong>If yes, how? </strong>
+                <span>{{ getAnswer('cd-use-yes') }}</span>
             </div>
 
         </div>

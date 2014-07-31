@@ -7,12 +7,14 @@ angular.module('askApp')
     }])
     .controller('RespondantListCtrl', function($scope, $http, $routeParams, $location, history, surveyFactory) {
 
+    $scope.user = app.user || {};
     $scope.searchTerm = $location.search().q;
     $scope.resource = '/api/v1/dashrespondant/';
     
     $scope.survey = {};
     $scope.survey.slug = $routeParams.survey_slug;    
 
+    $scope.respondents_per_page = 10;
     $scope.busy = true;
     $scope.viewPath = app.server + '/static/survey/';
     $scope.activePage = 'responses';
@@ -23,9 +25,9 @@ angular.module('askApp')
     });
 
     if ($scope.searchTerm){
-        var url = '/api/v1/dashrespondant/search/?format=json&q=' + $scope.searchTerm;
+        var url = '/api/v1/dashrespondant/search/?format=json&limit='+$scope.respondents_per_page+'&q=' + $scope.searchTerm;
     } else {
-        var url = '/api/v1/dashrespondant/?format=json';
+        var url = '/api/v1/dashrespondant/?format=json&limit='+$scope.respondents_per_page;
     }
 
     $http.get(url).success(function(data) {

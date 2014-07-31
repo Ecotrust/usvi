@@ -21,7 +21,8 @@ angular.module('askApp')
         templateUrl : app.viewPath +'views/ost/dash-respondents-table.html',
         scope: {respondents: '=',
                 resource:'=',
-                meta:'='
+                meta:'=',
+                limit:'='
             },
 
         link: function (scope, element, attrs) {
@@ -38,14 +39,24 @@ angular.module('askApp')
 
             // Paginated respondent table
             scope.goToPage = function (page) {
+
+
+                scope.searchTerm = scope.location.search().q;
+
                 var meta = scope.meta || {}
-                    , limit = 8
-                    , offset = limit * (page - 1)
-                    , url = [
-                        scope.resource + '?format=json&limit='+limit
-                        , '&offset='+offset
-                      ].join('')
-                    ;
+                    , offset = scope.limit * (page - 1);
+
+                var url = [
+                        scope.resource + '?format=json&limit='+scope.limit,
+                        '&offset='+offset,
+                      ];
+                if (scope.searchTerm) {
+                    url.push('&q='+scope.searchTerm);
+                };
+
+                url = url.join('');
+
+
                 scope.http.get(url).success(function (data) {
                     scope.respondents = data.objects;
                     scope.meta = data.meta;

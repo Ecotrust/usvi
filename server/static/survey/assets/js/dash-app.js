@@ -76,19 +76,19 @@ angular.module('askApp', ['ngRoute', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStra
         reloadOnSearch: false
     })
     .when('/RespondantList/:surveySlug', {
-        templateUrl: '/static/survey/views/RespondantList.html',
+        templateUrl: '/static/survey/views/ost/dash-respondent-list.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
     })
 
     .when('/RespondantList', {
-        templateUrl: '/static/survey/views/RespondantList.html',
+        templateUrl: '/static/survey/views/ost/dash-respondent-list.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: true
     })
 
     .when('/responses/:surveySlug', {
-        templateUrl: '/static/survey/views/RespondantList.html',
+        templateUrl: '/static/survey/views/ost/dash-respondent-list.html',
         controller: 'RespondantListCtrl',
         reloadOnSearch: false
     })

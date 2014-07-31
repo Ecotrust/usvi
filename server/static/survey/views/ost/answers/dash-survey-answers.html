@@ -1,25 +1,27 @@
 <!--
-This is used by the survey app only
+This is used by the dashboard only. 
 --> 
 <div class="row">
    <div class="col-sm-12 col-md-12">
        <dl class="dl-horizontal">
-            <dt>Project:</dt>
-            <dd>{{getAnswer('proj-title')}}</dd>
-            <dt>Organization</dt>
-            <dd>
-                {{getAnswer('org-name')}} ({{getAnswer('org-type')}})</br>
+            
+            <p><strong>Organization: </strong>{{getAnswer('org-name')}}</p>
+            
+            <p><strong>Type: </strong>{{getAnswer('org-type')}}</p>
+            <p><strong>Web site: </strong><span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="{{orgUrl}}">{{orgUrl}}</a></span></p>
+            <div ng-show='user.username'>
                 <span ng-show="orgAddress1">{{orgAddress1}}</br></span>
                 <span ng-show="orgAddress2">{{orgAddress2}}</br></span>
                 <span ng-show="orgCity">{{orgCity}}</span><span ng-show="orgCity && orgState">,</span>  {{orgState}} {{orgZipcode}}<span ng-show="orgCity || orgState || orgZipcode"></br></span>
-                <span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="{{orgUrl}}">{{orgUrl}}</a></br></span>
-            </dd>
-            <dt>Duration:</dt>
-            <dd>{{ getAnswer('proj-data-years') }}</dd>
-            <dt>Typical site # visits:</dt>
-            <dd>{{ getAnswer('proj-data-frequency') }}</dd>
-            <dt>Data availability:</dt>
-            <dd>{{getAnswer('proj-data-availability')}}</dd>
+                </br></span>
+            </div>
+
+            <p><strong>Participating organizations: </strong></p>
+            <ul>
+                <li ng-repeat="org in getAnswer('proj-collaborating-orgs')">{{org}}</li>
+            </ul>
+
+
         </dl>
     </div>
 </div>
@@ -55,17 +57,26 @@ This is used by the survey app only
     <div class="col-sm-12 col-md-12">
         <div class="answer-panels">
             <div answers-panel 
-                title="'Project / Funding Information'" 
+                ng-hide="user.username"
+                title="'Project Information / Data Sharing'" 
+                html-content="viewPath + 'views/ost/answers/project.html'"
+                species-answer="''"
+                respondent="respondent"></div>
+
+             <div answers-panel 
+                ng-show="user.username"
+                title="'Project Information / Data Sharing / Financial Info'" 
                 html-content="viewPath + 'views/ost/answers/project.html'"
                 species-answer="''"
                 respondent="respondent"></div>
 
 
             <div answers-panel 
-                title="'Data Management / Collection Information'"
+                title="'Data Collection'"
                 html-content="viewPath + 'views/ost/answers/data.html'"
                 species-answer="''"
                 respondent="respondent"></div>
+
 
             <div ng-show="answerContains('ecosystem-features', 'Rocky Intertidal Ecosystems')">
                 <div answers-panel 

@@ -36,6 +36,11 @@ $vertical-gutter:15px;
 
 header {
     border-bottom:1px solid $os-darkgrey;
+    font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+
+    h3 {
+        color:$os-lightblue;
+    }
 }
 
 footer {
@@ -58,7 +63,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-content {
-    
+    margin-left:4px;
+    .row{
+        background-color:white;
+    }
 }
 
 
@@ -89,6 +97,7 @@ form {
     input.ng-valid.ng-dirty {
     }
 }
+
 
 .os-btn {
     color: $os-red;

@@ -5,6 +5,8 @@ angular.module('askApp')
     $scope.viewPath = app.viewPath;
     $scope.uuid = $routeParams.uuidSlug;
 
+    $scope.user = app.user || {};
+
     $scope.survey = {};
     $scope.survey.slug = $routeParams.survey_slug;
     $scope.backButton
@@ -13,8 +15,8 @@ angular.module('askApp')
         var url = app.server 
               + '/api/v1/reportrespondantdetails/'
               + respondent_uuid 
-              + '/?format=json'
-              + '&survey__slug=' + survey_slug;
+              + '/?format=json';
+              
 
         return $http.get(url)
             .success(function (data) {
@@ -49,6 +51,8 @@ angular.module('askApp')
 
     $scope.getAnswer = function(questionSlug) {
         return history.getAnswer(questionSlug, $scope.respondent);
+
+        
     };
 
 
@@ -229,7 +233,11 @@ angular.module('askApp')
             speciesAnswer: '=',
             htmlContent: '=',
         },
-        link: function postLink(scope, element, attrs) {
+        link: function (scope, element, attrs) {
+            console.log("in link for " + scope.title)
+            console.log(scope.respondent)
+            console.log('speciesAnswer')
+            console.log(scope.speciesAnswer)
             scope.open = false;
             scope.angular_version = parseFloat(angular.version.major+'.'+angular.version.minor);
             scope.getAnswer = function(questionSlug) {

@@ -1,42 +1,42 @@
-<div class="dash-ecosystems container" ng-cloak>
+<div ng-include="'/static/survey/views/sideNav.html'"></div>
+<div class="dash-ecosystems container-fluid" ng-cloak>
     <div class="row">
-        <div ng-include="'/static/survey/views/sideNav.html'"></div>
-        <div class="col-md-9 col-sm-9">
-            <div class="row" ost-header>
-                <!-- <div ng-include="'/static/survey/views/ost/dash-header.html'"></div> -->
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>TEXT NEEDED</p>
+        <div class="col-lg-9 col-md-8 col-sm-8">
+            <div class="row" ost-header></div>
+            
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>TEXT NEEDED</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div pie-chart chart="charts['org-type']" class="pie-chart"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div pie-chart chart="charts['org-type']" class="pie-chart"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div pie-chart chart="charts['proj-num-people']" class="pie-chart"></div>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <div pie-chart chart="charts['proj-num-people']" class="pie-chart"></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div bar-chart chart="charts['proj-data-years']" class="bar-chart"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div bar-chart chart="charts['proj-data-years']" class="bar-chart"></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div bar-chart chart="charts['proj-data-frequency']" class="bar-chart"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div bar-chart chart="charts['proj-data-frequency']" class="bar-chart"></div>
-                </div>
-            </div>
-        
+            
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3>Matching Reports</h3>
-                    <div respondents-table respondents='respondents' resource='resource' meta='meta'></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Matching Reports</h3>
+                        <div respondents-table respondents='respondents' resource='resource' meta='meta' limit='respondents_per_page'></div>
+                    </div>
                 </div>
-            </div>
-
+            </div><!-- end main-content -->
             <div class="row">
                 <div ng-include="'/static/survey/views/ost/dash-footer.html'"></div>
             </div>

@@ -8,6 +8,18 @@ angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, 
 
         $scope.filtersJson = '';
         $scope.filters = { ecosystemFeatures: [] };
+        
+        // Get or load survey
+        $scope.survey = {};
+        $scope.survey.slug = $routeParams.survey_slug;
+
+        $scope.survey.loading = true;
+        surveyFactory.getSurvey(function (data) {
+            data.questions.reverse();
+            $scope.survey = data;
+        });
+    
+
         $scope.mapSettings = {
             questionSlugPattern: '*-collection-points',
             lat: 35.8336630,

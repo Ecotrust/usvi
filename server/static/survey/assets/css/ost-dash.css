@@ -17,6 +17,10 @@ to build it.
   height: 20px;
   margin-top: 20px; }
 
+img.welcome {
+  width: 100%;
+  max-width: 700px; }
+
 .dashboard {
   margin: 0; }
 
@@ -81,6 +85,9 @@ to build it.
 .popup-content.planning-unit h5 {
   margin-bottom: 0; }
 
+.answer {
+  margin-bottom: 10px; }
+
 /*
 
 These styles are taken from oceanspaces.org and are used on the dash board.
@@ -92,7 +99,10 @@ These styles are taken from oceanspaces.org and are used on the dash board.
   padding-left: 30px; }
 
 header {
-  border-bottom: 1px solid #CCCCCC; }
+  border-bottom: 1px solid #CCCCCC;
+  font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B'; }
+  header h3 {
+    color: #70afb6; }
 
 footer {
   background-color: #373e48; }
@@ -105,6 +115,11 @@ footer {
 
 h1, h2, h3, h4, h5, h6 {
   color: #004c72; }
+
+.main-content {
+  margin-left: 4px; }
+  .main-content .row {
+    background-color: white; }
 
 ul.dropdown-menu {
   background-color: white;
@@ -171,7 +186,7 @@ form input.ng-invalid.ng-dirty {
 /**********************************
 General Surgical Classes Go Here 
 ***********************************/
-.centered {
+.centered, .center {
   text-align: center; }
 
 .padding-top {
@@ -208,6 +223,8 @@ tr.respondent:hover {
 End Respondent Table Styles
 ******************************************************/
 #sidenav {
+  width: 275px;
+  float: left;
   color: white;
   text-align: center;
   border-right: 1px solid #bbb;

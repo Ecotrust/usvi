@@ -1,55 +1,37 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12">
 
-
-        <h4>Basic Information</h4>
         <div class="answer">
-            <strong>Title: </strong>
-            <span>{{ getAnswer('proj-title') }}</span>
+            <strong>Project goals: </strong>
+            <span>{{ getAnswer('proj-goals') }}</span>
         </div>
         <div class="answer">
             <strong>Description: </strong>
             <span>{{ getAnswer('proj-description') }}</span>
         </div>
+
         <div class="answer">
-            <strong>Goals:</strong>
-            <span>{{ getAnswer('proj-goals') }}</span>
-        </div>
-        <div class="answer">
-            <strong>Supporting:</strong>
-            <span>{{ getAnswer('proj-issues-informed') }}</span>
+            <strong>Data availability: </strong> 
+            <span>{{ getAnswe ('proj-data-availability') }}
+                <span ng-show='getAnswer("proj-data-availability") === "By request" || getAnswer("proj-data-availability") === "By request" '> at {{ getAnswer('proj-public-data') }}</span> 
+            </span>
         </div>
 
-
-        <h4>Who Is Involved?</h4>
-        <div class="answer">
-            <strong>Collaborators:</strong>
-            <span>{{ getAnswer('proj-collaborating-orgs') }}</span>
+        <div ng-show="user">
+            <h3>Financial Support and Capacity</h3>
+            <div class="answer">
+                <strong>How is the data analyzed and shared? </strong>
+                <span>{{ getAnswer('proj-analyze') }}</span>
+            </div>
+            
+            <div class="answer">
+                <strong>Timeframe of continuing financial support: </strong>
+                <span>{{ getAnswer('proj-financial-support-timeline') }}</span>
+            </div>
+            <div class="answer">
+                <strong>How would additional funding used?: </strong>
+                <span>{{ getAnswer('proj-operational-capacity-if-funded') }}</span>
+            </div>
         </div>
-        <div class="answer">
-            <strong>Number of Data Collectors:</strong>
-            <span>{{ getAnswer('proj-num-people') }}</span>
-        </div>
-        <div class="answer">
-            <strong>Participant Qualifications:</strong>
-            <span>{{ getAnswer('proj-participant-qualifications') }}</span>
-        </div>
-        <div class="answer">
-            <strong>Roles / Responsibilities:</strong>
-            <span>{{ getAnswer('proj-data-people') }}</span>
-        </div>
-
-
-        <h4>Existing Financial Support and Project Capacity</h4>
-        <div class="answer">
-            <strong>Sufficient financial support timeline:</strong>
-            <span>{{ getAnswer('proj-financial-support-timeline') }}</span>
-        </div>
-        <div class="answer">
-            <strong>Use of additional funding:</strong>
-            <span>{{ getAnswer('proj-operational-capacity-if-funded') }}</span>
-        </div>
-
-
     </div>
 </div>
