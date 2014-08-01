@@ -25,11 +25,6 @@ angular.module('askApp')
                                         enabled: true
                                     }
                                 };
-
-                                if (out.name === "Once") out.legendIndex = 1;
-                                if (out.name === "5-10") out.legendIndex = 2;
-                                if (out.name === "11-100") out.legendIndex = 3;
-
                                 return out;
                             });
                             console.table(series);
