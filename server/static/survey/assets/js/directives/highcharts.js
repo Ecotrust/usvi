@@ -1,3 +1,6 @@
+/*
+These are the directives used to create the charts on OST Explore page
+*/
 angular.module('askApp')
     .directive('stackedBar', function() {
 
@@ -106,7 +109,7 @@ angular.module('askApp')
                             pie: {
                                 startAngle: 180,
                                 dataLabels: {
-                                    enabled: true,
+                                    enabled: false,
                                     distance: 4,
                                     style: {
                                         fontWeight: 'bold',
@@ -116,7 +119,8 @@ angular.module('askApp')
                                     format: '{point.name}',
                                     connectorWidth: 0
                                 },
-                                size: '75%'
+                                size: '75%',
+                                showInLegend: true
                             }
                         },
                         series: [{
