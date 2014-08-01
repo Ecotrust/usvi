@@ -249,7 +249,7 @@ class Survey(caching.base.CachingMixin, models.Model):
     @property
     def completes(self):
         return self.respondant_set.filter(complete=True).count()
-        
+
     def incompletes(self):
         return self.respondant_set.filter(complete=False).count()
 
@@ -269,6 +269,21 @@ class Survey(caching.base.CachingMixin, models.Model):
 
         return num_points + num_pus
     
+
+    @property
+    def num_orgs(self):
+        """
+        Trys to get the total number of distinct organizations that responded based on Org name.
+
+        Returns an Integer
+        """
+        
+        return Response.objects.filter(respondant__survey=self, respondant__complete = True, question__slug='org-name').values('answer').distinct().count()
+
+         
+
+
+
 
     def generate_field_names(self):
         fields = OrderedDict()

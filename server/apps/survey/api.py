@@ -459,7 +459,6 @@ class SurveyResource(SurveyModelResource):
         }
 
 
-
 class SurveyReportResource(SurveyResource):
     questions = fields.ToManyField(QuestionResource, 'questions', null=True, blank=True)
     num_registered = fields.IntegerField(attribute='num_registered', readonly=True)
@@ -468,5 +467,5 @@ class SurveyReportResource(SurveyResource):
     survey_responses = fields.IntegerField(attribute='survey_responses', readonly=True)
     activity_points = fields.IntegerField(attribute='activity_points', readonly=True)
     total_sites = fields.IntegerField(attribute='total_sites', readonly=True)
-
+    num_orgs = fields.IntegerField(attribute='num_orgs', readonly=True)
 
