@@ -1,20 +1,26 @@
 <!--
-BE CAREFUL EDITING THIS. IT IS USED ON BOTH DASH AND SURVEY APP.
+This is used by the dashboard only. 
 --> 
 <div class="row">
    <div class="col-sm-12 col-md-12">
        <dl class="dl-horizontal">
-            <p>Organization: {{getAnswer('org-name')}}</p>
-            <p>Type: {{getAnswer('org-type')}}</p>
-            <p>Web site: <span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="{{orgUrl}}">{{orgUrl}}</a></span></p>
-            <p>Participating organizations: {{getAnswer('proj-collaborating-orgs')}}</p>
-
-            <div>
+            
+            <p><strong>Organization: </strong>{{getAnswer('org-name')}}</p>
+            
+            <p><strong>Type: </strong>{{getAnswer('org-type')}}</p>
+            <p><strong>Web site: </strong><span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="{{orgUrl}}">{{orgUrl}}</a></span></p>
+            <div ng-show='user.username'>
                 <span ng-show="orgAddress1">{{orgAddress1}}</br></span>
                 <span ng-show="orgAddress2">{{orgAddress2}}</br></span>
                 <span ng-show="orgCity">{{orgCity}}</span><span ng-show="orgCity && orgState">,</span>  {{orgState}} {{orgZipcode}}<span ng-show="orgCity || orgState || orgZipcode"></br></span>
                 </br></span>
             </div>
+
+            <p><strong>Participating organizations: </strong></p>
+            <ul>
+                <li ng-repeat="org in getAnswer('proj-collaborating-orgs')">{{org}}</li>
+            </ul>
+
 
         </dl>
     </div>
@@ -51,12 +57,14 @@ BE CAREFUL EDITING THIS. IT IS USED ON BOTH DASH AND SURVEY APP.
     <div class="col-sm-12 col-md-12">
         <div class="answer-panels">
             <div answers-panel 
+                ng-hide="user.username"
                 title="'Project Information / Data Sharing'" 
                 html-content="viewPath + 'views/ost/answers/project.html'"
                 species-answer="''"
                 respondent="respondent"></div>
 
              <div answers-panel 
+                ng-show="user.username"
                 title="'Project Information / Data Sharing / Financial Info'" 
                 html-content="viewPath + 'views/ost/answers/project.html'"
                 species-answer="''"

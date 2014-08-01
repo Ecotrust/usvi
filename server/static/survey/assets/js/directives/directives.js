@@ -184,7 +184,6 @@ angular.module('askApp')
                 console.log("Using ost-header");
                 scope.authenticate_user = function(){
                     
-                    console.log("WTF2 Authenticate");
                     console.log(scope.credentials);
 
                     scope.credentials.failed = false;

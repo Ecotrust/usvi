@@ -50,21 +50,6 @@
       <script src="{{ STATIC_URL }}survey/lib/js/json3.min.js"></script>
     <![endif]-->
 
-    {% if False %}
-    <div id="topnav" class="navbar navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-            <img class="navbar-brand oceanspaces-logo" src="{{STATIC_URL}}survey/assets/img/oceanspaces-logo-white.png">
-            <a class="navbar-brand" href="http://pointnineseven.com/">
-        </div>
-        <div class="navbar-right">
-          <a href="{% url 'auth_logout' %}" class="navbar-btn navbar-right btn btn-default">Sign Out</a>
-          <p class="navbar-text navbar-right">Signed in as {{user.username}} (<a href="#/admin">admin</a>)</p>
-        </div>
-      </div>
-    </div>
-    {% endif %}
-
     <div class="container-fluid dashboard" id="ng-app" ng-app="askApp" ng-view></div>
 
     <script src="{{ STATIC_URL }}survey/components/flatui/js/jquery-1.8.2.min.js"></script>
@@ -103,8 +88,8 @@
       username: "{{user.username}}",
       is_staff: "{{user.is_staff}}",
       is_superuser: {% if user.is_superuser %}true{% else %}false{% endif %}
-
     }
+
     {% else %}
     var isAuthenticated = false;
     {% endif %}

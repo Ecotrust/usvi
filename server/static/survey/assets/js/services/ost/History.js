@@ -18,10 +18,20 @@ angular.module('askApp')
     };
 
     var getAnswer = function(questionSlug, respondent) {
+        /*
+        Returns a string i think
+        */
+
+
+        if (typeof(respondent) === 'undefined') {
+            console.log("no respondents")
+            return "";
+        }
         try {
-            var question = _.findWhere(respondent.responses, {question: questionSlug}), 
-                answer = '',
-                tmp,
+            var question = _.findWhere(respondent.responses, {question: questionSlug});
+            var answer = '';
+            
+                
                 // We don't have access to the question types here 
                 // so we're sorting them out here.
                 singleSelects = 
@@ -44,6 +54,8 @@ angular.module('askApp')
                              'cde-where',
                              'proj-data-availability', 
                              'future-monitoring-yes-no',
+                             'cd-use',
+                             'cde-use',
                              'proj-financial-support-timeline'],
                 
                 multiSelects = 
@@ -88,6 +100,7 @@ angular.module('askApp')
                              'ef-nonconsumptive-collection-points'];
 
 
+
             // Grab answer based on the type of question.
             if (_.contains(singleSelects, questionSlug)) {
                 answer = question.answer.text;
@@ -113,6 +126,9 @@ angular.module('askApp')
                     }
                 });
 
+            } else if (questionSlug === 'proj-collaborating-orgs'){
+                answer = question.answer_raw.substring(1, question.answer_raw.length-1).split("\\n");
+            
             } else {
                 answer = question.answer;
             }
@@ -120,21 +136,10 @@ angular.module('askApp')
             //if (answer === '') answer = 'Not Available';
             
         } catch(e) {
+            console.log(questionSlug)
+            console.log(e)
             answer = '';
         }
-
-        // Sometimes its and array
-        
-        
-        // if (Array.isArray(answer)){
-        //     console.log(question.question + ": answer is an array");
-        //     var answers = _.map(answer, function(ans){
-        //         return ans.text;
-        //     });
-        //     answer = answers.join(", ");
-        //     console.log(answer)
-        // }
-
 
         if (answer === 'NA' || answer === 'NO_ANSWER') {
             answer = 'Not Available';
