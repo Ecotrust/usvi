@@ -1,5 +1,6 @@
 /*
-These are the directives used to create the charts on OST Explore page
+The pieChart directive is used to create the charts on OST Explore page.
+The OST bar charts are created using 'stackedColumn' in charts.js 
 */
 angular.module('askApp')
     .directive('stackedBar', function() {
@@ -125,9 +126,12 @@ angular.module('askApp')
                         },
                         series: [{
                             type: 'pie',
-                            innerSize: '50%',
+                            innerSize: '40%',
                             data: scope.chart.data
-                        }]
+                        }],
+                        legend : {
+                            layout: 'vertical'
+                        }
                     });    
                 }
                 
