@@ -1,6 +1,7 @@
 
 angular.module('askApp').controller('DashOverviewCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils, survey) {
 
+    $scope.page_title = "What and Where?";
     $scope.loadingSurveys = true;
     function initPage () {
         $scope.activePage = 'overview';

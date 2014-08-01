@@ -2,7 +2,7 @@
 angular.module('askApp').controller('DashWelcomeCtrl', function($scope, $routeParams, $window, surveyFactory) {
     
     //$scope.screen_height = angular.element($window).height();
-
+    $scope.page_title = "Welcome!";
     $scope.activePage = 'welcome';
     $scope.user = app.user || {};
     $scope.filters = {};

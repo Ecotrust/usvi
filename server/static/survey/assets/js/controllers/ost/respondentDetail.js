@@ -2,6 +2,9 @@
 
 angular.module('askApp')
     .controller('RespondentDetailCtrl', function($scope, $http, $routeParams, $location, survey, history, surveyFactory) {
+    
+    
+
     $scope.viewPath = app.viewPath;
     $scope.uuid = $routeParams.uuidSlug;
 
@@ -84,10 +87,12 @@ angular.module('askApp')
     };
 
     $scope.getRespondent($routeParams.uuidSlug, $routeParams.survey_slug, function (respondent) {
+        
         $scope.respondent = respondent;
         $scope.parseResponses(respondent);
         $scope.backPath = respondent.complete ? '/completes' : '/incompletes';
         $scope.showContent = true;
+        $scope.page_title = 'Individual Project Details: ' + $scope.getAnswer('proj-title');
         $scope.orgAddress1 = $scope.getAnswer('org-address-1');
         $scope.orgAddress2 = $scope.getAnswer('org-address-2');
         $scope.orgCity = $scope.getAnswer('org-city');

@@ -1,6 +1,7 @@
 
 angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $routeParams, $location, surveyFactory, dashData, chartUtils) {
     
+    $scope.page_title = 'Who?';
     $scope.activePage = 'explore';
     $scope.user = app.user || {};
     $scope.resource = '/api/v1/completerespondant/';
