@@ -120,7 +120,9 @@ h1, h2, h3, h4, h5, h6 {
   color: #004c72; }
 
 .main-content {
-  margin-left: 4px; }
+  margin-left: 4px;
+  color: #666666;
+  font-size: 18px; }
   .main-content .row {
     background-color: white; }
 

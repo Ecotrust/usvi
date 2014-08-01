@@ -95,6 +95,7 @@ angular.module('askApp')
             link: function postLink(scope, element, attrs) {
                 scope.$watch('chart', function(newValue) {
                     // Draw the graph
+                    debugger;
                     if (newValue && !newValue.message) {
                         var chart;
                         var series = _.map(scope.chart.seriesNames, function(name) {
