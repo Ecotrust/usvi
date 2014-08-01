@@ -33,10 +33,14 @@
     .select2-container  {
         width:90%;
     }
+
+    .box h1, .box p{
+        color:#E6E8E9;
+    }
 }
 
 #side_total {
-    background: #5B9AA9;
+    background: #004C72;
     h1 {
         font-size: 4em;
         margin-top: 10px;
@@ -52,10 +56,10 @@
 
 }
 #side_completed {
-    background: #FD7C6F;
+    background: #C24118;
 }
 #side_started {
-    background: #F6C432;
+    background: #BFECFF;
 }
 
 

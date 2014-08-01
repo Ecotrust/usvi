@@ -436,7 +436,8 @@ form .btn-block {
 .chart {
   margin-top: 50px;
   margin-bottom: 50px;
-  height: 250px;
+  /*height: 250px;*/
+  width:100%;
   overflow: auto;
 }
 .btn .progress {

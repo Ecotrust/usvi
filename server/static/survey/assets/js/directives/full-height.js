@@ -8,7 +8,7 @@ angular.module('askApp').directive('fullHeight', function ($window) {
         };
 
         scope.get_new_height = function(){
-            var body_height = angular.element(".container").outerHeight();
+            var body_height = angular.element(".container-fluid").outerHeight();
             var window_height = angular.element($window).outerHeight();
 
             out = Math.max(body_height, window_height);

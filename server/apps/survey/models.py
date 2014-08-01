@@ -257,6 +257,34 @@ class Survey(caching.base.CachingMixin, models.Model):
     def activity_points(self):
         return Location.objects.filter(response__respondant__in=self.respondant_set.filter(complete=True)).count()
 
+    @property
+    def total_sites(self):
+        """
+        The sum of all points and unique planning unit ids. 
+
+        Returns and integer
+        """
+        num_pus = PlanningUnitAnswer.objects.filter(respondant__in=self.respondant_set.filter(complete=True)).values('unit').distinct().count()
+        num_points = Location.objects.filter(response__respondant__in=self.respondant_set.filter(complete=True)).count()
+
+        return num_points + num_pus
+    
+
+    @property
+    def num_orgs(self):
+        """
+        Trys to get the total number of distinct organizations that responded based on Org name.
+
+        Returns an Integer
+        """
+        
+        return Response.objects.filter(respondant__survey=self, respondant__complete = True, question__slug='org-name').values('answer').distinct().count()
+
+         
+
+
+
+
     def generate_field_names(self):
         fields = OrderedDict()
         for q in Question.objects.filter(question_page__survey=self).order_by('question_page__order', 'order'):
@@ -431,6 +459,11 @@ class Question(caching.base.CachingMixin, models.Model):
     def report_types(self):
         return REPORT_TYPE_CHOICES
 
+    def sort_by_rows(self, x):
+        choices = self.rows.split("\n")
+        _map = dict((val, i) for i, val in enumerate(choices))
+        return _map[x['answer']]
+
     def get_answer_domain(self, survey, filters=None):
         # Get the full response set.
         answers = self.response_set.filter(respondant__complete=True)
@@ -476,7 +509,16 @@ class Question(caching.base.CachingMixin, models.Model):
             return (MultiAnswer.objects.filter(response__in=answers)
                                        .values('answer_text')
                                        .annotate(surveys=Count('answer_text')))
+        elif self.rows:
+
+            res = (answers.values('answer')
+                           .annotate(locations=Sum('respondant__locations'), surveys=Count('answer')))
+            out = sorted(res, key=self.sort_by_rows)
+
+            return out
         else:
+            
+
             return (answers.values('answer')
                            .annotate(locations=Sum('respondant__locations'), surveys=Count('answer')))
     @property

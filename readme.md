@@ -14,6 +14,7 @@ fab vagrant runserver
 ## Provision a fresh Server with Chef and Fabric
 ### Configure server settings
 Create a node file with the name scripts/cookbook/node_staging.json from the template in scripts/cookbook/node_staging.json.template.  Set the postgresql password and add your ssh public key to scripts/node_staging.json.  Tested with Ubuntu 12.04 (precise pangolin).
+
 #### Sample config file
 ```javascript
 {
