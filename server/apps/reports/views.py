@@ -195,6 +195,8 @@ def _get_answer_domain(request, survey_slug, question_slug):
     for question in questions:
         answer_domain = answer_domain + list(question.get_answer_domain(survey, filter_list))
 
+
+
     return answer_domain
 
 

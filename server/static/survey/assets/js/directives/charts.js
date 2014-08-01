@@ -18,14 +18,21 @@ angular.module('askApp')
                     if (newValue && !newValue.message) {
                         if (scope.chart.data && scope.chart.data.length !== 0) {
                             series = _.map(scope.chart.data, function(item, index) {
-                                return {
+                                var out = {
                                     name: scope.chart.labels[index],
                                     data: [parseFloat(item) || 0],
                                     dataLabels: {
                                         enabled: true
                                     }
                                 };
+
+                                if (out.name === "Once") out.legendIndex = 1;
+                                if (out.name === "5-10") out.legendIndex = 2;
+                                if (out.name === "11-100") out.legendIndex = 3;
+
+                                return out;
                             });
+                            console.table(series);
                         } else {
                             series = [{
                                 name: "No Data",

@@ -459,6 +459,11 @@ class Question(caching.base.CachingMixin, models.Model):
     def report_types(self):
         return REPORT_TYPE_CHOICES
 
+    def sort_by_rows(self, x):
+        choices = self.rows.split("\n")
+        _map = dict((val, i) for i, val in enumerate(choices))
+        return _map[x['answer']]
+
     def get_answer_domain(self, survey, filters=None):
         # Get the full response set.
         answers = self.response_set.filter(respondant__complete=True)
@@ -504,7 +509,16 @@ class Question(caching.base.CachingMixin, models.Model):
             return (MultiAnswer.objects.filter(response__in=answers)
                                        .values('answer_text')
                                        .annotate(surveys=Count('answer_text')))
+        elif self.rows:
+
+            res = (answers.values('answer')
+                           .annotate(locations=Sum('respondant__locations'), surveys=Count('answer')))
+            out = sorted(res, key=self.sort_by_rows)
+
+            return out
         else:
+            
+
             return (answers.values('answer')
                            .annotate(locations=Sum('respondant__locations'), surveys=Count('answer')))
     @property
