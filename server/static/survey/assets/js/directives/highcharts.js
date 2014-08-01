@@ -19,7 +19,7 @@ angular.module('askApp')
                     chart: {
                         type: 'bar'
                     },
-                    exporting :{url:"http://export.highcharts.com"},
+                    exporting :{url:HC_EXPORT_SERVER_URL},
                     title: {
                         text: scope.chart.title
                     },

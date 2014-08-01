@@ -459,8 +459,14 @@ class Question(caching.base.CachingMixin, models.Model):
     def report_types(self):
         return REPORT_TYPE_CHOICES
 
+
+    @property
+    def rows2list(self):
+        out = [row.strip() for row in self.rows.split("\n")]
+        return out
+
     def sort_by_rows(self, x):
-        choices = self.rows.split("\n")
+        choices = self.rows2list
         _map = dict((val, i) for i, val in enumerate(choices))
         return _map[x['answer']]
 

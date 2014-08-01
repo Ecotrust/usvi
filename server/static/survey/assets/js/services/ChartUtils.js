@@ -6,7 +6,6 @@ angular.module('askApp')
     var buildStackedBarChart = function (surveySlug, questionSlug, filters, options, setChart_callback, onFail_callback) {
 
         var onDataFail = function (data) { 
-            debugger; 
             onFail_callback(data);
         };
 
