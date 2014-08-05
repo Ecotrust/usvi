@@ -203,7 +203,7 @@ angular.module('askApp')
 angular.module('askApp')
     .directive('helpModal', ['$modal', function($modal){
         return {
-            template:"<div class='help-link' ng-click='open()'>Info & Help <span class='glyphicon glyphicon-info-sign'></span></div>",
+            template:"<div class='help-link' ng-click='open()'>Dive Deeper <span class='glyphicon glyphicon-info-sign'></span></div>",
             link : function(scope){
                 scope.open = function () {
                     var modalInstance = $modal.open({
