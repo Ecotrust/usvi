@@ -27,7 +27,6 @@ angular.module('askApp')
                                 };
                                 return out;
                             });
-                            console.table(series);
                         } else {
                             series = [{
                                 name: "No Data",

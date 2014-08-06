@@ -53,17 +53,17 @@ angular.module('askApp')
                 if (scope.searchTerm) {
                     url.push('&q='+scope.searchTerm);
                 };
+                if (!scope.$parent.user.is_staff){
+                    url.push('&complete=true')
+                }
 
                 url = url.join('');
-
-
                 scope.http.get(url).success(function (data) {
                     scope.respondents = data.objects;
                     scope.meta = data.meta;
                     scope.currentPage = page;
                 });
             };
-            
             // Only load first page if not results from a text search
             if (scope.resource === '/api/v1/completerespondant/'){
                 scope.goToPage(1);
