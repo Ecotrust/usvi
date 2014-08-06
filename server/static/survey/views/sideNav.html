@@ -24,22 +24,47 @@
 
     <div respondentsearch ></div>
     <div class="sidebar_nav" survey="survey" >
-        <ul class="">
+        <ul class="menu nav">
             
-            <li>
+            <li class="leaf">
                 <a ng-class="{'active': activePage == 'welcome'}" href="#/welcome/{{survey.slug}}">Welcome</a>
             </li>
             <li>
                 <a ng-class="{'active': activePage == 'explore'}" href="#/explore/{{survey.slug}}">Explore Community</a>
             </li>
-            <li>
-                <a ng-class="{'active': activePage == 'overview'}" href="#/overview/{{survey.slug}}">Monitoring Activity</a>
+            <li class="dropdown expanded" ng-class="{'open current': activePage == 'overview'}">
+                <a ng-class="{'active': activePage == 'overview'}" 
+                   href="#/overview/monitoring-project/"
+                   >Monitoring Activity</a>
+                <span class="dropdown-toggle" data-toggle="dropdown" >
+                    <i class="icon-chevron-down"></i>
+                    <i class="icon-chevron-up"></i>
+                </span>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <div help-modal></div>
+                    </li>
+                    <li class="center" ng-show="activePage == 'overview'">
+                         <span class="help-link">Filter by Ecosystem</span>
+                         <div dash-filter 
+                             class=""
+                             placeholder-text="'all ecosystem features'"
+                             allow-multi-select="true"
+                             survey-slug="'monitoring-project'"
+                             question-slug="'ecosystem-features'"
+                             selected-values="filters.ecosystemFeatures"
+                             ></div>
+                    </li>
+                </ul>
+
+                
             </li>
             <li ng-show="user.is_superuser">
                 <a ng-class="{'active': activePage == 'responses'}" href="#/RespondantList/{{survey.slug}}">Projects</a>
             </li>
 
-            <li ng-show="user.is_staff = 'True'">
+            <li ng-show="user.is_staff == 'True'">
                 <a ng-class="{'active': activePage == 'download'}" href="/reports/full-survey-data/{{survey.slug}}">Download</a>
             </li>
 
@@ -47,22 +72,7 @@
                 <a href="http://oceanspaces.org/program/central-coast-ongoing-mpa-monitoring-program">About</a>
             </li>
 
-            <li>
-                <div help-modal></div>
-            </li>
         </ul>
         
     </div>
-
-    <div class="padding-top" ng-show="activePage == 'overview'" >
-        <div dash-filter 
-             class=""
-             placeholder-text="'all ecosystem features'"
-             allow-multi-select="true"
-             survey-slug="'monitoring-project'"
-             question-slug="'ecosystem-features'"
-             selected-values="filters.ecosystemFeatures"
-             ></div>
-    </div>
-
 </div>

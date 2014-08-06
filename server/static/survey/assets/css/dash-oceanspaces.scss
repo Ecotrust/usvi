@@ -7,15 +7,15 @@ These styles are taken from oceanspaces.org and are used on the dash board.
 $os-bg-color:#f5f5f5;
 $os-font-grey:#6C6C71;
 
-$os-red: #c04504;   // This is used for highlight fonts
 $os-lightred: #FBF8F2; // Used on button hover
+$os-medred:#c24118;  // This is used on the toggle chevrons in the sideNav dropdown menu.
+$os-red: #c04504;   // This is used for highlight fonts
 $os-error-red: #FF9999;
 
 $os-grey: #F7F7F7;  // This is the background color of the button.
 $os-border-grey: #D6D6D6;  // This is the color of the button border.
 $os-darkgrey:#CCCCCC;
 $os-footergrey:#373e48;  // Used in the footer.
-
 
 
 $os-darkblue: #004c72;
@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-ul.dropdown-menu {
+.user-menu ul.dropdown-menu {
     background-color:white;
     width:400px;
     left: auto;
@@ -105,7 +105,7 @@ form {
 
 .os-btn {
     color: $os-red;
-    font-size: 1.5em;
+    font-size: 1.0em;
     line-height: 1;
     border: 3px solid $os-border-grey;
     border-radius: 25px;

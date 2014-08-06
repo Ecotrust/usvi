@@ -4,7 +4,9 @@ angular.module('askApp').controller('DashExploreCtrl', function($scope, $http, $
     $scope.page_title = 'Who?';
     $scope.activePage = 'explore';
     $scope.user = app.user || {};
+    
     $scope.resource = '/api/v1/completerespondant/';
+    
     $scope.respondents_per_page = 10;
     
     //

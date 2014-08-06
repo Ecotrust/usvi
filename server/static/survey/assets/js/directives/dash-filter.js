@@ -61,7 +61,7 @@ angular.module('askApp')
             }
             scope.selectionChanged = function (value) {
                 scope.selectedValues = scope.model.selectedValuesInternal;
-                if (scope.$parent.filters){
+                if (scope.$parent.filters && scope.$parent.updateMap){
                     scope.$parent.filters.ecosystemFeatures = scope.selectedValues;    
                     scope.$parent.updateMap();
                 }

@@ -8,7 +8,7 @@ This is used by the dashboard only.
             <p><strong>Organization: </strong>{{getAnswer('org-name')}}</p>
             
             <p><strong>Type: </strong>{{getAnswer('org-type')}}</p>
-            <p><strong>Web site: </strong><span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="{{orgUrl}}">{{orgUrl}}</a></span></p>
+            <p><strong>Web site: </strong><span ng-show="orgUrl"><a target="_blank" class="dark" style="font-size:14px;" href="http://{{orgUrl}}">{{orgUrl}}</a></span></p>
             <div ng-show='user.username'>
                 <span ng-show="orgAddress1">{{orgAddress1}}</br></span>
                 <span ng-show="orgAddress2">{{orgAddress2}}</br></span>

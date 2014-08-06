@@ -36,7 +36,7 @@ angular.module('askApp')
         },
         link: function (scope, element, attrs) {
             scope.percent = (scope.value/scope.max) * 100;
-            console.log(scope.percent);
+            
         }
     }
 });
@@ -147,13 +147,9 @@ angular.module('askApp')
                 element.css("position","relative");
                 
                 scope.$watch('survey', function(newVal){
-                    console.log("in watch");
-                    console.log(newVal);
 
                     if (newVal && newVal.id) {
-                        console.log('Surveys loaded');
                         scope.survey.loading = false;
-                        console.log(scope.survey.loading);
                         element.find(".loader").hide();
                     }
                 });
@@ -203,7 +199,7 @@ angular.module('askApp')
 angular.module('askApp')
     .directive('helpModal', ['$modal', function($modal){
         return {
-            template:"<div class='help-link' ng-click='open()'>Info & Help <span class='glyphicon glyphicon-info-sign'></span></div>",
+            template:"<div class='help-link' ng-click='open()'>Dive Deeper <span class='glyphicon glyphicon-info-sign'></span></div>",
             link : function(scope){
                 scope.open = function () {
                     var modalInstance = $modal.open({
