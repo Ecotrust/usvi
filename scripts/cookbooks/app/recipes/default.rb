@@ -183,7 +183,7 @@ end
 # To undo this you can run a dpkg purge.  
 dpkg_package "elastic search" do
     #source "/tmp/elasticsearch-0.90.7.deb"
-    source "/tmp/elasticsearch-1.2.2.deb"
+    source "/tmp/elasticsearch-1.3.0.deb"
     action :install
 end
 
