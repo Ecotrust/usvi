@@ -3,6 +3,18 @@
 
 
 # Server
+
+## Local Vagrant Set-up
+
+You must install Vagrant, VirtualBox and Fabric first.
+
+
+### Install Fabric
+```
+pip install fabric
+```
+
+
 ```bash
 vagrant up
 fab vagrant bootstrap
