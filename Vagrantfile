@@ -14,23 +14,24 @@ Vagrant.configure("2") do |config|
     config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", 512]
     end
-
-    config.vm.provision :chef_solo do |chef|
-        chef.cookbooks_path = "scripts/cookbooks"
-        chef.roles_path = "scripts/roles"
-        chef.json  = {
-            :user => "vagrant",
-            :servername => "example.example.com",
-            :dbname => "geosurvey",
-            :project => "geosurvey",
-            :app => "server",
-            :staticfiles => "/usr/local/apps/marine-planner/mediaroot",
-            :postgresql => {
-                :password => {
-                    :postgres  => "SECRET"
-                }
-            }
-        }
-        chef.add_role "vagrant"
-    end
+    
+    # config.vm.provision :chef_solo do |chef|
+    #     chef.version = "10.20.0"
+    #     chef.cookbooks_path = "scripts/cookbooks"
+    #     chef.roles_path = "scripts/roles"
+    #     chef.json  = {
+    #         :user => "vagrant",
+    #         :servername => "example.example.com",
+    #         :dbname => "geosurvey",
+    #         :project => "geosurvey",
+    #         :app => "server",
+    #         :staticfiles => "/usr/local/apps/marine-planner/mediaroot",
+    #         :postgresql => {
+    #             :password => {
+    #                 :postgres  => "SECRET"
+    #             }
+    #         }
+    #     }
+    #     chef.add_role "vagrant"
+    # end
 end
