@@ -26,7 +26,7 @@ fab vagrant runserver
 ## Provision a fresh Server with Chef and Fabric
 Create a node file with the name scripts/cookbook/node_staging.json from the template in scripts/cookbook/node_staging.json.template.  Set the postgresql password and add your ssh public key to scripts/node_staging.json.  Tested with Ubuntu 12.04 (precise pangolin).
 
-These commands install all the prerequisites for running marine planner, including postgresql/postgis, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files.
+These commands install all the prerequisites for running marine planner, including postgresql/postgis, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files. Note: After the prepare command runs you will no longer be able to login as root with a password.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file.
 
 ```bash
 fab staging:root@hostname prepare
@@ -60,7 +60,7 @@ Branch is master by default.
 }
 ```
 
-After the prepare command runs you will no longer be able to login as root with a password.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file.
+
 
 # Backing up and restoring databases
 
