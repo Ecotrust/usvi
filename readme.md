@@ -46,7 +46,9 @@ Branch is master by default and must have a corresponding file with the same nam
 {
     "user": "www-data",
     "servername": "staging.example.com",
-    "dbname": "marine-planner",
+    "project": "geosurvey",
+    "app": "server",
+    "dbname": "usvi",
     "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
     "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
     "users": [
@@ -65,6 +67,11 @@ Branch is master by default and must have a corresponding file with the same nam
     ]
 }
 ```
+
+
+###Update 12/17/2015 Wil Black
+I spent some time getting this up and running. I ran into several issues that I had to resolve on the server. One was you have to run the rpeorts migration on it's own before the survey app can finish migrating. you'll see this when you try to deploy for the first time. 
+The second issue is that the app does not seem to start itself, everything will look good after running deploy but when trying to access the site you will get a 502 Bad Gateway error from Nginx. To fix this try running `sudo initctl start app`. 
 
 
 
