@@ -5,7 +5,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 from django.db.models import Q
-from survey.models import Question
+#from survey.models import Question
 
 from acl.models import AnnualCatchLimit
 
@@ -17,14 +17,17 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
+        print "Trying forward data change."
         try:
-            question = Question.objects.get(slug='island')
+            question = orm['survey.Question'].objects.get(slug='island')
+            print "Got question ", question
             for response in question.response_set.filter(Q(answer__icontains='Thomas') | Q(answer__icontains='John')):
                 response.answer_raw = '{"text":"St. Thomas & St. John","label":"st-thomas-st-john","checked":true,"isGroupName":false,"$$hashKey":"016"}'
                 response.save_related()
         except:
+            print "Failed"
             pass
-
+        print "Done with 0099"
     def backwards(self, orm):
         "Write your backwards methods here."
 

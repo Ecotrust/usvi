@@ -39,7 +39,7 @@ fab staging:root@hostname prepare
 fab staging:username@hostname deploy:branch
 ```
 
-Branch is master by default.
+Branch is master by default and must have a corresponding file with the same name in server/config/environemts/.
 
 ###Sample config file
 ```javascript
