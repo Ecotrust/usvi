@@ -3,6 +3,8 @@
     "servername": "staging.example.com",
     "dbname": "marine-planner",
     "socketurl": "",
+    "project": "geosurvey",
+    "app": "server",
     "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
     "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
     "adminmediafiles": "/usr/local/venv/marine-planner/lib/python2.7/site-packages/django/contrib/admin/static/admin",

@@ -28,6 +28,12 @@ Create a node file with the name scripts/cookbook/node_staging.json from the tem
 
 These commands install all the prerequisites for running marine planner, including postgresql/postgis, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files. Note: After the prepare command runs you will no longer be able to login as root with a password.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file.
 
+
+Droplet foating IP:
+45.55.111.19
+fab staging:root@45.55.111.19 prepare
+fab staging:wilblack@45.55.111.19 deploy:staging
+
 ```bash
 fab staging:root@hostname prepare
 fab staging:username@hostname deploy:branch

@@ -168,10 +168,11 @@ def push():
 
     with cd(env.root_dir):
         # Really, git?  Really?
+        run('git checkout %s' % env.branch)
         run('git reset HEAD --hard')
-        run('git checkout %s' % env.branch)
+        
         #run('git checkout .')
-        run('git checkout %s' % env.branch)
+        #run('git checkout %s' % env.branch)
 
         sudo('chown -R www-data:deploy *')
         sudo('chown -R www-data:deploy /usr/local/venv')
@@ -181,7 +182,7 @@ def push():
 @task
 def deploy(branch="master"):
     env.branch = branch
-    #push()
+    push()
     sudo('chmod -R 0770 %s' % env.virtualenv)
 
     with cd(env.code_dir):
@@ -235,7 +236,7 @@ def vagrant(username='vagrant'):
 def staging(connection):
     env.app_dir = '/usr/local/apps/geosurvey/server'
     env.venv = '/usr/local/venv/geosurvey'
-    env.remote = 'staging'
+    env.remote = '45-55-111-19'  # This is the git remote repo on the server.
     env.role = 'staging'
     env.branch = branch
     env.user, env.host = connection.split('@')
