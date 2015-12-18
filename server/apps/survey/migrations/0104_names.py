@@ -3,7 +3,7 @@ import datetime
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
-from ..models import Response
+#from ..models import Response
 
 class Migration(DataMigration):
 
@@ -13,9 +13,9 @@ class Migration(DataMigration):
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
         # orm doesn't save save_related?
-        for r in Response.objects.filter(question__slug__startswith='first-name'):
+        for r in orm['survey.Response'].objects.filter(question__slug__startswith='first-name'):
             r.save_related()
-        for r in Response.objects.filter(question__slug__startswith='last-name'):
+        for r in orm['survey.Response'].objects.filter(question__slug__startswith='last-name'):
             r.save_related()
     
     def backwards(self, orm):
