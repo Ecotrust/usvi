@@ -3,7 +3,7 @@ from config.settings import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geosurvey',
+        'NAME': 'usvi',
         'USER': 'postgres',
 #        'HOST': 'localhost',
 #        'PORT': '5432'
