@@ -147,13 +147,13 @@ def push():
         remote_result = local('git remote | grep %s' % env.host)
         if not remote_result.succeeded:
             local('git remote add %s ssh://%s@%s:%s%s' %
-                (env.host, env.user, env.host, env.port,env.root_dir))
+                (env.host.replace(".", "-"), env.user, env.host, env.port,env.root_dir))
 
-        result = local("git push %s %s" % (env.host, env.branch))
+        result = local("git push %s %s" % (env.host.replace(".", "-"), env.branch))
 
         # if push didn't work, the repository probably doesn't exist
-        # 1. create an empty repo
-        # 2. push to it with -u
+        # 1. create an empty repo on the remote server.
+        # 2. push to it from your local server with -u
         # 3. retry
         # 4. profit
 
@@ -181,7 +181,7 @@ def push():
 @task
 def deploy(branch="master"):
     env.branch = branch
-    push()
+    #push()
     sudo('chmod -R 0770 %s' % env.virtualenv)
 
     with cd(env.code_dir):
