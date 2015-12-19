@@ -20,6 +20,7 @@ env.virtualenv = '%s/%s' % (env.venvs, project)
 env.activate = 'source %s/bin/activate ' % env.virtualenv
 env.code_dir = '%s/%s' % (env.root_dir, app)
 env.media_dir = '%s/media' % env.root_dir
+env.dbname = 'usvi'
 
 @contextmanager
 def _virtualenv():
@@ -397,21 +398,21 @@ def migrate_db():
 @task
 def backup_db():
     date = datetime.datetime.now().strftime("%Y-%m-%d%H%M")
-    dump_name = "%s-geosurvey.dump" % date
-    run("pg_dump geosurvey -n public -c -f /tmp/%s -Fc -O -no-acl -U postgres" % dump_name)
+    dump_name = "%s-%s.dump" % (env.dbname, date)
+    run("pg_dump %s -n public -c -f /tmp/%s -Fc -O -no-acl -U postgres" % (env.dbname, dump_name)) 
     get("/tmp/%s" % dump_name, "backups/%s" % dump_name)
 
 @task
 def restore_db(dump_name):
     env.warn_only = True
     put(dump_name, "/tmp/%s" % dump_name.split('/')[-1])
-    run("dropdb geosurvey -U %s" % env.db_user)
-    run("createdb -U postgres -T template0 -O postgres geosurvey")
+    run("dropdb %s -U %s" %(env.dbname, env.db_user))
+    run("createdb -U postgres -T template0 -O postgres %s" %(env.dbname))
     with cd(env.code_dir):
         with _virtualenv():
             #_manage_py('flush --noinput')
             # _manage_py('syncdb --noinput')
-            run("pg_restore --create --no-acl --no-owner -U postgres -d geosurvey /tmp/%s" % dump_name.split('/')[-1])
+            run("pg_restore --create --no-acl --no-owner -U postgres -d %s /tmp/%s" % (env.dbname, dump_name.split('/')[-1]) )
             _manage_py('migrate --settings=%s' % env.settings)
     #run("cd %s && %s/bin/python manage.py migrate --settings=config.environments.staging" % (env.app_dir, env.venv))
 

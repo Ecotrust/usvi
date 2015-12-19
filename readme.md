@@ -29,41 +29,34 @@ Create a node file with the name scripts/cookbook/node_staging.json from the tem
 These commands install all the prerequisites for running marine planner, including postgresql/postgis, python and all the required modules in a virtual environment as well as gunicorn and nginx to serve the static files. Note: After the prepare command runs you will no longer be able to login as root with a password.  The prepare command creates one or more users with sudo access based on the list of users specified in the json file.
 
 
-Droplet foating IP:
-ssh 45.55.111.19
-fab staging:root@45.55.111.19 prepare
-fab staging:wilblack@45.55.111.19 deploy:staging
 
-```bash
-fab staging:root@hostname prepare
-fab staging:username@hostname deploy:branch
-```
-
-Branch is master by default and must have a corresponding file with the same name in server/config/environemts/.
+Branch is master by default and must have a corresponding file with the same name in server/config/environmets/. Make sure that staticfiles and mediafiles point to the same place defined in server/config/settings.py
 
 ###Sample config file
 ```javascript
 {
     "user": "www-data",
-    "servername": "staging.example.com",
+    "servername": "<YOUR-DOMAIN.COM>",
+    "dbname": "usvi",
+    "socketurl": "",
     "project": "geosurvey",
     "app": "server",
-    "dbname": "usvi",
-    "staticfiles": "/usr/local/apps/marine-planner/mediaroot",
-    "mediafiles": "/usr/local/apps/marine-planner/mediaroot",
+    "staticfiles": "/usr/local/apps/geosurvey/server/public/static",
+    "mediafiles": "/usr/local/apps/geosurvey/server/public/media",
+    "adminmediafiles": "/usr/local/venv/geosurvey/lib/python2.7/site-packages/django/contrib/admin/static/admin",
     "users": [
         {
-            "name": "jsmith",
-            "key": "ssh-rsa AAAAB3sdkfjhsdkhjfdjkhfffdj.....fhfhfjdjdfhQ== jsmith@machine.local"
+            "name": "wilblack",
+            "key": "<RSA_KEY>"
         }
     ],
     "postgresql": {
         "password": {
-            "postgres": "some random password here"
+            "postgres": "<MAKE UP  A PASSWORD>"
         }
     },
     "run_list": [
-        "marine-planner::default"
+        "app::default"
     ]
 }
 ```
@@ -72,6 +65,16 @@ Branch is master by default and must have a corresponding file with the same nam
 ###Update 12/17/2015 Wil Black
 I spent some time getting this up and running. I ran into several issues that I had to resolve on the server. One was you have to run the rpeorts migration on it's own before the survey app can finish migrating. you'll see this when you try to deploy for the first time. 
 The second issue is that the app does not seem to start itself, everything will look good after running deploy but when trying to access the site you will get a 502 Bad Gateway error from Nginx. To fix this try running `sudo initctl start app`. 
+
+Commands I am using
+Droplet foating IP:
+ssh 45.55.111.19
+
+fab staging:root@45.55.111.19 prepare
+fab staging:wilblack@45.55.111.19 deploy:staging
+
+fab staging:wilblack@45.55.111.19 restore_db:2014-04-291618-geosurvey.dump
+
 
 
 
