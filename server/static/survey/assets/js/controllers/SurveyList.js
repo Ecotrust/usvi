@@ -38,7 +38,7 @@ angular.module('askApp')
     } else {
         $location.path('/');
     }
-    if (! app.surveys || app.refreshSurveys) {
+    if (! app.surveys || app.surveys.length === 0 || app.refreshSurveys) {
         $scope.updateSurveys();
     } else {
         $scope.surveys = app.surveys;
